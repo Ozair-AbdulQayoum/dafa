@@ -5,6 +5,7 @@ import AboutPage from "./Components/About Page/AboutDAFA";
 import DirectorBio from "./Components/Director Bio Page/DirectorBio";
 import OrganizationChart from "./Components/Organization Chart Page/OrganizationChart";
 import Members from "./Components/Members Page/Members";
+import MemberProfile from "./Components/Members Page/MemberProfile";
 
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
@@ -19,7 +20,12 @@ export default function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/director-bio" element={<DirectorBio />} />
         <Route path="/organization-chart" element={<OrganizationChart />} />
+
+        {/* Members */}
         <Route path="/members" element={<Members />} />
+
+        {/* Individual Member Profile */}
+        <Route path="/members/:slug" element={<MemberProfile />} />
       </Routes>
 
       <Footer />

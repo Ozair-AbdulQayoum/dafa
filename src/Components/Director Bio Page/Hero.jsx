@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FaArrowRight } from "react-icons/fa";
 
 // Add the official image when available:
 // import directorImg from "../../assets/Director/director.jpg";
@@ -8,8 +10,7 @@ export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-slate-50">
       {/* ================= BACKGROUND ================= */}
-
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="pointer-events-none absolute inset-0">
         {/* Green Glow */}
         <motion.div
           className="absolute -right-48 -top-48 h-[550px] w-[550px] rounded-full bg-[#087B5A]/10 blur-3xl"
@@ -52,10 +53,8 @@ export default function Hero() {
       </div>
 
       {/* ================= MAIN CONTENT ================= */}
-
       <div className="relative z-10 mx-auto grid min-h-[600px] w-full max-w-7xl items-center gap-14 px-5 py-16 sm:px-8 md:py-20 lg:grid-cols-[1fr_430px] lg:gap-20 lg:px-10 lg:py-24">
         {/* ================= LEFT ================= */}
-
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
@@ -137,10 +136,34 @@ export default function Hero() {
             Leadership grounded in responsibility, professionalism, and service
             to communities across Afghanistan.
           </motion.p>
+
+          {/* ================= DIRECTOR PROFILE CTA ================= */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.6,
+              delay: 0.75,
+            }}
+            className="mt-8"
+          >
+            <Link
+              to="/members/director"
+              className="group inline-flex items-center gap-3 rounded-xl bg-[#087B5A] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#087B5A]/15 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#0B3D2E] hover:shadow-xl"
+            >
+              <span>View Director Profile</span>
+
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition-all duration-300 group-hover:bg-white/20">
+                <FaArrowRight
+                  size={11}
+                  className="transition-transform duration-300 group-hover:translate-x-0.5"
+                />
+              </span>
+            </Link>
+          </motion.div>
         </motion.div>
 
         {/* ================= RIGHT ================= */}
-
         <motion.div
           initial={{
             opacity: 0,
