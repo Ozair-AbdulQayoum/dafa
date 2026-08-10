@@ -17,6 +17,8 @@ import IEDResponse from "./Components/What We Do page/IED Response/IEDResponse";
 import Projects from "./Components/Projects Page/Projects";
 import ProjectDetails from "./Components/Projects Page/ProjectDetails";
 
+import Achievements from "./Components/Achievements Page/Achievements";
+
 import Footer from "./Components/Footer";
 
 export default function App() {
@@ -37,6 +39,7 @@ export default function App() {
 
         {/* ================= MEMBERS ================= */}
         <Route path="/members" element={<Members />} />
+
         <Route path="/members/:slug" element={<MemberProfile />} />
 
         {/* ================= WHAT WE DO ================= */}
@@ -63,6 +66,10 @@ export default function App() {
 
         {/* Individual Project */}
         <Route path="/projects/:slug" element={<ProjectDetails />} />
+
+        {/* ================= ACHIEVEMENTS ================= */}
+
+        <Route path="/achievements" element={<Achievements />} />
       </Routes>
 
       <Footer />

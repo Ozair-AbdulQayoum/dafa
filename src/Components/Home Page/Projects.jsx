@@ -10,15 +10,17 @@ import { FaArrowRight, FaMapMarkerAlt } from "react-icons/fa";
 
 const projects = [
   {
+    slug: "kabul-humanitarian-clearance-project",
     image: "",
     location: "Kabul Province",
-    title: "Mine Clearance Project",
+    title: "Kabul Humanitarian Clearance Project",
     description:
       "Clearing contaminated land and removing explosive hazards to create safer communities.",
     status: "Completed",
   },
 
   {
+    slug: "kandahar-humanitarian-demining-operations",
     image: "",
     location: "Kandahar Province",
     title: "Humanitarian Demining Operations",
@@ -28,6 +30,7 @@ const projects = [
   },
 
   {
+    slug: "nangarhar-explosive-risk-education",
     image: "",
     location: "Nangarhar Province",
     title: "Explosive Risk Education",
@@ -39,8 +42,8 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section className="py-24 bg-gray-50">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="bg-[#F8FAFC] py-20 sm:py-24">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         {/* Heading */}
 
         <motion.div
@@ -112,7 +115,7 @@ export default function Projects() {
         >
           {projects.map((project, index) => (
             <motion.div
-              key={project.title}
+              key={project.slug}
               initial={{
                 opacity: 0,
                 y: 50,
@@ -224,7 +227,6 @@ export default function Projects() {
                           ? "bg-orange-100 text-orange-700"
                           : "bg-blue-100 text-blue-700"
                     }
-
                   `}
                 >
                   {project.status}
@@ -255,8 +257,10 @@ export default function Projects() {
                   {project.description}
                 </p>
 
+                {/* Individual Project Link */}
+
                 <Link
-                  to="/projects"
+                  to={`/projects/${project.slug}`}
                   className="
                     mt-6
                     inline-flex
@@ -269,15 +273,15 @@ export default function Projects() {
                     hover:gap-3
                   "
                 >
-                  Learn More
-                  <FaArrowRight />
+                  View Project
+                  <FaArrowRight size={13} />
                 </Link>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Button */}
+        {/* View All Projects */}
 
         <div className="mt-12 text-center">
           <Link
