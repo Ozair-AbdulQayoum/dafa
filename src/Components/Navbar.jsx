@@ -62,8 +62,8 @@ const navItems = [
   },
 
   {
-    title: "Donors",
-    path: "/donors",
+    title: "Knowledge Center",
+    path: "/knowledge-center",
   },
 
   {
