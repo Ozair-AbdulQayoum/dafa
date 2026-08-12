@@ -38,7 +38,7 @@ const navItems = [
       },
       {
         title: "Explosive Ordnance Risk Education",
-        path: "/what-we-do/risk-education",
+        path: "/what-we-do/eore",
       },
       {
         title: "Support to Natural Disaster Management",

@@ -20,6 +20,8 @@ import MemberProfile from "./Components/Members Page/MemberProfile";
 import ManualDemining from "./Components/What We Do page/Manual Demining/ManualDemining";
 import MechanicalDemining from "./Components/What We Do page/Mechanical Demining/MechanicalDemining";
 import IEDResponse from "./Components/What We Do page/IED Response/IEDResponse";
+import EODResponse from "./Components/What We Do page/Explosive Ordnance Disposal/EODResponse";
+import EORE from "./Components/What We Do page/Explosive Ordnance Risk Education/EORE";
 
 // ================= PROJECTS =================
 import Projects from "./Components/Projects Page/Projects";
@@ -37,6 +39,14 @@ import KnowledgeDetail from "./Components/Knowledge Center/KnowledgeDetail ";
 // Reports
 import Reports from "./Components/Resources/Reports/Reports";
 import ReportDetails from "./Components/Resources/Reports/ReportDetails";
+
+// Stories
+import Stories from "./Components/Resources/Stories Page/Stories";
+import StoriesDetails from "./Components/Resources/Stories Page/StoriesDetails";
+
+// News & Updates
+import NewsUpdate from "./Components/Resources/News-Update Page/NewsUpdate";
+import NewsUpdateDetails from "./Components/Resources/News-Update Page/NewsUpdateDetails";
 
 export default function App() {
   return (
@@ -76,6 +86,14 @@ export default function App() {
 
         <Route path="/what-we-do/ied-response" element={<IEDResponse />} />
 
+        <Route path="/what-we-do/eod" element={<EODResponse />} />
+
+        {/* Explosive Ordnance Risk Education */}
+        <Route path="/what-we-do/risk-education" element={<EORE />} />
+
+        {/* Optional old URL */}
+        <Route path="/what-we-do/eore" element={<EORE />} />
+
         {/* ================= PROJECTS ================= */}
 
         <Route path="/projects" element={<Projects />} />
@@ -94,11 +112,26 @@ export default function App() {
 
         {/* ================= RESOURCES ================= */}
 
-        {/* Reports Overview */}
+        {/* -------- Reports -------- */}
+
         <Route path="/resources/reports" element={<Reports />} />
 
-        {/* Individual Report */}
         <Route path="/resources/reports/:slug" element={<ReportDetails />} />
+
+        {/* -------- Stories -------- */}
+
+        <Route path="/resources/stories" element={<Stories />} />
+
+        <Route path="/resources/stories/:slug" element={<StoriesDetails />} />
+
+        {/* -------- News & Updates -------- */}
+
+        <Route path="/resources/news-updates" element={<NewsUpdate />} />
+
+        <Route
+          path="/resources/news-updates/:slug"
+          element={<NewsUpdateDetails />}
+        />
       </Routes>
 
       <Footer />
