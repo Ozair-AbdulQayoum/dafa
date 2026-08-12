@@ -12,10 +12,14 @@ import {
   FaUsers,
 } from "react-icons/fa";
 
+// =========================================================
+// MEMBERS DATA
+// =========================================================
+
 const members = {
-  // =========================================================
+  // =======================================================
   // DIRECTOR
-  // =========================================================
+  // =======================================================
   director: {
     name: "Example Name",
     position: "Director",
@@ -64,9 +68,9 @@ const members = {
     ],
   },
 
-  // =========================================================
-  // ADMINISTRATION
-  // =========================================================
+  // =======================================================
+  // ADMINISTRATION MANAGER
+  // =======================================================
   "administration-manager": {
     name: "Example Name",
     position: "HR / Administration Manager",
@@ -109,9 +113,9 @@ const members = {
     ],
   },
 
-  // =========================================================
+  // =======================================================
   // ADMINISTRATION OFFICER
-  // =========================================================
+  // =======================================================
   "administration-officer": {
     name: "Example Name",
     position: "HR / Administration Officer",
@@ -154,9 +158,9 @@ const members = {
     ],
   },
 
-  // =========================================================
+  // =======================================================
   // FINANCE MANAGER
-  // =========================================================
+  // =======================================================
   "finance-manager": {
     name: "Example Name",
     position: "Finance Manager",
@@ -199,9 +203,9 @@ const members = {
     ],
   },
 
-  // =========================================================
+  // =======================================================
   // FINANCE OFFICER
-  // =========================================================
+  // =======================================================
   "finance-officer": {
     name: "Example Name",
     position: "Finance Officer",
@@ -243,9 +247,9 @@ const members = {
     ],
   },
 
-  // =========================================================
+  // =======================================================
   // LOGISTICS MANAGER
-  // =========================================================
+  // =======================================================
   "ahmad-example": {
     name: "Ahmad Example",
     position: "Logistics Manager / Support Manager",
@@ -293,9 +297,9 @@ const members = {
     ],
   },
 
-  // =========================================================
+  // =======================================================
   // LOGISTICS OFFICER
-  // =========================================================
+  // =======================================================
   "logistics-officer": {
     name: "Example Name",
     position: "Logistics Officer",
@@ -334,9 +338,9 @@ const members = {
     ],
   },
 
-  // =========================================================
+  // =======================================================
   // LOGISTICS ASSISTANT
-  // =========================================================
+  // =======================================================
   "logistics-assistant": {
     name: "Example Name",
     position: "Logistics Assistant",
@@ -370,9 +374,9 @@ const members = {
     ],
   },
 
-  // =========================================================
+  // =======================================================
   // STOREKEEPER
-  // =========================================================
+  // =======================================================
   storekeeper: {
     name: "Example Name",
     position: "Storekeeper",
@@ -414,9 +418,9 @@ const members = {
     ],
   },
 
-  // =========================================================
+  // =======================================================
   // OPERATIONS MANAGER
-  // =========================================================
+  // =======================================================
   "operations-manager": {
     name: "Example Name",
     position: "Operations Manager",
@@ -459,9 +463,9 @@ const members = {
     ],
   },
 
-  // =========================================================
+  // =======================================================
   // OPERATIONS OFFICER
-  // =========================================================
+  // =======================================================
   "operations-officer": {
     name: "Example Name",
     position: "Operations Officer",
@@ -500,9 +504,9 @@ const members = {
     ],
   },
 
-  // =========================================================
+  // =======================================================
   // QA MANAGER
-  // =========================================================
+  // =======================================================
   "qa-manager": {
     name: "Example Name",
     position: "QA Manager",
@@ -545,9 +549,9 @@ const members = {
     ],
   },
 
-  // =========================================================
+  // =======================================================
   // QA OFFICER
-  // =========================================================
+  // =======================================================
   "qa-officer": {
     name: "Example Name",
     position: "QA Officer",
@@ -591,17 +595,19 @@ const members = {
   },
 };
 
+// =========================================================
+// MEMBER PROFILE PAGE
+// =========================================================
+
 export default function MemberProfile() {
   const { slug } = useParams();
 
-  // IMPORTANT:
-  // This page only reads the member from the /members/:slug route.
-  // It does NOT redirect the Director to /director-bio.
   const member = members[slug];
 
-  // =========================================================
+  // =======================================================
   // PROFILE NOT FOUND
-  // =========================================================
+  // =======================================================
+
   if (!member) {
     return (
       <main className="min-h-screen bg-slate-50">
@@ -610,17 +616,17 @@ export default function MemberProfile() {
             Members
           </p>
 
-          <h1 className="mt-3 text-3xl font-bold text-[#0F172A]">
+          <h1 className="mt-3 text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl">
             Profile Not Found
           </h1>
 
-          <p className="mt-3 text-slate-500">
+          <p className="mx-auto mt-3 max-w-lg text-slate-500">
             The requested member profile could not be found.
           </p>
 
           <Link
             to="/members"
-            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#087B5A] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0B3D2E]"
+            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#087B5A] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0B3D2E]"
           >
             <FaArrowLeft size={12} />
             Back to Members
@@ -632,15 +638,18 @@ export default function MemberProfile() {
 
   return (
     <main className="min-h-screen bg-slate-50">
-      {/* =====================================================
+      {/* ===================================================
           HERO
-      ====================================================== */}
+      =================================================== */}
+
       <section className="relative overflow-hidden bg-[#0B3D2E]">
+        {/* Decorative Elements */}
         <div className="absolute -right-40 -top-40 h-96 w-96 rounded-full bg-[#A7F3D0]/10 blur-3xl" />
 
         <div className="absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-[#0284C7]/10 blur-3xl" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-5 py-16 sm:px-8 md:py-20 lg:px-10">
+          {/* Back Link */}
           <Link
             to="/members"
             className="inline-flex items-center gap-2 text-sm font-medium text-green-50/60 transition hover:text-[#A7F3D0]"
@@ -650,7 +659,7 @@ export default function MemberProfile() {
           </Link>
 
           <div className="mt-12 grid items-center gap-12 lg:grid-cols-[0.75fr_1.25fr]">
-            {/* Photo */}
+            {/* Profile Image */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -661,14 +670,14 @@ export default function MemberProfile() {
                 <div className="aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-[#0B3D2E]">
                   <img
                     src={member.image}
-                    alt={member.name}
+                    alt={`${member.name} - ${member.position}`}
                     className="h-full w-full object-cover"
                   />
                 </div>
               </div>
             </motion.div>
 
-            {/* Information */}
+            {/* Profile Information */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -678,22 +687,25 @@ export default function MemberProfile() {
                 {member.department}
               </p>
 
-              <h1 className="mt-4 text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
+              <h1 className="mt-4 text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl">
                 {member.name}
               </h1>
 
-              <p className="mt-4 text-xl font-semibold text-[#A7F3D0]">
+              <p className="mt-4 text-lg font-semibold text-[#A7F3D0] sm:text-xl">
                 {member.position}
               </p>
 
+              {/* Meta Information */}
               <div className="mt-7 flex flex-wrap gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-green-50/70">
                   <FaBriefcase size={13} className="text-[#A7F3D0]" />
+
                   {member.experience}
                 </span>
 
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-green-50/70">
                   <FaMapMarkerAlt size={13} className="text-[#A7F3D0]" />
+
                   {member.location}
                 </span>
               </div>
@@ -706,11 +718,13 @@ export default function MemberProfile() {
         </div>
       </section>
 
-      {/* =====================================================
+      {/* ===================================================
           PROFESSIONAL PROFILE
-      ====================================================== */}
+      =================================================== */}
+
       <section className="py-20 sm:py-24">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[1.35fr_0.65fr] lg:px-10">
+          {/* Biography */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -721,15 +735,16 @@ export default function MemberProfile() {
               Professional Profile
             </p>
 
-            <h2 className="mt-3 text-3xl font-bold text-[#0F172A] sm:text-4xl">
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl">
               About {member.name}
             </h2>
 
-            <p className="mt-6 text-base leading-8 text-slate-600">
+            <p className="mt-6 max-w-3xl text-base leading-8 text-slate-600">
               {member.biography}
             </p>
           </motion.div>
 
+          {/* Professional Information */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -770,16 +785,17 @@ export default function MemberProfile() {
         </div>
       </section>
 
-      {/* =====================================================
+      {/* ===================================================
           RESPONSIBILITIES
-      ====================================================== */}
+      =================================================== */}
+
       <section className="bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#087B5A]">
             Role & Responsibilities
           </p>
 
-          <h2 className="mt-3 text-3xl font-bold text-[#0F172A] sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl">
             Areas of Responsibility
           </h2>
 
@@ -794,7 +810,7 @@ export default function MemberProfile() {
                   duration: 0.5,
                   delay: index * 0.07,
                 }}
-                className="flex gap-3 rounded-xl border border-slate-200 bg-slate-50 p-5"
+                className="flex gap-3 rounded-xl border border-slate-200 bg-slate-50 p-5 transition hover:-translate-y-1 hover:shadow-sm"
               >
                 <FaCheckCircle
                   className="mt-1 shrink-0 text-[#087B5A]"
@@ -808,16 +824,17 @@ export default function MemberProfile() {
         </div>
       </section>
 
-      {/* =====================================================
-          EDUCATION
-      ====================================================== */}
+      {/* ===================================================
+          EDUCATION & TRAINING
+      =================================================== */}
+
       <section className="bg-slate-50 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#087B5A]">
             Education & Training
           </p>
 
-          <h2 className="mt-3 text-3xl font-bold text-[#0F172A] sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl">
             Education & Professional Development
           </h2>
 
@@ -832,7 +849,7 @@ export default function MemberProfile() {
                   duration: 0.5,
                   delay: index * 0.08,
                 }}
-                className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-5"
+                className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 transition hover:-translate-y-1 hover:shadow-sm"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#087B5A]/10 text-[#087B5A]">
                   <FaGraduationCap size={17} />
@@ -845,20 +862,22 @@ export default function MemberProfile() {
         </div>
       </section>
 
-      {/* =====================================================
+      {/* ===================================================
           CAREER
-      ====================================================== */}
+      =================================================== */}
+
       <section className="bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#087B5A]">
             Career
           </p>
 
-          <h2 className="mt-3 text-3xl font-bold text-[#0F172A] sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl">
             Professional Experience
           </h2>
 
           <div className="relative mt-12 max-w-4xl">
+            {/* Timeline Line */}
             <div className="absolute bottom-0 left-[7px] top-0 w-px bg-[#087B5A]/20" />
 
             <div className="space-y-10">
@@ -874,6 +893,7 @@ export default function MemberProfile() {
                   }}
                   className="relative pl-10"
                 >
+                  {/* Timeline Dot */}
                   <div className="absolute left-0 top-1 h-4 w-4 rounded-full border-4 border-white bg-[#087B5A]" />
 
                   <p className="text-xs font-semibold uppercase tracking-wider text-[#087B5A]">
@@ -894,9 +914,10 @@ export default function MemberProfile() {
         </div>
       </section>
 
-      {/* =====================================================
-          BOTTOM NAVIGATION
-      ====================================================== */}
+      {/* ===================================================
+          BOTTOM CTA
+      =================================================== */}
+
       <section className="bg-[#0B3D2E] py-12">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 px-5 sm:px-8 md:flex-row lg:px-10">
           <div>
@@ -911,7 +932,7 @@ export default function MemberProfile() {
 
           <Link
             to="/members"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#F97316] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#ea580c]"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#F97316] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#ea580c] hover:shadow-lg"
           >
             View All Members
             <FaArrowRight size={12} />
@@ -925,21 +946,20 @@ export default function MemberProfile() {
 // =========================================================
 // INFORMATION ITEM
 // =========================================================
+
 function InfoItem({ icon: Icon, label, value }) {
   return (
-    <div>
-      <div className="flex items-start gap-3">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#087B5A]/10 text-[#087B5A]">
-          <Icon size={15} />
-        </div>
+    <div className="flex items-start gap-3">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#087B5A]/10 text-[#087B5A]">
+        <Icon size={15} />
+      </div>
 
-        <div>
-          <p className="text-xs uppercase tracking-wider text-slate-400">
-            {label}
-          </p>
+      <div>
+        <p className="text-xs uppercase tracking-wider text-slate-400">
+          {label}
+        </p>
 
-          <p className="mt-1 text-sm font-semibold text-slate-700">{value}</p>
-        </div>
+        <p className="mt-1 text-sm font-semibold text-slate-700">{value}</p>
       </div>
     </div>
   );

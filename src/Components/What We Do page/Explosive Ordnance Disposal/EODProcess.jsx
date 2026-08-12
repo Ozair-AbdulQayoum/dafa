@@ -14,28 +14,28 @@ const processSteps = [
     icon: FaClipboardCheck,
     title: "Assessment",
     description:
-      "Reported explosive hazards are assessed to understand the situation, potential risks and the appropriate response.",
+      "Reported explosive hazards are carefully assessed to understand the situation, identify potential risks, and determine an appropriate humanitarian response.",
   },
   {
     number: "02",
     icon: FaSearchLocation,
     title: "Survey",
     description:
-      "Relevant information about the affected location is gathered to support careful planning and risk management.",
+      "Relevant information about the affected location is gathered and verified to support responsible planning, prioritisation, and risk management.",
   },
   {
     number: "03",
     icon: FaShieldAlt,
-    title: "Response",
+    title: "Safe Response",
     description:
-      "Qualified personnel respond using established safety procedures and appropriate humanitarian mine-action practices.",
+      "Trained and authorised personnel respond in accordance with established safety procedures and recognised humanitarian mine-action standards.",
   },
   {
     number: "04",
     icon: FaCheckCircle,
     title: "Safe Outcome",
     description:
-      "The response is documented and contributes to reducing explosive hazards and improving safety for affected communities.",
+      "The response is documented and contributes to reducing explosive hazards, improving safety, and supporting affected communities.",
   },
 ];
 
@@ -45,7 +45,7 @@ export default function EODProcess() {
       id="eod-process"
       className="relative overflow-hidden bg-[#F8FAFC] py-20 sm:py-24 lg:py-28"
     >
-      {/* ================= BACKGROUND ================= */}
+      {/* ================= BACKGROUND DECORATION ================= */}
 
       <div className="pointer-events-none absolute -right-40 top-10 h-80 w-80 rounded-full bg-[#087B5A]/5 blur-3xl" />
 
@@ -73,20 +73,20 @@ export default function EODProcess() {
 
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
             From Assessment
-            <span className="text-[#087B5A]"> to Action</span>
+            <span className="text-[#087B5A]"> to Safe Response</span>
           </h2>
 
           <p className="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
-            A structured approach helps ensure that explosive hazards are
-            assessed carefully and managed with safety at the centre of every
-            response.
+            DAFA follows a structured humanitarian approach to explosive
+            ordnance response, with safety, careful assessment, and trained
+            personnel at the centre of every operation.
           </p>
         </motion.div>
 
-        {/* ================= PROCESS ================= */}
+        {/* ================= PROCESS STEPS ================= */}
 
         <div className="relative mt-16">
-          {/* Connecting Line — Desktop */}
+          {/* Desktop Connecting Line */}
 
           <div className="absolute left-[12.5%] right-[12.5%] top-8 hidden h-px bg-[#087B5A]/20 lg:block" />
 
@@ -106,13 +106,13 @@ export default function EODProcess() {
                   }}
                   className="group relative"
                 >
-                  {/* Number / Icon */}
+                  {/* ================= ICON ================= */}
 
                   <div className="relative z-10 mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border-4 border-[#F8FAFC] bg-[#087B5A] text-white shadow-lg transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-[#0B3D2E]">
                     <Icon size={21} />
                   </div>
 
-                  {/* Card */}
+                  {/* ================= CARD ================= */}
 
                   <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[#087B5A]/30 group-hover:shadow-lg">
                     <div className="text-xs font-bold tracking-[0.2em] text-[#F97316]">
@@ -132,7 +132,7 @@ export default function EODProcess() {
                     <div className="mx-auto mt-5 h-1 w-8 rounded-full bg-[#087B5A]/20 transition-all duration-300 group-hover:w-14 group-hover:bg-[#F97316]" />
                   </div>
 
-                  {/* Mobile Arrow */}
+                  {/* ================= MOBILE ARROW ================= */}
 
                   {index < processSteps.length - 1 && (
                     <div className="flex justify-center py-3 lg:hidden">
@@ -148,7 +148,7 @@ export default function EODProcess() {
           </div>
         </div>
 
-        {/* ================= BOTTOM STATEMENT ================= */}
+        {/* ================= SAFETY NOTICE ================= */}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -161,9 +161,9 @@ export default function EODProcess() {
             <span className="font-bold text-[#087B5A]">
               Safety comes first.
             </span>{" "}
-            Every stage of the EOD process is supported by careful planning,
-            trained personnel, risk assessment and appropriate safety
-            procedures.
+            Suspected explosive items should never be approached, touched, or
+            disturbed. EOD responses are carried out by trained and authorised
+            personnel using appropriate safety procedures.
           </p>
         </motion.div>
       </div>

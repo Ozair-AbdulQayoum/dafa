@@ -123,15 +123,21 @@ export default function LatestNews() {
           transition={{ duration: 0.7 }}
           className="mx-auto max-w-3xl text-center"
         >
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
+          {/* Eyebrow */}
+
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#087B5A] sm:text-xs">
             Latest Updates
           </p>
 
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
-            News &<span className="text-[#087B5A]"> Updates</span>
+          {/* Main Heading */}
+
+          <h2 className="mt-3 text-[2.5rem] font-extrabold leading-[1.08] tracking-[-0.035em] text-[#0F172A] sm:text-5xl lg:text-[3.75rem]">
+            News & <span className="text-[#087B5A]">Updates</span>
           </h2>
 
-          <p className="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
+          {/* Intro */}
+
+          <p className="mx-auto mt-5 max-w-2xl text-[15px] font-normal leading-7 text-slate-600 sm:text-[17px] sm:leading-8">
             Follow the latest meetings, training activities, partnerships,
             events, and humanitarian mine-action updates from DAFA.
           </p>
@@ -151,7 +157,7 @@ export default function LatestNews() {
 
             <div className="relative flex-1">
               <FaSearch
-                size={14}
+                size={13}
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
               />
 
@@ -160,7 +166,7 @@ export default function LatestNews() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search news and updates..."
-                className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 pl-11 pr-4 text-sm text-[#0F172A] outline-none transition focus:border-[#087B5A] focus:bg-white focus:ring-2 focus:ring-[#087B5A]/10"
+                className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 pl-11 pr-4 text-[14px] font-medium text-[#0F172A] outline-none transition placeholder:text-slate-400 focus:border-[#087B5A] focus:bg-white focus:ring-2 focus:ring-[#087B5A]/10"
               />
             </div>
 
@@ -169,7 +175,7 @@ export default function LatestNews() {
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="h-12 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-[#0F172A] outline-none transition focus:border-[#087B5A] focus:bg-white"
+              className="h-12 rounded-xl border border-slate-200 bg-slate-50 px-4 text-[14px] font-semibold text-[#0F172A] outline-none transition focus:border-[#087B5A] focus:bg-white"
             >
               {categories.map((item) => (
                 <option key={item} value={item}>
@@ -182,7 +188,7 @@ export default function LatestNews() {
           {/* Result Count */}
 
           <div className="mt-5 border-t border-slate-100 pt-4">
-            <p className="text-xs font-medium text-slate-400">
+            <p className="text-[12px] font-medium text-slate-400">
               Showing{" "}
               <span className="font-bold text-[#087B5A]">
                 {filteredNews.length}
@@ -192,15 +198,19 @@ export default function LatestNews() {
           </div>
         </motion.div>
 
-        {/* ================= ALL NEWS ================= */}
+        {/* ================= NEWS ARCHIVE ================= */}
 
-        <div className="mt-12">
+        <div className="mt-14">
           <div className="mb-8">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
+            {/* Section Label */}
+
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#087B5A]">
               DAFA News Archive
             </p>
 
-            <h3 className="mt-2 text-2xl font-bold text-[#0F172A] sm:text-3xl">
+            {/* Section Heading */}
+
+            <h3 className="mt-2 text-[1.75rem] font-extrabold leading-tight tracking-[-0.02em] text-[#0F172A] sm:text-3xl">
               All News & Updates
             </h3>
           </div>
@@ -232,14 +242,14 @@ export default function LatestNews() {
 
                     {/* Category */}
 
-                    <span className="absolute left-5 top-5 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#087B5A] shadow-sm">
+                    <span className="absolute left-5 top-5 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#087B5A] shadow-sm">
                       {item.category}
                     </span>
 
                     {/* Location */}
 
-                    <div className="absolute bottom-5 left-5 flex items-center gap-2 text-xs font-medium text-white">
-                      <FaMapMarkerAlt size={11} className="text-[#F97316]" />
+                    <div className="absolute bottom-5 left-5 flex items-center gap-2 text-[12px] font-semibold text-white">
+                      <FaMapMarkerAlt size={10} className="text-[#F97316]" />
 
                       {item.location}
                     </div>
@@ -250,7 +260,7 @@ export default function LatestNews() {
                   <div className="p-6">
                     {/* Date */}
 
-                    <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
+                    <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.04em] text-slate-400">
                       <FaCalendarAlt size={10} className="text-[#087B5A]" />
 
                       {item.date}
@@ -258,13 +268,13 @@ export default function LatestNews() {
 
                     {/* Title */}
 
-                    <h3 className="mt-4 text-xl font-bold leading-snug text-[#0F172A] transition-colors group-hover:text-[#087B5A]">
+                    <h3 className="mt-4 text-[19px] font-extrabold leading-[1.35] tracking-[-0.015em] text-[#0F172A] transition-colors duration-300 group-hover:text-[#087B5A]">
                       {item.title}
                     </h3>
 
                     {/* Description */}
 
-                    <p className="mt-3 line-clamp-3 text-sm leading-7 text-slate-500">
+                    <p className="mt-3 line-clamp-3 text-[14px] font-normal leading-7 text-slate-500">
                       {item.description}
                     </p>
 
@@ -272,10 +282,10 @@ export default function LatestNews() {
 
                     <Link
                       to={`/resources/news-updates/${item.slug}`}
-                      className="mt-6 inline-flex items-center gap-2 border-t border-slate-100 pt-5 text-sm font-bold text-[#087B5A] transition-all group-hover:gap-3"
+                      className="mt-6 inline-flex items-center gap-2 border-t border-slate-100 pt-5 text-[13px] font-bold text-[#087B5A] transition-all duration-300 group-hover:gap-3"
                     >
                       Read More
-                      <FaArrowRight size={11} />
+                      <FaArrowRight size={10} />
                     </Link>
                   </div>
                 </motion.article>
@@ -289,11 +299,11 @@ export default function LatestNews() {
                 <FaSearch size={18} />
               </div>
 
-              <h3 className="mt-5 text-lg font-bold text-[#0F172A]">
+              <h3 className="mt-5 text-[18px] font-extrabold tracking-tight text-[#0F172A]">
                 No updates found
               </h3>
 
-              <p className="mt-2 text-sm text-slate-500">
+              <p className="mt-2 text-[14px] leading-6 text-slate-500">
                 Try changing your search or category filter.
               </p>
 
@@ -303,7 +313,7 @@ export default function LatestNews() {
                   setSearch("");
                   setCategory("All Updates");
                 }}
-                className="mt-5 text-sm font-bold text-[#087B5A] hover:underline"
+                className="mt-5 text-[13px] font-bold text-[#087B5A] transition hover:underline"
               >
                 Clear Filters
               </button>

@@ -79,10 +79,13 @@ export default function ReportLibrary() {
   const [year, setYear] = useState("All Years");
 
   const filteredReports = useMemo(() => {
+    const query = search.trim().toLowerCase();
+
     return reports.filter((report) => {
       const matchesSearch =
-        report.title.toLowerCase().includes(search.toLowerCase()) ||
-        report.description.toLowerCase().includes(search.toLowerCase());
+        !query ||
+        report.title.toLowerCase().includes(query) ||
+        report.description.toLowerCase().includes(query);
 
       const matchesCategory =
         category === "All Categories" || report.category === category;
@@ -106,7 +109,6 @@ export default function ReportLibrary() {
     >
       {/* Background Decoration */}
       <div className="pointer-events-none absolute -left-40 top-32 h-80 w-80 rounded-full bg-[#087B5A]/5 blur-3xl" />
-
       <div className="pointer-events-none absolute -right-40 bottom-20 h-96 w-96 rounded-full bg-[#F97316]/5 blur-3xl" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 
-// Add the official image when available:
+// Add the official director image when available:
 // import directorImg from "../../assets/Director/director.jpg";
 
 export default function Hero() {
@@ -54,7 +54,7 @@ export default function Hero() {
 
       {/* ================= MAIN CONTENT ================= */}
       <div className="relative z-10 mx-auto grid min-h-[600px] w-full max-w-7xl items-center gap-14 px-5 py-16 sm:px-8 md:py-20 lg:grid-cols-[1fr_430px] lg:gap-20 lg:px-10 lg:py-24">
-        {/* ================= LEFT ================= */}
+        {/* ================= LEFT CONTENT ================= */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
@@ -123,7 +123,7 @@ export default function Hero() {
             <div className="h-px w-28 bg-[#087B5A]/30" />
           </motion.div>
 
-          {/* Small Statement */}
+          {/* Supporting Statement */}
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -137,7 +137,7 @@ export default function Hero() {
             to communities across Afghanistan.
           </motion.p>
 
-          {/* ================= DIRECTOR PROFILE CTA ================= */}
+          {/* CTA */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -163,7 +163,7 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* ================= RIGHT ================= */}
+        {/* ================= RIGHT CONTENT ================= */}
         <motion.div
           initial={{
             opacity: 0,
@@ -184,9 +184,7 @@ export default function Hero() {
         >
           {/* Decorative Circle */}
           <motion.div
-            animate={{
-              rotate: 360,
-            }}
+            animate={{ rotate: 360 }}
             transition={{
               duration: 35,
               repeat: Infinity,
@@ -197,18 +195,14 @@ export default function Hero() {
 
           {/* Main Card */}
           <motion.div
-            whileHover={{
-              y: -6,
-            }}
-            transition={{
-              duration: 0.35,
-            }}
+            whileHover={{ y: -6 }}
+            transition={{ duration: 0.35 }}
             className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-3 shadow-[0_25px_80px_rgba(15,23,42,0.12)]"
           >
             {/* Director Photo */}
             <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-[#0B3D2E]">
               {/* 
-                When official image is available:
+                Replace the placeholder below with the official image:
 
                 <img
                   src={directorImg}
@@ -242,7 +236,7 @@ export default function Hero() {
                 </div>
               </div>
 
-              {/* Image Bottom Gradient */}
+              {/* Bottom Gradient */}
               <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#06281E] via-[#06281E]/50 to-transparent" />
 
               {/* Organization Name */}

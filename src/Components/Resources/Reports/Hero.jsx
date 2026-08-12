@@ -22,7 +22,7 @@ export default function Hero() {
       {/* Main Container */}
       <div className="relative z-10 mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24 lg:px-10 lg:py-28">
         <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-          {/* ================= LEFT CONTENT ================= */}
+          {/* LEFT CONTENT */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -32,19 +32,19 @@ export default function Hero() {
             <div className="mb-5 flex items-center gap-3">
               <span className="h-px w-10 bg-[#F97316]" />
 
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#A7F3D0]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A7F3D0]">
                 DAFA Publications
               </p>
             </div>
 
             {/* Heading */}
-            <h1 className="max-w-2xl text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
+            <h1 className="max-w-2xl text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
               Reports &
               <span className="block text-[#A7F3D0]">Publications</span>
             </h1>
 
             {/* Description */}
-            <p className="mt-6 max-w-xl text-base leading-8 text-green-50/75 sm:text-lg">
+            <p className="mt-6 max-w-xl text-base font-normal leading-8 text-green-50/75 sm:text-lg">
               Explore DAFA's official reports, project documentation, annual
               publications, and humanitarian mine-action materials documenting
               our work across Afghanistan.
@@ -54,7 +54,7 @@ export default function Hero() {
             <div className="mt-8 flex flex-wrap gap-4">
               <a
                 href="#reports"
-                className="group inline-flex items-center gap-3 rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:bg-[#ea6410] hover:shadow-xl"
+                className="group inline-flex items-center gap-3 rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:bg-[#ea6410] hover:shadow-xl"
               >
                 Explore Reports
                 <FaArrowRight
@@ -72,7 +72,7 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* ================= RIGHT VISUAL ================= */}
+          {/* RIGHT VISUAL */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -94,6 +94,7 @@ export default function Hero() {
             >
               <div className="p-6">
                 <div className="h-3 w-24 rounded bg-white/20" />
+
                 <div className="mt-5 space-y-2">
                   <div className="h-2 w-full rounded bg-white/10" />
                   <div className="h-2 w-5/6 rounded bg-white/10" />
@@ -116,15 +117,15 @@ export default function Hero() {
               {/* Report Header */}
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#087B5A]">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#087B5A]">
                     DAFA
                   </p>
 
-                  <h3 className="mt-2 text-xl font-black text-[#0F172A]">
+                  <h3 className="mt-2 text-xl font-bold leading-tight text-[#0F172A]">
                     Annual Report
                   </h3>
 
-                  <p className="mt-1 text-xs text-slate-400">
+                  <p className="mt-1 text-xs leading-5 text-slate-400">
                     Humanitarian Mine Action
                   </p>
                 </div>
@@ -138,11 +139,13 @@ export default function Hero() {
               <div className="mt-7 overflow-hidden rounded-xl bg-[#0B3D2E] p-5">
                 <div className="flex items-end justify-between">
                   <div>
-                    <p className="text-[9px] font-semibold uppercase tracking-widest text-[#A7F3D0]">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#A7F3D0]">
                       Annual Report
                     </p>
 
-                    <p className="mt-1 text-4xl font-black text-white">2025</p>
+                    <p className="mt-1 text-4xl font-extrabold leading-none text-white">
+                      2025
+                    </p>
                   </div>
 
                   <FaFileAlt size={46} className="text-white/20" />
@@ -153,12 +156,12 @@ export default function Hero() {
 
               {/* Document Information */}
               <div className="mt-6 space-y-3">
-                <div className="flex items-center gap-3 text-xs text-slate-500">
+                <div className="flex items-center gap-3 text-xs font-medium text-slate-500">
                   <FaCalendarAlt className="text-[#087B5A]" />
                   <span>Published 2025</span>
                 </div>
 
-                <div className="flex items-center gap-3 text-xs text-slate-500">
+                <div className="flex items-center gap-3 text-xs font-medium text-slate-500">
                   <FaChartBar className="text-[#087B5A]" />
                   <span>Humanitarian Impact & Operations</span>
                 </div>
@@ -166,11 +169,11 @@ export default function Hero() {
 
               {/* Bottom */}
               <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-5">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">
                   Official Publication
                 </span>
 
-                <span className="rounded-full bg-[#087B5A]/10 px-3 py-1 text-[10px] font-bold text-[#087B5A]">
+                <span className="rounded-full bg-[#087B5A]/10 px-3 py-1 text-[10px] font-semibold text-[#087B5A]">
                   PDF
                 </span>
               </div>
@@ -191,8 +194,11 @@ export default function Hero() {
               </div>
 
               <div>
-                <p className="text-xs font-bold text-white">Official Reports</p>
-                <p className="text-[10px] text-green-100/60">
+                <p className="text-xs font-semibold text-white">
+                  Official Reports
+                </p>
+
+                <p className="text-[10px] font-normal text-green-100/60">
                   DAFA Publications
                 </p>
               </div>
@@ -200,7 +206,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* ================= BOTTOM STATS ================= */}
+        {/* BOTTOM STATS */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
@@ -209,35 +215,41 @@ export default function Hero() {
         >
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
             <div>
-              <p className="text-2xl font-black text-white sm:text-3xl">36+</p>
-              <p className="mt-1 text-xs uppercase tracking-wider text-green-100/50">
+              <p className="text-2xl font-extrabold leading-none text-white sm:text-3xl">
+                36+
+              </p>
+
+              <p className="mt-2 text-xs font-medium uppercase tracking-[0.08em] text-green-100/50">
                 Years of Experience
               </p>
             </div>
 
             <div>
-              <p className="text-2xl font-black text-white sm:text-3xl">
+              <p className="text-2xl font-extrabold leading-none text-white sm:text-3xl">
                 Annual
               </p>
-              <p className="mt-1 text-xs uppercase tracking-wider text-green-100/50">
+
+              <p className="mt-2 text-xs font-medium uppercase tracking-[0.08em] text-green-100/50">
                 Reports
               </p>
             </div>
 
             <div>
-              <p className="text-2xl font-black text-white sm:text-3xl">
+              <p className="text-2xl font-extrabold leading-none text-white sm:text-3xl">
                 Project
               </p>
-              <p className="mt-1 text-xs uppercase tracking-wider text-green-100/50">
+
+              <p className="mt-2 text-xs font-medium uppercase tracking-[0.08em] text-green-100/50">
                 Documentation
               </p>
             </div>
 
             <div>
-              <p className="text-2xl font-black text-white sm:text-3xl">
+              <p className="text-2xl font-extrabold leading-none text-white sm:text-3xl">
                 Impact
               </p>
-              <p className="mt-1 text-xs uppercase tracking-wider text-green-100/50">
+
+              <p className="mt-2 text-xs font-medium uppercase tracking-[0.08em] text-green-100/50">
                 Publications
               </p>
             </div>

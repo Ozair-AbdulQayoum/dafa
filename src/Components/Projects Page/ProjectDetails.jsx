@@ -39,31 +39,26 @@ const project = {
       description:
         "Survey and assessment of areas suspected of being contaminated by explosive hazards.",
     },
-
     {
       title: "Manual Mine Clearance",
       description:
         "Controlled clearance operations carried out by trained humanitarian mine-action teams.",
     },
-
     {
       title: "Hazard Identification & Marking",
       description:
         "Identification and marking of hazardous areas to protect communities and guide clearance operations.",
     },
-
     {
       title: "Quality & Safety Monitoring",
       description:
         "Continuous safety monitoring and quality assurance throughout field operations.",
     },
-
     {
       title: "Community Engagement",
       description:
         "Engagement with local communities to improve communication, awareness, and project coordination.",
     },
-
     {
       title: "Verification & Land Release",
       description:
@@ -91,10 +86,12 @@ export default function ProjectDetails() {
           <div className="flex h-full items-center justify-center">
             <div className="text-center">
               <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl border border-white/20 bg-white/5">
-                <span className="text-2xl font-bold text-[#A7F3D0]">DAFA</span>
+                <span className="text-2xl font-bold tracking-tight text-[#A7F3D0]">
+                  DAFA
+                </span>
               </div>
 
-              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-white/40">
                 Project Image
               </p>
             </div>
@@ -114,7 +111,7 @@ export default function ProjectDetails() {
 
               <Link
                 to="/projects"
-                className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-green-100 transition hover:text-white"
+                className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-green-100 transition-colors duration-300 hover:text-white"
               >
                 <FaArrowLeft size={11} />
                 Back to Projects
@@ -122,28 +119,26 @@ export default function ProjectDetails() {
 
               {/* Status */}
 
-              <span className="block text-xs font-bold uppercase tracking-[0.2em] text-[#A7F3D0]">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#A7F3D0]">
                 {project.status}
-              </span>
+              </p>
 
               {/* Project Name */}
 
-              <h1 className="mt-3 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+              <h1 className="mt-3 max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
                 {project.name}
               </h1>
 
               {/* Location & Duration */}
 
-              <div className="mt-5 flex flex-wrap gap-5 text-sm text-green-50/80">
+              <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium text-green-50/80">
                 <span className="flex items-center gap-2">
-                  <FaMapMarkerAlt />
-
+                  <FaMapMarkerAlt size={13} />
                   {project.location}
                 </span>
 
                 <span className="flex items-center gap-2">
-                  <FaCalendarAlt />
-
+                  <FaCalendarAlt size={13} />
                   {project.duration}
                 </span>
               </div>
@@ -170,7 +165,7 @@ export default function ProjectDetails() {
                 Project Overview
               </p>
 
-              <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl">
+              <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-[#0F172A] sm:text-4xl">
                 About the Project
               </h2>
 
@@ -183,7 +178,7 @@ export default function ProjectDetails() {
               </p>
             </div>
 
-            {/* Project Information Card */}
+            {/* Project Information */}
 
             <div className="h-fit rounded-2xl border border-slate-200 bg-slate-50 p-7">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
@@ -194,11 +189,11 @@ export default function ProjectDetails() {
                 {/* Location */}
 
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-slate-400">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
                     Location
                   </p>
 
-                  <p className="mt-1 font-semibold text-[#0F172A]">
+                  <p className="mt-1.5 text-sm font-semibold leading-6 text-[#0F172A]">
                     {project.location}
                   </p>
                 </div>
@@ -206,11 +201,11 @@ export default function ProjectDetails() {
                 {/* Duration */}
 
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-slate-400">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
                     Duration
                   </p>
 
-                  <p className="mt-1 font-semibold text-[#0F172A]">
+                  <p className="mt-1.5 text-sm font-semibold leading-6 text-[#0F172A]">
                     {project.duration}
                   </p>
                 </div>
@@ -218,13 +213,12 @@ export default function ProjectDetails() {
                 {/* Status */}
 
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-slate-400">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
                     Status
                   </p>
 
-                  <p className="mt-1 flex items-center gap-2 font-semibold text-[#087B5A]">
+                  <p className="mt-1.5 flex items-center gap-2 text-sm font-semibold text-[#087B5A]">
                     <FaCheckCircle size={14} />
-
                     {project.status}
                   </p>
                 </div>
@@ -241,7 +235,7 @@ export default function ProjectDetails() {
               Project Objectives
             </p>
 
-            <h2 className="mt-3 text-3xl font-bold text-[#0F172A]">
+            <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-[#0F172A] sm:text-4xl">
               What We Aim to Achieve
             </h2>
 
@@ -264,15 +258,11 @@ export default function ProjectDetails() {
                     duration: 0.5,
                     delay: index * 0.08,
                   }}
-                  className="flex gap-4 rounded-xl border border-slate-200 bg-white p-5 transition hover:shadow-sm"
+                  className="flex gap-4 rounded-xl border border-slate-200 bg-white p-5 transition-all duration-300 hover:border-[#087B5A]/20 hover:shadow-sm"
                 >
-                  {/* Number */}
-
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#087B5A]/10 text-xs font-bold text-[#087B5A]">
                     {index + 1}
                   </span>
-
-                  {/* Objective */}
 
                   <p className="text-sm leading-7 text-slate-600">
                     {objective}
@@ -288,16 +278,14 @@ export default function ProjectDetails() {
 
           <div className="mt-20 border-t border-slate-200 pt-16">
             <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
-              {/* =================================================
-                  LEFT — PROJECT ACTIVITIES
-              ================================================== */}
+              {/* PROJECT ACTIVITIES */}
 
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
                   Project Activities
                 </p>
 
-                <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#0F172A]">
+                <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-[#0F172A] sm:text-4xl">
                   What the Project Includes
                 </h2>
 
@@ -330,16 +318,12 @@ export default function ProjectDetails() {
                       }}
                       className="group flex items-start gap-4 rounded-xl border border-slate-200 bg-white p-5 transition-all duration-300 hover:border-[#087B5A]/30 hover:bg-slate-50 hover:shadow-sm"
                     >
-                      {/* Number */}
-
                       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#087B5A]/10 text-xs font-bold text-[#087B5A] transition-colors duration-300 group-hover:bg-[#087B5A] group-hover:text-white">
                         {index + 1}
                       </span>
 
-                      {/* Activity Content */}
-
                       <div>
-                        <p className="font-semibold text-[#0F172A]">
+                        <p className="text-sm font-bold leading-6 text-[#0F172A]">
                           {activity.title}
                         </p>
 
@@ -352,16 +336,14 @@ export default function ProjectDetails() {
                 </div>
               </div>
 
-              {/* =================================================
-                  RIGHT — FIELD OPERATIONS GALLERY
-              ================================================== */}
+              {/* FIELD OPERATIONS */}
 
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
                   Field Operations
                 </p>
 
-                <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#0F172A]">
+                <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-[#0F172A] sm:text-4xl">
                   Project Activities in the Field
                 </h2>
 
@@ -371,7 +353,7 @@ export default function ProjectDetails() {
                   final land release.
                 </p>
 
-                {/* 6 Image Gallery */}
+                {/* Gallery */}
 
                 <div className="mt-8 grid grid-cols-2 gap-4">
                   {project.activities.map((activity, index) => (
@@ -394,12 +376,12 @@ export default function ProjectDetails() {
                       }}
                       className="group relative h-48 overflow-hidden rounded-2xl bg-gradient-to-br from-[#0B3D2E] via-[#087B5A] to-[#052E23] shadow-sm"
                     >
-                      {/* Image Placeholder */}
+                      {/* Placeholder */}
 
                       <div className="flex h-full items-center justify-center">
                         <div className="text-center">
                           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-white/20 bg-white/5">
-                            <span className="text-sm font-bold text-[#A7F3D0]">
+                            <span className="text-sm font-bold tracking-tight text-[#A7F3D0]">
                               DAFA
                             </span>
                           </div>
@@ -423,7 +405,7 @@ export default function ProjectDetails() {
                       {/* Image Title */}
 
                       <div className="absolute inset-x-0 bottom-0 p-4">
-                        <p className="text-sm font-bold text-white">
+                        <p className="text-sm font-bold leading-5 text-white">
                           {activity.title}
                         </p>
                       </div>
@@ -447,7 +429,7 @@ export default function ProjectDetails() {
               Project Impact
             </p>
 
-            <h2 className="mt-3 text-3xl font-bold text-white">
+            <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl">
               Making Communities Safer
             </h2>
 
@@ -463,7 +445,7 @@ export default function ProjectDetails() {
           <div className="mt-12 border-t border-slate-200 pt-8">
             <Link
               to="/projects"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#087B5A] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0B3D2E]"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#087B5A] px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#0B3D2E]"
             >
               View All Projects
               <FaArrowRight size={12} />

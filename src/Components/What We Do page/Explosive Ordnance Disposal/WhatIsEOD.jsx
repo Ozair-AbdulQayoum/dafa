@@ -12,30 +12,30 @@ const features = [
   {
     number: "01",
     icon: FaSearch,
-    title: "Identification",
+    title: "Identification & Assessment",
     description:
-      "Specialized teams identify and assess explosive ordnance and other explosive hazards in affected areas.",
+      "Specialized personnel identify reported explosive hazards and assess available information to understand the situation and potential risks.",
   },
   {
     number: "02",
     icon: FaShieldAlt,
     title: "Safe Management",
     description:
-      "Professional procedures are used to manage explosive hazards while maintaining the highest level of safety.",
+      "Explosive hazards are managed through established procedures, appropriate safety measures, and qualified humanitarian personnel.",
   },
   {
     number: "03",
     icon: FaExclamationTriangle,
     title: "Risk Reduction",
     description:
-      "EOD activities help reduce the risks posed by explosive hazards to people, property and infrastructure.",
+      "EOD activities help reduce the risks posed by explosive ordnance to people, property, infrastructure, and surrounding communities.",
   },
   {
     number: "04",
     icon: FaUsers,
     title: "Community Protection",
     description:
-      "Our work contributes to safer communities and helps people return to normal activities with greater confidence.",
+      "Reducing explosive hazards contributes to safer environments where communities can access homes, services, roads, and livelihoods with greater confidence.",
   },
 ];
 
@@ -77,15 +77,15 @@ export default function WhatIsEOD() {
           </h2>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-            Explosive Ordnance Disposal is a specialized area of humanitarian
-            mine action that focuses on identifying, assessing and safely
-            managing explosive ordnance and related hazards.
+            Explosive Ordnance Disposal (EOD) is a specialized area of
+            humanitarian mine action focused on identifying, assessing, and
+            safely managing explosive ordnance and other explosive hazards.
           </p>
         </motion.div>
 
         {/* ================= MAIN CONTENT ================= */}
 
-        <div className="mt-14 grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
+        <div className="mt-14 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-10 lg:items-stretch">
           {/* ================= INFORMATION PANEL ================= */}
 
           <motion.div
@@ -93,34 +93,43 @@ export default function WhatIsEOD() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="relative overflow-hidden rounded-3xl bg-[#0B3D2E] p-7 sm:p-9 lg:p-10"
+            className="relative overflow-hidden rounded-3xl bg-[#0B3D2E] p-7 shadow-xl sm:p-9 lg:p-10"
           >
             {/* Decorative circles */}
 
-            <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full border border-white/10" />
+            <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full border border-white/10" />
 
-            <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full border border-white/10" />
+            <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full border border-white/10" />
+
+            <div className="pointer-events-none absolute bottom-[-80px] left-[-80px] h-48 w-48 rounded-full bg-[#087B5A]/20 blur-3xl" />
 
             <div className="relative z-10">
               {/* Icon */}
 
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#087B5A] text-[#A7F3D0]">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#087B5A] text-[#A7F3D0] shadow-lg">
                 <FaShieldAlt size={24} />
               </div>
+
+              {/* Label */}
 
               <p className="mt-8 text-xs font-bold uppercase tracking-[0.2em] text-[#A7F3D0]">
                 Our Purpose
               </p>
 
+              {/* Heading */}
+
               <h3 className="mt-3 text-2xl font-bold leading-tight text-white sm:text-3xl">
-                Making affected areas safer for people and communities.
+                Reducing explosive hazards and protecting communities.
               </h3>
 
+              {/* Description */}
+
               <p className="mt-5 text-sm leading-7 text-green-50/70 sm:text-base">
-                EOD activities require specialized knowledge, careful assessment
-                and strict safety procedures. DAFA's work supports the
-                humanitarian goal of reducing explosive hazards and protecting
-                people across Afghanistan.
+                EOD activities require specialized knowledge, careful
+                assessment, trained personnel, and strict safety procedures.
+                DAFA's humanitarian work contributes to reducing explosive
+                hazards and creating safer environments for people across
+                Afghanistan.
               </p>
 
               {/* Divider */}
@@ -130,12 +139,11 @@ export default function WhatIsEOD() {
               {/* Key statement */}
 
               <div className="flex gap-4">
-                <div className="mt-1 h-8 w-1 shrink-0 rounded-full bg-[#F97316]" />
+                <div className="mt-1 h-10 w-1 shrink-0 rounded-full bg-[#F97316]" />
 
                 <p className="text-sm font-medium leading-7 text-white/80">
-                  Every safe intervention contributes to a safer environment
-                  where communities can live, work and move with greater
-                  confidence.
+                  Every responsible response helps reduce risk and supports
+                  safer conditions for people, families, and communities.
                 </p>
               </div>
 
@@ -155,7 +163,7 @@ export default function WhatIsEOD() {
               const Icon = item.icon;
 
               return (
-                <motion.div
+                <motion.article
                   key={item.number}
                   initial={{ opacity: 0, y: 25 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -168,7 +176,7 @@ export default function WhatIsEOD() {
                 >
                   {/* Number */}
 
-                  <span className="absolute right-5 top-5 text-xs font-bold tracking-widest text-slate-200 transition-colors group-hover:text-[#087B5A]/20">
+                  <span className="absolute right-5 top-5 text-xs font-bold tracking-widest text-slate-200 transition-colors duration-300 group-hover:text-[#087B5A]/20">
                     {item.number}
                   </span>
 
@@ -180,7 +188,7 @@ export default function WhatIsEOD() {
 
                   {/* Content */}
 
-                  <h3 className="mt-6 text-lg font-bold text-[#0F172A] transition-colors group-hover:text-[#087B5A]">
+                  <h3 className="mt-6 text-lg font-bold text-[#0F172A] transition-colors duration-300 group-hover:text-[#087B5A]">
                     {item.title}
                   </h3>
 
@@ -188,14 +196,43 @@ export default function WhatIsEOD() {
                     {item.description}
                   </p>
 
-                  {/* Bottom accent */}
+                  {/* Bottom Accent */}
 
                   <div className="mt-6 h-1 w-8 rounded-full bg-[#087B5A]/20 transition-all duration-300 group-hover:w-14 group-hover:bg-[#F97316]" />
-                </motion.div>
+
+                  {/* Hover line */}
+
+                  <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-[#F97316] transition-all duration-500 group-hover:w-full" />
+                </motion.article>
               );
             })}
           </div>
         </div>
+
+        {/* ================= BOTTOM MESSAGE ================= */}
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.35 }}
+          className="mt-10 rounded-2xl border border-[#087B5A]/10 bg-[#F8FAFC] px-6 py-6 sm:px-8"
+        >
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#087B5A]/10 text-[#087B5A]">
+              <FaShieldAlt size={17} />
+            </div>
+
+            <p className="text-sm leading-7 text-slate-600 sm:text-base">
+              <span className="font-bold text-[#087B5A]">
+                Safety is at the centre of every response.
+              </span>{" "}
+              DAFA's EOD activities are carried out with careful planning, risk
+              assessment, trained personnel, and appropriate humanitarian safety
+              procedures.
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

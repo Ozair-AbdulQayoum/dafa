@@ -70,33 +70,23 @@ export default function KnowledgeCategories() {
       className="relative overflow-hidden bg-[#F8FAFC] py-20 sm:py-24 lg:py-28"
     >
       {/* Background Decorations */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-40 top-40 h-96 w-96 rounded-full bg-[#087B5A]/5 blur-3xl"
+      />
 
-      <div className="pointer-events-none absolute -left-40 top-40 h-96 w-96 rounded-full bg-[#087B5A]/5 blur-3xl" />
-
-      <div className="pointer-events-none absolute -right-40 bottom-40 h-96 w-96 rounded-full bg-[#F97316]/5 blur-3xl" />
-
-      {/* Container */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-40 bottom-40 h-96 w-96 rounded-full bg-[#F97316]/5 blur-3xl"
+      />
 
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* =====================================================
-            SECTION HEADER
-        ====================================================== */}
-
+        {/* Section Header */}
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.7,
-          }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7 }}
           className="mx-auto max-w-3xl text-center"
         >
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#087B5A]">
@@ -115,11 +105,8 @@ export default function KnowledgeCategories() {
           </p>
         </motion.div>
 
-        {/* =====================================================
-            KNOWLEDGE AREAS
-        ====================================================== */}
-
-        <div className="mt-16 space-y-10 lg:mt-20 lg:space-y-14">
+        {/* Knowledge Areas */}
+        <div className="mt-14 space-y-8 lg:mt-20 lg:space-y-12">
           {knowledgeAreas.map((item, index) => {
             const Icon = item.icon;
             const imageLeft = index % 2 === 0;
@@ -129,7 +116,7 @@ export default function KnowledgeCategories() {
                 key={item.slug}
                 initial={{
                   opacity: 0,
-                  y: 35,
+                  y: 40,
                 }}
                 whileInView={{
                   opacity: 1,
@@ -137,60 +124,55 @@ export default function KnowledgeCategories() {
                 }}
                 viewport={{
                   once: true,
-                  margin: "-80px",
+                  margin: "-100px",
                 }}
                 transition={{
                   duration: 0.7,
                   delay: 0.05,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
-                className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl"
+                className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
               >
                 <div
                   className={`grid lg:grid-cols-2 ${
                     !imageLeft ? "lg:[&>*:first-child]:order-2" : ""
                   }`}
                 >
-                  {/* =================================================
-                      IMAGE
-                  ================================================== */}
-
-                  <div className="relative min-h-[300px] overflow-hidden bg-[#0B3D2E] sm:min-h-[360px] lg:min-h-[430px]">
+                  {/* Image */}
+                  <div className="relative min-h-[280px] overflow-hidden bg-[#0B3D2E] sm:min-h-[350px] lg:min-h-[430px]">
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
                     />
 
                     {/* Image Overlay */}
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#041F18]/80 via-[#0B3D2E]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#041F18]/90 via-[#0B3D2E]/25 to-transparent" />
 
                     {/* Number */}
-
-                    <div className="absolute left-6 top-6 flex h-12 w-12 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-sm font-bold text-white backdrop-blur-md">
+                    <div className="absolute left-6 top-6 flex h-12 w-12 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-sm font-bold text-white shadow-lg backdrop-blur-md">
                       {item.number}
                     </div>
 
-                    {/* Image Label */}
-
+                    {/* Category */}
                     <div className="absolute bottom-6 left-6 flex items-center gap-3 text-white">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#087B5A]">
-                        <Icon size={16} />
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#087B5A] shadow-lg">
+                        <Icon size={17} />
                       </div>
 
-                      <span className="text-xs font-bold uppercase tracking-[0.15em] text-white/80">
+                      <span className="text-xs font-bold uppercase tracking-[0.15em] text-white/90">
                         {item.category}
                       </span>
                     </div>
                   </div>
 
-                  {/* =================================================
-                      CONTENT
-                  ================================================== */}
-
+                  {/* Content */}
                   <div className="flex flex-col justify-center p-8 sm:p-10 lg:p-14">
-                    {/* Small Label */}
-
+                    {/* Label */}
                     <div className="flex items-center gap-3">
                       <span className="h-px w-8 bg-[#F97316]" />
 
@@ -200,22 +182,20 @@ export default function KnowledgeCategories() {
                     </div>
 
                     {/* Title */}
-
-                    <h3 className="mt-5 text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl">
+                    <h3 className="mt-5 text-2xl font-bold tracking-tight text-[#0F172A] sm:text-3xl lg:text-4xl">
                       {item.title}
                     </h3>
 
                     {/* Description */}
-
-                    <p className="mt-5 text-sm leading-8 text-slate-600 sm:text-base">
+                    <p className="mt-5 max-w-xl text-sm leading-8 text-slate-600 sm:text-base">
                       {item.description}
                     </p>
 
-                    {/* Explore */}
-
+                    {/* Link */}
                     <Link
                       to={`/knowledge-center/${item.slug}`}
-                      className="mt-8 inline-flex w-fit items-center gap-3 rounded-xl bg-[#087B5A] px-5 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#0B3D2E] hover:gap-4"
+                      aria-label={`Explore ${item.title}`}
+                      className="mt-8 inline-flex w-fit items-center gap-3 rounded-xl bg-[#087B5A] px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:gap-4 hover:bg-[#0B3D2E] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#087B5A] focus:ring-offset-2"
                     >
                       Explore Topic
                       <FaArrowRight size={12} />
@@ -227,10 +207,7 @@ export default function KnowledgeCategories() {
           })}
         </div>
 
-        {/* =====================================================
-            BOTTOM INFORMATION
-        ====================================================== */}
-
+        {/* Bottom CTA */}
         <motion.div
           initial={{
             opacity: 0,
@@ -242,13 +219,20 @@ export default function KnowledgeCategories() {
           }}
           viewport={{
             once: true,
+            margin: "-80px",
           }}
           transition={{
             duration: 0.7,
           }}
-          className="mt-16 overflow-hidden rounded-3xl bg-[#0B3D2E] p-8 sm:p-10 lg:mt-20 lg:p-12"
+          className="relative mt-16 overflow-hidden rounded-3xl bg-[#0B3D2E] p-8 sm:p-10 lg:mt-20 lg:p-12"
         >
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+          {/* Decorative Circle */}
+          <div
+            aria-hidden="true"
+            className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#087B5A]/30 blur-3xl"
+          />
+
+          <div className="relative z-10 flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#A7F3D0]">
                 Learn More
@@ -267,7 +251,7 @@ export default function KnowledgeCategories() {
 
             <Link
               to="/projects"
-              className="inline-flex shrink-0 items-center justify-center gap-3 rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#ea580c]"
+              className="inline-flex shrink-0 items-center justify-center gap-3 rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-[#EA580C] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:ring-offset-2 focus:ring-offset-[#0B3D2E]"
             >
               Explore Our Projects
               <FaArrowRight size={12} />

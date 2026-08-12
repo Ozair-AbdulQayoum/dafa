@@ -11,7 +11,7 @@ export default function ProjectCTA() {
 
       <div className="pointer-events-none absolute -bottom-40 -right-32 h-96 w-96 rounded-full bg-[#F97316]/10 blur-3xl" />
 
-      {/* Decorative Lines */}
+      {/* Decorative Circle */}
       <div className="pointer-events-none absolute right-10 top-10 hidden h-32 w-32 rounded-full border border-[#A7F3D0]/10 lg:block" />
 
       <div className="relative z-10 mx-auto max-w-5xl px-5 text-center sm:px-8">
@@ -26,7 +26,7 @@ export default function ProjectCTA() {
           <FaHardHat size={22} />
         </motion.div>
 
-        {/* Label */}
+        {/* Eyebrow */}
         <motion.p
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -43,9 +43,9 @@ export default function ProjectCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.15 }}
-          className="mt-3 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
+          className="mt-3 text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl"
         >
-          Working Toward
+          Together, We Can Build
           <span className="block text-[#A7F3D0]">Safer Communities</span>
         </motion.h2>
 
@@ -57,12 +57,12 @@ export default function ProjectCTA() {
           transition={{ duration: 0.7, delay: 0.25 }}
           className="mx-auto mt-5 max-w-2xl text-base leading-8 text-green-50/65 sm:text-lg"
         >
-          Through professional humanitarian mine action, DAFA works to reduce
-          explosive hazards, release safe land, and support communities across
-          Afghanistan.
+          DAFA remains committed to reducing explosive hazards, releasing
+          contaminated land, and helping communities across Afghanistan live
+          with greater safety and opportunity.
         </motion.p>
 
-        {/* Buttons */}
+        {/* Actions */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -86,10 +86,11 @@ export default function ProjectCTA() {
             className="inline-flex items-center gap-3 rounded-xl border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white hover:text-[#0B3D2E]"
           >
             Explore Our Work
+            <FaEnvelope size={13} />
           </Link>
         </motion.div>
 
-        {/* Bottom Divider */}
+        {/* Divider */}
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           whileInView={{ opacity: 1, scaleX: 1 }}
@@ -98,8 +99,9 @@ export default function ProjectCTA() {
           className="mx-auto mt-12 h-px max-w-xs bg-gradient-to-r from-transparent via-[#A7F3D0]/20 to-transparent"
         />
 
-        <p className="mt-6 text-xs text-green-50/35">
-          Removing hazards. Saving lives. Building safer communities.
+        {/* Closing Statement */}
+        <p className="mt-6 text-xs font-medium tracking-wide text-green-50/35">
+          Removing hazards. Saving lives. Creating a safer future.
         </p>
       </div>
     </section>

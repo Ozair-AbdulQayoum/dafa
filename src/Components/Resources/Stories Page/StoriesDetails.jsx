@@ -16,8 +16,6 @@ const stories = {
     date: "December 15, 2025",
     location: "Afghanistan",
 
-    // image: "/images/story-community.jpg",
-
     content: [
       "For communities living in areas affected by landmines and explosive remnants of war, safety is an essential part of everyday life. DAFA works with communities across Afghanistan to reduce these risks and create safer environments.",
 
@@ -37,8 +35,6 @@ const stories = {
       "Meet the dedicated people working in challenging environments to reduce explosive hazards and protect communities.",
     date: "November 28, 2025",
     location: "Afghanistan",
-
-    // image: "/images/story-field-team.jpg",
 
     content: [
       "Humanitarian mine action requires dedication, teamwork, discipline, and careful attention to safety. DAFA field teams work every day to help communities affected by explosive hazards.",
@@ -60,8 +56,6 @@ const stories = {
     date: "October 10, 2025",
     location: "Afghanistan",
 
-    // image: "/images/story-awareness.jpg",
-
     content: [
       "Explosive Ordnance Risk Education is an important part of humanitarian mine action. Communities need clear and practical information about the dangers they may encounter.",
 
@@ -82,8 +76,6 @@ const stories = {
     date: "September 18, 2025",
     location: "Afghanistan",
 
-    // image: "/images/story-access.jpg",
-
     content: [
       "Contaminated land can prevent communities from safely accessing important areas and essential services.",
 
@@ -103,8 +95,6 @@ const stories = {
       "A look at how communities can rebuild daily activities and create new opportunities after hazardous land is released.",
     date: "August 22, 2025",
     location: "Afghanistan",
-
-    // image: "/images/story-clearance.jpg",
 
     content: [
       "When contaminated land is safely cleared, communities can begin returning to activities that were previously difficult or dangerous.",
@@ -127,8 +117,6 @@ const stories = {
       "From field teams to community partners, discover the people working together to make affected areas safer.",
     date: "July 12, 2025",
     location: "Afghanistan",
-
-    // image: "/images/story-teamwork.jpg",
 
     content: [
       "Humanitarian mine action depends on cooperation between field teams, communities, organizations, and partners.",
@@ -219,16 +207,6 @@ export default function StoriesDetails() {
               className="relative"
             >
               <div className="relative h-[380px] overflow-hidden rounded-3xl border border-white/10 bg-[#174E3D] shadow-2xl sm:h-[480px]">
-                {/*
-                  IMAGE TEMPORARILY COMMENTED
-
-                  <img
-                    src={story.image}
-                    alt={story.title}
-                    className="h-full w-full object-cover"
-                  />
-                */}
-
                 {/* Temporary Placeholder */}
 
                 <div className="flex h-full items-center justify-center">

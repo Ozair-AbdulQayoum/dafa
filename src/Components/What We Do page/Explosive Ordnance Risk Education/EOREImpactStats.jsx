@@ -41,29 +41,33 @@ const impactStats = [
 function AnimatedNumber({ value, suffix }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   useEffect(() => {
     if (!isInView) return;
 
+    let animationFrame;
     const duration = 1600;
     const startTime = performance.now();
 
-    const updateCounter = (currentTime) => {
+    const animate = (currentTime) => {
       const progress = Math.min((currentTime - startTime) / duration, 1);
 
+      // Ease-out cubic
       const easedProgress = 1 - Math.pow(1 - progress, 3);
 
       setCount(Math.floor(easedProgress * value));
 
       if (progress < 1) {
-        requestAnimationFrame(updateCounter);
+        animationFrame = requestAnimationFrame(animate);
       } else {
         setCount(value);
       }
     };
 
-    requestAnimationFrame(updateCounter);
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrame);
   }, [isInView, value]);
 
   return (
@@ -78,13 +82,15 @@ export default function EOREImpactStats() {
   return (
     <section
       id="eore-impact"
-      className="relative overflow-hidden bg-white py-20 sm:py-24"
+      className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28"
     >
       {/* ================= BACKGROUND DECORATION ================= */}
 
       <div className="pointer-events-none absolute -left-40 top-20 h-80 w-80 rounded-full bg-[#087B5A]/5 blur-3xl" />
 
       <div className="pointer-events-none absolute -right-40 bottom-10 h-80 w-80 rounded-full bg-[#F97316]/5 blur-3xl" />
+
+      {/* ================= CONTAINER ================= */}
 
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         {/* ================= HEADER ================= */}
@@ -128,7 +134,7 @@ export default function EOREImpactStats() {
                 key={stat.label}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{
                   duration: 0.6,
                   delay: index * 0.1,
@@ -147,7 +153,7 @@ export default function EOREImpactStats() {
 
                 {/* Number */}
 
-                <div className="mt-7 text-4xl font-bold tracking-tight text-[#087B5A] sm:text-5xl">
+                <div className="mt-7 text-4xl font-extrabold tracking-tight text-[#087B5A] sm:text-5xl">
                   <AnimatedNumber value={stat.value} suffix={stat.suffix} />
                 </div>
 
@@ -162,6 +168,10 @@ export default function EOREImpactStats() {
                 <p className="mt-2 text-sm leading-6 text-slate-500">
                   {stat.description}
                 </p>
+
+                {/* Bottom Accent */}
+
+                <div className="mt-6 h-1 w-8 rounded-full bg-[#087B5A]/20 transition-all duration-300 group-hover:w-14 group-hover:bg-[#F97316]" />
               </motion.article>
             );
           })}

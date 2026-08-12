@@ -58,13 +58,13 @@ export default function Hero() {
           {/* Buttons */}
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <Link
-              to="#stories"
+            <a
+              href="#stories"
               className="inline-flex items-center gap-2 rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-bold text-white shadow-lg transition hover:-translate-y-1 hover:bg-[#ea650d]"
             >
               Explore Stories
               <FaArrowRight size={12} />
-            </Link>
+            </a>
 
             <Link
               to="/achievements"

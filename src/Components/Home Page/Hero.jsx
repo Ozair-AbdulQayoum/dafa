@@ -5,14 +5,11 @@ import img1 from "../../assets/img.png";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden">
-      {/* =====================================================
-          BACKGROUND IMAGE
-      ====================================================== */}
-
+    <section className="relative min-h-[92vh] overflow-hidden bg-[#052E23]">
+      {/* ================= BACKGROUND IMAGE ================= */}
       <motion.img
         src={img1}
-        alt="Humanitarian Demining"
+        alt="DAFA humanitarian mine action team working in Afghanistan"
         initial={{ scale: 1.08 }}
         animate={{ scale: 1 }}
         transition={{
@@ -22,313 +19,272 @@ export default function Hero() {
         className="absolute inset-0 h-full w-full object-cover"
       />
 
-      {/* =====================================================
-          OVERLAY
-      ====================================================== */}
-
+      {/* ================= DARK OVERLAY ================= */}
       <div
         className="
-          absolute
-          inset-0
-          bg-gradient-to-r
-          from-[#052E23]/95
-          via-[#087B5A]/80
-          via-65%
-          to-transparent
+          absolute inset-0
+          bg-[linear-gradient(90deg,rgba(3,31,24,0.97)_0%,rgba(5,46,35,0.88)_42%,rgba(5,46,35,0.48)_70%,rgba(5,46,35,0.18)_100%)]
         "
       />
 
-      {/* Subtle bottom overlay */}
+      {/* Bottom readability gradient */}
+      <div
+        className="
+          absolute inset-0
+          bg-[linear-gradient(0deg,rgba(3,31,24,0.78)_0%,rgba(3,31,24,0.20)_45%,transparent_75%)]
+        "
+      />
 
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#052E23]/30 to-transparent" />
+      {/* ================= DECORATIVE ELEMENTS ================= */}
 
-      {/* =====================================================
-          MAIN CONTENT
-      ====================================================== */}
+      <div className="absolute left-0 top-1/2 hidden h-px w-24 bg-[#F97316]/60 lg:block" />
+
+      <motion.div
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: 1 }}
+        transition={{ duration: 1, delay: 0.4 }}
+        className="
+          absolute
+          bottom-0
+          left-8
+          hidden
+          h-28
+          w-px
+          origin-bottom
+          bg-gradient-to-t
+          from-[#F97316]
+          to-transparent
+          lg:block
+        "
+      />
+
+      {/* ================= CONTENT ================= */}
 
       <div
         className="
-          relative
-          z-10
+          relative z-10
           mx-auto
-          flex
-          min-h-screen
-          max-w-7xl
+          flex min-h-[92vh]
+          w-full max-w-7xl
           items-center
-          px-6
-          py-16
+          px-5
+          py-20
           sm:px-8
+          md:py-24
           lg:px-10
         "
       >
-        {/* =================================================
-            LEFT CONTENT
-        ================================================== */}
-
         <motion.div
-          initial={{
-            opacity: 0,
-            x: -45,
-          }}
-          animate={{
-            opacity: 1,
-            x: 0,
-          }}
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{
             duration: 0.9,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="
-            max-w-3xl
-            -translate-y-12
-            text-white
-            sm:-translate-y-14
-            lg:-translate-y-16
-          "
+          className="max-w-4xl text-white"
         >
-          {/* Since 1990 */}
+          {/* ================= EYEBROW ================= */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: -10,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.6,
               delay: 0.15,
             }}
-            className="mb-5 flex items-center gap-3"
+            className="mb-6 flex items-center gap-3"
           >
-            <span className="h-[2px] w-10 rounded-full bg-[#D4AF37]" />
+            <span className="h-[2px] w-10 rounded-full bg-[#F97316]" />
 
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37] sm:text-sm">
-              Since 1990
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#FDBA74] sm:text-sm">
+              DAFA • Since 1990
             </span>
           </motion.div>
 
-          {/* 36 Years */}
+          {/* ================= HEADLINE ================= */}
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
+          <motion.h1
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.8,
               delay: 0.25,
             }}
-            className="flex items-end gap-3 sm:gap-4"
+            className="
+              max-w-4xl
+              text-[2.75rem]
+              font-extrabold
+              leading-[1.02]
+              tracking-[-0.035em]
+              sm:text-5xl
+              md:text-6xl
+              lg:text-[4.75rem]
+              xl:text-[5.25rem]
+            "
           >
-            <h1
-              className="
-                text-[96px]
-                font-black
-                leading-[0.75]
-                tracking-[-0.06em]
-                text-[#D4AF37]
-                sm:text-[125px]
-                md:text-[145px]
-                lg:text-[170px]
-              "
-            >
-              36
-            </h1>
-
-            <span
-              className="
-                mb-3
-                text-3xl
-                font-semibold
-                tracking-tight
-                text-white
-                sm:mb-4
-                sm:text-4xl
-                lg:mb-5
-                lg:text-5xl
-              "
-            >
-              Years
+            Clearing Hazards.
+            <span className="mt-2 block text-[#A7F3D0]">
+              Protecting Communities.
             </span>
-          </motion.div>
+          </motion.h1>
 
-          {/* Main Heading */}
+          {/* ================= DESCRIPTION ================= */}
 
-          <motion.h2
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: 0.75,
+              duration: 0.7,
               delay: 0.4,
             }}
             className="
               mt-7
-              text-4xl
-              font-extrabold
-              leading-[0.95]
-              tracking-tight
-              sm:text-5xl
-              md:text-6xl
-              lg:text-[4.25rem]
+              max-w-2xl
+              text-base
+              leading-7
+              text-white/80
+              sm:text-lg
+              sm:leading-8
+              lg:text-xl
+              lg:leading-9
             "
           >
-            HUMANITARIAN
-            <span className="mt-2 block text-green-300">DEMINING</span>
-          </motion.h2>
+            DAFA works across Afghanistan to reduce the threat of landmines and
+            explosive hazards, helping communities safely access their land,
+            homes, roads, and essential services.
+          </motion.p>
 
-          {/* Slogan */}
+          {/* ================= IMPACT POINTS ================= */}
 
-          <motion.h3
-            initial={{
-              opacity: 0,
-              y: 15,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.7,
               delay: 0.5,
             }}
             className="
-              mt-6
-              text-lg
-              font-semibold
-              tracking-wide
-              text-white
-              sm:text-xl
-              lg:text-2xl
-            "
-          >
-            Removing Hazards, Saving Lives
-          </motion.h3>
-
-          {/* Description */}
-
-          <motion.p
-            initial={{
-              opacity: 0,
-              y: 15,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.7,
-              delay: 0.6,
-            }}
-            className="
-              mt-5
-              max-w-2xl
+              mt-7
+              flex
+              flex-wrap
+              items-center
+              gap-x-6
+              gap-y-3
               text-sm
-              leading-7
-              text-white/80
-              sm:text-base
-              sm:leading-8
-              lg:text-lg
+              font-medium
+              text-white/75
             "
           >
-            For 36 years, DAFA has worked to protect communities across
-            Afghanistan by clearing contaminated land, reducing the threat of
-            mines and unexploded ordnance, and supporting a safer future for
-            families.
-          </motion.p>
+            <div className="flex items-center gap-2.5">
+              <span className="h-2 w-2 rounded-full bg-[#F97316] shadow-[0_0_10px_rgba(249,115,22,0.6)]" />
+              <span>Humanitarian Mine Action</span>
+            </div>
 
-          {/* Buttons */}
+            <div className="hidden h-4 w-px bg-white/20 sm:block" />
+
+            <div className="flex items-center gap-2.5">
+              <span className="h-2 w-2 rounded-full bg-[#A7F3D0] shadow-[0_0_10px_rgba(167,243,208,0.5)]" />
+              <span>Community Protection</span>
+            </div>
+          </motion.div>
+
+          {/* ================= CTA ================= */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 15,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.7,
-              delay: 0.7,
+              delay: 0.65,
             }}
-            className="mt-8 flex flex-wrap items-center gap-4"
+            className="mt-9"
           >
-            {/* View Projects */}
-
             <Link
-              to="/projects"
+              to="/about"
+              aria-label="Learn more about DAFA's work"
               className="
                 group
                 inline-flex
                 items-center
                 justify-center
+                gap-3
                 rounded-xl
-                bg-white
+                bg-[#F97316]
                 px-7
-                py-3.5
-                text-sm
-                font-bold
-                text-[#087B5A]
-                shadow-lg
-                transition-all
-                duration-300
-                hover:-translate-y-0.5
-                hover:bg-[#D4AF37]
-                hover:text-white
-                hover:shadow-xl
-              "
-            >
-              View Projects
-              <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
-
-            {/* Contact */}
-
-            <Link
-              to="/contact"
-              className="
-                inline-flex
-                items-center
-                justify-center
-                rounded-xl
-                border
-                border-white/60
-                bg-white/5
-                px-7
-                py-3.5
+                py-4
                 text-sm
                 font-bold
                 text-white
-                backdrop-blur-sm
+                shadow-lg
+                shadow-black/20
                 transition-all
                 duration-300
-                hover:-translate-y-0.5
-                hover:border-white
-                hover:bg-white
-                hover:text-[#087B5A]
+                hover:-translate-y-1
+                hover:bg-[#EA580C]
                 hover:shadow-xl
+                focus:outline-none
+                focus:ring-2
+                focus:ring-[#FDBA74]
+                focus:ring-offset-2
+                focus:ring-offset-[#052E23]
               "
             >
-              Contact Us
+              <span>Learn About Our Work</span>
+
+              <span
+                aria-hidden="true"
+                className="
+                  text-lg
+                  transition-transform
+                  duration-300
+                  group-hover:translate-x-1
+                "
+              >
+                →
+              </span>
             </Link>
           </motion.div>
         </motion.div>
       </div>
+
+      {/* ================= SCROLL INDICATOR ================= */}
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          delay: 1.3,
+          duration: 0.8,
+        }}
+        className="
+          absolute
+          bottom-7
+          right-7
+          hidden
+          items-center
+          gap-3
+          text-[10px]
+          font-semibold
+          uppercase
+          tracking-[0.2em]
+          text-white/50
+          lg:flex
+        "
+      >
+        <span>Scroll to explore</span>
+
+        <motion.span
+          animate={{ y: [0, 5, 0] }}
+          transition={{
+            duration: 1.8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="text-sm text-[#F97316]"
+        >
+          ↓
+        </motion.span>
+      </motion.div>
     </section>
   );
 }

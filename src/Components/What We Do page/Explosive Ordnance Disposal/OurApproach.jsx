@@ -35,7 +35,7 @@ const approaches = [
     icon: FaUsers,
     title: "Community Focus",
     description:
-      "Our approach is focused on reducing risks and supporting safer environments for communities affected by explosive hazards.",
+      "Our approach focuses on reducing risks and supporting safer environments for communities affected by explosive hazards.",
   },
 ];
 
@@ -45,13 +45,15 @@ export default function OurApproach() {
       id="our-approach"
       className="relative overflow-hidden bg-[#0B3D2E] py-20 sm:py-24 lg:py-28"
     >
-      {/* ================= BACKGROUND DECORATION ================= */}
+      {/* ================= BACKGROUND ================= */}
 
       <div className="pointer-events-none absolute -left-40 top-0 h-96 w-96 rounded-full bg-[#087B5A]/20 blur-3xl" />
 
       <div className="pointer-events-none absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-[#F97316]/10 blur-3xl" />
 
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.02] blur-3xl" />
+
+      {/* ================= CONTAINER ================= */}
 
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         {/* ================= HEADER ================= */}
@@ -100,23 +102,29 @@ export default function OurApproach() {
                   duration: 0.55,
                   delay: index * 0.1,
                 }}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-[#A7F3D0]/30 hover:bg-white/[0.09]"
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-[#A7F3D0]/30 hover:bg-white/[0.09] hover:shadow-2xl"
               >
-                {/* Number */}
+                {/* Top Row */}
 
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-bold tracking-[0.15em] text-[#F97316]">
                     {item.number}
                   </span>
 
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#087B5A] text-white transition-all duration-300 group-hover:bg-[#F97316]">
+                  <motion.div
+                    whileHover={{
+                      scale: 1.08,
+                      rotate: 3,
+                    }}
+                    className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#087B5A] text-white transition-colors duration-300 group-hover:bg-[#F97316]"
+                  >
                     <Icon size={18} />
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* Content */}
 
-                <h3 className="mt-8 text-xl font-bold text-white">
+                <h3 className="mt-8 text-xl font-bold text-white transition-colors duration-300 group-hover:text-[#A7F3D0]">
                   {item.title}
                 </h3>
 
@@ -124,14 +132,14 @@ export default function OurApproach() {
                   {item.description}
                 </p>
 
-                {/* Bottom Accent */}
+                {/* Category */}
 
                 <div className="mt-6 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#A7F3D0]">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#F97316]" />
                   EOD Operations
                 </div>
 
-                {/* Hover Accent */}
+                {/* Bottom Hover Accent */}
 
                 <div className="absolute bottom-0 left-0 h-1 w-0 bg-[#F97316] transition-all duration-500 group-hover:w-full" />
               </motion.article>
@@ -145,8 +153,11 @@ export default function OurApproach() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.35 }}
-          className="mt-12 flex flex-col items-center justify-between gap-5 rounded-2xl border border-white/10 bg-black/10 px-6 py-6 sm:flex-row sm:px-8"
+          transition={{
+            duration: 0.7,
+            delay: 0.35,
+          }}
+          className="group mt-12 flex flex-col items-center justify-between gap-5 rounded-2xl border border-white/10 bg-black/10 px-6 py-6 transition-colors duration-300 hover:border-[#A7F3D0]/20 hover:bg-black/20 sm:flex-row sm:px-8"
         >
           <div>
             <p className="text-sm font-bold text-white">

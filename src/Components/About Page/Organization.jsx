@@ -5,7 +5,7 @@ import { FaSitemap, FaUsers, FaArrowRight } from "react-icons/fa";
 
 export default function Organization() {
   return (
-    <section className="overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
+    <section className="overflow-hidden bg-white py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         {/* ================= HEADER ================= */}
 
@@ -19,16 +19,22 @@ export default function Organization() {
           }}
           className="mx-auto max-w-3xl text-center"
         >
-          <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-[0.2em] text-[#087B5A]">
+          {/* Section Label */}
+
+          <span className="inline-block text-xs font-semibold uppercase tracking-[0.18em] text-[#087B5A] sm:text-sm">
             Our Organization
           </span>
 
-          <h2 className="text-3xl font-bold leading-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
+          {/* Main Heading */}
+
+          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
             Working Together for a{" "}
             <span className="text-[#087B5A]">Common Mission</span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
+          {/* Description */}
+
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base sm:leading-8 lg:text-lg">
             DAFA is supported by an organized structure of experienced
             professionals and field teams working together toward safer
             communities.
@@ -37,39 +43,49 @@ export default function Organization() {
 
         {/* ================= ACTION CARDS ================= */}
 
-        <div className="mx-auto mt-14 grid max-w-4xl gap-5 md:grid-cols-2">
-          {/* Organization Chart */}
+        <div className="mx-auto mt-12 grid max-w-4xl gap-5 sm:mt-14 md:grid-cols-2">
+          {/* ================= ORGANIZATION CHART ================= */}
+
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
             whileHover={{ y: -5 }}
-            className="group rounded-2xl border border-slate-200 bg-slate-50 p-7 transition-all duration-300 hover:border-[#A7F3D0] hover:shadow-lg sm:p-8"
+            className="group rounded-2xl border border-slate-200 bg-slate-50 p-6 transition-all duration-300 hover:border-[#A7F3D0] hover:shadow-lg sm:p-7"
           >
+            {/* Icon */}
+
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#087B5A]/10 text-[#087B5A] transition-all duration-300 group-hover:bg-[#087B5A] group-hover:text-white">
               <FaSitemap size={20} />
             </div>
 
-            <h3 className="mt-6 text-xl font-bold text-[#0F172A]">
+            {/* Heading */}
+
+            <h3 className="mt-5 text-xl font-bold leading-snug text-[#0F172A] sm:text-2xl">
               Organization Chart
             </h3>
 
-            <p className="mt-3 text-sm leading-7 text-slate-600">
+            {/* Description */}
+
+            <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">
               Explore DAFA's organizational structure and how different
               functions work together to support its humanitarian mission.
             </p>
 
+            {/* Link */}
+
             <Link
               to="/organization-chart"
-              className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#087B5A] transition-all duration-300 group-hover:gap-3"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#087B5A] transition-all duration-300 group-hover:gap-3"
             >
               View Organization Chart
               <FaArrowRight size={13} />
             </Link>
           </motion.div>
 
-          {/* Members */}
+          {/* ================= MEMBERS ================= */}
+
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -79,24 +95,32 @@ export default function Organization() {
               delay: 0.1,
             }}
             whileHover={{ y: -5 }}
-            className="group rounded-2xl border border-slate-200 bg-slate-50 p-7 transition-all duration-300 hover:border-[#A7F3D0] hover:shadow-lg sm:p-8"
+            className="group rounded-2xl border border-slate-200 bg-slate-50 p-6 transition-all duration-300 hover:border-[#A7F3D0] hover:shadow-lg sm:p-7"
           >
+            {/* Icon */}
+
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#087B5A]/10 text-[#087B5A] transition-all duration-300 group-hover:bg-[#087B5A] group-hover:text-white">
               <FaUsers size={20} />
             </div>
 
-            <h3 className="mt-6 text-xl font-bold text-[#0F172A]">
+            {/* Heading */}
+
+            <h3 className="mt-5 text-xl font-bold leading-snug text-[#0F172A] sm:text-2xl">
               Our Members
             </h3>
 
-            <p className="mt-3 text-sm leading-7 text-slate-600">
+            {/* Description */}
+
+            <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">
               Meet the people whose experience, dedication, and teamwork
               contribute to DAFA's humanitarian work.
             </p>
 
+            {/* Link */}
+
             <Link
               to="/members"
-              className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#087B5A] transition-all duration-300 group-hover:gap-3"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#087B5A] transition-all duration-300 group-hover:gap-3"
             >
               Meet Our Members
               <FaArrowRight size={13} />

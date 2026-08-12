@@ -41,13 +41,15 @@ const departments = [
   },
 ];
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 25 },
+  visible: { opacity: 1, y: 0 },
+};
+
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-[#06281E]">
-      {/* =====================================================
-          DECORATIVE BACKGROUND
-      ====================================================== */}
-
+      {/* Background Effects */}
       <motion.div
         className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-[#A7F3D0]/10 blur-3xl"
         animate={{
@@ -74,8 +76,8 @@ export default function Hero() {
         }}
       />
 
-      {/* Subtle Grid */}
-      <div className="absolute inset-0 opacity-[0.035]">
+      {/* Grid Background */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
         <div
           className="h-full w-full"
           style={{
@@ -86,28 +88,21 @@ export default function Hero() {
         />
       </div>
 
-      {/* =====================================================
-          HERO CONTENT
-      ====================================================== */}
-
       <div className="relative z-10 mx-auto max-w-7xl px-5 py-20 sm:px-8 md:py-24 lg:px-10">
+        {/* Hero Introduction */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
           transition={{
             duration: 0.8,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="mx-auto max-w-3xl text-center"
         >
-          {/* Label */}
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.6,
-              delay: 0.15,
-            }}
+            variants={fadeUp}
+            transition={{ duration: 0.6, delay: 0.15 }}
             className="mb-5 flex items-center justify-center gap-3"
           >
             <span className="h-2 w-2 rounded-full bg-[#A7F3D0]" />
@@ -117,28 +112,18 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          {/* Heading */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.7,
-              delay: 0.25,
-            }}
+            variants={fadeUp}
+            transition={{ duration: 0.7, delay: 0.25 }}
             className="text-4xl font-bold leading-[1.1] text-white sm:text-5xl md:text-6xl"
           >
             How DAFA Is
             <span className="block text-[#A7F3D0]">Organized</span>
           </motion.h1>
 
-          {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.7,
-              delay: 0.4,
-            }}
+            variants={fadeUp}
+            transition={{ duration: 0.7, delay: 0.4 }}
             className="mt-6 text-base leading-8 text-green-50/75 sm:text-lg"
           >
             DAFA's organizational structure brings together leadership and
@@ -147,12 +132,9 @@ export default function Hero() {
           </motion.p>
         </motion.div>
 
-        {/* =====================================================
-            ORGANIZATIONAL STRUCTURE
-        ====================================================== */}
-
+        {/* Organizational Chart */}
         <div className="mt-16">
-          {/* DIRECTOR */}
+          {/* Director */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -172,46 +154,37 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* MAIN CONNECTOR */}
+          {/* Connector */}
           <div className="mx-auto mt-6 h-10 w-px bg-[#A7F3D0]/30" />
 
-          {/* HORIZONTAL CONNECTOR */}
-          <div className="relative hidden lg:block">
+          {/* Desktop Horizontal Connector */}
+          <div className="relative mx-auto hidden max-w-5xl lg:block">
             <div className="absolute left-[12.5%] right-[12.5%] top-0 h-px bg-[#A7F3D0]/30" />
 
-            {/* Connector drops */}
-            <div className="absolute left-[12.5%] top-0 h-7 w-px bg-[#A7F3D0]/30" />
-            <div className="absolute left-[37.5%] top-0 h-7 w-px bg-[#A7F3D0]/30" />
-            <div className="absolute left-[62.5%] top-0 h-7 w-px bg-[#A7F3D0]/30" />
-            <div className="absolute left-[87.5%] top-0 h-7 w-px bg-[#A7F3D0]/30" />
+            {[12.5, 37.5, 62.5, 87.5].map((position) => (
+              <div
+                key={position}
+                className="absolute top-0 h-7 w-px bg-[#A7F3D0]/30"
+                style={{ left: `${position}%` }}
+              />
+            ))}
           </div>
 
-          {/* =====================================================
-              FOUR DEPARTMENTS — ONE ROW
-          ====================================================== */}
-
+          {/* Departments */}
           <div className="mt-7 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {departments.map((department, index) => {
+            {departments.map((department, departmentIndex) => {
               const Icon = department.icon;
 
               return (
-                <motion.div
+                <motion.article
                   key={department.name}
-                  initial={{
-                    opacity: 0,
-                    y: 25,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
+                  initial={{ opacity: 0, y: 25 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{
                     duration: 0.6,
-                    delay: 0.65 + index * 0.12,
+                    delay: 0.65 + departmentIndex * 0.12,
                   }}
-                  whileHover={{
-                    y: -6,
-                  }}
+                  whileHover={{ y: -6 }}
                   className="group rounded-2xl border border-white/10 bg-white/[0.06] p-5 shadow-lg backdrop-blur-md transition-all duration-300 hover:border-[#A7F3D0]/25 hover:bg-white/[0.09]"
                 >
                   {/* Department Header */}
@@ -231,7 +204,7 @@ export default function Hero() {
                     </div>
                   </div>
 
-                  {/* Key Personnel */}
+                  {/* Personnel */}
                   <div className="mt-5">
                     <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-green-50/40">
                       Key Personnel
@@ -241,17 +214,14 @@ export default function Hero() {
                       {department.positions.map((position, positionIndex) => (
                         <motion.div
                           key={position}
-                          initial={{
-                            opacity: 0,
-                            x: -8,
-                          }}
-                          animate={{
-                            opacity: 1,
-                            x: 0,
-                          }}
+                          initial={{ opacity: 0, x: -8 }}
+                          animate={{ opacity: 1, x: 0 }}
                           transition={{
                             duration: 0.4,
-                            delay: 0.8 + index * 0.12 + positionIndex * 0.08,
+                            delay:
+                              0.8 +
+                              departmentIndex * 0.12 +
+                              positionIndex * 0.08,
                           }}
                           className="flex items-start gap-2.5 rounded-lg bg-black/10 px-3 py-2.5"
                         >
@@ -264,12 +234,12 @@ export default function Hero() {
                       ))}
                     </div>
                   </div>
-                </motion.div>
+                </motion.article>
               );
             })}
           </div>
 
-          {/* Bottom Supporting Line */}
+          {/* Bottom Label */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -281,7 +251,7 @@ export default function Hero() {
           >
             <span className="h-px flex-1 bg-[#A7F3D0]/15" />
 
-            <span className="text-center text-xs uppercase tracking-[0.16em] text-green-50/35">
+            <span className="whitespace-nowrap text-center text-xs uppercase tracking-[0.16em] text-green-50/35">
               Departments working together
             </span>
 

@@ -115,6 +115,8 @@ const projects = [
 // ============================================================
 
 function ProjectCard({ project, index }) {
+  const isOngoing = project.status === "Ongoing";
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -127,7 +129,7 @@ function ProjectCard({ project, index }) {
       whileHover={{ y: -6 }}
       className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:border-[#087B5A]/30 hover:shadow-xl"
     >
-      {/* Image */}
+      {/* Project Image */}
       <Link
         to={`/projects/${project.slug}`}
         className="relative block h-60 overflow-hidden bg-[#E8F3EF]"
@@ -135,17 +137,18 @@ function ProjectCard({ project, index }) {
         <img
           src={project.image}
           alt={project.title}
+          loading="lazy"
           className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
         />
 
-        {/* Image Overlay */}
+        {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
         {/* Status */}
         <div className="absolute left-4 top-4">
           <span
             className={`rounded-full px-3 py-1.5 text-xs font-semibold text-white shadow-lg ${
-              project.status === "Ongoing" ? "bg-[#F97316]" : "bg-[#087B5A]"
+              isOngoing ? "bg-[#F97316]" : "bg-[#087B5A]"
             }`}
           >
             {project.status}
@@ -155,11 +158,11 @@ function ProjectCard({ project, index }) {
         {/* Year */}
         <div className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full bg-black/40 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm">
           <FaCalendarAlt size={11} />
-          {project.year}
+          <span>{project.year}</span>
         </div>
       </Link>
 
-      {/* Content */}
+      {/* Project Content */}
       <div className="p-5">
         <h3 className="text-xl font-bold leading-tight text-[#0F172A] transition-colors duration-300 group-hover:text-[#087B5A]">
           {project.title}
@@ -177,18 +180,22 @@ function ProjectCard({ project, index }) {
           {project.description}
         </p>
 
-        {/* Link */}
+        {/* Footer */}
         <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
           <Link
             to={`/projects/${project.slug}`}
-            className="text-sm font-semibold text-[#087B5A]"
+            className="text-sm font-semibold text-[#087B5A] transition-colors hover:text-[#0B3D2E]"
           >
             View Project
           </Link>
 
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#087B5A]/10 text-[#087B5A] transition-all duration-300 group-hover:bg-[#087B5A] group-hover:text-white">
+          <Link
+            to={`/projects/${project.slug}`}
+            aria-label={`View ${project.title}`}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-[#087B5A]/10 text-[#087B5A] transition-all duration-300 group-hover:bg-[#087B5A] group-hover:text-white"
+          >
             <FaArrowRight size={12} />
-          </span>
+          </Link>
         </div>
       </div>
     </motion.article>
@@ -203,7 +210,7 @@ export default function FeaturedProjects() {
   return (
     <section className="bg-slate-50 py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* Header */}
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}

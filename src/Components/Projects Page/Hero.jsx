@@ -8,7 +8,6 @@ export default function Hero() {
     <section className="relative min-h-[620px] overflow-hidden bg-[#06281E]">
       {/* ================= BACKGROUND ================= */}
 
-      {/* Green Glow */}
       <motion.div
         animate={{
           scale: [1, 1.08, 1],
@@ -22,7 +21,6 @@ export default function Hero() {
         className="absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#087B5A]/30 blur-3xl"
       />
 
-      {/* Blue Glow */}
       <motion.div
         animate={{
           scale: [1, 1.1, 1],
@@ -59,7 +57,7 @@ export default function Hero() {
         className="absolute -right-20 top-1/2 hidden h-72 w-72 rounded-full border border-dashed border-[#A7F3D0]/10 lg:block"
       />
 
-      {/* ================= CONTENT ================= */}
+      {/* ================= HERO CONTENT ================= */}
 
       <div className="relative z-10 mx-auto flex min-h-[620px] max-w-7xl items-center px-5 py-20 sm:px-8 lg:px-10">
         <motion.div
@@ -71,8 +69,7 @@ export default function Hero() {
           }}
           className="max-w-3xl"
         >
-          {/* Label */}
-
+          {/* Eyebrow */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -86,13 +83,12 @@ export default function Hero() {
               <FaProjectDiagram size={16} />
             </span>
 
-            <span className="text-sm font-bold uppercase tracking-[0.2em] text-[#A7F3D0]">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#A7F3D0] sm:text-sm">
               Our Projects
             </span>
           </motion.div>
 
-          {/* Heading */}
-
+          {/* Main Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
@@ -106,8 +102,7 @@ export default function Hero() {
             <span className="block text-[#A7F3D0]">Communities</span>
           </motion.h1>
 
-          {/* Subtitle */}
-
+          {/* Supporting Heading */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -115,13 +110,12 @@ export default function Hero() {
               duration: 0.7,
               delay: 0.25,
             }}
-            className="mt-6 text-xl font-semibold text-white sm:text-2xl"
+            className="mt-6 text-lg font-semibold leading-7 text-white sm:text-xl"
           >
             Humanitarian Mine Action Across Afghanistan
           </motion.p>
 
           {/* Description */}
-
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -131,13 +125,12 @@ export default function Hero() {
             }}
             className="mt-5 max-w-2xl text-base leading-8 text-green-50/70 sm:text-lg"
           >
-            Explore DAFA's humanitarian projects, supporting communities through
-            mine clearance, explosive hazard response, risk education, and other
-            life-saving activities across Afghanistan.
+            From mine clearance and explosive hazard response to risk education
+            and community support, DAFA delivers humanitarian mine action that
+            helps people live, move, and build safer futures across Afghanistan.
           </motion.p>
 
-          {/* Buttons */}
-
+          {/* Actions */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -149,7 +142,7 @@ export default function Hero() {
           >
             <Link
               to="#projects"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:bg-[#EA580C] hover:shadow-xl"
+              className="group inline-flex items-center gap-2 rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:bg-[#EA580C] hover:shadow-xl"
             >
               Explore Projects
               <FaArrowRight
@@ -170,7 +163,6 @@ export default function Hero() {
       </div>
 
       {/* Bottom Fade */}
-
       <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#F8FAFC] to-transparent" />
     </section>
   );

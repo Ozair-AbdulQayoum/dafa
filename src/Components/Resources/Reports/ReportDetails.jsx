@@ -24,7 +24,6 @@ const reports = [
     fileSize: "Coming Soon",
     pdf: null,
   },
-
   {
     slug: "humanitarian-mine-action-report-2024",
     title: "Humanitarian Mine Action Report 2024",
@@ -37,7 +36,6 @@ const reports = [
     fileSize: "Coming Soon",
     pdf: null,
   },
-
   {
     slug: "operational-progress-report-2024",
     title: "Operational Progress Report 2024",
@@ -50,7 +48,6 @@ const reports = [
     fileSize: "Coming Soon",
     pdf: null,
   },
-
   {
     slug: "dafa-impact-report-2023",
     title: "DAFA Impact Report 2023",
@@ -63,7 +60,6 @@ const reports = [
     fileSize: "Coming Soon",
     pdf: null,
   },
-
   {
     slug: "dafa-financial-report-2023",
     title: "DAFA Financial Report 2023",
@@ -76,7 +72,6 @@ const reports = [
     fileSize: "Coming Soon",
     pdf: null,
   },
-
   {
     slug: "technical-clearance-report-2022",
     title: "Technical Clearance Report 2022",
@@ -106,11 +101,11 @@ export default function ReportDetails() {
             <FaFilePdf size={28} />
           </div>
 
-          <h1 className="mt-6 text-3xl font-bold text-[#0F172A]">
+          <h1 className="mt-6 text-3xl font-bold leading-tight text-[#0F172A]">
             Report Not Found
           </h1>
 
-          <p className="mt-3 text-slate-500">
+          <p className="mt-3 text-base leading-7 text-slate-500">
             The report you are looking for does not exist.
           </p>
 
@@ -128,20 +123,15 @@ export default function ReportDetails() {
 
   return (
     <main className="bg-[#F8FAFC]">
-      {/* =====================================================
-          HERO
-      ===================================================== */}
-
+      {/* HERO */}
       <section className="relative overflow-hidden bg-[#0B3D2E]">
-        {/* Background decoration */}
+        {/* Background Decoration */}
+        <div className="pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-[#087B5A]/30 blur-3xl" />
 
-        <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-[#087B5A]/30 blur-3xl" />
-
-        <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-[#F97316]/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-[#F97316]/20 blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
           {/* Back */}
-
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -157,35 +147,33 @@ export default function ReportDetails() {
           </motion.div>
 
           {/* Content */}
-
           <div className="mt-10 max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] text-green-100 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-green-100 backdrop-blur-sm">
                 <FaFolderOpen size={11} />
                 {report.category}
               </span>
 
-              <h1 className="mt-6 text-4xl font-black leading-tight text-white sm:text-5xl lg:text-6xl">
+              <h1 className="mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
                 {report.title}
               </h1>
 
-              <p className="mt-6 max-w-3xl text-base leading-8 text-green-50/80 sm:text-lg">
+              <p className="mt-6 max-w-3xl text-base font-normal leading-8 text-green-50/80 sm:text-lg">
                 {report.description}
               </p>
 
               {/* Meta */}
-
               <div className="mt-8 flex flex-wrap gap-3">
-                <div className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2.5 text-sm text-white backdrop-blur-sm">
+                <div className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2.5 text-sm font-medium text-white backdrop-blur-sm">
                   <FaCalendarAlt size={12} />
                   {report.year}
                 </div>
 
-                <div className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2.5 text-sm text-white backdrop-blur-sm">
+                <div className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2.5 text-sm font-medium text-white backdrop-blur-sm">
                   <FaMapMarkerAlt size={12} />
                   Afghanistan
                 </div>
@@ -195,17 +183,11 @@ export default function ReportDetails() {
         </div>
       </section>
 
-      {/* =====================================================
-          REPORT CONTENT
-      ===================================================== */}
-
+      {/* REPORT CONTENT */}
       <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-            {/* =================================================
-                REPORT COVER
-            ================================================= */}
-
+            {/* REPORT COVER */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -215,23 +197,21 @@ export default function ReportDetails() {
               <div className="sticky top-28">
                 <div className="relative overflow-hidden rounded-2xl bg-[#0B3D2E] p-8 shadow-xl">
                   {/* Glow */}
+                  <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-[#087B5A]/30 blur-3xl" />
 
-                  <div className="absolute -right-20 -top-20 h-52 w-52 rounded-full bg-[#087B5A]/30 blur-3xl" />
-
-                  {/* Fake Cover */}
-
+                  {/* Cover */}
                   <div className="relative mx-auto max-w-xs rotate-[-2deg] rounded-lg bg-white p-8 shadow-2xl transition duration-500 hover:rotate-0">
-                    <p className="text-xs font-black uppercase tracking-[0.2em] text-[#087B5A]">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
                       DAFA
                     </p>
 
                     <div className="mt-4 h-1 w-12 bg-[#F97316]" />
 
-                    <h2 className="mt-8 text-2xl font-black leading-tight text-[#0F172A]">
+                    <h2 className="mt-8 text-2xl font-extrabold leading-tight text-[#0F172A]">
                       {report.title}
                     </h2>
 
-                    <p className="mt-6 text-sm font-medium text-slate-400">
+                    <p className="mt-6 text-sm font-medium leading-6 text-slate-400">
                       Demining Agency for Afghanistan
                     </p>
 
@@ -247,21 +227,18 @@ export default function ReportDetails() {
               </div>
             </motion.div>
 
-            {/* =================================================
-                INFORMATION
-            ================================================= */}
-
+            {/* INFORMATION */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
             >
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#087B5A]">
                 Publication Details
               </p>
 
-              <h2 className="mt-3 text-3xl font-bold text-[#0F172A] sm:text-4xl">
+              <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-[#0F172A] sm:text-4xl">
                 About This Report
               </h2>
 
@@ -270,10 +247,9 @@ export default function ReportDetails() {
               </p>
 
               {/* Information Grid */}
-
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 <div className="rounded-xl border border-slate-200 bg-white p-5">
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-400">
                     Publication Year
                   </p>
 
@@ -283,7 +259,7 @@ export default function ReportDetails() {
                 </div>
 
                 <div className="rounded-xl border border-slate-200 bg-white p-5">
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-400">
                     Category
                   </p>
 
@@ -293,7 +269,7 @@ export default function ReportDetails() {
                 </div>
 
                 <div className="rounded-xl border border-slate-200 bg-white p-5">
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-400">
                     Language
                   </p>
 
@@ -303,7 +279,7 @@ export default function ReportDetails() {
                 </div>
 
                 <div className="rounded-xl border border-slate-200 bg-white p-5">
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-slate-400">
                     Pages
                   </p>
 
@@ -314,22 +290,19 @@ export default function ReportDetails() {
               </div>
 
               {/* Download Area */}
-
               <div className="mt-8 overflow-hidden rounded-2xl border border-[#087B5A]/20 bg-[#087B5A]/5 p-6">
                 <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-red-500 shadow-sm">
-                        <FaFilePdf size={18} />
-                      </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-red-500 shadow-sm">
+                      <FaFilePdf size={18} />
+                    </div>
 
-                      <div>
-                        <h3 className="font-bold text-[#0F172A]">PDF Report</h3>
+                    <div>
+                      <h3 className="font-bold text-[#0F172A]">PDF Report</h3>
 
-                        <p className="text-xs text-slate-500">
-                          {report.fileSize}
-                        </p>
-                      </div>
+                      <p className="text-xs leading-5 text-slate-500">
+                        {report.fileSize}
+                      </p>
                     </div>
                   </div>
 
@@ -352,7 +325,6 @@ export default function ReportDetails() {
               </div>
 
               {/* Notice */}
-
               {!report.pdf && (
                 <div className="mt-5 rounded-xl border border-orange-100 bg-orange-50 p-4">
                   <p className="text-sm leading-6 text-orange-700">
@@ -363,7 +335,6 @@ export default function ReportDetails() {
               )}
 
               {/* Back */}
-
               <div className="mt-8">
                 <Link
                   to="/resources/reports"
