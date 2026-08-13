@@ -1,6 +1,5 @@
 import PageTitle from "../../Components/PageTitle";
 import Hero from "./Hero";
-import Achievements from "./Achievements";
 import About from "./About";
 import Programs from "./Programs";
 import Projects from "./Projects";
@@ -15,7 +14,6 @@ export default function Mainpage() {
     <>
       <PageTitle title="DAFA" />
       <Hero />
-      <Achievements />
       <About />
       <Programs />
       <Projects />

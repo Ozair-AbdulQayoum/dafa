@@ -22,6 +22,8 @@ import MechanicalDemining from "./Components/What We Do page/Mechanical Demining
 import IEDResponse from "./Components/What We Do page/IED Response/IEDResponse";
 import EODResponse from "./Components/What We Do page/Explosive Ordnance Disposal/EODResponse";
 import EORE from "./Components/What We Do page/Explosive Ordnance Risk Education/EORE";
+import DisasterManagement from "./Components/What We Do page/Disaster Management/DisasterManagement";
+import CashforWork from "./Components/What We Do page/Cash for Work/CashforWork";
 
 // ================= PROJECTS =================
 import Projects from "./Components/Projects Page/Projects";
@@ -91,8 +93,17 @@ export default function App() {
         {/* Explosive Ordnance Risk Education */}
         <Route path="/what-we-do/risk-education" element={<EORE />} />
 
-        {/* Optional old URL */}
+        {/* Backward-compatible EORE URL */}
         <Route path="/what-we-do/eore" element={<EORE />} />
+
+        {/* Disaster Management */}
+        <Route
+          path="/what-we-do/disaster-management"
+          element={<DisasterManagement />}
+        />
+
+        {/* Cash for Work */}
+        <Route path="/what-we-do/cash-for-work" element={<CashforWork />} />
 
         {/* ================= PROJECTS ================= */}
 

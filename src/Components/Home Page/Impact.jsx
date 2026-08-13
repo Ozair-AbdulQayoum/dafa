@@ -1,308 +1,432 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaMapMarkerAlt,
   FaUsers,
   FaProjectDiagram,
   FaArrowRight,
+  FaCheckCircle,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const locations = [
   {
     province: "Kabul",
     projects: "45+",
-    people: "120,000+",
+    people: "120K+",
+    status: "Active",
   },
   {
     province: "Kandahar",
     projects: "60+",
-    people: "250,000+",
+    people: "250K+",
+    status: "Active",
   },
   {
     province: "Nangarhar",
     projects: "35+",
-    people: "90,000+",
+    people: "90K+",
+    status: "Active",
   },
   {
     province: "Helmand",
     projects: "50+",
-    people: "180,000+",
+    people: "180K+",
+    status: "Active",
+  },
+];
+
+const coverageStats = [
+  {
+    value: "32+",
+    label: "Provinces Reached",
+    icon: FaMapMarkerAlt,
+  },
+  {
+    value: "118+",
+    label: "Projects Delivered",
+    icon: FaProjectDiagram,
+  },
+  {
+    value: "12M+",
+    label: "People Benefited",
+    icon: FaUsers,
+  },
+  {
+    value: "323M+",
+    label: "m² Land Cleared",
+    icon: FaCheckCircle,
   },
 ];
 
 export default function WhereWeWork() {
+  const [activeProvince, setActiveProvince] = useState("Kabul");
+
   return (
-    <section className="relative overflow-hidden bg-white py-24 lg:py-28">
-      {/* ================= BACKGROUND DECORATION ================= */}
+    <section className="relative overflow-hidden bg-[#F8FAFC] py-24 sm:py-28 lg:py-32">
+      {/* ================= BACKGROUND ================= */}
 
-      <div className="pointer-events-none absolute -left-40 top-20 h-80 w-80 rounded-full bg-[#087B5A]/5 blur-3xl" />
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-48 top-0 h-[500px] w-[500px] rounded-full bg-[#087B5A]/5 blur-3xl" />
 
-      <div className="pointer-events-none absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-[#0284C7]/5 blur-3xl" />
+        <div className="absolute -right-48 bottom-0 h-[500px] w-[500px] rounded-full bg-[#F97316]/5 blur-3xl" />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* ================= SECTION HEADING ================= */}
+      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        {/* ================= HEADER ================= */}
 
         <motion.div
-          initial={{ opacity: 0, y: 35 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.7,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="mx-auto mb-16 max-w-3xl text-center"
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mx-auto max-w-3xl text-center"
         >
           <div className="mb-5 flex items-center justify-center gap-3">
             <span className="h-[2px] w-9 rounded-full bg-[#F97316]" />
 
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#087B5A] sm:text-sm">
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#087B5A]">
               Our Coverage
             </span>
 
             <span className="h-[2px] w-9 rounded-full bg-[#F97316]" />
           </div>
 
-          <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-[#0F172A] sm:text-5xl lg:text-[3.25rem]">
+          <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-[#0F172A] sm:text-5xl lg:text-[3.5rem]">
             Where We Work
             <span className="block text-[#087B5A]">Across Afghanistan</span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
-            DAFA works with communities across Afghanistan to reduce explosive
-            hazards, support humanitarian mine action, and create safer
-            environments for people and families.
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
+            DAFA works alongside communities across Afghanistan to reduce
+            explosive hazards, restore safe access to land, and support
+            humanitarian mine action.
           </p>
         </motion.div>
 
-        {/* ================= MAIN CONTENT ================= */}
+        {/* ================= COVERAGE STATISTICS ================= */}
 
-        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:gap-14">
-          {/* ================= MAP AREA ================= */}
+        <div className="mt-14 grid grid-cols-2 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm lg:grid-cols-4">
+          {coverageStats.map((stat, index) => {
+            const Icon = stat.icon;
+
+            return (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.08,
+                }}
+                className={`relative p-6 text-center sm:p-7 ${
+                  index !== 0
+                    ? "border-t border-slate-200 sm:border-l lg:border-t-0"
+                    : "border-t border-slate-200 sm:border-t-0"
+                }`}
+              >
+                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-[#087B5A]/10 text-[#087B5A]">
+                  <Icon size={16} />
+                </div>
+
+                <p className="mt-4 text-2xl font-extrabold tracking-tight text-[#0F172A] sm:text-3xl">
+                  {stat.value}
+                </p>
+
+                <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  {stat.label}
+                </p>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* ================= MAP + LOCATIONS ================= */}
+
+        <div className="mt-10 grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+          {/* ================= MAP ================= */}
 
           <motion.div
-            initial={{ opacity: 0, x: -45 }}
+            initial={{ opacity: 0, x: -35 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.8,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="relative"
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-[#052E23] shadow-xl"
           >
-            <div className="relative h-full min-h-[480px] overflow-hidden rounded-[2rem] border border-slate-200 bg-[#F8FAFC] shadow-sm">
-              {/* Decorative grid */}
+            {/* Map background */}
 
-              <div className="absolute inset-0 opacity-[0.035]">
+            <div className="absolute inset-0 opacity-[0.08]">
+              <div
+                className="h-full w-full"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(#A7F3D0 1px, transparent 1px), linear-gradient(90deg, #A7F3D0 1px, transparent 1px)",
+                  backgroundSize: "45px 45px",
+                }}
+              />
+            </div>
+
+            {/* Glows */}
+
+            <div className="absolute -left-32 top-20 h-80 w-80 rounded-full bg-[#087B5A]/30 blur-3xl" />
+
+            <div className="absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-[#F97316]/20 blur-3xl" />
+
+            {/* Header */}
+
+            <div className="relative z-10 flex items-center justify-between p-6 sm:p-8">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#A7F3D0]">
+                  DAFA Coverage Map
+                </p>
+
+                <h3 className="mt-2 text-xl font-bold text-white sm:text-2xl">
+                  Humanitarian Operations
+                </h3>
+              </div>
+
+              <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-2 text-[10px] font-bold uppercase tracking-wide text-white backdrop-blur-md">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-[#F97316]" />
+                Active Operations
+              </div>
+            </div>
+
+            {/* Afghanistan Map Placeholder */}
+
+            <div className="relative flex min-h-[470px] items-center justify-center px-6 pb-8">
+              {/* Stylized Afghanistan silhouette */}
+
+              <div className="relative h-[330px] w-[230px] rotate-[-4deg] sm:h-[380px] sm:w-[270px]">
                 <div
-                  className="h-full w-full"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(#0B3D2E 1px, transparent 1px), linear-gradient(90deg, #0B3D2E 1px, transparent 1px)",
-                    backgroundSize: "45px 45px",
-                  }}
+                  className="
+                    absolute
+                    inset-0
+                    rounded-[45%_55%_48%_52%/35%_40%_60%_65%]
+                    border-2
+                    border-[#A7F3D0]/30
+                    bg-[#087B5A]/25
+                    shadow-[0_0_80px_rgba(8,123,90,0.2)]
+                  "
                 />
-              </div>
 
-              {/* Green glow */}
+                {/* Province markers */}
 
-              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#087B5A]/10 blur-3xl" />
-
-              <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-[#0284C7]/10 blur-3xl" />
-
-              {/* Map content */}
-
-              <div className="relative flex h-full min-h-[480px] items-center justify-center">
-                <div className="relative text-center">
-                  {/* Main marker */}
-
-                  <motion.div
-                    animate={{
-                      y: [0, -8, 0],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                    className="relative mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-[#087B5A]/10"
+                <button
+                  onClick={() => setActiveProvince("Kabul")}
+                  className="absolute left-[57%] top-[48%] z-20"
+                >
+                  <span
+                    className={`relative flex h-5 w-5 items-center justify-center rounded-full ${
+                      activeProvince === "Kabul"
+                        ? "bg-[#F97316]"
+                        : "bg-[#A7F3D0]"
+                    }`}
                   >
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#087B5A] shadow-xl shadow-[#087B5A]/20">
-                      <FaMapMarkerAlt className="text-3xl text-white" />
-                    </div>
+                    <span className="absolute h-8 w-8 animate-ping rounded-full bg-current opacity-20" />
+                  </span>
+                </button>
 
-                    <span className="absolute inset-0 animate-ping rounded-full border border-[#087B5A]/30" />
-                  </motion.div>
+                <button
+                  onClick={() => setActiveProvince("Kandahar")}
+                  className="absolute left-[45%] top-[70%] z-20"
+                >
+                  <span
+                    className={`flex h-5 w-5 rounded-full ${
+                      activeProvince === "Kandahar"
+                        ? "bg-[#F97316]"
+                        : "bg-[#A7F3D0]"
+                    }`}
+                  />
+                </button>
 
-                  <h3 className="mt-7 text-2xl font-bold tracking-tight text-[#0F172A] sm:text-3xl">
-                    Afghanistan Operations
-                  </h3>
+                <button
+                  onClick={() => setActiveProvince("Nangarhar")}
+                  className="absolute right-[13%] top-[44%] z-20"
+                >
+                  <span
+                    className={`flex h-5 w-5 rounded-full ${
+                      activeProvince === "Nangarhar"
+                        ? "bg-[#F97316]"
+                        : "bg-[#A7F3D0]"
+                    }`}
+                  />
+                </button>
 
-                  <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-slate-500 sm:text-base">
-                    DAFA humanitarian mine action activities extend across
-                    communities in multiple provinces.
-                  </p>
-
-                  {/* Map status */}
-
-                  <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-[#087B5A]/10 bg-white px-4 py-2 text-xs font-semibold text-[#087B5A] shadow-sm">
-                    <span className="h-2 w-2 rounded-full bg-[#F97316]" />
-                    Nationwide Humanitarian Operations
-                  </div>
-                </div>
-
-                {/* Decorative location dots */}
-
-                <motion.span
-                  animate={{ scale: [1, 1.25, 1] }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                  }}
-                  className="absolute left-[18%] top-[28%] h-3 w-3 rounded-full bg-[#F97316]"
-                />
-
-                <motion.span
-                  animate={{ scale: [1, 1.25, 1] }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    delay: 0.5,
-                  }}
-                  className="absolute right-[20%] top-[35%] h-3 w-3 rounded-full bg-[#087B5A]"
-                />
-
-                <motion.span
-                  animate={{ scale: [1, 1.25, 1] }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    delay: 1,
-                  }}
-                  className="absolute bottom-[25%] left-[30%] h-3 w-3 rounded-full bg-[#0284C7]"
-                />
+                <button
+                  onClick={() => setActiveProvince("Helmand")}
+                  className="absolute left-[30%] top-[63%] z-20"
+                >
+                  <span
+                    className={`flex h-5 w-5 rounded-full ${
+                      activeProvince === "Helmand"
+                        ? "bg-[#F97316]"
+                        : "bg-[#A7F3D0]"
+                    }`}
+                  />
+                </button>
               </div>
 
-              {/* Bottom information */}
+              {/* Active province label */}
 
-              <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/80 bg-white/90 p-4 shadow-lg backdrop-blur-md sm:left-7 sm:right-7">
-                <div className="flex items-center justify-between gap-4">
+              <motion.div
+                key={activeProvince}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="absolute bottom-7 left-6 right-6 rounded-2xl border border-white/10 bg-white/10 p-4 backdrop-blur-md sm:left-8 sm:right-8"
+              >
+                <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#087B5A]">
-                      Coverage
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#A7F3D0]">
+                      Selected Province
                     </p>
 
-                    <p className="mt-1 text-sm font-semibold text-[#0F172A]">
-                      Supporting safer communities
+                    <p className="mt-1 text-lg font-bold text-white">
+                      {activeProvince}
                     </p>
                   </div>
 
-                  <FaMapMarkerAlt className="shrink-0 text-xl text-[#F97316]" />
+                  <FaMapMarkerAlt className="text-xl text-[#F97316]" />
                 </div>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
 
-          {/* ================= PROVINCE CARDS ================= */}
+          {/* ================= PROVINCES ================= */}
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-            {locations.map((item, index) => (
-              <motion.div
-                key={item.province}
-                initial={{ opacity: 0, x: 45 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.1,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                viewport={{ once: true, margin: "-80px" }}
-                whileHover={{ y: -4 }}
-                className="
-                  group
-                  rounded-2xl
-                  border
-                  border-slate-200
-                  bg-white
-                  p-5
-                  shadow-sm
-                  transition-all
-                  duration-300
-                  hover:border-[#087B5A]/20
-                  hover:shadow-xl
-                  sm:p-6
-                "
-              >
-                <div className="flex items-start justify-between gap-4">
-                  {/* Province */}
+          <div>
+            <div className="mb-5">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
+                Selected Areas
+              </p>
 
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#087B5A]/10 text-[#087B5A] transition-colors duration-300 group-hover:bg-[#087B5A] group-hover:text-white">
-                      <FaMapMarkerAlt />
+              <h3 className="mt-2 text-2xl font-extrabold text-[#0F172A]">
+                Our Work in Key Provinces
+              </h3>
+
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Explore examples of provinces where DAFA's humanitarian
+                activities are making a difference.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              {locations.map((item, index) => {
+                const isActive = activeProvince === item.province;
+
+                return (
+                  <motion.button
+                    key={item.province}
+                    onClick={() => setActiveProvince(item.province)}
+                    initial={{ opacity: 0, x: 25 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      duration: 0.5,
+                      delay: index * 0.08,
+                    }}
+                    whileHover={{ x: 4 }}
+                    className={`group w-full rounded-2xl border p-5 text-left transition-all duration-300 ${
+                      isActive
+                        ? "border-[#087B5A]/30 bg-[#087B5A]/5 shadow-md"
+                        : "border-slate-200 bg-white hover:border-[#087B5A]/20 hover:shadow-lg"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`flex h-11 w-11 items-center justify-center rounded-xl transition-colors ${
+                            isActive
+                              ? "bg-[#087B5A] text-white"
+                              : "bg-[#087B5A]/10 text-[#087B5A] group-hover:bg-[#087B5A] group-hover:text-white"
+                          }`}
+                        >
+                          <FaMapMarkerAlt size={15} />
+                        </div>
+
+                        <div>
+                          <h4 className="font-bold text-[#0F172A]">
+                            {item.province}
+                          </h4>
+
+                          <div className="mt-1 flex items-center gap-2">
+                            <span className="h-1.5 w-1.5 rounded-full bg-[#F97316]" />
+
+                            <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                              {item.status}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <FaArrowRight
+                        size={12}
+                        className={`transition-all ${
+                          isActive
+                            ? "translate-x-1 text-[#087B5A]"
+                            : "text-slate-300 group-hover:translate-x-1 group-hover:text-[#087B5A]"
+                        }`}
+                      />
                     </div>
 
-                    <div>
-                      <h3 className="text-lg font-bold text-[#0F172A]">
-                        {item.province}
-                      </h3>
+                    <div className="mt-4 grid grid-cols-2 gap-3">
+                      <div className="rounded-xl bg-slate-50 px-3 py-2.5">
+                        <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                          Projects
+                        </p>
 
-                      <p className="mt-0.5 text-xs font-medium uppercase tracking-wider text-slate-400">
-                        Operations
-                      </p>
+                        <p className="mt-1 text-lg font-extrabold text-[#0F172A]">
+                          {item.projects}
+                        </p>
+                      </div>
+
+                      <div className="rounded-xl bg-slate-50 px-3 py-2.5">
+                        <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                          People Supported
+                        </p>
+
+                        <p className="mt-1 text-lg font-extrabold text-[#0F172A]">
+                          {item.people}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-
-                  <FaArrowRight className="mt-2 text-sm text-slate-300 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#087B5A]" />
-                </div>
-
-                {/* Statistics */}
-
-                <div className="mt-5 grid grid-cols-2 gap-3">
-                  <div className="rounded-xl bg-slate-50 p-3">
-                    <div className="flex items-center gap-2">
-                      <FaProjectDiagram className="text-sm text-[#F97316]" />
-
-                      <span className="text-xs font-semibold text-slate-500">
-                        Projects
-                      </span>
-                    </div>
-
-                    <p className="mt-2 text-lg font-extrabold text-[#0F172A]">
-                      {item.projects}
-                    </p>
-                  </div>
-
-                  <div className="rounded-xl bg-slate-50 p-3">
-                    <div className="flex items-center gap-2">
-                      <FaUsers className="text-sm text-[#087B5A]" />
-
-                      <span className="text-xs font-semibold text-slate-500">
-                        Supported
-                      </span>
-                    </div>
-
-                    <p className="mt-2 text-lg font-extrabold text-[#0F172A]">
-                      {item.people}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                  </motion.button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* ================= FOOTNOTE ================= */}
+        {/* ================= CTA ================= */}
 
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 text-center"
+          transition={{ duration: 0.7 }}
+          className="mt-12 flex flex-col items-center justify-between gap-5 rounded-3xl border border-[#087B5A]/10 bg-white p-6 shadow-sm sm:flex-row sm:p-8"
         >
-          <p className="text-sm text-slate-500">
-            DAFA continues to expand humanitarian mine action support where
-            communities need it most.
-          </p>
+          <div>
+            <p className="text-lg font-extrabold text-[#0F172A] sm:text-xl">
+              Explore DAFA's work across Afghanistan
+            </p>
+
+            <p className="mt-1 text-sm leading-6 text-slate-500">
+              Discover projects, locations, achievements, and humanitarian
+              impact in more detail.
+            </p>
+          </div>
+
+          <Link
+            to="/projects"
+            className="group inline-flex shrink-0 items-center gap-3 rounded-xl bg-[#F97316] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#F97316]/20 transition-all duration-300 hover:-translate-y-1 hover:bg-[#EA580C] hover:shadow-xl"
+          >
+            Explore All Projects
+            <FaArrowRight
+              size={12}
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </Link>
         </motion.div>
       </div>
     </section>
