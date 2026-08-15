@@ -1,4 +1,27 @@
-// NavbarData.js
+// =====================================================
+// NAVBAR DATA
+// =====================================================
+
+export const navbarData = {
+  brand: {
+    name: "DAFA",
+    description: "Demining Agency for Afghanistan",
+  },
+
+  home: {
+    title: "Home",
+    path: "/",
+  },
+
+  contact: {
+    title: "Contact Us",
+    path: "/contact",
+  },
+};
+
+// =====================================================
+// MAIN NAVIGATION
+// =====================================================
 
 export const navItems = [
   {
@@ -88,20 +111,3 @@ export const navItems = [
     ],
   },
 ];
-
-export const navbarData = {
-  brand: {
-    name: "DAFA",
-    description: "Demining Agency for Afghanistan",
-  },
-
-  home: {
-    title: "Home",
-    path: "/",
-  },
-
-  contact: {
-    title: "Contact Us",
-    path: "/contact",
-  },
-};

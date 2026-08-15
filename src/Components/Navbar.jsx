@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
 import Logo from "../assets/DAFA-New-Logo.jpg";
-
 import { navItems, navbarData } from "./NavbarData";
 
 export default function Navbar() {
@@ -66,27 +65,40 @@ export default function Navbar() {
           <NavLink
             to="/"
             onClick={closeMobileMenu}
+            aria-label="DAFA Home"
             className="
+              group
               flex
               shrink-0
               items-center
               gap-3
             "
           >
-            <img
-              src={Logo}
-              alt="DAFA Logo"
+            <div
               className="
-                h-11
-                w-11
+                flex
+                h-12
+                w-12
+                items-center
+                justify-center
+                overflow-hidden
                 rounded-full
                 bg-white
                 p-1
-                object-cover
-                sm:h-12
-                sm:w-12
+                shadow-sm
+                transition-transform
+                duration-300
+                group-hover:scale-105
+                sm:h-[52px]
+                sm:w-[52px]
               "
-            />
+            >
+              <img
+                src={Logo}
+                alt="DAFA Logo"
+                className="h-full w-full rounded-full object-cover"
+              />
+            </div>
 
             <div className="min-w-0">
               <h1
@@ -124,7 +136,7 @@ export default function Navbar() {
               DESKTOP NAVIGATION
           ================================================== */}
 
-          <nav className="hidden lg:block">
+          <nav className="hidden lg:block" aria-label="Main navigation">
             <ul
               className="
                 flex
@@ -136,14 +148,19 @@ export default function Navbar() {
                 xl:text-sm
               "
             >
-              {/* HOME */}
+              {/* =================================================
+                  HOME
+              ================================================== */}
 
               <li>
                 <NavLink
                   to={navbarData.home.path}
                   className={({ isActive }) =>
                     `
+                    group
                     relative
+                    flex
+                    items-center
                     whitespace-nowrap
                     py-2
                     text-white
@@ -154,10 +171,29 @@ export default function Navbar() {
                   }
                 >
                   {navbarData.home.title}
+
+                  <span
+                    className="
+                      absolute
+                      -bottom-0.5
+                      left-0
+                      h-[2px]
+                      w-full
+                      origin-left
+                      scale-x-0
+                      rounded-full
+                      bg-[#F97316]
+                      transition-transform
+                      duration-300
+                      group-hover:scale-x-100
+                    "
+                  />
                 </NavLink>
               </li>
 
-              {/* NAV ITEMS */}
+              {/* =================================================
+                  NAV ITEMS
+              ================================================== */}
 
               {navItems.map((item) => (
                 <li key={item.title} className="group relative">
@@ -167,6 +203,7 @@ export default function Navbar() {
 
                       <button
                         type="button"
+                        aria-haspopup="true"
                         className="
                           flex
                           items-center
@@ -203,9 +240,12 @@ export default function Navbar() {
                           w-64
                           -translate-x-1/2
                           translate-y-2
+                          overflow-hidden
                           rounded-xl
                           border
                           border-slate-100
+                          border-t-2
+                          border-t-[#F97316]
                           bg-white
                           p-2
                           opacity-0
@@ -224,14 +264,17 @@ export default function Navbar() {
                             to={subItem.path}
                             className={({ isActive }) =>
                               `
-                              block
+                              group/item
+                              flex
+                              items-center
+                              justify-between
                               rounded-lg
                               px-4
                               py-2.5
                               text-[13px]
                               font-medium
                               leading-5
-                              transition-colors
+                              transition-all
                               duration-200
                               ${
                                 isActive
@@ -241,7 +284,20 @@ export default function Navbar() {
                               `
                             }
                           >
-                            {subItem.title}
+                            <span>{subItem.title}</span>
+
+                            <span
+                              className="
+                                h-1
+                                w-1
+                                rounded-full
+                                bg-[#F97316]
+                                opacity-0
+                                transition-opacity
+                                duration-200
+                                group-hover/item:opacity-100
+                              "
+                            />
                           </NavLink>
                         ))}
                       </div>
@@ -251,6 +307,10 @@ export default function Navbar() {
                       to={item.path}
                       className={({ isActive }) =>
                         `
+                        group
+                        relative
+                        flex
+                        items-center
                         whitespace-nowrap
                         py-2
                         text-white
@@ -261,6 +321,23 @@ export default function Navbar() {
                       }
                     >
                       {item.title}
+
+                      <span
+                        className="
+                          absolute
+                          -bottom-0.5
+                          left-0
+                          h-[2px]
+                          w-full
+                          origin-left
+                          scale-x-0
+                          rounded-full
+                          bg-[#F97316]
+                          transition-transform
+                          duration-300
+                          group-hover:scale-x-100
+                        "
+                      />
                     </NavLink>
                   )}
                 </li>
@@ -277,6 +354,8 @@ export default function Navbar() {
             className="
               hidden
               shrink-0
+              items-center
+              justify-center
               rounded-lg
               bg-[#F97316]
               px-5
@@ -287,11 +366,16 @@ export default function Navbar() {
               text-white
               shadow-sm
               transition-all
-              duration-200
+              duration-300
               hover:-translate-y-0.5
               hover:bg-[#EA580C]
-              hover:shadow-md
-              lg:block
+              hover:shadow-lg
+              focus:outline-none
+              focus:ring-2
+              focus:ring-[#FDBA74]
+              focus:ring-offset-2
+              focus:ring-offset-[#087B5A]
+              lg:flex
             "
           >
             {navbarData.contact.title}
@@ -317,13 +401,18 @@ export default function Navbar() {
               rounded-lg
               text-xl
               text-white
-              transition
+              transition-all
+              duration-200
               hover:bg-white/10
+              active:scale-95
               active:bg-white/20
               lg:hidden
             "
-            aria-label={mobileMenu ? "Close menu" : "Open menu"}
+            aria-label={
+              mobileMenu ? "Close navigation menu" : "Open navigation menu"
+            }
             aria-expanded={mobileMenu}
+            aria-controls="mobile-navigation"
           >
             {mobileMenu ? <FaTimes /> : <FaBars />}
           </button>
@@ -335,17 +424,19 @@ export default function Navbar() {
       ====================================================== */}
 
       {mobileMenu && (
-        <div className="fixed inset-0 z-[90] lg:hidden">
+        <div id="mobile-navigation" className="fixed inset-0 z-[90] lg:hidden">
           {/* BACKDROP */}
 
           <button
             type="button"
-            aria-label="Close menu"
+            aria-label="Close navigation menu"
             onClick={closeMobileMenu}
             className="
               absolute
               inset-0
-              bg-black/40
+              cursor-default
+              bg-black/45
+              backdrop-blur-[2px]
             "
           />
 
@@ -359,13 +450,17 @@ export default function Navbar() {
               top-[72px]
               max-h-[calc(100vh-72px)]
               overflow-y-auto
+              border-t
+              border-white/10
               bg-[#087B5A]
               shadow-2xl
             "
           >
-            <nav className="px-5 pb-8 pt-2">
+            <nav className="px-5 pb-8 pt-2" aria-label="Mobile navigation">
               <ul className="flex flex-col">
-                {/* HOME */}
+                {/* =================================================
+                    HOME
+                ================================================== */}
 
                 <li className="border-b border-white/10">
                   <NavLink
@@ -373,6 +468,7 @@ export default function Navbar() {
                     onClick={closeMobileMenu}
                     className={({ isActive }) =>
                       `
+                      relative
                       block
                       py-4
                       text-[15px]
@@ -383,26 +479,35 @@ export default function Navbar() {
                     }
                   >
                     {navbarData.home.title}
+
+                    <span
+                      className="
+                        absolute
+                        bottom-0
+                        left-0
+                        h-[2px]
+                        w-8
+                        rounded-full
+                        bg-[#F97316]
+                      "
+                    />
                   </NavLink>
                 </li>
 
-                {/* NAV ITEMS */}
+                {/* =================================================
+                    NAV ITEMS
+                ================================================== */}
 
                 {navItems.map((item) => (
-                  <li
-                    key={item.title}
-                    className="
-                      border-b
-                      border-white/10
-                    "
-                  >
+                  <li key={item.title} className="border-b border-white/10">
                     {item.dropdown ? (
                       <>
-                        {/* DROPDOWN */}
+                        {/* MOBILE DROPDOWN */}
 
                         <button
                           type="button"
                           onClick={() => toggleDropdown(item.title)}
+                          aria-expanded={openDropdown === item.title}
                           className="
                             flex
                             w-full
@@ -423,7 +528,11 @@ export default function Navbar() {
                             className={`
                               transition-transform
                               duration-300
-                              ${openDropdown === item.title ? "rotate-180" : ""}
+                              ${
+                                openDropdown === item.title
+                                  ? "rotate-180 text-[#FDBA74]"
+                                  : ""
+                              }
                             `}
                           />
                         </button>
@@ -436,7 +545,11 @@ export default function Navbar() {
                               mb-3
                               overflow-hidden
                               rounded-lg
-                              bg-white/10
+                              border
+                              border-white/10
+                              border-l-2
+                              border-l-[#F97316]
+                              bg-black/10
                             "
                           >
                             {item.items.map((subItem) => (
@@ -446,20 +559,20 @@ export default function Navbar() {
                                 onClick={closeMobileMenu}
                                 className={({ isActive }) =>
                                   `
-                                    block
-                                    border-b
-                                    border-white/10
-                                    px-4
-                                    py-3
-                                    text-[13px]
-                                    leading-5
-                                    last:border-0
-                                    ${
-                                      isActive
-                                        ? "bg-white font-semibold text-[#087B5A]"
-                                        : "font-medium text-white hover:bg-white/10"
-                                    }
-                                    `
+                                  block
+                                  border-b
+                                  border-white/10
+                                  px-4
+                                  py-3
+                                  text-[13px]
+                                  leading-5
+                                  last:border-0
+                                  ${
+                                    isActive
+                                      ? "bg-white font-semibold text-[#087B5A]"
+                                      : "font-medium text-white hover:bg-white/10"
+                                  }
+                                  `
                                 }
                               >
                                 {subItem.title}
@@ -474,6 +587,7 @@ export default function Navbar() {
                         onClick={closeMobileMenu}
                         className={({ isActive }) =>
                           `
+                          relative
                           block
                           py-4
                           text-[15px]
@@ -488,12 +602,27 @@ export default function Navbar() {
                         }
                       >
                         {item.title}
+
+                        <span
+                          className={`
+                            absolute
+                            bottom-0
+                            left-0
+                            h-[2px]
+                            w-8
+                            rounded-full
+                            bg-[#F97316]
+                            ${item.path ? "" : "hidden"}
+                          `}
+                        />
                       </NavLink>
                     )}
                   </li>
                 ))}
 
-                {/* CONTACT */}
+                {/* =================================================
+                    CONTACT
+                ================================================== */}
 
                 <li className="pt-5">
                   <NavLink
@@ -511,9 +640,12 @@ export default function Navbar() {
                       font-bold
                       leading-5
                       text-white
+                      shadow-sm
                       transition-all
-                      duration-200
+                      duration-300
                       hover:bg-[#EA580C]
+                      hover:shadow-lg
+                      active:scale-[0.99]
                     "
                   >
                     {navbarData.contact.title}
