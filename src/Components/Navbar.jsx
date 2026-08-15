@@ -4,95 +4,24 @@ import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
 import Logo from "../assets/DAFA-New-Logo.jpg";
 
-// =====================================================
-// MAIN NAVIGATION
-// =====================================================
-
-const navItems = [
-  {
-    title: "About",
-    dropdown: true,
-    items: [
-      { title: "About DAFA", path: "/about" },
-      { title: "Director Short Bio", path: "/director-bio" },
-      { title: "Organization Chart", path: "/organization-chart" },
-      { title: "Members", path: "/members" },
-    ],
-  },
-
-  {
-    title: "What We Do",
-    dropdown: true,
-    items: [
-      {
-        title: "Manual Demining",
-        path: "/what-we-do/manual-demining",
-      },
-      {
-        title: "Mechanical Demining",
-        path: "/what-we-do/mechanical-demining",
-      },
-      {
-        title: "IED Response",
-        path: "/what-we-do/ied-response",
-      },
-      {
-        title: "Explosive Ordnance Disposal",
-        path: "/what-we-do/eod",
-      },
-      {
-        title: "Risk Education",
-        path: "/what-we-do/eore",
-      },
-      {
-        title: "Disaster Management",
-        path: "/what-we-do/disaster-management",
-      },
-      {
-        title: "Cash for Work",
-        path: "/what-we-do/cash-for-work",
-      },
-    ],
-  },
-
-  {
-    title: "Projects",
-    path: "/projects",
-  },
-
-  {
-    title: "Impact",
-    path: "/achievements",
-  },
-
-  {
-    title: "Resources",
-    dropdown: true,
-    items: [
-      {
-        title: "Reports",
-        path: "/resources/reports",
-      },
-      {
-        title: "Stories",
-        path: "/resources/stories",
-      },
-      {
-        title: "News & Updates",
-        path: "/resources/news-updates",
-      },
-    ],
-  },
-];
+import { navItems, navbarData } from "./NavbarData";
 
 export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
 
+  // =====================================================
+  // CLOSE MOBILE MENU
+  // =====================================================
+
   const closeMobileMenu = () => {
     setMobileMenu(false);
     setOpenDropdown(null);
   };
+
+  // =====================================================
+  // TOGGLE MOBILE DROPDOWN
+  // =====================================================
 
   const toggleDropdown = (title) => {
     setOpenDropdown((prev) => (prev === title ? null : title));
@@ -104,45 +33,114 @@ export default function Navbar() {
           NAVBAR
       ====================================================== */}
 
-      <header className="sticky top-0 z-[100] border-b border-white/10 bg-[#087B5A] shadow-md">
-        <div className="mx-auto flex h-[72px] w-full max-w-7xl items-center justify-between gap-5 px-5 sm:px-8 lg:px-10">
+      <header
+        className="
+          sticky
+          top-0
+          z-[100]
+          border-b
+          border-white/10
+          bg-[#087B5A]
+          shadow-md
+        "
+      >
+        <div
+          className="
+            mx-auto
+            flex
+            h-[72px]
+            w-full
+            max-w-7xl
+            items-center
+            justify-between
+            gap-5
+            px-5
+            sm:px-8
+            lg:px-10
+          "
+        >
           {/* =================================================
               LOGO
-          ================================================= */}
+          ================================================== */}
 
           <NavLink
             to="/"
             onClick={closeMobileMenu}
-            className="flex shrink-0 items-center gap-3"
+            className="
+              flex
+              shrink-0
+              items-center
+              gap-3
+            "
           >
             <img
               src={Logo}
               alt="DAFA Logo"
-              className="h-11 w-11 rounded-full bg-white p-1 object-cover sm:h-12 sm:w-12"
+              className="
+                h-11
+                w-11
+                rounded-full
+                bg-white
+                p-1
+                object-cover
+                sm:h-12
+                sm:w-12
+              "
             />
 
             <div className="min-w-0">
-              <h1 className="text-lg font-bold leading-none tracking-tight text-white sm:text-xl">
-                DAFA
+              <h1
+                className="
+                  text-lg
+                  font-bold
+                  leading-none
+                  tracking-tight
+                  text-white
+                  sm:text-xl
+                "
+              >
+                {navbarData.brand.name}
               </h1>
 
-              <p className="mt-1 max-w-[220px] truncate text-[9px] font-medium leading-none tracking-wide text-green-100 sm:text-[10px]">
-                Demining Agency for Afghanistan
+              <p
+                className="
+                  mt-1
+                  max-w-[220px]
+                  truncate
+                  text-[9px]
+                  font-medium
+                  leading-none
+                  tracking-wide
+                  text-green-100
+                  sm:text-[10px]
+                "
+              >
+                {navbarData.brand.description}
               </p>
             </div>
           </NavLink>
 
           {/* =================================================
               DESKTOP NAVIGATION
-          ================================================= */}
+          ================================================== */}
 
           <nav className="hidden lg:block">
-            <ul className="flex items-center gap-5 text-[13px] font-medium xl:gap-6 xl:text-sm">
+            <ul
+              className="
+                flex
+                items-center
+                gap-5
+                text-[13px]
+                font-medium
+                xl:gap-6
+                xl:text-sm
+              "
+            >
               {/* HOME */}
 
               <li>
                 <NavLink
-                  to="/"
+                  to={navbarData.home.path}
                   className={({ isActive }) =>
                     `
                     relative
@@ -155,7 +153,7 @@ export default function Navbar() {
                     `
                   }
                 >
-                  Home
+                  {navbarData.home.title}
                 </NavLink>
               </li>
 
@@ -193,7 +191,7 @@ export default function Navbar() {
                         />
                       </button>
 
-                      {/* DROPDOWN */}
+                      {/* DROPDOWN MENU */}
 
                       <div
                         className="
@@ -220,10 +218,10 @@ export default function Navbar() {
                           group-hover:opacity-100
                         "
                       >
-                        {item.items.map((sub) => (
+                        {item.items.map((subItem) => (
                           <NavLink
-                            key={sub.path}
-                            to={sub.path}
+                            key={subItem.path}
+                            to={subItem.path}
                             className={({ isActive }) =>
                               `
                               block
@@ -243,7 +241,7 @@ export default function Navbar() {
                               `
                             }
                           >
-                            {sub.title}
+                            {subItem.title}
                           </NavLink>
                         ))}
                       </div>
@@ -272,10 +270,10 @@ export default function Navbar() {
 
           {/* =================================================
               CONTACT CTA
-          ================================================= */}
+          ================================================== */}
 
           <NavLink
-            to="/contact"
+            to={navbarData.contact.path}
             className="
               hidden
               shrink-0
@@ -296,12 +294,12 @@ export default function Navbar() {
               lg:block
             "
           >
-            Contact Us
+            {navbarData.contact.title}
           </NavLink>
 
           {/* =================================================
-              MOBILE MENU BUTTON
-          ================================================= */}
+              MOBILE BUTTON
+          ================================================== */}
 
           <button
             type="button"
@@ -344,19 +342,34 @@ export default function Navbar() {
             type="button"
             aria-label="Close menu"
             onClick={closeMobileMenu}
-            className="absolute inset-0 bg-black/40"
+            className="
+              absolute
+              inset-0
+              bg-black/40
+            "
           />
 
           {/* MENU PANEL */}
 
-          <div className="absolute left-0 right-0 top-[72px] max-h-[calc(100vh-72px)] overflow-y-auto bg-[#087B5A] shadow-2xl">
+          <div
+            className="
+              absolute
+              left-0
+              right-0
+              top-[72px]
+              max-h-[calc(100vh-72px)]
+              overflow-y-auto
+              bg-[#087B5A]
+              shadow-2xl
+            "
+          >
             <nav className="px-5 pb-8 pt-2">
               <ul className="flex flex-col">
                 {/* HOME */}
 
                 <li className="border-b border-white/10">
                   <NavLink
-                    to="/"
+                    to={navbarData.home.path}
                     onClick={closeMobileMenu}
                     className={({ isActive }) =>
                       `
@@ -369,17 +382,23 @@ export default function Navbar() {
                       `
                     }
                   >
-                    Home
+                    {navbarData.home.title}
                   </NavLink>
                 </li>
 
                 {/* NAV ITEMS */}
 
                 {navItems.map((item) => (
-                  <li key={item.title} className="border-b border-white/10">
+                  <li
+                    key={item.title}
+                    className="
+                      border-b
+                      border-white/10
+                    "
+                  >
                     {item.dropdown ? (
                       <>
-                        {/* MOBILE DROPDOWN */}
+                        {/* DROPDOWN */}
 
                         <button
                           type="button"
@@ -412,31 +431,38 @@ export default function Navbar() {
                         {/* SUBMENU */}
 
                         {openDropdown === item.title && (
-                          <div className="mb-3 overflow-hidden rounded-lg bg-white/10">
-                            {item.items.map((sub) => (
+                          <div
+                            className="
+                              mb-3
+                              overflow-hidden
+                              rounded-lg
+                              bg-white/10
+                            "
+                          >
+                            {item.items.map((subItem) => (
                               <NavLink
-                                key={sub.path}
-                                to={sub.path}
+                                key={subItem.path}
+                                to={subItem.path}
                                 onClick={closeMobileMenu}
                                 className={({ isActive }) =>
                                   `
-                                  block
-                                  border-b
-                                  border-white/10
-                                  px-4
-                                  py-3
-                                  text-[13px]
-                                  leading-5
-                                  last:border-0
-                                  ${
-                                    isActive
-                                      ? "bg-white font-semibold text-[#087B5A]"
-                                      : "font-medium text-white hover:bg-white/10"
-                                  }
-                                  `
+                                    block
+                                    border-b
+                                    border-white/10
+                                    px-4
+                                    py-3
+                                    text-[13px]
+                                    leading-5
+                                    last:border-0
+                                    ${
+                                      isActive
+                                        ? "bg-white font-semibold text-[#087B5A]"
+                                        : "font-medium text-white hover:bg-white/10"
+                                    }
+                                    `
                                 }
                               >
-                                {sub.title}
+                                {subItem.title}
                               </NavLink>
                             ))}
                           </div>
@@ -471,7 +497,7 @@ export default function Navbar() {
 
                 <li className="pt-5">
                   <NavLink
-                    to="/contact"
+                    to={navbarData.contact.path}
                     onClick={closeMobileMenu}
                     className="
                       block
@@ -490,7 +516,7 @@ export default function Navbar() {
                       hover:bg-[#EA580C]
                     "
                   >
-                    Contact Us
+                    {navbarData.contact.title}
                   </NavLink>
                 </li>
               </ul>
