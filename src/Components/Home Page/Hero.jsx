@@ -1,33 +1,80 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaChevronDown } from "react-icons/fa";
 
-import img1 from "../../assets/img.png";
-import { heroData } from "../MainPageData/Herodata";
+import { heroData, heroImages } from "../Main Page Data/Herodata";
 
 export default function Hero() {
+  const [currentImage, setCurrentImage] = useState(0);
+
+  // =====================================================
+  // AUTO SLIDER
+  // CHANGE EVERY 5 SECONDS
+  // =====================================================
+
+  useEffect(() => {
+    if (heroImages.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentImage((previous) => {
+        return (previous + 1) % heroImages.length;
+      });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative min-h-[90vh] overflow-hidden bg-[#052E23] sm:min-h-[94vh]">
       {/* =====================================================
-          BACKGROUND IMAGE
+          BACKGROUND IMAGE SLIDER
       ====================================================== */}
 
-      <motion.img
-        src={img1}
-        alt="DAFA humanitarian mine action team working in Afghanistan"
-        initial={{ scale: 1.08 }}
-        animate={{ scale: 1 }}
-        transition={{
-          duration: 2,
-          ease: "easeOut",
-        }}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      <div className="absolute inset-0 overflow-hidden">
+        <AnimatePresence initial={false} mode="sync">
+          <motion.div
+            key={heroImages[currentImage].id}
+            initial={{
+              x: "100%",
+            }}
+            animate={{
+              x: 0,
+            }}
+            exit={{
+              x: "-100%",
+            }}
+            transition={{
+              duration: 1.2,
+              ease: [0.76, 0, 0.24, 1],
+            }}
+            className="absolute inset-0"
+          >
+            <motion.img
+              src={heroImages[currentImage].image}
+              alt={heroImages[currentImage].alt}
+              initial={{
+                scale: 1.08,
+              }}
+              animate={{
+                scale: 1,
+              }}
+              transition={{
+                duration: 5,
+                ease: "linear",
+              }}
+              className="
+                h-full
+                w-full
+                object-cover
+              "
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       {/* =====================================================
-          IMAGE LINEAR OVERLAY
-          Dark on LEFT → Transparent on RIGHT
+          DARK LEFT OVERLAY
       ====================================================== */}
 
       <div
@@ -42,22 +89,28 @@ export default function Hero() {
         "
       />
 
-      {/* Extra soft image gradient */}
+      {/* =====================================================
+          EXTRA GRADIENT
+      ====================================================== */}
 
       <div
         className="
           absolute
           inset-0
-          bg-[linear-gradient(90deg,
-          rgba(2,24,18,0.95)_0%,
-          rgba(3,31,24,0.78)_30%,
-          rgba(5,46,35,0.40)_55%,
-          rgba(5,46,35,0.10)_78%,
-          transparent_100%)]
+          bg-[linear-gradient(
+            90deg,
+            rgba(2,24,18,0.95)_0%,
+            rgba(3,31,24,0.78)_30%,
+            rgba(5,46,35,0.40)_55%,
+            rgba(5,46,35,0.10)_78%,
+            transparent_100%
+          )]
         "
       />
 
-      {/* Bottom image fade */}
+      {/* =====================================================
+          BOTTOM FADE
+      ====================================================== */}
 
       <div
         className="
@@ -71,7 +124,7 @@ export default function Hero() {
       />
 
       {/* =====================================================
-          DECORATIVE ELEMENTS
+          DECORATIVE CIRCLES
       ====================================================== */}
 
       <div
@@ -102,6 +155,10 @@ export default function Hero() {
         "
       />
 
+      {/* =====================================================
+          GREEN GLOW
+      ====================================================== */}
+
       <div
         className="
           pointer-events-none
@@ -115,6 +172,10 @@ export default function Hero() {
           blur-3xl
         "
       />
+
+      {/* =====================================================
+          ORANGE GLOW
+      ====================================================== */}
 
       <div
         className="
@@ -131,7 +192,7 @@ export default function Hero() {
       />
 
       {/* =====================================================
-          LEFT ACCENT
+          LEFT ORANGE LINE
       ====================================================== */}
 
       <div
@@ -170,7 +231,7 @@ export default function Hero() {
       />
 
       {/* =====================================================
-          CONTENT
+          MAIN CONTENT
       ====================================================== */}
 
       <div
@@ -190,8 +251,14 @@ export default function Hero() {
         "
       >
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{
+            opacity: 0,
+            x: -40,
+          }}
+          animate={{
+            opacity: 1,
+            x: 0,
+          }}
           transition={{
             duration: 0.9,
             ease: [0.22, 1, 0.36, 1],
@@ -203,8 +270,14 @@ export default function Hero() {
           ================================================== */}
 
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0,
+              y: -10,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
             transition={{
               duration: 0.6,
               delay: 0.15,
@@ -228,12 +301,18 @@ export default function Hero() {
           </motion.div>
 
           {/* =================================================
-              SINCE 1990
+              SINCE
           ================================================== */}
 
           <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0,
+              y: 15,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
             transition={{
               duration: 0.7,
               delay: 0.25,
@@ -252,12 +331,18 @@ export default function Hero() {
           </motion.p>
 
           {/* =================================================
-              MAIN HEADING
+              HEADING
           ================================================== */}
 
           <motion.h1
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0,
+              y: 25,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
             transition={{
               duration: 0.8,
               delay: 0.35,
@@ -270,7 +355,7 @@ export default function Hero() {
               tracking-[-0.05em]
             "
           >
-            {/* 36 YEARS */}
+            {/* YEARS */}
 
             <span
               className="
@@ -339,8 +424,14 @@ export default function Hero() {
           ================================================== */}
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
             transition={{
               duration: 0.7,
               delay: 0.5,
@@ -361,12 +452,18 @@ export default function Hero() {
           </motion.p>
 
           {/* =================================================
-              CTA BUTTONS
+              BUTTONS
           ================================================== */}
 
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0,
+              y: 15,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
             transition={{
               duration: 0.7,
               delay: 0.65,
@@ -395,11 +492,6 @@ export default function Hero() {
                 hover:-translate-y-1
                 hover:bg-[#EA580C]
                 hover:shadow-2xl
-                focus:outline-none
-                focus:ring-2
-                focus:ring-[#FDBA74]
-                focus:ring-offset-2
-                focus:ring-offset-[#052E23]
               "
             >
               {heroData.buttons.primary}
@@ -434,7 +526,6 @@ export default function Hero() {
                 transition-all
                 duration-300
                 hover:-translate-y-1
-                hover:border-white/30
                 hover:bg-white/15
               "
             >
@@ -445,12 +536,58 @@ export default function Hero() {
       </div>
 
       {/* =====================================================
+          SLIDER INDICATORS
+      ====================================================== */}
+
+      {heroImages.length > 1 && (
+        <div
+          className="
+            absolute
+            bottom-16
+            right-5
+            z-20
+            flex
+            items-center
+            gap-2
+            sm:right-8
+            lg:right-10
+          "
+        >
+          {heroImages.map((image, index) => (
+            <button
+              key={image.id}
+              type="button"
+              onClick={() => setCurrentImage(index)}
+              aria-label={`Show hero image ${index + 1}`}
+              className={`
+                h-1.5
+                rounded-full
+                transition-all
+                duration-300
+                ${
+                  currentImage === index
+                    ? "w-8 bg-[#F97316]"
+                    : "w-2 bg-white/40 hover:bg-white/70"
+                }
+              `}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* =====================================================
           BOTTOM INFORMATION BAR
       ====================================================== */}
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{
+          opacity: 0,
+          y: 20,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
         transition={{
           duration: 0.7,
           delay: 1,
@@ -502,7 +639,9 @@ export default function Hero() {
           </p>
 
           <motion.div
-            animate={{ y: [0, 5, 0] }}
+            animate={{
+              y: [0, 5, 0],
+            }}
             transition={{
               duration: 1.8,
               repeat: Infinity,

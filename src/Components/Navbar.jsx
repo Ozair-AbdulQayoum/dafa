@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
@@ -8,6 +8,8 @@ import { navItems, navbarData } from "./NavbarData";
 export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
+
+  const dropdownRef = useRef(null);
 
   // =====================================================
   // CLOSE MOBILE MENU
@@ -19,12 +21,50 @@ export default function Navbar() {
   };
 
   // =====================================================
-  // TOGGLE MOBILE DROPDOWN
+  // TOGGLE DROPDOWN
+  // Works for desktop + tablet
   // =====================================================
 
   const toggleDropdown = (title) => {
     setOpenDropdown((prev) => (prev === title ? null : title));
   };
+
+  // =====================================================
+  // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
+  // =====================================================
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenDropdown(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // =====================================================
+  // CLOSE DROPDOWN WITH ESCAPE
+  // =====================================================
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setOpenDropdown(null);
+        setMobileMenu(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
 
   return (
     <>
@@ -133,10 +173,14 @@ export default function Navbar() {
           </NavLink>
 
           {/* =================================================
-              DESKTOP NAVIGATION
+              DESKTOP / TABLET NAVIGATION
           ================================================== */}
 
-          <nav className="hidden lg:block" aria-label="Main navigation">
+          <nav
+            ref={dropdownRef}
+            className="hidden lg:block"
+            aria-label="Main navigation"
+          >
             <ul
               className="
                 flex
@@ -155,6 +199,7 @@ export default function Navbar() {
               <li>
                 <NavLink
                   to={navbarData.home.path}
+                  onClick={() => setOpenDropdown(null)}
                   className={({ isActive }) =>
                     `
                     group
@@ -204,6 +249,11 @@ export default function Navbar() {
                       <button
                         type="button"
                         aria-haspopup="true"
+                        aria-expanded={openDropdown === item.title}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          toggleDropdown(item.title);
+                        }}
                         className="
                           flex
                           items-center
@@ -220,27 +270,28 @@ export default function Navbar() {
 
                         <FaChevronDown
                           size={8}
-                          className="
+                          className={`
                             transition-transform
                             duration-300
-                            group-hover:rotate-180
-                          "
+                            ${
+                              openDropdown === item.title
+                                ? "rotate-180 text-[#FDBA74]"
+                                : ""
+                            }
+                          `}
                         />
                       </button>
 
                       {/* DROPDOWN MENU */}
 
                       <div
-                        className="
-                          invisible
+                        className={`
                           absolute
                           left-1/2
                           top-full
                           mt-3
                           w-64
                           -translate-x-1/2
-                          translate-y-2
-                          overflow-hidden
                           rounded-xl
                           border
                           border-slate-100
@@ -248,20 +299,22 @@ export default function Navbar() {
                           border-t-[#F97316]
                           bg-white
                           p-2
-                          opacity-0
                           shadow-2xl
                           transition-all
                           duration-200
                           ease-out
-                          group-hover:visible
-                          group-hover:translate-y-0
-                          group-hover:opacity-100
-                        "
+                          ${
+                            openDropdown === item.title
+                              ? "visible translate-y-0 opacity-100"
+                              : "invisible translate-y-2 opacity-0"
+                          }
+                        `}
                       >
                         {item.items.map((subItem) => (
                           <NavLink
                             key={subItem.path}
                             to={subItem.path}
+                            onClick={() => setOpenDropdown(null)}
                             className={({ isActive }) =>
                               `
                               group/item
@@ -305,6 +358,7 @@ export default function Navbar() {
                   ) : (
                     <NavLink
                       to={item.path}
+                      onClick={() => setOpenDropdown(null)}
                       className={({ isActive }) =>
                         `
                         group
@@ -351,6 +405,7 @@ export default function Navbar() {
 
           <NavLink
             to={navbarData.contact.path}
+            onClick={() => setOpenDropdown(null)}
             className="
               hidden
               shrink-0
@@ -458,9 +513,7 @@ export default function Navbar() {
           >
             <nav className="px-5 pb-8 pt-2" aria-label="Mobile navigation">
               <ul className="flex flex-col">
-                {/* =================================================
-                    HOME
-                ================================================== */}
+                {/* HOME */}
 
                 <li className="border-b border-white/10">
                   <NavLink
@@ -494,9 +547,7 @@ export default function Navbar() {
                   </NavLink>
                 </li>
 
-                {/* =================================================
-                    NAV ITEMS
-                ================================================== */}
+                {/* NAV ITEMS */}
 
                 {navItems.map((item) => (
                   <li key={item.title} className="border-b border-white/10">
@@ -604,7 +655,7 @@ export default function Navbar() {
                         {item.title}
 
                         <span
-                          className={`
+                          className="
                             absolute
                             bottom-0
                             left-0
@@ -612,17 +663,14 @@ export default function Navbar() {
                             w-8
                             rounded-full
                             bg-[#F97316]
-                            ${item.path ? "" : "hidden"}
-                          `}
+                          "
                         />
                       </NavLink>
                     )}
                   </li>
                 ))}
 
-                {/* =================================================
-                    CONTACT
-                ================================================== */}
+                {/* CONTACT */}
 
                 <li className="pt-5">
                   <NavLink
