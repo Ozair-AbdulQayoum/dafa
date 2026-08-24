@@ -3,7 +3,7 @@ import Hero from "./Hero";
 import About from "./About";
 import Programs from "./Programs";
 import Projects from "./Projects";
-import Impact from "./Impact";
+import WhereWeWork from "./WhereWeWork";
 import SuccessStories from "./SuccessStories";
 import PartnersDonors from "./PartnersDonors";
 import Reports from "./Reports";
@@ -17,7 +17,7 @@ export default function Mainpage() {
       <About />
       <Programs />
       <Projects />
-      <Impact />
+      <WhereWeWork />
       <SuccessStories />
       <PartnersDonors />
       <Reports />

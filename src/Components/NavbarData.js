@@ -1,3 +1,4 @@
+// =====================================================
 // NAVBAR DATA
 // =====================================================
 
@@ -23,6 +24,10 @@ export const navbarData = {
 // =====================================================
 
 export const navItems = [
+  // =====================================================
+  // ABOUT
+  // =====================================================
+
   {
     title: "About",
     dropdown: true,
@@ -46,50 +51,37 @@ export const navItems = [
     ],
   },
 
+  // =====================================================
+  // WHAT WE DO
+  // NORMAL LINK — NO DROPDOWN
+  // =====================================================
+
   {
     title: "What We Do",
-    dropdown: true,
-    items: [
-      {
-        title: "Manual Demining",
-        path: "/what-we-do/manual-demining",
-      },
-      {
-        title: "Mechanical Demining",
-        path: "/what-we-do/mechanical-demining",
-      },
-      {
-        title: "IED Response",
-        path: "/what-we-do/ied-response",
-      },
-      {
-        title: "Explosive Ordnance Disposal",
-        path: "/what-we-do/eod",
-      },
-      {
-        title: "Risk Education",
-        path: "/what-we-do/eore",
-      },
-      {
-        title: "Disaster Management",
-        path: "/what-we-do/disaster-management",
-      },
-      {
-        title: "Cash for Work",
-        path: "/what-we-do/cash-for-work",
-      },
-    ],
+    path: "/what-we-do",
   },
+
+  // =====================================================
+  // PROJECTS
+  // =====================================================
 
   {
     title: "Projects",
     path: "/projects",
   },
 
+  // =====================================================
+  // IMPACT
+  // =====================================================
+
   {
-    title: "Impact",
+    title: "Achievements",
     path: "/achievements",
   },
+
+  // =====================================================
+  // RESOURCES
+  // =====================================================
 
   {
     title: "Resources",

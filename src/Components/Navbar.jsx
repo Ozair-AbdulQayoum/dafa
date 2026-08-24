@@ -22,7 +22,6 @@ export default function Navbar() {
 
   // =====================================================
   // TOGGLE DROPDOWN
-  // Works for desktop + tablet
   // =====================================================
 
   const toggleDropdown = (title) => {
@@ -48,7 +47,7 @@ export default function Navbar() {
   }, []);
 
   // =====================================================
-  // CLOSE DROPDOWN WITH ESCAPE
+  // CLOSE WITH ESCAPE
   // =====================================================
 
   useEffect(() => {
@@ -114,6 +113,8 @@ export default function Navbar() {
               gap-3
             "
           >
+            {/* LOGO IMAGE */}
+
             <div
               className="
                 flex
@@ -139,6 +140,8 @@ export default function Navbar() {
                 className="h-full w-full rounded-full object-cover"
               />
             </div>
+
+            {/* BRAND */}
 
             <div className="min-w-0">
               <h1
@@ -237,11 +240,15 @@ export default function Navbar() {
               </li>
 
               {/* =================================================
-                  NAV ITEMS
+                  NAVIGATION ITEMS
               ================================================== */}
 
               {navItems.map((item) => (
                 <li key={item.title} className="group relative">
+                  {/* =================================================
+                      DROPDOWN ITEM
+                  ================================================== */}
+
                   {item.dropdown ? (
                     <>
                       {/* DROPDOWN BUTTON */}
@@ -356,6 +363,10 @@ export default function Navbar() {
                       </div>
                     </>
                   ) : (
+                    /* =================================================
+                       NORMAL NAVIGATION LINK
+                    ================================================== */
+
                     <NavLink
                       to={item.path}
                       onClick={() => setOpenDropdown(null)}
@@ -400,7 +411,7 @@ export default function Navbar() {
           </nav>
 
           {/* =================================================
-              CONTACT CTA
+              CONTACT BUTTON
           ================================================== */}
 
           <NavLink
@@ -437,7 +448,7 @@ export default function Navbar() {
           </NavLink>
 
           {/* =================================================
-              MOBILE BUTTON
+              MOBILE MENU BUTTON
           ================================================== */}
 
           <button
@@ -513,7 +524,9 @@ export default function Navbar() {
           >
             <nav className="px-5 pb-8 pt-2" aria-label="Mobile navigation">
               <ul className="flex flex-col">
-                {/* HOME */}
+                {/* =================================================
+                    HOME
+                ================================================== */}
 
                 <li className="border-b border-white/10">
                   <NavLink
@@ -547,14 +560,18 @@ export default function Navbar() {
                   </NavLink>
                 </li>
 
-                {/* NAV ITEMS */}
+                {/* =================================================
+                    MOBILE NAVIGATION ITEMS
+                ================================================== */}
 
                 {navItems.map((item) => (
                   <li key={item.title} className="border-b border-white/10">
+                    {/* =================================================
+                        MOBILE DROPDOWN
+                    ================================================== */}
+
                     {item.dropdown ? (
                       <>
-                        {/* MOBILE DROPDOWN */}
-
                         <button
                           type="button"
                           onClick={() => toggleDropdown(item.title)}
@@ -633,6 +650,10 @@ export default function Navbar() {
                         )}
                       </>
                     ) : (
+                      /* =================================================
+                         MOBILE NORMAL LINK
+                      ================================================== */
+
                       <NavLink
                         to={item.path}
                         onClick={closeMobileMenu}
@@ -670,7 +691,9 @@ export default function Navbar() {
                   </li>
                 ))}
 
-                {/* CONTACT */}
+                {/* =================================================
+                    CONTACT
+                ================================================== */}
 
                 <li className="pt-5">
                   <NavLink

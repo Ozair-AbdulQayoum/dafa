@@ -16,15 +16,6 @@ import OrganizationChart from "./Components/Organization Chart Page/Organization
 import Members from "./Components/Members Page/Members";
 import MemberProfile from "./Components/Members Page/MemberProfile";
 
-// ================= WHAT WE DO =================
-import ManualDemining from "./Components/What We Do page/Manual Demining/ManualDemining";
-import MechanicalDemining from "./Components/What We Do page/Mechanical Demining/MechanicalDemining";
-import IEDResponse from "./Components/What We Do page/IED Response/IEDResponse";
-import EODResponse from "./Components/What We Do page/Explosive Ordnance Disposal/EODResponse";
-import EORE from "./Components/What We Do page/Explosive Ordnance Risk Education/EORE";
-import DisasterManagement from "./Components/What We Do page/Disaster Management/DisasterManagement";
-import CashforWork from "./Components/What We Do page/Cash for Work/CashforWork";
-
 // ================= PROJECTS =================
 import Projects from "./Components/Projects Page/Projects";
 import ProjectDetails from "./Components/Projects Page/ProjectDetails";
@@ -73,37 +64,6 @@ export default function App() {
         <Route path="/members" element={<Members />} />
 
         <Route path="/members/:slug" element={<MemberProfile />} />
-
-        {/* ================= WHAT WE DO ================= */}
-
-        <Route
-          path="/what-we-do/manual-demining"
-          element={<ManualDemining />}
-        />
-
-        <Route
-          path="/what-we-do/mechanical-demining"
-          element={<MechanicalDemining />}
-        />
-
-        <Route path="/what-we-do/ied-response" element={<IEDResponse />} />
-
-        <Route path="/what-we-do/eod" element={<EODResponse />} />
-
-        {/* Explosive Ordnance Risk Education */}
-        <Route path="/what-we-do/risk-education" element={<EORE />} />
-
-        {/* Backward-compatible EORE URL */}
-        <Route path="/what-we-do/eore" element={<EORE />} />
-
-        {/* Disaster Management */}
-        <Route
-          path="/what-we-do/disaster-management"
-          element={<DisasterManagement />}
-        />
-
-        {/* Cash for Work */}
-        <Route path="/what-we-do/cash-for-work" element={<CashforWork />} />
 
         {/* ================= PROJECTS ================= */}
 
