@@ -1,232 +1,169 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { geoMercator, geoPath, geoCentroid } from "d3-geo";
 
 import {
   provinces,
-  getProvinceById,
-  normalizeProvinceName,
+  getProvinceFromGeoJSON,
 } from "../../Components/Main Page Data/CoverageData";
-
-/* =========================================================
-   Convert GeoJSON coordinates → SVG path
-========================================================= */
-
-function coordinatesToPath(coordinates, project) {
-  return coordinates
-    .map((ring) => {
-      return (
-        ring
-          .map(([lng, lat], index) => {
-            const [x, y] = project(lng, lat);
-
-            return `${index === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`;
-          })
-          .join(" ") + " Z"
-      );
-    })
-    .join(" ");
-}
-
-/* =========================================================
-   Get all coordinates
-========================================================= */
-
-function getAllCoordinates(features) {
-  const coordinates = [];
-
-  features.forEach((feature) => {
-    const geometry = feature.geometry;
-
-    if (!geometry) return;
-
-    if (geometry.type === "Polygon") {
-      geometry.coordinates.forEach((ring) => {
-        ring.forEach((point) => coordinates.push(point));
-      });
-    }
-
-    if (geometry.type === "MultiPolygon") {
-      geometry.coordinates.forEach((polygon) => {
-        polygon.forEach((ring) => {
-          ring.forEach((point) => coordinates.push(point));
-        });
-      });
-    }
-  });
-
-  return coordinates;
-}
-
-/* =========================================================
-   Get province name from GeoJSON
-========================================================= */
-
-function getGeoJSONProvinceName(feature) {
-  const properties = feature?.properties || {};
-
-  return (
-    properties.name ||
-    properties.NAME ||
-    properties.NAME_1 ||
-    properties.NAME_2 ||
-    properties.province ||
-    properties.PROVINCE ||
-    properties.shapeName ||
-    properties.ShapeName ||
-    properties.admin1Name ||
-    properties.PROV_NAME ||
-    ""
-  );
-}
-
-/* =========================================================
-   Match GeoJSON province with CoverageData
-========================================================= */
-
-function getProvinceData(feature) {
-  const geoName = getGeoJSONProvinceName(feature);
-  const normalized = normalizeProvinceName(geoName);
-
-  return (
-    getProvinceById(normalized) ||
-    provinces.find(
-      (province) => normalizeProvinceName(province.name) === normalized,
-    )
-  );
-}
-
-/* =========================================================
-   MAIN COMPONENT
-========================================================= */
 
 export default function WhereWeWork() {
   const [geoData, setGeoData] = useState(null);
+  const [error, setError] = useState(null);
   const [hoveredProvince, setHoveredProvince] = useState(null);
-  const [mapError, setMapError] = useState(false);
 
-  /* =======================================================
-     LOAD GEOJSON
-  ======================================================= */
+  // =====================================================
+  // LOAD GEOJSON
+  // =====================================================
 
   useEffect(() => {
     fetch("/maps/afghanistan-provinces.geojson")
-      .then((response) => {
+      .then(async (response) => {
         if (!response.ok) {
-          throw new Error(`GeoJSON failed: ${response.status}`);
+          throw new Error(`Could not load map: ${response.status}`);
         }
 
-        return response.json();
+        const text = await response.text();
+
+        try {
+          return JSON.parse(text);
+        } catch {
+          throw new Error("The GeoJSON file is not valid JSON.");
+        }
       })
       .then((data) => {
-        if (
-          data?.type !== "FeatureCollection" ||
-          !Array.isArray(data.features)
-        ) {
-          throw new Error("Invalid GeoJSON file");
-        }
-
         setGeoData(data);
       })
-      .catch((error) => {
-        console.error("GeoJSON error:", error);
-        setMapError(true);
+      .catch((err) => {
+        console.error("GeoJSON error:", err);
+        setError(err.message);
       });
   }, []);
 
-  /* =======================================================
-     CREATE MAP PROJECTION
-  ======================================================= */
+  // =====================================================
+  // GET FEATURES
+  // =====================================================
+
+  const features = useMemo(() => {
+    if (!geoData) return [];
+
+    if (
+      geoData.type === "FeatureCollection" &&
+      Array.isArray(geoData.features)
+    ) {
+      return geoData.features;
+    }
+
+    if (geoData.type === "Feature") {
+      return [geoData];
+    }
+
+    return [];
+  }, [geoData]);
+
+  // =====================================================
+  // MAP SETTINGS
+  // =====================================================
 
   const mapData = useMemo(() => {
-    if (!geoData?.features?.length) return null;
+    if (!features.length) return null;
 
-    const allCoordinates = getAllCoordinates(geoData.features);
+    const width = 1100;
+    const height = 650;
 
-    if (!allCoordinates.length) return null;
-
-    let minLng = Infinity;
-    let maxLng = -Infinity;
-    let minLat = Infinity;
-    let maxLat = -Infinity;
-
-    allCoordinates.forEach(([lng, lat]) => {
-      minLng = Math.min(minLng, lng);
-      maxLng = Math.max(maxLng, lng);
-      minLat = Math.min(minLat, lat);
-      maxLat = Math.max(maxLat, lat);
-    });
-
-    const width = 1000;
-    const height = 700;
-    const padding = 35;
-
-    const scaleX = (width - padding * 2) / (maxLng - minLng);
-
-    const scaleY = (height - padding * 2) / (maxLat - minLat);
-
-    const scale = Math.min(scaleX, scaleY);
-
-    const mapWidth = (maxLng - minLng) * scale;
-    const mapHeight = (maxLat - minLat) * scale;
-
-    const offsetX = (width - mapWidth) / 2;
-    const offsetY = (height - mapHeight) / 2;
-
-    const project = (lng, lat) => {
-      const x = offsetX + (lng - minLng) * scale;
-
-      const y = offsetY + (maxLat - lat) * scale;
-
-      return [x, y];
+    const collection = {
+      type: "FeatureCollection",
+      features,
     };
+
+    const projection = geoMercator();
+
+    projection.fitSize([width - 30, height - 30], collection);
+
+    const pathGenerator = geoPath(projection);
 
     return {
       width,
       height,
-      project,
+      projection,
+      pathGenerator,
     };
-  }, [geoData]);
+  }, [features]);
 
-  /* =======================================================
-     LOADING
-  ======================================================= */
+  // =====================================================
+  // GET GEOJSON PROVINCE NAME
+  // =====================================================
 
-  if (!geoData && !mapError) {
+  const getGeoJSONProvinceName = (feature) => {
+    const properties = feature?.properties || {};
+
+    const possibleNames = [
+      properties.name,
+      properties.NAME,
+      properties.Name,
+      properties.NAME_1,
+      properties.name_en,
+      properties.NAME_EN,
+      properties.province,
+      properties.PROVINCE,
+      properties.province_name,
+      properties.shapeName,
+      properties.shapeName_en,
+      properties.admin1Name,
+      properties.admin1,
+    ];
+
+    return possibleNames.find(
+      (value) => typeof value === "string" && value.trim().length > 0,
+    );
+  };
+
+  // =====================================================
+  // MATCH GEOJSON WITH OUR DATA
+  // =====================================================
+
+  const getProvinceData = (feature) => {
+    const geoName = getGeoJSONProvinceName(feature);
+
+    if (!geoName) return null;
+
+    return getProvinceFromGeoJSON(geoName);
+  };
+
+  // =====================================================
+  // LOADING
+  // =====================================================
+
+  if (!geoData && !error) {
     return (
       <section className="bg-[#F8FAFC] py-24">
-        <div className="mx-auto max-w-7xl px-5">
-          <div className="flex min-h-[600px] items-center justify-center rounded-[2rem] border border-slate-200 bg-white">
-            <div className="text-center">
-              <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-[#087B5A]" />
+        <div className="mx-auto max-w-7xl px-5 text-center">
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-[#087B5A]/20 border-t-[#087B5A]" />
 
-              <p className="text-sm font-semibold text-slate-500">
-                Loading Afghanistan map...
-              </p>
-            </div>
-          </div>
+          <p className="mt-4 text-sm font-semibold text-slate-500">
+            Loading Afghanistan map...
+          </p>
         </div>
       </section>
     );
   }
 
-  /* =======================================================
-     ERROR
-  ======================================================= */
+  // =====================================================
+  // ERROR
+  // =====================================================
 
-  if (mapError || !mapData) {
+  if (error) {
     return (
       <section className="bg-[#F8FAFC] py-24">
-        <div className="mx-auto max-w-7xl px-5">
-          <div className="rounded-[2rem] border border-red-200 bg-white p-10 text-center">
-            <h3 className="text-xl font-extrabold text-slate-900">
-              Afghanistan map could not be loaded
-            </h3>
-
-            <p className="mt-3 text-sm text-slate-500">
-              Make sure this file exists:
+        <div className="mx-auto max-w-3xl px-5 text-center">
+          <div className="rounded-2xl border border-red-200 bg-red-50 p-6">
+            <p className="font-bold text-red-700">
+              Afghanistan map could not be loaded.
             </p>
 
-            <code className="mt-3 inline-block rounded-lg bg-slate-100 px-4 py-2 text-sm text-slate-700">
+            <p className="mt-2 text-sm text-red-600">{error}</p>
+
+            <code className="mt-4 block text-xs font-bold text-slate-700">
               public/maps/afghanistan-provinces.geojson
             </code>
           </div>
@@ -235,13 +172,11 @@ export default function WhereWeWork() {
     );
   }
 
-  /* =======================================================
-     MAIN
-  ======================================================= */
-
   return (
-    <section className="relative overflow-hidden bg-[#F8FAFC] py-24 sm:py-28 lg:py-32">
-      {/* Background */}
+    <section className="relative overflow-hidden bg-[#F8FAFC] py-20 sm:py-24 lg:py-28">
+      {/* =====================================================
+          BACKGROUND
+      ===================================================== */}
 
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-60 -top-40 h-[500px] w-[500px] rounded-full bg-[#087B5A]/5 blur-3xl" />
@@ -250,15 +185,25 @@ export default function WhereWeWork() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* =================================================
+        {/* =====================================================
             HEADER
-        ================================================= */}
+        ===================================================== */}
 
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+          initial={{
+            opacity: 0,
+            y: 25,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.7,
+          }}
           className="mx-auto max-w-3xl text-center"
         >
           <div className="mb-5 flex items-center justify-center gap-3">
@@ -282,156 +227,156 @@ export default function WhereWeWork() {
           </p>
         </motion.div>
 
-        {/* =================================================
+        {/* =====================================================
             MAP
-        ================================================= */}
+        ===================================================== */}
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative mt-14 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl"
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.8,
+          }}
+          className="relative mt-12 overflow-visible"
         >
-          {/* Map Header */}
+          <div className="relative w-full overflow-visible rounded-[2rem] border border-slate-200 bg-white p-3 shadow-xl sm:p-6 lg:p-8">
+            <div className="relative w-full overflow-visible">
+              <svg
+                viewBox={`0 0 ${mapData.width} ${mapData.height}`}
+                className="h-auto w-full overflow-visible"
+                preserveAspectRatio="xMidYMid meet"
+              >
+                {/* =================================================
+                    ALL PROVINCES
+                ================================================= */}
 
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 px-5 py-5 sm:px-8">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#087B5A]">
-                DAFA Coverage Map
-              </p>
+                {features.map((feature, index) => {
+                  const province = getProvinceData(feature);
 
-              <h3 className="mt-1 text-xl font-extrabold text-[#0F172A] sm:text-2xl">
-                Afghanistan
-              </h3>
-            </div>
+                  /*
+                    IMPORTANT:
 
-            {/* Legend */}
+                    Even if a GeoJSON province name does not
+                    match our data, we STILL DRAW THE PROVINCE.
 
-            <div className="flex items-center gap-4 text-xs font-semibold text-slate-500">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-sm bg-[#087B5A]" />
+                    This fixes missing provinces.
+                  */
 
-                <span>DAFA Work</span>
-              </div>
+                  const provinceName =
+                    getGeoJSONProvinceName(feature) || `Province ${index + 1}`;
 
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-sm bg-white ring-1 ring-slate-300" />
+                  const provinceId =
+                    province?.id || `geo-${index}-${provinceName}`;
 
-                <span>No DAFA Work</span>
-              </div>
-            </div>
-          </div>
+                  const isDafaWork = province ? province.dafaWork : true;
 
-          {/* =================================================
-              MAP AREA
-          ================================================= */}
+                  const isHovered = hoveredProvince?.id === provinceId;
 
-          <div className="relative w-full bg-[#F8FAFC] px-3 py-5 sm:px-8 sm:py-8">
-            <svg
-              viewBox={`0 0 ${mapData.width} ${mapData.height}`}
-              className="mx-auto block h-auto w-full max-w-[1100px]"
-              role="img"
-              aria-label="DAFA geographical coverage across Afghanistan"
-            >
-              {geoData.features.map((feature, index) => {
-                const geometry = feature.geometry;
-
-                if (!geometry) return null;
-
-                const province = getProvinceData(feature);
-
-                const provinceName =
-                  province?.name ||
-                  getGeoJSONProvinceName(feature) ||
-                  "Province";
-
-                /*
-                 * Only these two provinces stay white.
-                 */
-
-                const normalizedName = normalizeProvinceName(provinceName);
-
-                const isWhiteProvince =
-                  normalizedName === "ghor" ||
-                  normalizedName === "daykundi" ||
-                  normalizedName === "daikundi";
-
-                const isHovered = hoveredProvince?.name === provinceName;
-
-                let path = "";
-
-                if (geometry.type === "Polygon") {
-                  path = coordinatesToPath(
-                    geometry.coordinates,
-                    mapData.project,
-                  );
-                }
-
-                if (geometry.type === "MultiPolygon") {
-                  path = geometry.coordinates
-                    .map((polygon) =>
-                      coordinatesToPath(polygon, mapData.project),
-                    )
-                    .join(" ");
-                }
-
-                return (
-                  <g key={`${provinceName}-${index}`}>
-                    {/* Province */}
-
+                  return (
                     <path
-                      d={path}
-                      fill={isWhiteProvince ? "#FFFFFF" : "#087B5A"}
+                      key={provinceId}
+                      d={mapData.pathGenerator(feature)}
+                      fill={isDafaWork ? "#087B5A" : "#FFFFFF"}
                       stroke="#FFFFFF"
-                      strokeWidth={1.5}
+                      strokeWidth={isHovered ? 2.5 : 1.2}
                       vectorEffect="non-scaling-stroke"
-                      className="cursor-default transition-all duration-200"
+                      className="cursor-pointer transition-all duration-200"
                       style={{
-                        filter: isHovered ? "brightness(0.85)" : "none",
+                        filter: isHovered
+                          ? "drop-shadow(0 3px 5px rgba(15,23,42,0.25))"
+                          : "none",
                       }}
                       onMouseEnter={() => {
                         setHoveredProvince({
+                          id: provinceId,
+                          feature,
+                          province,
                           name: provinceName,
-                          areasCleared: province?.areasCleared || "—",
                         });
                       }}
                       onMouseLeave={() => {
                         setHoveredProvince(null);
                       }}
                     />
+                  );
+                })}
 
-                    {/* =================================================
-                        HOVER BADGE
-                    ================================================= */}
+                {/* =================================================
+                    SMALL HOVER BADGE
+                ================================================= */}
 
-                    {isHovered && (
-                      <foreignObject
-                        x="360"
-                        y="45"
-                        width="280"
-                        height="100"
+                {hoveredProvince &&
+                  (() => {
+                    const feature = hoveredProvince.feature;
+
+                    const province = hoveredProvince.province;
+
+                    const [x, y] = mapData.projection(geoCentroid(feature));
+
+                    return (
+                      <g
                         pointerEvents="none"
+                        transform={`translate(${x}, ${y})`}
                       >
-                        <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-center shadow-xl">
-                          <p className="text-sm font-extrabold text-[#0F172A]">
-                            {provinceName}
-                          </p>
+                        <foreignObject
+                          x="-105"
+                          y="-82"
+                          width="210"
+                          height="75"
+                          overflow="visible"
+                        >
+                          <div className="flex justify-center">
+                            <div className="min-w-[150px] rounded-xl bg-[#0F172A] px-4 py-3 text-center shadow-2xl">
+                              <p className="text-xs font-extrabold text-white">
+                                {province?.name || hoveredProvince.name}
+                              </p>
 
-                          <p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                            Areas Cleared
-                          </p>
+                              <p className="mt-1 text-[11px] font-semibold text-white/75">
+                                {province?.dafaWork === false
+                                  ? "No DAFA coverage"
+                                  : `${province?.areasCleared || "—"} cleared`}
+                              </p>
+                            </div>
+                          </div>
+                        </foreignObject>
 
-                          <p className="mt-0.5 text-lg font-extrabold text-[#087B5A]">
-                            {province?.areasCleared || "—"}
-                          </p>
-                        </div>
-                      </foreignObject>
-                    )}
-                  </g>
-                );
-              })}
-            </svg>
+                        <path d="M -7 -14 L 0 -5 L 7 -14 Z" fill="#0F172A" />
+                      </g>
+                    );
+                  })()}
+              </svg>
+            </div>
+
+            {/* =====================================================
+                LEGEND
+            ===================================================== */}
+
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-5 border-t border-slate-100 pt-5">
+              <div className="flex items-center gap-2">
+                <span className="h-3 w-3 rounded-sm bg-[#087B5A]" />
+
+                <span className="text-xs font-semibold text-slate-600">
+                  DAFA Work
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="h-3 w-3 rounded-sm bg-white ring-1 ring-slate-300" />
+
+                <span className="text-xs font-semibold text-slate-600">
+                  No DAFA Coverage
+                </span>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>
