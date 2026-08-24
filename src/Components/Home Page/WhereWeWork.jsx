@@ -1,3 +1,5 @@
+// src/Components/Home-Page/WhereWeWork.jsx
+
 import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { geoMercator, geoPath, geoCentroid } from "d3-geo";
@@ -102,15 +104,30 @@ export default function WhereWeWork() {
       properties.NAME,
       properties.Name,
       properties.NAME_1,
+      properties.Name_1,
+      properties.name_1,
       properties.name_en,
       properties.NAME_EN,
+      properties.Name_EN,
       properties.province,
       properties.PROVINCE,
+      properties.Province,
       properties.province_name,
+      properties.PROVINCE_NAME,
       properties.shapeName,
+      properties.ShapeName,
       properties.shapeName_en,
+      properties.ShapeName_EN,
       properties.admin1Name,
       properties.admin1,
+      properties.region,
+      properties.Region,
+      properties.label,
+      properties.LABEL,
+      properties.nl_name,
+      properties.NL_NAME,
+      properties.varname_1,
+      properties.VARNAME_1,
     ];
 
     return possibleNames.find(
@@ -123,11 +140,137 @@ export default function WhereWeWork() {
   // =====================================================
 
   const getProvinceData = (feature) => {
-    const geoName = getGeoJSONProvinceName(feature);
+    const properties = feature?.properties || {};
 
-    if (!geoName) return null;
+    const possibleNames = [
+      properties.name,
+      properties.NAME,
+      properties.Name,
+      properties.NAME_1,
+      properties.Name_1,
+      properties.name_1,
+      properties.name_en,
+      properties.NAME_EN,
+      properties.Name_EN,
+      properties.province,
+      properties.PROVINCE,
+      properties.Province,
+      properties.province_name,
+      properties.PROVINCE_NAME,
+      properties.shapeName,
+      properties.ShapeName,
+      properties.shapeName_en,
+      properties.ShapeName_EN,
+      properties.admin1Name,
+      properties.admin1,
+      properties.region,
+      properties.Region,
+      properties.label,
+      properties.LABEL,
+      properties.nl_name,
+      properties.NL_NAME,
+      properties.varname_1,
+      properties.VARNAME_1,
+    ].filter((value) => typeof value === "string" && value.trim().length > 0);
 
-    return getProvinceFromGeoJSON(geoName);
+    // ---------------------------------------------------
+    // NORMAL MATCH
+    // ---------------------------------------------------
+
+    for (const name of possibleNames) {
+      const matched = getProvinceFromGeoJSON(name);
+
+      if (matched) {
+        return matched;
+      }
+    }
+
+    // ---------------------------------------------------
+    // SEARCH ALL GEOJSON PROPERTY VALUES
+    // ---------------------------------------------------
+
+    for (const value of Object.values(properties)) {
+      if (typeof value !== "string") continue;
+
+      const matched = getProvinceFromGeoJSON(value);
+
+      if (matched) {
+        return matched;
+      }
+    }
+
+    // ---------------------------------------------------
+    // EXTRA MATCHING
+    // ---------------------------------------------------
+
+    for (const value of Object.values(properties)) {
+      if (typeof value !== "string") continue;
+
+      const clean = value
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]/g, "");
+
+      // HERAT / HIRAT
+      if (
+        clean === "herat" ||
+        clean === "hirat" ||
+        clean.includes("herat") ||
+        clean.includes("hirat")
+      ) {
+        return provinces.find((province) => province.id === "herat");
+      }
+
+      // SAR-E-POL / SAR-E-PUL
+      if (
+        clean === "sarepol" ||
+        clean === "sarepul" ||
+        clean === "sarpol" ||
+        clean === "sarpul" ||
+        clean === "saripol" ||
+        clean === "saripul" ||
+        clean.includes("sarepol") ||
+        clean.includes("sarepul") ||
+        clean.includes("saripol") ||
+        clean.includes("saripul")
+      ) {
+        return provinces.find((province) => province.id === "sar-e-pol");
+      }
+
+      // WARDAK / MAIDAN WARDAK
+      if (
+        clean === "wardak" ||
+        clean === "maidanwardak" ||
+        clean.includes("wardak")
+      ) {
+        return provinces.find((province) => province.id === "wardak");
+      }
+
+      // DAYKUNDI / DAIKUNDI
+      if (
+        clean === "daykundi" ||
+        clean === "daikundi" ||
+        clean === "daykandi" ||
+        clean === "daikondi" ||
+        clean.includes("daykundi") ||
+        clean.includes("daikundi")
+      ) {
+        return provinces.find((province) => province.id === "daykundi");
+      }
+
+      // GHOR / GOUR
+      if (
+        clean === "ghor" ||
+        clean === "gour" ||
+        clean.includes("ghor") ||
+        clean.includes("gour")
+      ) {
+        return provinces.find((province) => province.id === "ghor");
+      }
+    }
+
+    return null;
   };
 
   // =====================================================
@@ -171,6 +314,10 @@ export default function WhereWeWork() {
       </section>
     );
   }
+
+  // =====================================================
+  // MAIN
+  // =====================================================
 
   return (
     <section className="relative overflow-hidden bg-[#F8FAFC] py-20 sm:py-24 lg:py-28">
@@ -262,17 +409,10 @@ export default function WhereWeWork() {
                 {features.map((feature, index) => {
                   const province = getProvinceData(feature);
 
-                  /*
-                    IMPORTANT:
-
-                    Even if a GeoJSON province name does not
-                    match our data, we STILL DRAW THE PROVINCE.
-
-                    This fixes missing provinces.
-                  */
-
                   const provinceName =
-                    getGeoJSONProvinceName(feature) || `Province ${index + 1}`;
+                    province?.name ||
+                    getGeoJSONProvinceName(feature) ||
+                    `Province ${index + 1}`;
 
                   const provinceId =
                     province?.id || `geo-${index}-${provinceName}`;
@@ -285,9 +425,14 @@ export default function WhereWeWork() {
                     <path
                       key={provinceId}
                       d={mapData.pathGenerator(feature)}
+                      /*
+                        EVERY PROVINCE:
+                        Same border thickness.
+                      */
+
                       fill={isDafaWork ? "#087B5A" : "#FFFFFF"}
-                      stroke="#FFFFFF"
-                      strokeWidth={isHovered ? 2.5 : 1.2}
+                      stroke={isHovered ? "#0F172A" : "#FFFFFF"}
+                      strokeWidth={isHovered ? 2.5 : 1.5}
                       vectorEffect="non-scaling-stroke"
                       className="cursor-pointer transition-all duration-200"
                       style={{
@@ -320,7 +465,15 @@ export default function WhereWeWork() {
 
                     const province = hoveredProvince.province;
 
-                    const [x, y] = mapData.projection(geoCentroid(feature));
+                    const centroid = geoCentroid(feature);
+
+                    const projected = mapData.projection(centroid);
+
+                    if (!projected) {
+                      return null;
+                    }
+
+                    const [x, y] = projected;
 
                     return (
                       <g

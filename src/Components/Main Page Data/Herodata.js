@@ -34,7 +34,7 @@ import heroImage1 from "../../assets/hero1.png";
 // Add these later when you receive the official images:
 //
 import heroImage2 from "../../assets/hero2.png";
-// import heroImage3 from "../../assets/hero-3.jpg";
+import heroImage3 from "../../assets/hero3.png";
 
 export const heroImages = [
   {
@@ -51,9 +51,9 @@ export const heroImages = [
     alt: "DAFA humanitarian mine action operations in Afghanistan",
   },
 
-  // {
-  //   id: 3,
-  //   image: heroImage3,
-  //   alt: "DAFA humanitarian work in Afghanistan",
-  // },
+  {
+    id: 3,
+    image: heroImage3,
+    alt: "DAFA humanitarian work in Afghanistan",
+  },
 ];
