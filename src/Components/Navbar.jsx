@@ -1,3 +1,5 @@
+// src/Components/Navbar.jsx
+
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
@@ -6,55 +8,87 @@ import Logo from "../assets/DAFA-New-Logo.jpg";
 import { navItems, navbarData } from "./NavbarData";
 
 export default function Navbar() {
-  const [mobileMenu, setMobileMenu] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null);
-
-  const dropdownRef = useRef(null);
-
   // =====================================================
-  // CLOSE MOBILE MENU
+  // STATE
   // =====================================================
 
-  const closeMobileMenu = () => {
-    setMobileMenu(false);
-    setOpenDropdown(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const [desktopDropdown, setDesktopDropdown] = useState(null);
+
+  const [mobileDropdown, setMobileDropdown] = useState(null);
+
+  const desktopNavRef = useRef(null);
+
+  // =====================================================
+  // CLOSE EVERYTHING
+  // =====================================================
+
+  const closeAllMenus = () => {
+    setMobileMenuOpen(false);
+    setDesktopDropdown(null);
+    setMobileDropdown(null);
   };
 
   // =====================================================
-  // TOGGLE DROPDOWN
+  // MOBILE MENU
   // =====================================================
 
-  const toggleDropdown = (title) => {
-    setOpenDropdown((prev) => (prev === title ? null : title));
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((previous) => !previous);
+
+    // Reset mobile dropdown when opening/closing
+    setMobileDropdown(null);
+
+    // Close desktop dropdown
+    setDesktopDropdown(null);
   };
 
   // =====================================================
-  // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
+  // MOBILE DROPDOWN
+  // =====================================================
+
+  const toggleMobileDropdown = (title) => {
+    setMobileDropdown((previous) => (previous === title ? null : title));
+  };
+
+  // =====================================================
+  // DESKTOP DROPDOWN
+  // =====================================================
+
+  const toggleDesktopDropdown = (title) => {
+    setDesktopDropdown((previous) => (previous === title ? null : title));
+  };
+
+  // =====================================================
+  // CLOSE DESKTOP DROPDOWN WHEN CLICKING OUTSIDE
   // =====================================================
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpenDropdown(null);
+    const handleOutsideClick = (event) => {
+      if (
+        desktopNavRef.current &&
+        !desktopNavRef.current.contains(event.target)
+      ) {
+        setDesktopDropdown(null);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleOutsideClick);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
 
   // =====================================================
-  // CLOSE WITH ESCAPE
+  // ESCAPE KEY
   // =====================================================
 
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape") {
-        setOpenDropdown(null);
-        setMobileMenu(false);
+        closeAllMenus();
       }
     };
 
@@ -64,6 +98,36 @@ export default function Navbar() {
       document.removeEventListener("keydown", handleEscape);
     };
   }, []);
+
+  // =====================================================
+  // PREVENT BODY SCROLL WHEN MOBILE MENU IS OPEN
+  // =====================================================
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  // =====================================================
+  // HANDLE MOBILE LINK
+  // =====================================================
+
+  const handleMobileLinkClick = () => {
+    setMobileMenuOpen(false);
+    setMobileDropdown(null);
+    setDesktopDropdown(null);
+  };
+
+  // =====================================================
+  // RENDER
+  // =====================================================
 
   return (
     <>
@@ -103,7 +167,7 @@ export default function Navbar() {
 
           <NavLink
             to="/"
-            onClick={closeMobileMenu}
+            onClick={closeAllMenus}
             aria-label="DAFA Home"
             className="
               group
@@ -113,7 +177,7 @@ export default function Navbar() {
               gap-3
             "
           >
-            {/* LOGO IMAGE */}
+            {/* LOGO */}
 
             <div
               className="
@@ -137,7 +201,12 @@ export default function Navbar() {
               <img
                 src={Logo}
                 alt="DAFA Logo"
-                className="h-full w-full rounded-full object-cover"
+                className="
+                  h-full
+                  w-full
+                  rounded-full
+                  object-cover
+                "
               />
             </div>
 
@@ -176,11 +245,11 @@ export default function Navbar() {
           </NavLink>
 
           {/* =================================================
-              DESKTOP / TABLET NAVIGATION
+              DESKTOP NAVIGATION
           ================================================== */}
 
           <nav
-            ref={dropdownRef}
+            ref={desktopNavRef}
             className="hidden lg:block"
             aria-label="Main navigation"
           >
@@ -195,26 +264,24 @@ export default function Navbar() {
                 xl:text-sm
               "
             >
-              {/* =================================================
-                  HOME
-              ================================================== */}
+              {/* HOME */}
 
               <li>
                 <NavLink
                   to={navbarData.home.path}
-                  onClick={() => setOpenDropdown(null)}
+                  onClick={() => setDesktopDropdown(null)}
                   className={({ isActive }) =>
                     `
-                    group
-                    relative
-                    flex
-                    items-center
-                    whitespace-nowrap
-                    py-2
-                    text-white
-                    transition-colors
-                    duration-200
-                    ${isActive ? "font-semibold" : "hover:text-green-100"}
+                      group
+                      relative
+                      flex
+                      items-center
+                      whitespace-nowrap
+                      py-2
+                      text-white
+                      transition-colors
+                      duration-200
+                      ${isActive ? "font-semibold" : "hover:text-green-100"}
                     `
                   }
                 >
@@ -239,16 +306,10 @@ export default function Navbar() {
                 </NavLink>
               </li>
 
-              {/* =================================================
-                  NAVIGATION ITEMS
-              ================================================== */}
+              {/* NAV ITEMS */}
 
               {navItems.map((item) => (
-                <li key={item.title} className="group relative">
-                  {/* =================================================
-                      DROPDOWN ITEM
-                  ================================================== */}
-
+                <li key={item.title} className="relative">
                   {item.dropdown ? (
                     <>
                       {/* DROPDOWN BUTTON */}
@@ -256,10 +317,11 @@ export default function Navbar() {
                       <button
                         type="button"
                         aria-haspopup="true"
-                        aria-expanded={openDropdown === item.title}
+                        aria-expanded={desktopDropdown === item.title}
                         onClick={(event) => {
                           event.stopPropagation();
-                          toggleDropdown(item.title);
+
+                          toggleDesktopDropdown(item.title);
                         }}
                         className="
                           flex
@@ -281,7 +343,7 @@ export default function Navbar() {
                             transition-transform
                             duration-300
                             ${
-                              openDropdown === item.title
+                              desktopDropdown === item.title
                                 ? "rotate-180 text-[#FDBA74]"
                                 : ""
                             }
@@ -289,7 +351,7 @@ export default function Navbar() {
                         />
                       </button>
 
-                      {/* DROPDOWN MENU */}
+                      {/* DESKTOP DROPDOWN */}
 
                       <div
                         className={`
@@ -309,9 +371,8 @@ export default function Navbar() {
                           shadow-2xl
                           transition-all
                           duration-200
-                          ease-out
                           ${
-                            openDropdown === item.title
+                            desktopDropdown === item.title
                               ? "visible translate-y-0 opacity-100"
                               : "invisible translate-y-2 opacity-0"
                           }
@@ -321,26 +382,24 @@ export default function Navbar() {
                           <NavLink
                             key={subItem.path}
                             to={subItem.path}
-                            onClick={() => setOpenDropdown(null)}
+                            onClick={() => setDesktopDropdown(null)}
                             className={({ isActive }) =>
                               `
-                              group/item
-                              flex
-                              items-center
-                              justify-between
-                              rounded-lg
-                              px-4
-                              py-2.5
-                              text-[13px]
-                              font-medium
-                              leading-5
-                              transition-all
-                              duration-200
-                              ${
-                                isActive
-                                  ? "bg-green-50 font-semibold text-[#087B5A]"
-                                  : "text-slate-700 hover:bg-green-50 hover:text-[#087B5A]"
-                              }
+                                flex
+                                items-center
+                                justify-between
+                                rounded-lg
+                                px-4
+                                py-3
+                                text-[13px]
+                                font-medium
+                                transition-all
+                                duration-200
+                                ${
+                                  isActive
+                                    ? "bg-green-50 font-semibold text-[#087B5A]"
+                                    : "text-slate-700 hover:bg-green-50 hover:text-[#087B5A]"
+                                }
                               `
                             }
                           >
@@ -352,10 +411,6 @@ export default function Navbar() {
                                 w-1
                                 rounded-full
                                 bg-[#F97316]
-                                opacity-0
-                                transition-opacity
-                                duration-200
-                                group-hover/item:opacity-100
                               "
                             />
                           </NavLink>
@@ -363,25 +418,21 @@ export default function Navbar() {
                       </div>
                     </>
                   ) : (
-                    /* =================================================
-                       NORMAL NAVIGATION LINK
-                    ================================================== */
-
                     <NavLink
                       to={item.path}
-                      onClick={() => setOpenDropdown(null)}
+                      onClick={() => setDesktopDropdown(null)}
                       className={({ isActive }) =>
                         `
-                        group
-                        relative
-                        flex
-                        items-center
-                        whitespace-nowrap
-                        py-2
-                        text-white
-                        transition-colors
-                        duration-200
-                        ${isActive ? "font-semibold" : "hover:text-green-100"}
+                          group
+                          relative
+                          flex
+                          items-center
+                          whitespace-nowrap
+                          py-2
+                          text-white
+                          transition-colors
+                          duration-200
+                          ${isActive ? "font-semibold" : "hover:text-green-100"}
                         `
                       }
                     >
@@ -411,12 +462,12 @@ export default function Navbar() {
           </nav>
 
           {/* =================================================
-              CONTACT BUTTON
+              DESKTOP CONTACT
           ================================================== */}
 
           <NavLink
             to={navbarData.contact.path}
-            onClick={() => setOpenDropdown(null)}
+            onClick={() => setDesktopDropdown(null)}
             className="
               hidden
               shrink-0
@@ -428,7 +479,6 @@ export default function Navbar() {
               py-2.5
               text-[13px]
               font-bold
-              leading-none
               text-white
               shadow-sm
               transition-all
@@ -436,11 +486,6 @@ export default function Navbar() {
               hover:-translate-y-0.5
               hover:bg-[#EA580C]
               hover:shadow-lg
-              focus:outline-none
-              focus:ring-2
-              focus:ring-[#FDBA74]
-              focus:ring-offset-2
-              focus:ring-offset-[#087B5A]
               lg:flex
             "
           >
@@ -448,15 +493,12 @@ export default function Navbar() {
           </NavLink>
 
           {/* =================================================
-              MOBILE MENU BUTTON
+              MOBILE BUTTON
           ================================================== */}
 
           <button
             type="button"
-            onClick={() => {
-              setMobileMenu((prev) => !prev);
-              setOpenDropdown(null);
-            }}
+            onClick={toggleMobileMenu}
             className="
               flex
               h-11
@@ -471,42 +513,59 @@ export default function Navbar() {
               duration-200
               hover:bg-white/10
               active:scale-95
-              active:bg-white/20
               lg:hidden
             "
             aria-label={
-              mobileMenu ? "Close navigation menu" : "Open navigation menu"
+              mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
             }
-            aria-expanded={mobileMenu}
+            aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"
           >
-            {mobileMenu ? <FaTimes /> : <FaBars />}
+            {mobileMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
       </header>
 
       {/* =====================================================
-          MOBILE MENU
+          MOBILE NAVIGATION
       ====================================================== */}
 
-      {mobileMenu && (
-        <div id="mobile-navigation" className="fixed inset-0 z-[90] lg:hidden">
-          {/* BACKDROP */}
+      {mobileMenuOpen && (
+        <div
+          id="mobile-navigation"
+          className="
+            fixed
+            inset-0
+            z-[90]
+            lg:hidden
+          "
+        >
+          {/* =================================================
+              BACKDROP
+
+              IMPORTANT:
+              z-0 keeps backdrop BEHIND the menu.
+          ================================================== */}
 
           <button
             type="button"
             aria-label="Close navigation menu"
-            onClick={closeMobileMenu}
+            onClick={closeAllMenus}
             className="
               absolute
               inset-0
-              cursor-default
+              z-0
               bg-black/45
               backdrop-blur-[2px]
             "
           />
 
-          {/* MENU PANEL */}
+          {/* =================================================
+              MOBILE PANEL
+
+              IMPORTANT:
+              z-10 guarantees links are clickable.
+          ================================================== */}
 
           <div
             className="
@@ -514,6 +573,7 @@ export default function Navbar() {
               left-0
               right-0
               top-[72px]
+              z-10
               max-h-[calc(100vh-72px)]
               overflow-y-auto
               border-t
@@ -522,7 +582,17 @@ export default function Navbar() {
               shadow-2xl
             "
           >
-            <nav className="px-5 pb-8 pt-2" aria-label="Mobile navigation">
+            <nav
+              className="
+                mx-auto
+                max-w-7xl
+                px-5
+                pb-8
+                pt-2
+                sm:px-8
+              "
+              aria-label="Mobile navigation"
+            >
               <ul className="flex flex-col">
                 {/* =================================================
                     HOME
@@ -530,22 +600,20 @@ export default function Navbar() {
 
                 <li className="border-b border-white/10">
                   <NavLink
-                    to={navbarData.home.path}
-                    onClick={closeMobileMenu}
+                    to="/"
+                    onClick={handleMobileLinkClick}
                     className={({ isActive }) =>
                       `
-                      relative
-                      block
-                      py-4
-                      text-[15px]
-                      leading-6
-                      text-white
-                      ${isActive ? "font-bold text-green-100" : "font-medium"}
+                        relative
+                        block
+                        py-4
+                        text-[15px]
+                        text-white
+                        ${isActive ? "font-bold text-green-100" : "font-medium"}
                       `
                     }
                   >
-                    {navbarData.home.title}
-
+                    Home
                     <span
                       className="
                         absolute
@@ -561,21 +629,32 @@ export default function Navbar() {
                 </li>
 
                 {/* =================================================
-                    MOBILE NAVIGATION ITEMS
+                    NAV ITEMS
                 ================================================== */}
 
                 {navItems.map((item) => (
-                  <li key={item.title} className="border-b border-white/10">
+                  <li
+                    key={item.title}
+                    className="
+                      border-b
+                      border-white/10
+                    "
+                  >
                     {/* =================================================
-                        MOBILE DROPDOWN
+                        DROPDOWN ITEM
                     ================================================== */}
 
                     {item.dropdown ? (
                       <>
                         <button
                           type="button"
-                          onClick={() => toggleDropdown(item.title)}
-                          aria-expanded={openDropdown === item.title}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+
+                            toggleMobileDropdown(item.title);
+                          }}
+                          aria-expanded={mobileDropdown === item.title}
                           className="
                             flex
                             w-full
@@ -585,7 +664,6 @@ export default function Navbar() {
                             text-left
                             text-[15px]
                             font-medium
-                            leading-6
                             text-white
                           "
                         >
@@ -597,7 +675,7 @@ export default function Navbar() {
                               transition-transform
                               duration-300
                               ${
-                                openDropdown === item.title
+                                mobileDropdown === item.title
                                   ? "rotate-180 text-[#FDBA74]"
                                   : ""
                               }
@@ -605,42 +683,54 @@ export default function Navbar() {
                           />
                         </button>
 
-                        {/* SUBMENU */}
+                        {/* =================================================
+                            MOBILE SUBMENU
+                        ================================================== */}
 
-                        {openDropdown === item.title && (
+                        {mobileDropdown === item.title && (
                           <div
                             className="
                               mb-3
                               overflow-hidden
-                              rounded-lg
+                              rounded-xl
                               border
                               border-white/10
                               border-l-2
                               border-l-[#F97316]
-                              bg-black/10
+                              bg-[#063F30]
                             "
                           >
                             {item.items.map((subItem) => (
                               <NavLink
                                 key={subItem.path}
                                 to={subItem.path}
-                                onClick={closeMobileMenu}
+                                onClick={(event) => {
+                                  /*
+                                      IMPORTANT:
+                                      Stop the click from
+                                      reaching anything behind
+                                      the submenu.
+                                    */
+
+                                  event.stopPropagation();
+
+                                  handleMobileLinkClick();
+                                }}
                                 className={({ isActive }) =>
                                   `
-                                  block
-                                  border-b
-                                  border-white/10
-                                  px-4
-                                  py-3
-                                  text-[13px]
-                                  leading-5
-                                  last:border-0
-                                  ${
-                                    isActive
-                                      ? "bg-white font-semibold text-[#087B5A]"
-                                      : "font-medium text-white hover:bg-white/10"
-                                  }
-                                  `
+                                      block
+                                      border-b
+                                      border-white/10
+                                      px-4
+                                      py-3.5
+                                      text-[14px]
+                                      last:border-0
+                                      ${
+                                        isActive
+                                          ? "bg-white font-bold text-[#087B5A]"
+                                          : "font-medium text-white hover:bg-white/10"
+                                      }
+                                    `
                                 }
                               >
                                 {subItem.title}
@@ -651,25 +741,24 @@ export default function Navbar() {
                       </>
                     ) : (
                       /* =================================================
-                         MOBILE NORMAL LINK
+                         NORMAL MOBILE LINK
                       ================================================== */
 
                       <NavLink
                         to={item.path}
-                        onClick={closeMobileMenu}
+                        onClick={handleMobileLinkClick}
                         className={({ isActive }) =>
                           `
-                          relative
-                          block
-                          py-4
-                          text-[15px]
-                          leading-6
-                          text-white
-                          ${
-                            isActive
-                              ? "font-bold text-green-100"
-                              : "font-medium"
-                          }
+                            relative
+                            block
+                            py-4
+                            text-[15px]
+                            text-white
+                            ${
+                              isActive
+                                ? "font-bold text-green-100"
+                                : "font-medium"
+                            }
                           `
                         }
                       >
@@ -698,7 +787,7 @@ export default function Navbar() {
                 <li className="pt-5">
                   <NavLink
                     to={navbarData.contact.path}
-                    onClick={closeMobileMenu}
+                    onClick={handleMobileLinkClick}
                     className="
                       block
                       w-full
@@ -709,14 +798,12 @@ export default function Navbar() {
                       text-center
                       text-[14px]
                       font-bold
-                      leading-5
                       text-white
                       shadow-sm
                       transition-all
                       duration-300
                       hover:bg-[#EA580C]
                       hover:shadow-lg
-                      active:scale-[0.99]
                     "
                   >
                     {navbarData.contact.title}
