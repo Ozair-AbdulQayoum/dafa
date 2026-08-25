@@ -1,36 +1,31 @@
-import React from "react";
-import { motion } from "framer-motion";
+// src/Components/Home-Page/SuccessStories.jsx
+
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaCheck, FaMapMarkerAlt } from "react-icons/fa";
 
-const stories = [
-  {
-    location: "Kandahar Province",
-    title: "A Safer Tomorrow for Rural Families",
-    description:
-      "After demining operations, communities can safely access their land and continue daily activities without fear.",
-    impact: "Families protected",
-    image: "",
-  },
-  {
-    location: "Nangarhar Province",
-    title: "Safe Paths for Children",
-    description:
-      "Risk education programs helped communities understand explosive hazards and protect future generations.",
-    impact: "Community awareness increased",
-    image: "",
-  },
-  {
-    location: "Helmand Province",
-    title: "Land Returned to Communities",
-    description:
-      "Cleared land provides new opportunities for agriculture, livelihoods, and local development.",
-    impact: "Land restored",
-    image: "",
-  },
-];
+import { recentStory } from "../../Components/Main Page Data/SuccessStoriesData";
 
 export default function SuccessStories() {
+  const [currentImage, setCurrentImage] = useState(0);
+
+  // ================= AUTO SLIDER =================
+
+  useEffect(() => {
+    if (!recentStory.images || recentStory.images.length <= 1) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => {
+        return (prev + 1) % recentStory.images.length;
+      });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative overflow-hidden bg-[#F8FAFC] py-24 sm:py-28">
       {/* ================= DECORATIVE BACKGROUND ================= */}
@@ -59,7 +54,7 @@ export default function SuccessStories() {
             once: true,
             margin: "-100px",
           }}
-          className="mx-auto mb-16 max-w-3xl text-center"
+          className="mx-auto mb-14 max-w-3xl text-center"
         >
           <div className="mb-5 flex items-center justify-center gap-3">
             <span className="h-px w-10 bg-[#087B5A]/40" />
@@ -82,112 +77,144 @@ export default function SuccessStories() {
           </p>
         </motion.div>
 
-        {/* ================= STORY CARDS ================= */}
+        {/* ================= RECENT STORY CARD ================= */}
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {stories.map((story, index) => (
-            <motion.article
-              key={story.title}
-              initial={{
-                opacity: 0,
-                y: 45,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.12,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              viewport={{
-                once: true,
-                margin: "-70px",
-              }}
-              whileHover={{
-                y: -8,
-              }}
-              className="group overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl"
-            >
-              {/* ================= IMAGE ================= */}
+        <motion.article
+          initial={{
+            opacity: 0,
+            y: 45,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 0.7,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          viewport={{
+            once: true,
+            margin: "-80px",
+          }}
+          whileHover={{
+            y: -6,
+          }}
+          className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl"
+        >
+          <div className="grid md:grid-cols-2">
+            {/* =================================================
+                LEFT SIDE — IMAGE SLIDER
+            ================================================= */}
 
-              <div className="relative h-60 overflow-hidden bg-gradient-to-br from-[#0B3D2E] to-[#087B5A]">
-                {story.image ? (
-                  <motion.img
-                    src={story.image}
-                    alt={story.title}
-                    className="h-full w-full object-cover"
-                    whileHover={{
-                      scale: 1.08,
-                    }}
-                    transition={{
-                      duration: 0.7,
-                    }}
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center">
-                    <div className="text-center text-white/70">
-                      <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-white/10">
-                        <FaMapMarkerAlt className="text-xl" />
-                      </div>
+            <div className="relative min-h-[320px] overflow-hidden bg-[#0B3D2E] md:min-h-[430px]">
+              {/* ================= SLIDER ================= */}
 
-                      <span className="text-sm font-medium">Story Image</span>
-                    </div>
-                  </div>
-                )}
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={currentImage}
+                  src={recentStory.images[currentImage]}
+                  alt={`${recentStory.title} - ${currentImage + 1}`}
+                  initial={{
+                    opacity: 0,
+                    scale: 1.08,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 1.03,
+                  }}
+                  transition={{
+                    duration: 1.2,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </AnimatePresence>
 
-                {/* Image Overlay */}
+              {/* ================= IMAGE OVERLAY ================= */}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#031F18]/70 via-transparent to-transparent" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#031F18]/75 via-transparent to-[#031F18]/10" />
 
-                {/* Location Badge */}
+              {/* ================= LOCATION ================= */}
 
-                <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold text-[#087B5A] shadow-lg">
-                  <FaMapMarkerAlt />
-                  {story.location}
-                </div>
+              <div className="absolute bottom-5 left-5 flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-xs font-bold text-[#087B5A] shadow-lg">
+                <FaMapMarkerAlt />
+
+                {recentStory.location}
               </div>
 
-              {/* ================= CONTENT ================= */}
+              {/* ================= SLIDER INDICATORS ================= */}
 
-              <div className="p-7">
-                <h3 className="text-xl font-bold leading-snug text-[#0F172A] transition-colors duration-300 group-hover:text-[#087B5A]">
-                  {story.title}
-                </h3>
-
-                <p className="mt-4 text-sm leading-7 text-slate-600">
-                  {story.description}
-                </p>
-
-                {/* Impact */}
-
-                <div className="mt-6 flex items-center gap-3 rounded-xl border border-[#087B5A]/10 bg-[#087B5A]/5 px-4 py-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#087B5A] text-xs text-white">
-                    <FaCheck />
-                  </span>
-
-                  <span className="text-sm font-bold text-[#087B5A]">
-                    {story.impact}
-                  </span>
-                </div>
-
-                {/* Read Story */}
-
-                <Link
-                  to="/stories"
-                  className="group/link mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#087B5A]"
-                >
-                  Read Story
-                  <FaArrowRight
-                    size={12}
-                    className="transition-transform duration-300 group-hover/link:translate-x-1"
+              <div className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-black/25 px-3 py-2 backdrop-blur-md">
+                {recentStory.images.map((_, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => setCurrentImage(index)}
+                    aria-label={`Show image ${index + 1}`}
+                    className={`h-2 rounded-full transition-all duration-500 ${
+                      currentImage === index
+                        ? "w-6 bg-white"
+                        : "w-2 bg-white/50 hover:bg-white/80"
+                    }`}
                   />
-                </Link>
+                ))}
               </div>
-            </motion.article>
-          ))}
-        </div>
+            </div>
+
+            {/* =================================================
+                RIGHT SIDE — STORY CONTENT
+            ================================================= */}
+
+            <div className="flex flex-col justify-center p-7 sm:p-9 lg:p-11">
+              {/* ================= LABEL ================= */}
+
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
+                Recent Story
+              </p>
+
+              {/* ================= TITLE ================= */}
+
+              <h3 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-[#0F172A] sm:text-3xl">
+                {recentStory.title}
+              </h3>
+
+              {/* ================= DESCRIPTION ================= */}
+
+              <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-base">
+                {recentStory.description}
+              </p>
+
+              {/* ================= IMPACT ================= */}
+
+              <div className="mt-7 flex items-center gap-3 rounded-xl border border-[#087B5A]/10 bg-[#087B5A]/5 px-4 py-3.5">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#087B5A] text-xs text-white">
+                  <FaCheck />
+                </span>
+
+                <span className="text-sm font-bold text-[#087B5A]">
+                  {recentStory.impact}
+                </span>
+              </div>
+
+              {/* ================= READ STORY ================= */}
+
+              <Link
+                to="/stories"
+                className="group/link mt-7 inline-flex w-fit items-center gap-2 text-sm font-bold text-[#087B5A]"
+              >
+                Read Full Story
+                <FaArrowRight
+                  size={12}
+                  className="transition-transform duration-300 group-hover/link:translate-x-1"
+                />
+              </Link>
+            </div>
+          </div>
+        </motion.article>
 
         {/* ================= CTA ================= */}
 
@@ -206,7 +233,7 @@ export default function SuccessStories() {
           viewport={{
             once: true,
           }}
-          className="mt-14 text-center"
+          className="mt-12 text-center"
         >
           <Link
             to="/stories"
@@ -214,10 +241,12 @@ export default function SuccessStories() {
           >
             <span>View All Stories</span>
 
-            <FaArrowRight
-              size={12}
-              className="transition-transform duration-300 group-hover:translate-x-1"
-            />
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition-colors group-hover:bg-white/20">
+              <FaArrowRight
+                size={11}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </span>
           </Link>
         </motion.div>
       </div>

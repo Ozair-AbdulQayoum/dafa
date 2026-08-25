@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+
 import {
   FaFacebookF,
   FaLinkedinIn,
@@ -7,100 +9,110 @@ import {
   FaMapMarkerAlt,
   FaEnvelope,
   FaPhone,
-  FaArrowRight,
   FaChevronRight,
 } from "react-icons/fa";
 
 import logo from "../assets/DAFA-New-Logo.jpg";
 
-const quickLinks = [
-  "About DAFA",
-  "Our Programs",
-  "Projects",
-  "Our Impact",
-  "Achievements",
-  "Resources",
-  "Contact",
-];
-
-const programs = [
-  "Manual Demining",
-  "Mechanical Demining",
-  "EOD",
-  "EORE",
-  "Technical Survey",
-  "Victim Assistance",
-];
-
-const resources = [
-  "Publications",
-  "Annual Reports",
-  "News & Updates",
-  "Media Gallery",
-  "Procurement",
-];
-
-const socialLinks = [
-  {
-    icon: FaFacebookF,
-    label: "Facebook",
-    href: "#",
-  },
-  {
-    icon: FaLinkedinIn,
-    label: "LinkedIn",
-    href: "#",
-  },
-  {
-    icon: FaYoutube,
-    label: "YouTube",
-    href: "#",
-  },
-];
+import {
+  quickLinks,
+  programs,
+  resources,
+  legalLinks,
+  socialLinks,
+  contactInfo,
+  footerContent,
+} from "./FooterData";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#061F18] text-white">
+    <footer className="relative overflow-hidden bg-[#061F18] text-white">
       {/* =====================================================
-          MAIN FOOTER
+          TOP ACCENT
       ====================================================== */}
 
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+      <div className="h-1 w-full bg-gradient-to-r from-[#087B5A] via-[#A7F3D0] to-[#F97316]" />
+
+      {/* =====================================================
+          BACKGROUND DECORATION
+      ====================================================== */}
+
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-40 top-20 h-80 w-80 rounded-full bg-[#087B5A]/10 blur-3xl" />
+
+        <div className="absolute -right-40 bottom-20 h-80 w-80 rounded-full bg-[#0284C7]/10 blur-3xl" />
+
+        <div className="absolute inset-0 opacity-[0.025]">
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage:
+                "linear-gradient(#A7F3D0 1px, transparent 1px), linear-gradient(90deg, #A7F3D0 1px, transparent 1px)",
+              backgroundSize: "60px 60px",
+            }}
+          />
+        </div>
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+        {/* =====================================================
+            MAIN FOOTER GRID
+        ====================================================== */}
+
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1fr]"
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            margin: "-80px",
+          }}
+          transition={{
+            duration: 0.7,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="grid gap-12 lg:grid-cols-[1.6fr_1fr_1fr_1fr]"
         >
           {/* =================================================
               ORGANIZATION
           ================================================== */}
 
           <div className="max-w-sm">
-            <div className="inline-flex rounded-xl bg-white p-2">
+            {/* Logo */}
+
+            <Link
+              to="/"
+              className="inline-flex rounded-2xl bg-white p-2.5 shadow-lg shadow-black/10"
+            >
               <img
                 src={logo}
                 alt="Demining Agency for Afghanistan Logo"
                 className="h-16 w-auto object-contain"
               />
-            </div>
+            </Link>
 
-            <h2 className="mt-6 text-2xl font-bold tracking-tight">
-              Demining Agency for Afghanistan
+            {/* Organization Name */}
+
+            <h2 className="mt-6 text-2xl font-bold leading-tight tracking-tight text-white">
+              {footerContent.organizationName}
             </h2>
 
+            {/* Description */}
+
             <p className="mt-4 text-sm leading-7 text-slate-300">
-              DAFA works to reduce the impact of explosive hazards and support
-              safer communities through humanitarian mine action across
-              Afghanistan.
+              {footerContent.description}
             </p>
 
-            {/* Social Links */}
+            {/* Social */}
 
             <div className="mt-7">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#A7F3D0]">
-                Follow DAFA
+                {footerContent.followLabel}
               </p>
 
               <div className="mt-4 flex gap-3">
@@ -112,9 +124,14 @@ export default function Footer() {
                       key={social.label}
                       href={social.href}
                       aria-label={social.label}
-                      className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-slate-300 transition-all duration-300 hover:-translate-y-1 hover:border-[#F97316] hover:bg-[#F97316] hover:text-white"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 transition-all duration-300 hover:-translate-y-1 hover:border-[#F97316] hover:bg-[#F97316] hover:text-white"
                     >
-                      <Icon size={15} />
+                      <Icon
+                        size={15}
+                        className="transition-transform duration-300 group-hover:scale-110"
+                      />
                     </a>
                   );
                 })}
@@ -129,7 +146,7 @@ export default function Footer() {
           <FooterColumn title="Quick Links" items={quickLinks} />
 
           {/* =================================================
-              OUR PROGRAMS
+              PROGRAMS
           ================================================== */}
 
           <FooterColumn title="Our Programs" items={programs} />
@@ -142,117 +159,80 @@ export default function Footer() {
         </motion.div>
 
         {/* =====================================================
-            CONTACT / PARTNERS PANEL
+            CONTACT SECTION
         ====================================================== */}
 
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.15 }}
-          className="mt-14 grid overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] md:grid-cols-2"
+          initial={{
+            opacity: 0,
+            y: 25,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            margin: "-60px",
+          }}
+          transition={{
+            duration: 0.7,
+            delay: 0.15,
+          }}
+          className="mt-16 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035]"
         >
-          {/* Contact */}
+          {/* Header */}
 
-          <div className="border-b border-white/10 p-7 md:border-b-0 md:border-r lg:p-8">
+          <div className="border-b border-white/10 px-6 py-5 sm:px-7">
             <div className="flex items-center gap-3">
               <div className="h-8 w-1 rounded-full bg-[#F97316]" />
 
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#A7F3D0]">
-                  Official Contact
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A7F3D0]">
+                  {footerContent.contactLabel}
                 </p>
 
                 <h3 className="mt-1 text-lg font-bold text-white">
-                  Get in Touch
+                  {footerContent.contactTitle}
                 </h3>
               </div>
-            </div>
-
-            <div className="mt-6 grid gap-4 sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-3">
-              <ContactItem
-                icon={FaMapMarkerAlt}
-                title="Head Office"
-                value="Kabul, Afghanistan"
-              />
-
-              <ContactItem
-                icon={FaEnvelope}
-                title="Email"
-                value="info@dafa.af"
-              />
-
-              <ContactItem
-                icon={FaPhone}
-                title="Phone"
-                value="+93 XXX XXX XXX"
-              />
             </div>
           </div>
 
-          {/* Partners / Donors */}
+          {/* Contact Items */}
 
-          <div className="p-7 lg:p-8">
-            <div className="flex items-center gap-3">
-              <div className="h-8 w-1 rounded-full bg-[#F97316]" />
-
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#A7F3D0]">
-                  Partnerships
-                </p>
-
-                <h3 className="mt-1 text-lg font-bold text-white">
-                  Partners & Donors
-                </h3>
-              </div>
-            </div>
-
-            <p className="mt-4 max-w-xl text-sm leading-7 text-slate-400">
-              DAFA works with partners, donors, government institutions and
-              humanitarian organizations to support mine-action activities
-              across Afghanistan.
-            </p>
-
-            <a
-              href="#partners"
-              className="group mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#A7F3D0] transition-colors hover:text-[#F97316]"
-            >
-              View Our Partners
-              <FaArrowRight
-                size={11}
-                className="transition-transform duration-300 group-hover:translate-x-1"
+          <div className="grid divide-y divide-white/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+            {contactInfo.map((contact) => (
+              <ContactItem
+                key={contact.title}
+                type={contact.type}
+                title={contact.title}
+                value={contact.value}
               />
-            </a>
+            ))}
           </div>
         </motion.div>
 
         {/* =====================================================
-            INSTITUTIONAL LINKS
+            LEGAL / INSTITUTIONAL LINKS
         ====================================================== */}
 
-        <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-7 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-5 border-t border-white/10 pt-7 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap gap-x-6 gap-y-3">
-            <a href="#privacy" className="transition-colors hover:text-white">
-              Privacy Policy
-            </a>
-
-            <a href="#terms" className="transition-colors hover:text-white">
-              Terms of Use
-            </a>
-
-            <a
-              href="#accessibility"
-              className="transition-colors hover:text-white"
-            >
-              Accessibility
-            </a>
-
-            <a href="#sitemap" className="transition-colors hover:text-white">
-              Sitemap
-            </a>
+            {legalLinks.map((item) => (
+              <Link
+                key={item.label}
+                to={item.path}
+                className="text-xs text-slate-400 transition-colors duration-200 hover:text-white"
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
-          <p>Official website of the Demining Agency for Afghanistan</p>
+          <p className="text-xs text-slate-500">
+            {footerContent.legalDescription}
+          </p>
         </div>
       </div>
 
@@ -261,14 +241,14 @@ export default function Footer() {
       ====================================================== */}
 
       <div className="border-t border-white/10 bg-[#041711]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-5 text-center sm:px-8 md:flex-row md:items-center md:justify-between md:text-left lg:px-10">
-          <p className="text-xs leading-6 text-slate-400 sm:text-sm">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-5 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-10">
+          <p className="text-center text-xs leading-6 text-slate-400 sm:text-sm md:text-left">
             © {new Date().getFullYear()} Demining Agency for Afghanistan (DAFA).
             All Rights Reserved.
           </p>
 
-          <p className="text-xs text-slate-500">
-            Humanitarian Mine Action • Safety • Protection
+          <p className="text-center text-xs text-slate-500 md:text-right">
+            {footerContent.bottomTagline}
           </p>
         </div>
       </div>
@@ -287,22 +267,24 @@ function FooterColumn({ title, items }) {
         {title}
       </h3>
 
+      <div className="mt-4 h-0.5 w-8 rounded-full bg-[#087B5A]" />
+
       <ul className="mt-5 space-y-3">
         {items.map((item) => (
-          <li key={item}>
-            <a
-              href="#"
+          <li key={item.label}>
+            <Link
+              to={item.path}
               className="group inline-flex items-center gap-2 text-sm text-slate-400 transition-colors duration-200 hover:text-white"
             >
               <FaChevronRight
-                size={8}
-                className="text-[#F97316] opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100"
+                size={7}
+                className="shrink-0 text-[#F97316] opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100"
               />
 
               <span className="transition-transform duration-200 group-hover:translate-x-1">
-                {item}
+                {item.label}
               </span>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
@@ -314,19 +296,29 @@ function FooterColumn({ title, items }) {
    CONTACT ITEM
 ========================================================= */
 
-function ContactItem({ icon: Icon, title, value }) {
+function ContactItem({ type, title, value }) {
+  const icons = {
+    location: FaMapMarkerAlt,
+    email: FaEnvelope,
+    phone: FaPhone,
+  };
+
+  const Icon = icons[type];
+
   return (
-    <div className="flex items-start gap-3">
-      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#087B5A]/30 text-[#A7F3D0]">
-        <Icon size={14} />
+    <div className="flex items-center gap-4 p-6 sm:p-7">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#087B5A]/30 bg-[#087B5A]/15 text-[#A7F3D0]">
+        <Icon size={15} />
       </div>
 
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+      <div className="min-w-0">
+        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
           {title}
         </p>
 
-        <p className="mt-1 text-sm text-slate-300">{value}</p>
+        <p className="mt-1 truncate text-sm font-medium text-slate-300">
+          {value}
+        </p>
       </div>
     </div>
   );
