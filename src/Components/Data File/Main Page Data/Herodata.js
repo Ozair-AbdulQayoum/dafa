@@ -29,12 +29,12 @@ export const heroData = {
 // HERO SLIDER IMAGES
 // =====================================================
 
-import heroImage1 from "../../assets/hero1.png";
+import heroImage1 from "../../../assets/hero1.png";
 
 // Add these later when you receive the official images:
 //
-import heroImage2 from "../../assets/hero2.png";
-import heroImage3 from "../../assets/hero3.png";
+import heroImage2 from "../../../assets/hero2.png";
+import heroImage3 from "../../../assets/hero3.png";
 
 export const heroImages = [
   {

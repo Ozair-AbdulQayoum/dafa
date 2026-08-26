@@ -7,7 +7,7 @@ import { geoMercator, geoPath, geoCentroid } from "d3-geo";
 import {
   provinces,
   getProvinceFromGeoJSON,
-} from "../../Components/Main Page Data/CoverageData";
+} from "../../Components/Data File/Main Page Data/CoverageData";
 
 export default function WhereWeWork() {
   const [geoData, setGeoData] = useState(null);

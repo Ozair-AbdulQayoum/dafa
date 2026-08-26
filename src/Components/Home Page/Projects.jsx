@@ -8,7 +8,7 @@ import {
   FaProjectDiagram,
 } from "react-icons/fa";
 
-import { homeProjects } from "../../Components/Main Page Data/ProjectsData";
+import { homeProjects } from "../../Components/Data File/Main Page Data/ProjectsData";
 
 export default function Projects() {
   return (

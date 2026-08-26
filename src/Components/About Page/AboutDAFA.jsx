@@ -1,24 +1,18 @@
 import React from "react";
 import PageTitle from "../../Components/PageTitle";
 import Hero from "./Hero";
-import WhoWeAre from "./WhoWeAre";
 import MissionVisionValues from "./MissionVisionValues";
-import History from "./History";
-import HowWeWork from "./HowWeWork";
-import Commitment from "./Commitment";
-import Organization from "./Organization";
+import DirectorMessage from "./DirectorMessage";
+import About from "./About";
 export default function AboutPage() {
   return (
     <div>
       <PageTitle title="About" />
 
       <Hero />
-      <WhoWeAre />
+      <About />
       <MissionVisionValues />
-      <History />
-      <HowWeWork />
-      <Commitment />
-      <Organization />
+      <DirectorMessage />
     </div>
   );
 }

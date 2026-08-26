@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-import { partnerGroups } from "../../Components/Main Page Data/PartnersDonorsData";
+import { partnerGroups } from "../../Components/Data File/Main Page Data/PartnersDonorsData";
 
 export default function PartnersDonors() {
   return (

@@ -1,27 +1,27 @@
 // src/Components/Main Page Data/PartnersDonorsData.js
 
-import donor1 from "../../assets/USA.jpg";
-import donor2 from "../../assets/WRA.jpg";
-import donor3 from "../../assets/USAID.svg";
-import donor4 from "../../assets/UK.jpg";
-import donor5 from "../../assets/Japan.webp";
-import donor6 from "../../assets/Europe.png";
-import donor7 from "../../assets/Germany.svg";
-import donor8 from "../../assets/Canada.png";
-import donor9 from "../../assets/Norway.webp";
+import donor1 from "../../../assets/USA.jpg";
+import donor2 from "../../../assets/WRA.jpg";
+import donor3 from "../../../assets/USAID.svg";
+import donor4 from "../../../assets/UK.jpg";
+import donor5 from "../../../assets/Japan.webp";
+import donor6 from "../../../assets/Europe.png";
+import donor7 from "../../../assets/Germany.svg";
+import donor8 from "../../../assets/Canada.png";
+import donor9 from "../../../assets/Norway.webp";
 
-import un1 from "../../assets/UNMAS.jpg";
-import un2 from "../../assets/UNOPS.png";
-import un3 from "../../assets/OCHA.png";
-import un4 from "../../assets/AHF.png";
-import un5 from "../../assets/UNESCO.png";
-import un6 from "../../assets/UNDP.png";
+import un1 from "../../../assets/UNMAS.jpg";
+import un2 from "../../../assets/UNOPS.png";
+import un3 from "../../../assets/OCHA.png";
+import un4 from "../../../assets/AHF.png";
+import un5 from "../../../assets/UNESCO.png";
+import un6 from "../../../assets/UNDP.png";
 
-import partner1 from "../../assets/Halo.png";
-import partner2 from "../../assets/NPA.png";
-import partner3 from "../../assets/DRC.png";
-import partner4 from "../../assets/GICHD.png";
-import partner5 from "../../assets/DMAC.png";
+import partner1 from "../../../assets/Halo.png";
+import partner2 from "../../../assets/NPA.png";
+import partner3 from "../../../assets/DRC.png";
+import partner4 from "../../../assets/GICHD.png";
+import partner5 from "../../../assets/DMAC.png";
 
 export const partnerGroups = [
   {

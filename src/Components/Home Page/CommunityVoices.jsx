@@ -1,91 +1,100 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaQuoteLeft, FaMapMarkerAlt } from "react-icons/fa";
+import { FaQuoteLeft, FaMapMarkerAlt, FaArrowRight } from "react-icons/fa";
 
-const testimonials = [
-  {
-    quote:
-      "After DAFA cleared our area, our families can safely use the land again and continue their daily lives without fear.",
-    name: "Community Member",
-    location: "Kabul Province",
-  },
-  {
-    quote:
-      "Risk education programs helped our children understand explosive hazards and learn how to stay safe.",
-    name: "Local Resident",
-    location: "Kandahar Province",
-  },
-  {
-    quote:
-      "DAFA's humanitarian work has brought safety, awareness, and hope to our community.",
-    name: "Community Representative",
-    location: "Nangarhar Province",
-  },
-];
+import { communityVoicesData } from "../../Components/Data File/Main Page Data/CommunityVoicesData";
 
 export default function CommunityVoices() {
   return (
     <section className="relative overflow-hidden bg-[#F8FAFC] py-24 sm:py-28">
-      {/* ================= BACKGROUND ================= */}
+      {/* =====================================================
+          BACKGROUND
+      ====================================================== */}
 
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-[#087B5A]/5 blur-3xl" />
+        <div className="absolute -left-48 top-10 h-[420px] w-[420px] rounded-full bg-[#087B5A]/5 blur-3xl" />
 
-        <div className="absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-[#F97316]/5 blur-3xl" />
+        <div className="absolute -right-48 bottom-0 h-[420px] w-[420px] rounded-full bg-[#F97316]/5 blur-3xl" />
+
+        <div className="absolute inset-0 opacity-[0.025]">
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage:
+                "linear-gradient(#0B3D2E 1px, transparent 1px), linear-gradient(90deg, #0B3D2E 1px, transparent 1px)",
+              backgroundSize: "60px 60px",
+            }}
+          />
+        </div>
       </div>
 
-      {/* ================= CONTAINER ================= */}
+      {/* =====================================================
+          CONTAINER
+      ====================================================== */}
 
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* ================= HEADER ================= */}
+        {/* =====================================================
+            HEADER
+        ====================================================== */}
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            margin: "-100px",
+          }}
           transition={{
-            duration: 0.8,
+            duration: 0.7,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mx-auto mb-16 max-w-3xl text-center"
+          className="mx-auto mb-14 max-w-3xl text-center"
         >
-          {/* Label */}
+          {/* Section Label */}
 
-          <div className="mb-5 inline-flex items-center gap-3">
-            <span className="h-[2px] w-8 rounded-full bg-[#F97316]" />
+          <div className="mb-5 flex items-center justify-center gap-3">
+            <span className="h-px w-10 bg-[#F97316]" />
 
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#087B5A]">
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#087B5A] sm:text-sm">
               Community Voices
             </span>
 
-            <span className="h-[2px] w-8 rounded-full bg-[#F97316]" />
+            <span className="h-px w-10 bg-[#F97316]" />
           </div>
 
           {/* Heading */}
 
-          <h2 className="text-3xl font-black leading-tight tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
-            Stories From the{" "}
-            <span className="text-[#087B5A]">Communities We Serve</span>
+          <h2 className="text-3xl font-black leading-[1.1] tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
+            Stories From the
+            <span className="block text-[#087B5A]">Communities We Serve</span>
           </h2>
 
           {/* Description */}
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-500 sm:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
             The impact of humanitarian mine action is measured not only in land
-            cleared, but also in the lives made safer and the communities given
+            cleared, but also in the lives made safer and communities given
             renewed confidence.
           </p>
         </motion.div>
 
-        {/* ================= TESTIMONIAL CARDS ================= */}
+        {/* =====================================================
+            TESTIMONIALS
+        ====================================================== */}
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((item, index) => (
+          {communityVoicesData.map((item, index) => (
             <motion.article
-              key={`${item.name}-${item.location}`}
+              key={item.id}
               initial={{
                 opacity: 0,
-                y: 35,
+                y: 40,
               }}
               whileInView={{
                 opacity: 1,
@@ -93,7 +102,7 @@ export default function CommunityVoices() {
               }}
               viewport={{
                 once: true,
-                amount: 0.15,
+                margin: "-60px",
               }}
               transition={{
                 duration: 0.65,
@@ -101,25 +110,96 @@ export default function CommunityVoices() {
                 ease: [0.22, 1, 0.36, 1],
               }}
               whileHover={{
-                y: -7,
+                y: -8,
               }}
-              className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition-shadow duration-300 hover:shadow-xl sm:p-8"
+              className="
+                group
+                relative
+                flex
+                h-full
+                flex-col
+                overflow-hidden
+                rounded-3xl
+                border
+                border-slate-200
+                bg-white
+                p-7
+                shadow-sm
+                transition-all
+                duration-300
+                hover:border-[#087B5A]/20
+                hover:shadow-[0_20px_50px_rgba(15,23,42,0.10)]
+                sm:p-8
+              "
             >
-              {/* Top Accent */}
+              {/* =================================================
+                  TOP ACCENT
+              ================================================== */}
 
-              <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-[#087B5A] via-[#087B5A] to-[#F97316] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div
+                className="
+                  absolute
+                  left-0
+                  right-0
+                  top-0
+                  h-1
+                  bg-gradient-to-r
+                  from-[#087B5A]
+                  via-[#087B5A]
+                  to-[#F97316]
+                  opacity-0
+                  transition-opacity
+                  duration-300
+                  group-hover:opacity-100
+                "
+              />
 
-              {/* Large Decorative Quote */}
+              {/* =================================================
+                  DECORATIVE QUOTE
+              ================================================== */}
 
-              <FaQuoteLeft className="pointer-events-none absolute right-7 top-6 text-6xl text-[#087B5A]/5 transition-transform duration-500 group-hover:scale-110" />
+              <FaQuoteLeft
+                className="
+                  pointer-events-none
+                  absolute
+                  right-7
+                  top-7
+                  text-6xl
+                  text-[#087B5A]/5
+                  transition-transform
+                  duration-500
+                  group-hover:scale-110
+                "
+              />
 
-              {/* Quote Icon */}
+              {/* =================================================
+                  QUOTE ICON
+              ================================================== */}
 
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-[#087B5A]/10 text-[#087B5A] transition-all duration-300 group-hover:bg-[#087B5A] group-hover:text-white">
-                <FaQuoteLeft size={17} />
+              <div
+                className="
+                  relative
+                  flex
+                  h-12
+                  w-12
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-2xl
+                  bg-[#087B5A]/10
+                  text-[#087B5A]
+                  transition-all
+                  duration-300
+                  group-hover:bg-[#087B5A]
+                  group-hover:text-white
+                "
+              >
+                <FaQuoteLeft size={16} />
               </div>
 
-              {/* Quote */}
+              {/* =================================================
+                  QUOTE
+              ================================================== */}
 
               <blockquote className="relative mt-7">
                 <p className="text-[15px] leading-7 text-slate-600">
@@ -127,13 +207,17 @@ export default function CommunityVoices() {
                 </p>
               </blockquote>
 
-              {/* Divider */}
+              {/* =================================================
+                  DIVIDER
+              ================================================== */}
 
               <div className="my-7 h-px bg-slate-100" />
 
-              {/* Person */}
+              {/* =================================================
+                  AUTHOR
+              ================================================== */}
 
-              <div>
+              <div className="mt-auto">
                 <h3 className="text-base font-bold text-[#0F172A]">
                   {item.name}
                 </h3>
@@ -148,26 +232,124 @@ export default function CommunityVoices() {
                 </div>
               </div>
 
-              {/* Bottom Accent */}
+              {/* =================================================
+                  BOTTOM ACCENT
+              ================================================== */}
 
-              <div className="absolute bottom-0 left-8 h-[2px] w-0 bg-[#F97316] transition-all duration-500 group-hover:w-16" />
+              <div
+                className="
+                  absolute
+                  bottom-0
+                  left-8
+                  h-[2px]
+                  w-0
+                  bg-[#F97316]
+                  transition-all
+                  duration-500
+                  group-hover:w-16
+                "
+              />
             </motion.article>
           ))}
         </div>
 
-        {/* ================= DATA NOTE ================= */}
+        {/* =====================================================
+            TRUST / SAFEGUARDING NOTE
+        ====================================================== */}
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="mx-auto mt-8 max-w-2xl text-center text-[11px] leading-6 text-slate-400"
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+            delay: 0.2,
+          }}
+          className="
+            mx-auto
+            mt-10
+            flex
+            max-w-3xl
+            flex-col
+            items-center
+            justify-center
+            gap-3
+            text-center
+            sm:flex-row
+          "
         >
-          Community stories and testimonials should be published only with
-          appropriate consent and according to DAFA's communication and
-          safeguarding policies.
-        </motion.p>
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#F97316]" />
+
+          <p className="text-xs leading-6 text-slate-400">
+            Community stories are published with appropriate consent and in
+            accordance with DAFA's communication and safeguarding policies.
+          </p>
+        </motion.div>
+
+        {/* =====================================================
+            OPTIONAL CTA
+        ====================================================== */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+            delay: 0.3,
+          }}
+          className="mt-10 text-center"
+        >
+          <a
+            href="/resources/stories"
+            className="
+              group
+              inline-flex
+              items-center
+              gap-3
+              rounded-xl
+              border
+              border-[#087B5A]/20
+              bg-white
+              px-7
+              py-3.5
+              text-sm
+              font-bold
+              text-[#087B5A]
+              shadow-sm
+              transition-all
+              duration-300
+              hover:-translate-y-1
+              hover:border-[#087B5A]
+              hover:bg-[#087B5A]
+              hover:text-white
+              hover:shadow-lg
+            "
+          >
+            <span>Explore Community Stories</span>
+
+            <FaArrowRight
+              size={11}
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </a>
+        </motion.div>
       </div>
     </section>
   );

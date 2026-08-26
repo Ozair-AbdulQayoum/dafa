@@ -11,7 +11,7 @@ import {
   FaEye,
 } from "react-icons/fa";
 
-import { reportsData } from "../../Components/Main Page Data/ReportsData";
+import { reportsData } from "../../Components/Data File/Main Page Data/ReportsData";
 
 export default function Reports() {
   const { latestReport, latestCertificate } = reportsData;

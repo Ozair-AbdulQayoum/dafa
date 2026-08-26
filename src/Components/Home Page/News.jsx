@@ -11,7 +11,7 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 
-import { newsData } from "../../Components/Main Page Data/NewsData";
+import { newsData } from "../../Components/Data File/Main Page Data/NewsData";
 
 export default function News() {
   const recentMeeting = newsData[0];

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaCheck, FaMapMarkerAlt } from "react-icons/fa";
 
-import { recentStory } from "../../Components/Main Page Data/SuccessStoriesData";
+import { recentStory } from "../../Components/Data File/Main Page Data/SuccessStoriesData";
 
 export default function SuccessStories() {
   const [currentImage, setCurrentImage] = useState(0);

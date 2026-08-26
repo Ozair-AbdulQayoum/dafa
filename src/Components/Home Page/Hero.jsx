@@ -3,8 +3,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaChevronDown } from "react-icons/fa";
 
-import { heroData, heroImages } from "../Main Page Data/Herodata";
-
+import {
+  heroData,
+  heroImages,
+} from "../../Components/Data File/Main Page Data/Herodata";
 export default function Hero() {
   const [currentImage, setCurrentImage] = useState(0);
 

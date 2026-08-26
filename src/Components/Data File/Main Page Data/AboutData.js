@@ -2,7 +2,7 @@
 // ABOUT SECTION DATA
 // =====================================================
 
-import aboutImg from "../../assets/About-img.png";
+import aboutImg from "../../../assets/About-img.png";
 
 export const aboutData = {
   label: "About DAFA",

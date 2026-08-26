@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 
-import { aboutData } from "../Main Page Data/AboutData";
+import { aboutData } from "../../Components/Data File/Main Page Data/AboutData";
 
 export default function About() {
   return (

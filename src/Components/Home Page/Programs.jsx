@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 
-import { programs } from "../Main Page Data/ProgramsData";
+import { programs } from "../../Components/Data File/Main Page Data/ProgramsData";
 
 export default function Programs() {
   return (

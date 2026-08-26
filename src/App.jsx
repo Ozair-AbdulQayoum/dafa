@@ -18,7 +18,6 @@ import Mainpage from "./Components/Home Page/Mainpage";
 // =====================================================
 
 import AboutPage from "./Components/About Page/AboutDAFA";
-import DirectorBio from "./Components/Director Bio Page/DirectorBio";
 import OrganizationChart from "./Components/Organization Chart Page/OrganizationChart";
 
 // =====================================================
@@ -103,8 +102,6 @@ export default function App() {
         ================================================== */}
 
         <Route path="/about" element={<AboutPage />} />
-
-        <Route path="/director-bio" element={<DirectorBio />} />
 
         <Route path="/organization-chart" element={<OrganizationChart />} />
 
