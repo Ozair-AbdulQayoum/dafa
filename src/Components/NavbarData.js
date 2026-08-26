@@ -41,11 +41,6 @@ export const navItems = [
       },
 
       {
-        title: "Director Short Bio",
-        path: "/director-bio",
-      },
-
-      {
         title: "Organization Chart",
         path: "/organization-chart",
       },
