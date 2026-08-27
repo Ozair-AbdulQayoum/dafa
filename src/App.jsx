@@ -55,20 +55,12 @@ import ProjectDetails from "./Components/Projects Page/ProjectDetails";
 import Achievements from "./Components/Achievements Page/Achievements";
 
 // =====================================================
-// KNOWLEDGE CENTER
-// =====================================================
-
-import KnowledgeCenter from "./Components/Knowledge Center/KnowledgeCenter";
-import KnowledgeDetail from "./Components/Knowledge Center/KnowledgeDetail ";
-
-// =====================================================
 // RESOURCES
 // =====================================================
 
 // -------------------- Reports --------------------
 
 import Reports from "./Components/Resources/Reports/Reports";
-import ReportDetails from "./Components/Resources/Reports/ReportDetails";
 
 // -------------------- Stories --------------------
 
@@ -158,22 +150,12 @@ export default function App() {
         <Route path="/achievements" element={<Achievements />} />
 
         {/* =================================================
-            KNOWLEDGE CENTER
-        ================================================== */}
-
-        <Route path="/knowledge-center" element={<KnowledgeCenter />} />
-
-        <Route path="/knowledge-center/:slug" element={<KnowledgeDetail />} />
-
-        {/* =================================================
             RESOURCES
         ================================================= */}
 
         {/* -------------------- Reports -------------------- */}
 
         <Route path="/resources/reports" element={<Reports />} />
-
-        <Route path="/resources/reports/:slug" element={<ReportDetails />} />
 
         {/* -------------------- Stories -------------------- */}
 

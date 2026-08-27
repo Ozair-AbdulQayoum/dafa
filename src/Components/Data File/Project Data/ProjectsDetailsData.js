@@ -1,19 +1,16 @@
 // ============================================================
 // PROJECT DETAILS DATA
-// Single source of truth for all projects
 // ============================================================
 
 export const projectDetails = [
   // ============================================================
-  // 1. KABUL
+  // 1. KABUL PROJECT
   // ============================================================
 
   {
     slug: "kabul-humanitarian-clearance-project",
 
     name: "Kabul Humanitarian Clearance Project",
-
-    heroImage: "/images/projects/kabul/hero.jpg",
 
     organization: {
       name: "Demining Agency for Afghanistan",
@@ -49,8 +46,11 @@ export const projectDetails = [
 
     objectives: [
       "Reduce the risks posed by landmines and explosive remnants of war.",
+
       "Clear contaminated land and make it safe for community use.",
+
       "Support safer access to homes, agricultural land, roads, and public areas.",
+
       "Contribute to safer and more resilient communities.",
     ],
 
@@ -118,26 +118,19 @@ export const projectDetails = [
 
       {
         image: "/images/projects/kabul/field-5.jpg",
-        title: "Safety Operations",
-      },
-
-      {
-        image: "/images/projects/kabul/field-6.jpg",
-        title: "Field Team",
+        title: "Humanitarian Field Work",
       },
     ],
   },
 
   // ============================================================
-  // 2. KANDAHAR
+  // 2. KANDAHAR PROJECT
   // ============================================================
 
   {
     slug: "kandahar-humanitarian-demining-operations",
 
     name: "Kandahar Humanitarian Demining Operations",
-
-    heroImage: "/images/projects/kandahar/hero.jpg",
 
     organization: {
       name: "Demining Agency for Afghanistan",
@@ -173,8 +166,11 @@ export const projectDetails = [
 
     objectives: [
       "Reduce explosive hazard risks for affected communities.",
+
       "Release contaminated land for safe community use.",
+
       "Improve safe access to homes, roads, and agricultural areas.",
+
       "Strengthen community safety and awareness.",
     ],
 
@@ -242,26 +238,19 @@ export const projectDetails = [
 
       {
         image: "/images/projects/kandahar/field-5.jpg",
-        title: "Technical Survey",
-      },
-
-      {
-        image: "/images/projects/kandahar/field-6.jpg",
-        title: "Land Release",
+        title: "Field Assessment",
       },
     ],
   },
 
   // ============================================================
-  // 3. NANGARHAR
+  // 3. NANGARHAR PROJECT
   // ============================================================
 
   {
     slug: "nangarhar-explosive-risk-education",
 
     name: "Nangarhar Explosive Risk Education",
-
-    heroImage: "/images/projects/nangarhar/hero.jpg",
 
     organization: {
       name: "Demining Agency for Afghanistan",
@@ -283,109 +272,100 @@ export const projectDetails = [
     endDate: "2026-11-30",
 
     team: {
-      total: 38,
-      staff: 28,
+      total: 35,
+      staff: 25,
       supervisors: 4,
       technicalStaff: 6,
     },
 
     description:
-      "Community-based explosive risk education activities helping people recognize explosive hazards and adopt safer behaviors across Nangarhar Province.",
+      "Community-based explosive risk education activities helping people recognize explosive hazards and adopt safer behaviors across affected communities in Nangarhar Province.",
 
     details:
-      "The project works with communities, schools, families, and local stakeholders to improve awareness of explosive hazards and reduce the risk of accidents in affected areas.",
+      "The project delivers community-focused risk education sessions, awareness activities, and safety messaging designed to help children, families, and vulnerable communities understand the risks associated with landmines and explosive remnants of war.",
 
     objectives: [
       "Increase community awareness of explosive hazards.",
-      "Promote safer behaviors among affected populations.",
-      "Reach children, families, and vulnerable community members.",
-      "Strengthen community-level risk prevention.",
+
+      "Promote safer behavior among affected communities.",
+
+      "Reduce the risk of explosive hazard incidents.",
+
+      "Support communities through accessible safety education.",
     ],
 
     activities: [
       {
-        title: "Community Awareness Sessions",
+        title: "Risk Education Sessions",
         description:
-          "Awareness sessions delivered to communities living in areas affected by explosive hazards.",
+          "Delivery of structured explosive risk education sessions for affected communities.",
       },
 
       {
-        title: "School Safety Education",
+        title: "Community Awareness",
         description:
-          "Risk education activities designed to help children recognize and avoid dangerous objects.",
+          "Awareness activities designed to communicate important explosive hazard safety messages.",
       },
 
       {
-        title: "Public Awareness Campaigns",
+        title: "School Awareness Activities",
         description:
-          "Community campaigns promoting safe behavior and reporting of suspected hazards.",
+          "Safety education activities supporting children and young people in affected areas.",
       },
 
       {
-        title: "Community Mobilization",
+        title: "Community Engagement",
         description:
-          "Engagement with community leaders and local stakeholders to improve safety communication.",
+          "Direct engagement with community members to identify concerns and improve safety communication.",
       },
 
       {
-        title: "Risk Communication",
+        title: "Safety Messaging",
         description:
-          "Distribution of clear and practical safety information to affected populations.",
+          "Distribution of clear and practical messages about explosive hazard risks and safe behavior.",
       },
 
       {
-        title: "Monitoring & Evaluation",
+        title: "Monitoring & Reporting",
         description:
-          "Monitoring project activities and measuring community awareness outcomes.",
+          "Monitoring project activities and documenting community outreach and education results.",
       },
     ],
 
     impact:
-      "The project is helping communities better understand explosive hazards and adopt safer behaviors, particularly among children and vulnerable populations.",
+      "The project supports safer communities by increasing knowledge about explosive hazards and encouraging safer behavior among people living in affected areas.",
 
     gallery: [
       {
         image: "/images/projects/nangarhar/field-1.jpg",
-        title: "Community Awareness",
+        title: "Community Education",
       },
 
       {
         image: "/images/projects/nangarhar/field-2.jpg",
-        title: "School Safety Session",
+        title: "Risk Education Session",
       },
 
       {
         image: "/images/projects/nangarhar/field-3.jpg",
-        title: "Community Meeting",
+        title: "Community Awareness",
       },
 
       {
         image: "/images/projects/nangarhar/field-4.jpg",
-        title: "Risk Education",
-      },
-
-      {
-        image: "/images/projects/nangarhar/field-5.jpg",
-        title: "Public Awareness",
-      },
-
-      {
-        image: "/images/projects/nangarhar/field-6.jpg",
-        title: "Field Team",
+        title: "Field Outreach",
       },
     ],
   },
 
   // ============================================================
-  // 4. HERAT
+  // 4. HERAT PROJECT
   // ============================================================
 
   {
     slug: "herat-clearance-project",
 
     name: "Herat Humanitarian Clearance Project",
-
-    heroImage: "/images/projects/herat/hero.jpg",
 
     organization: {
       name: "Demining Agency for Afghanistan",
@@ -404,7 +384,7 @@ export const projectDetails = [
 
     startDate: "2026-03-15",
 
-    endDate: "2027-03-15",
+    endDate: "2027-02-28",
 
     team: {
       total: 52,
@@ -417,55 +397,58 @@ export const projectDetails = [
       "Humanitarian clearance operations focused on reducing explosive hazards and improving safety for affected communities in Herat Province.",
 
     details:
-      "The project combines survey, clearance, community engagement, quality assurance, and land-release activities to reduce the impact of explosive hazards on communities.",
+      "The project combines survey, clearance, community engagement, quality assurance, and land-release activities to reduce explosive hazards and support safer access to land and essential community areas.",
 
     objectives: [
-      "Identify and reduce explosive hazard contamination.",
-      "Clear contaminated land safely and efficiently.",
-      "Improve access to homes, agricultural land, and infrastructure.",
-      "Support safer and more resilient communities.",
+      "Identify and reduce explosive hazard risks.",
+
+      "Clear contaminated areas and release safe land.",
+
+      "Improve community access to land and essential areas.",
+
+      "Strengthen safety and protection for affected communities.",
     ],
 
     activities: [
       {
-        title: "Non-Technical Survey",
+        title: "Survey Operations",
         description:
-          "Gathering community information and historical evidence to identify suspected hazardous areas.",
+          "Assessment of suspected hazardous areas to determine the presence and extent of explosive hazards.",
       },
 
       {
         title: "Technical Survey",
         description:
-          "Detailed field assessment to confirm the presence and extent of contamination.",
+          "Detailed field investigation to support safe and effective clearance planning.",
       },
 
       {
-        title: "Humanitarian Clearance",
+        title: "Clearance Operations",
         description:
-          "Safe clearance of confirmed hazardous areas by trained humanitarian teams.",
+          "Humanitarian clearance conducted by trained and qualified field teams.",
       },
 
       {
-        title: "Community Engagement",
+        title: "Community Liaison",
         description:
-          "Working with local communities throughout project planning and implementation.",
+          "Communication and coordination with communities throughout project implementation.",
       },
 
       {
         title: "Quality Control",
         description:
-          "Regular quality checks and monitoring to ensure safe and effective operations.",
+          "Continuous monitoring and quality control to support safe project implementation.",
       },
 
       {
         title: "Land Release",
         description:
-          "Verification and safe release of cleared land for community use.",
+          "Verification and release of land after completion of clearance activities.",
       },
     ],
 
     impact:
-      "The project is reducing explosive hazard risks while helping affected communities safely regain access to land and essential areas.",
+      "The project is contributing to safer communities by reducing explosive hazards and supporting the safe use of affected land.",
 
     gallery: [
       {
@@ -475,7 +458,7 @@ export const projectDetails = [
 
       {
         image: "/images/projects/herat/field-2.jpg",
-        title: "Clearance Team",
+        title: "Clearance Activities",
       },
 
       {
@@ -485,285 +468,13 @@ export const projectDetails = [
 
       {
         image: "/images/projects/herat/field-4.jpg",
-        title: "Safety Monitoring",
+        title: "Field Team",
       },
 
       {
         image: "/images/projects/herat/field-5.jpg",
-        title: "Field Operations",
-      },
-
-      {
-        image: "/images/projects/herat/field-6.jpg",
         title: "Land Release",
-      },
-    ],
-  },
-
-  // ============================================================
-  // 5. HELMAND
-  // ============================================================
-
-  {
-    slug: "helmand-mine-action-project",
-
-    name: "Helmand Mine Action Project",
-
-    heroImage: "/images/projects/helmand/hero.jpg",
-
-    organization: {
-      name: "Demining Agency for Afghanistan",
-      shortName: "DAFA",
-      logo: "/images/logo/dafa-logo.png",
-    },
-
-    donor: {
-      name: "International Humanitarian Donor",
-      logo: "/images/donors/donor-logo.png",
-    },
-
-    location: "Helmand Province, Afghanistan",
-
-    status: "Completed",
-
-    startDate: "2023-03-01",
-
-    endDate: "2025-10-30",
-
-    team: {
-      total: 48,
-      staff: 34,
-      supervisors: 5,
-      technicalStaff: 9,
-    },
-
-    description:
-      "Humanitarian mine-action activities supporting communities affected by landmines and explosive remnants of war in Helmand Province.",
-
-    details:
-      "The project supported survey, clearance, community engagement, safety monitoring, and land-release activities to reduce the long-term impact of explosive hazards.",
-
-    objectives: [
-      "Reduce explosive hazard contamination.",
-      "Clear priority hazardous areas.",
-      "Improve community access to safe land.",
-      "Support long-term community safety.",
-    ],
-
-    activities: [
-      {
-        title: "Survey",
-        description:
-          "Assessment of suspected hazardous areas using available community and field information.",
-      },
-
-      {
-        title: "Clearance",
-        description:
-          "Humanitarian clearance operations conducted by trained field teams.",
-      },
-
-      {
-        title: "Hazard Marking",
-        description:
-          "Identification and marking of hazardous locations to protect civilians.",
-      },
-
-      {
-        title: "Community Engagement",
-        description:
-          "Regular coordination with affected communities and local stakeholders.",
-      },
-
-      {
-        title: "Quality Assurance",
-        description:
-          "Monitoring and verification of field activities to maintain operational standards.",
-      },
-
-      {
-        title: "Land Release",
-        description:
-          "Final verification and release of safe land for community use.",
-      },
-    ],
-
-    impact:
-      "The project helped reduce explosive hazards and supported communities in safely accessing land and essential areas.",
-
-    gallery: [
-      {
-        image: "/images/projects/helmand/field-1.jpg",
-        title: "Field Survey",
-      },
-
-      {
-        image: "/images/projects/helmand/field-2.jpg",
-        title: "Clearance Operations",
-      },
-
-      {
-        image: "/images/projects/helmand/field-3.jpg",
-        title: "Community Activities",
-      },
-
-      {
-        image: "/images/projects/helmand/field-4.jpg",
-        title: "Field Safety",
-      },
-
-      {
-        image: "/images/projects/helmand/field-5.jpg",
-        title: "Project Team",
-      },
-
-      {
-        image: "/images/projects/helmand/field-6.jpg",
-        title: "Land Release",
-      },
-    ],
-  },
-
-  // ============================================================
-  // 6. BALKH
-  // ============================================================
-
-  {
-    slug: "balkh-community-safety-project",
-
-    name: "Balkh Community Safety Project",
-
-    heroImage: "/images/projects/balkh/hero.jpg",
-
-    organization: {
-      name: "Demining Agency for Afghanistan",
-      shortName: "DAFA",
-      logo: "/images/logo/dafa-logo.png",
-    },
-
-    donor: {
-      name: "International Humanitarian Donor",
-      logo: "/images/donors/donor-logo.png",
-    },
-
-    location: "Balkh Province, Afghanistan",
-
-    status: "Completed",
-
-    startDate: "2021-05-10",
-
-    endDate: "2023-11-25",
-
-    team: {
-      total: 40,
-      staff: 29,
-      supervisors: 4,
-      technicalStaff: 7,
-    },
-
-    description:
-      "A community safety project supporting explosive hazard awareness, survey, and clearance activities in affected areas of Balkh Province.",
-
-    details:
-      "The project combined field assessment, humanitarian clearance, community engagement, and verification activities to support safer communities and responsible land release.",
-
-    objectives: [
-      "Improve community safety.",
-      "Identify suspected hazardous areas.",
-      "Support humanitarian clearance activities.",
-      "Return safe land to affected communities.",
-    ],
-
-    activities: [
-      {
-        title: "Community Survey",
-        description:
-          "Collection of community information regarding suspected hazardous areas.",
-      },
-
-      {
-        title: "Field Assessment",
-        description:
-          "Assessment of locations requiring further investigation or clearance.",
-      },
-
-      {
-        title: "Clearance",
-        description:
-          "Safe humanitarian clearance of confirmed hazardous areas.",
-      },
-
-      {
-        title: "Community Awareness",
-        description: "Safety awareness activities for affected communities.",
-      },
-
-      {
-        title: "Quality Monitoring",
-        description:
-          "Monitoring field activities and maintaining quality standards.",
-      },
-
-      {
-        title: "Final Verification",
-        description: "Verification of completed work before land release.",
-      },
-    ],
-
-    impact:
-      "The project contributed to improved community safety and supported the safe return of affected land to local communities.",
-
-    gallery: [
-      {
-        image: "/images/projects/balkh/field-1.jpg",
-        title: "Community Survey",
-      },
-
-      {
-        image: "/images/projects/balkh/field-2.jpg",
-        title: "Field Assessment",
-      },
-
-      {
-        image: "/images/projects/balkh/field-3.jpg",
-        title: "Clearance Activities",
-      },
-
-      {
-        image: "/images/projects/balkh/field-4.jpg",
-        title: "Community Awareness",
-      },
-
-      {
-        image: "/images/projects/balkh/field-5.jpg",
-        title: "Field Monitoring",
-      },
-
-      {
-        image: "/images/projects/balkh/field-6.jpg",
-        title: "Final Verification",
       },
     ],
   },
 ];
-
-// ============================================================
-// FILTERED PROJECT DATA
-// ============================================================
-
-// All projects
-export const allProjects = projectDetails;
-
-// Ongoing projects
-export const ongoingProjects = projectDetails.filter(
-  (project) => project.status === "Ongoing",
-);
-
-// Completed projects
-export const completedProjects = projectDetails.filter(
-  (project) => project.status === "Completed",
-);
-
-// Homepage
-// Automatically takes the first 3 ongoing projects.
-export const homeProjects = ongoingProjects.slice(0, 3);

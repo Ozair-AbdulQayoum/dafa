@@ -1,15 +1,17 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
-  FaArrowRight,
   FaFileAlt,
   FaFilePdf,
   FaChartBar,
   FaCalendarAlt,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+
+import { heroData } from "../../Data File/Reprot Data/HeroData";
 
 export default function Hero() {
+  const { eyebrow, title, description, report } = heroData;
+
   return (
     <section className="relative overflow-hidden bg-[#0B3D2E]">
       {/* Background Decorations */}
@@ -33,43 +35,20 @@ export default function Hero() {
               <span className="h-px w-10 bg-[#F97316]" />
 
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A7F3D0]">
-                DAFA Publications
+                {eyebrow}
               </p>
             </div>
 
             {/* Heading */}
             <h1 className="max-w-2xl text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Reports &
-              <span className="block text-[#A7F3D0]">Publications</span>
+              {title.first}
+              <span className="block text-[#A7F3D0]">{title.second}</span>
             </h1>
 
             {/* Description */}
             <p className="mt-6 max-w-xl text-base font-normal leading-8 text-green-50/75 sm:text-lg">
-              Explore DAFA's official reports, project documentation, annual
-              publications, and humanitarian mine-action materials documenting
-              our work across Afghanistan.
+              {description}
             </p>
-
-            {/* CTA */}
-            <div className="mt-8 flex flex-wrap gap-4">
-              <a
-                href="#reports"
-                className="group inline-flex items-center gap-3 rounded-xl bg-[#F97316] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:bg-[#ea6410] hover:shadow-xl"
-              >
-                Explore Reports
-                <FaArrowRight
-                  size={13}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </a>
-
-              <Link
-                to="/knowledge-center"
-                className="inline-flex items-center gap-3 rounded-xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/10"
-              >
-                Knowledge Center
-              </Link>
-            </div>
           </motion.div>
 
           {/* RIGHT VISUAL */}
@@ -118,15 +97,15 @@ export default function Hero() {
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#087B5A]">
-                    DAFA
+                    {report.organization}
                   </p>
 
                   <h3 className="mt-2 text-xl font-bold leading-tight text-[#0F172A]">
-                    Annual Report
+                    {report.title}
                   </h3>
 
                   <p className="mt-1 text-xs leading-5 text-slate-400">
-                    Humanitarian Mine Action
+                    {report.subtitle}
                   </p>
                 </div>
 
@@ -140,11 +119,11 @@ export default function Hero() {
                 <div className="flex items-end justify-between">
                   <div>
                     <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#A7F3D0]">
-                      Annual Report
+                      {report.title}
                     </p>
 
                     <p className="mt-1 text-4xl font-extrabold leading-none text-white">
-                      2025
+                      {report.year}
                     </p>
                   </div>
 
@@ -158,23 +137,25 @@ export default function Hero() {
               <div className="mt-6 space-y-3">
                 <div className="flex items-center gap-3 text-xs font-medium text-slate-500">
                   <FaCalendarAlt className="text-[#087B5A]" />
-                  <span>Published 2025</span>
+
+                  <span>{report.published}</span>
                 </div>
 
                 <div className="flex items-center gap-3 text-xs font-medium text-slate-500">
                   <FaChartBar className="text-[#087B5A]" />
-                  <span>Humanitarian Impact & Operations</span>
+
+                  <span>{report.category}</span>
                 </div>
               </div>
 
               {/* Bottom */}
               <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-5">
                 <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">
-                  Official Publication
+                  {report.label}
                 </span>
 
                 <span className="rounded-full bg-[#087B5A]/10 px-3 py-1 text-[10px] font-semibold text-[#087B5A]">
-                  PDF
+                  {report.format}
                 </span>
               </div>
             </motion.div>
@@ -205,56 +186,6 @@ export default function Hero() {
             </motion.div>
           </motion.div>
         </div>
-
-        {/* BOTTOM STATS */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-16 border-t border-white/10 pt-8 lg:mt-20"
-        >
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-            <div>
-              <p className="text-2xl font-extrabold leading-none text-white sm:text-3xl">
-                36+
-              </p>
-
-              <p className="mt-2 text-xs font-medium uppercase tracking-[0.08em] text-green-100/50">
-                Years of Experience
-              </p>
-            </div>
-
-            <div>
-              <p className="text-2xl font-extrabold leading-none text-white sm:text-3xl">
-                Annual
-              </p>
-
-              <p className="mt-2 text-xs font-medium uppercase tracking-[0.08em] text-green-100/50">
-                Reports
-              </p>
-            </div>
-
-            <div>
-              <p className="text-2xl font-extrabold leading-none text-white sm:text-3xl">
-                Project
-              </p>
-
-              <p className="mt-2 text-xs font-medium uppercase tracking-[0.08em] text-green-100/50">
-                Documentation
-              </p>
-            </div>
-
-            <div>
-              <p className="text-2xl font-extrabold leading-none text-white sm:text-3xl">
-                Impact
-              </p>
-
-              <p className="mt-2 text-xs font-medium uppercase tracking-[0.08em] text-green-100/50">
-                Publications
-              </p>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

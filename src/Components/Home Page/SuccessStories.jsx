@@ -1,41 +1,90 @@
 // src/Components/Home-Page/SuccessStories.jsx
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaCheck, FaMapMarkerAlt } from "react-icons/fa";
 
-import { recentStory } from "../../Components/Data File/Main Page Data/SuccessStoriesData";
+import { stories } from "../../Data File/Store Data/StoriesData";
 
 export default function SuccessStories() {
+  // ======================================================
+  // GET LATEST STORY
+  // Automatically finds the newest story by date.
+  // Only ONE story is displayed on Home Page.
+  // ======================================================
+
+  const latestStory = useMemo(() => {
+    if (!stories || stories.length === 0) {
+      return null;
+    }
+
+    return [...stories].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+  }, []);
+
+  // ======================================================
+  // IMAGE SLIDER
+  // ======================================================
+
   const [currentImage, setCurrentImage] = useState(0);
 
-  // ================= AUTO SLIDER =================
+  // ======================================================
+  // RESET SLIDER WHEN LATEST STORY CHANGES
+  // ======================================================
 
   useEffect(() => {
-    if (!recentStory.images || recentStory.images.length <= 1) {
+    setCurrentImage(0);
+  }, [latestStory?.slug]);
+
+  // ======================================================
+  // AUTO IMAGE SLIDER
+  // Changes image every 5 seconds
+  // ======================================================
+
+  useEffect(() => {
+    if (!latestStory?.images || latestStory.images.length <= 1) {
       return;
     }
 
     const interval = setInterval(() => {
-      setCurrentImage((prev) => {
-        return (prev + 1) % recentStory.images.length;
-      });
+      setCurrentImage((previous) => (previous + 1) % latestStory.images.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [latestStory?.slug, latestStory?.images?.length]);
+
+  // ======================================================
+  // SAFETY CHECK
+  // ======================================================
+
+  if (!latestStory) {
+    return null;
+  }
+
+  const currentImage = latestStory.images?.[currentImage];
+
+  // ======================================================
+  // HOME PAGE
+  // ======================================================
 
   return (
     <section className="relative overflow-hidden bg-[#F8FAFC] py-24 sm:py-28">
-      {/* ================= DECORATIVE BACKGROUND ================= */}
+      {/* ==================================================
+          BACKGROUND DECORATIONS
+      ================================================== */}
 
       <div className="pointer-events-none absolute -left-40 top-20 h-80 w-80 rounded-full bg-[#087B5A]/5 blur-3xl" />
 
       <div className="pointer-events-none absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-[#0284C7]/5 blur-3xl" />
 
+      {/* ==================================================
+          CONTAINER
+      ================================================== */}
+
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* ================= HEADING ================= */}
+        {/* ==================================================
+            HEADER
+        ================================================== */}
 
         <motion.div
           initial={{
@@ -77,7 +126,9 @@ export default function SuccessStories() {
           </p>
         </motion.div>
 
-        {/* ================= RECENT STORY CARD ================= */}
+        {/* ==================================================
+            ONE BIG LATEST STORY CARD
+        ================================================== */}
 
         <motion.article
           initial={{
@@ -99,112 +150,158 @@ export default function SuccessStories() {
           whileHover={{
             y: -6,
           }}
-          className="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl"
+          className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl"
         >
           <div className="grid md:grid-cols-2">
             {/* =================================================
-                LEFT SIDE — IMAGE SLIDER
+                LEFT — IMAGE SLIDER
             ================================================= */}
 
-            <div className="relative min-h-[320px] overflow-hidden bg-[#0B3D2E] md:min-h-[430px]">
-              {/* ================= SLIDER ================= */}
+            <div className="relative min-h-[330px] overflow-hidden bg-[#0B3D2E] md:min-h-[500px]">
+              {/* IMAGE */}
 
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={currentImage}
-                  src={recentStory.images[currentImage]}
-                  alt={`${recentStory.title} - ${currentImage + 1}`}
-                  initial={{
-                    opacity: 0,
-                    scale: 1.08,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    scale: 1.03,
-                  }}
-                  transition={{
-                    duration: 1.2,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              </AnimatePresence>
-
-              {/* ================= IMAGE OVERLAY ================= */}
-
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#031F18]/75 via-transparent to-[#031F18]/10" />
-
-              {/* ================= LOCATION ================= */}
-
-              <div className="absolute bottom-5 left-5 flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-xs font-bold text-[#087B5A] shadow-lg">
-                <FaMapMarkerAlt />
-
-                {recentStory.location}
-              </div>
-
-              {/* ================= SLIDER INDICATORS ================= */}
-
-              <div className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-black/25 px-3 py-2 backdrop-blur-md">
-                {recentStory.images.map((_, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => setCurrentImage(index)}
-                    aria-label={`Show image ${index + 1}`}
-                    className={`h-2 rounded-full transition-all duration-500 ${
-                      currentImage === index
-                        ? "w-6 bg-white"
-                        : "w-2 bg-white/50 hover:bg-white/80"
-                    }`}
+              {currentImage ? (
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={currentImage}
+                    src={currentImage}
+                    alt={latestStory.title}
+                    initial={{
+                      opacity: 0,
+                      scale: 1.08,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: 1.03,
+                    }}
+                    transition={{
+                      duration: 1.2,
+                      ease: "easeInOut",
+                    }}
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
-                ))}
-              </div>
+                </AnimatePresence>
+              ) : (
+                <div className="flex h-full items-center justify-center">
+                  <div className="text-center">
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#A7F3D0]">
+                      DAFA
+                    </p>
+
+                    <p className="mt-2 text-xs text-green-100/50">
+                      Story Image
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* IMAGE OVERLAY */}
+
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#031F18]/80 via-transparent to-[#031F18]/10" />
+
+              {/* =================================================
+                  LOCATION
+              ================================================= */}
+
+              {latestStory.location && (
+                <div className="absolute bottom-5 left-5 flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-xs font-bold text-[#087B5A] shadow-lg">
+                  <FaMapMarkerAlt />
+
+                  {latestStory.location}
+                </div>
+              )}
+
+              {/* =================================================
+                  IMAGE INDICATORS
+              ================================================= */}
+
+              {latestStory.images?.length > 1 && (
+                <div className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-black/30 px-3 py-2 backdrop-blur-md">
+                  {latestStory.images.map((_, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => setCurrentImage(index)}
+                      aria-label={`Show image ${index + 1}`}
+                      className={`h-2 rounded-full transition-all duration-500 ${
+                        currentImage === index
+                          ? "w-6 bg-white"
+                          : "w-2 bg-white/50 hover:bg-white/80"
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* =================================================
+                  IMAGE COUNTER
+              ================================================= */}
+
+              {latestStory.images?.length > 1 && (
+                <div className="absolute right-5 top-5 rounded-full bg-black/30 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
+                  {currentImage + 1} / {latestStory.images.length}
+                </div>
+              )}
             </div>
 
             {/* =================================================
-                RIGHT SIDE — STORY CONTENT
+                RIGHT — LATEST STORY INFORMATION
             ================================================= */}
 
-            <div className="flex flex-col justify-center p-7 sm:p-9 lg:p-11">
-              {/* ================= LABEL ================= */}
+            <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
+              {/* LATEST LABEL */}
 
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
-                Recent Story
-              </p>
-
-              {/* ================= TITLE ================= */}
-
-              <h3 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-[#0F172A] sm:text-3xl">
-                {recentStory.title}
-              </h3>
-
-              {/* ================= DESCRIPTION ================= */}
-
-              <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-base">
-                {recentStory.description}
-              </p>
-
-              {/* ================= IMPACT ================= */}
-
-              <div className="mt-7 flex items-center gap-3 rounded-xl border border-[#087B5A]/10 bg-[#087B5A]/5 px-4 py-3.5">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#087B5A] text-xs text-white">
-                  <FaCheck />
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="rounded-full bg-[#087B5A]/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[#087B5A]">
+                  Latest Story
                 </span>
 
-                <span className="text-sm font-bold text-[#087B5A]">
-                  {recentStory.impact}
+                <span className="text-xs font-medium text-slate-400">
+                  {latestStory.category}
                 </span>
               </div>
 
-              {/* ================= READ STORY ================= */}
+              {/* TITLE */}
+
+              <h3 className="mt-5 text-2xl font-bold leading-tight tracking-tight text-[#0F172A] sm:text-3xl lg:text-4xl">
+                {latestStory.title}
+              </h3>
+
+              {/* DATE */}
+
+              <p className="mt-3 text-xs font-medium text-slate-400">
+                {latestStory.date}
+              </p>
+
+              {/* DESCRIPTION */}
+
+              <p className="mt-6 text-sm leading-7 text-slate-600 sm:text-base">
+                {latestStory.description}
+              </p>
+
+              {/* IMPACT */}
+
+              {latestStory.impact && (
+                <div className="mt-7 flex items-center gap-3 rounded-xl border border-[#087B5A]/10 bg-[#087B5A]/5 px-4 py-3.5">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#087B5A] text-xs text-white">
+                    <FaCheck />
+                  </span>
+
+                  <span className="text-sm font-bold text-[#087B5A]">
+                    {latestStory.impact}
+                  </span>
+                </div>
+              )}
+
+              {/* READ FULL STORY */}
 
               <Link
-                to="/stories"
-                className="group/link mt-7 inline-flex w-fit items-center gap-2 text-sm font-bold text-[#087B5A]"
+                to={`/resources/stories/${latestStory.slug}`}
+                className="group/link mt-8 inline-flex w-fit items-center gap-2 text-sm font-bold text-[#087B5A]"
               >
                 Read Full Story
                 <FaArrowRight
@@ -216,7 +313,9 @@ export default function SuccessStories() {
           </div>
         </motion.article>
 
-        {/* ================= CTA ================= */}
+        {/* ==================================================
+            VIEW ALL STORIES
+        ================================================== */}
 
         <motion.div
           initial={{
@@ -236,7 +335,7 @@ export default function SuccessStories() {
           className="mt-12 text-center"
         >
           <Link
-            to="/stories"
+            to="/resources/stories"
             className="group inline-flex items-center gap-3 rounded-xl bg-[#087B5A] px-8 py-4 text-sm font-bold text-white shadow-lg shadow-[#087B5A]/15 transition-all duration-300 hover:-translate-y-1 hover:bg-[#0B3D2E] hover:shadow-xl"
           >
             <span>View All Stories</span>

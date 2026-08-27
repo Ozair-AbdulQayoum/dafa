@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 import {
   FaArrowLeft,
@@ -22,7 +22,7 @@ import { projectDetails } from "../../Components/Data File/Project Data/Projects
 // ============================================================
 
 function formatDate(date) {
-  return new Date(`${date}T00:00:00`).toLocaleDateString("en-US", {
+  return new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -34,20 +34,11 @@ function formatDate(date) {
 // ============================================================
 
 function calculateDuration(startDate, endDate, status) {
-  const start = new Date(`${startDate}T00:00:00`);
-  const end = new Date(`${endDate}T23:59:59`);
+  const start = new Date(startDate);
+  const end = new Date(endDate);
   const today = new Date();
 
   const totalTime = end - start;
-
-  if (totalTime <= 0) {
-    return {
-      percentage: status === "Completed" ? 100 : 0,
-      totalDays: 0,
-      completedDays: 0,
-      remainingDays: 0,
-    };
-  }
 
   let elapsedTime = today - start;
 
@@ -59,7 +50,8 @@ function calculateDuration(startDate, endDate, status) {
     elapsedTime = totalTime;
   }
 
-  const percentage = Math.round((elapsedTime / totalTime) * 100);
+  const percentage =
+    totalTime > 0 ? Math.round((elapsedTime / totalTime) * 100) : 0;
 
   const totalDays = Math.ceil(totalTime / (1000 * 60 * 60 * 24));
 
@@ -102,239 +94,6 @@ function ProjectNotFound() {
 }
 
 // ============================================================
-// ANIMATED NUMBER
-// ============================================================
-
-function AnimatedNumber({ value, duration = 1.2 }) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    let startTime;
-    let animationFrame;
-
-    const animate = (currentTime) => {
-      if (!startTime) {
-        startTime = currentTime;
-      }
-
-      const progress = Math.min(
-        (currentTime - startTime) / (duration * 1000),
-        1,
-      );
-
-      const easedProgress = 1 - Math.pow(1 - progress, 3);
-
-      setCount(Math.floor(easedProgress * value));
-
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      } else {
-        setCount(value);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(animationFrame);
-    };
-  }, [value, duration]);
-
-  return <>{count}</>;
-}
-
-// ============================================================
-// TEAM STAT
-// ============================================================
-
-function TeamStat({ icon, number, label }) {
-  return (
-    <motion.div
-      initial={{
-        opacity: 0,
-        y: 20,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
-      viewport={{
-        once: true,
-      }}
-      transition={{
-        duration: 0.5,
-      }}
-      className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
-    >
-      <div className="flex items-center gap-3">
-        {icon && <span className="text-[#087B5A]">{icon}</span>}
-
-        <span className="text-2xl font-extrabold text-[#0F172A]">
-          <AnimatedNumber value={number} />
-        </span>
-      </div>
-
-      <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
-        {label}
-      </p>
-    </motion.div>
-  );
-}
-
-// ============================================================
-// PROJECT IMAGE SLIDER
-// ============================================================
-
-function ProjectImageSlider({ project }) {
-  const images = project.gallery || [];
-
-  const [currentImage, setCurrentImage] = useState(0);
-
-  useEffect(() => {
-    setCurrentImage(0);
-  }, [project.slug]);
-
-  useEffect(() => {
-    if (images.length <= 1) {
-      return;
-    }
-
-    const interval = setInterval(() => {
-      setCurrentImage((previous) => {
-        return (previous + 1) % images.length;
-      });
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  if (!images.length) {
-    return null;
-  }
-
-  const nextImage = () => {
-    setCurrentImage((previous) => (previous + 1) % images.length);
-  };
-
-  const previousImage = () => {
-    setCurrentImage(
-      (previous) => (previous - 1 + images.length) % images.length,
-    );
-  };
-
-  const activeImage = images[currentImage];
-
-  return (
-    <motion.div
-      initial={{
-        opacity: 0,
-        y: 30,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
-      viewport={{
-        once: true,
-      }}
-      transition={{
-        duration: 0.7,
-      }}
-      className="mt-14"
-    >
-      <div className="relative overflow-hidden rounded-3xl bg-[#0B3D2E] shadow-xl">
-        {/* IMAGE */}
-
-        <motion.img
-          key={activeImage.image}
-          src={activeImage.image}
-          alt={activeImage.title}
-          initial={{
-            opacity: 0,
-            scale: 1.05,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
-          transition={{
-            duration: 0.8,
-            ease: "easeOut",
-          }}
-          className="h-[300px] w-full object-cover sm:h-[430px] lg:h-[540px]"
-        />
-
-        {/* OVERLAY */}
-
-        <div className="absolute inset-0 bg-gradient-to-t from-[#041F18]/90 via-[#041F18]/10 to-transparent" />
-
-        {/* TOP LABEL */}
-
-        <div className="absolute left-5 top-5 rounded-full border border-white/20 bg-black/20 px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] text-white backdrop-blur-md sm:left-7 sm:top-7">
-          Field Operations
-        </div>
-
-        {/* IMAGE INFORMATION */}
-
-        <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#A7F3D0]">
-            Project Field Image
-          </p>
-
-          <h3 className="mt-2 text-xl font-bold text-white sm:text-2xl">
-            {activeImage.title}
-          </h3>
-        </div>
-
-        {/* PREVIOUS BUTTON */}
-
-        {images.length > 1 && (
-          <>
-            <button
-              type="button"
-              onClick={previousImage}
-              aria-label="Previous project image"
-              className="absolute left-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white backdrop-blur-md transition hover:bg-black/50 sm:left-6"
-            >
-              <FaChevronLeft size={14} />
-            </button>
-
-            {/* NEXT BUTTON */}
-
-            <button
-              type="button"
-              onClick={nextImage}
-              aria-label="Next project image"
-              className="absolute right-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white backdrop-blur-md transition hover:bg-black/50 sm:right-6"
-            >
-              <FaChevronRight size={14} />
-            </button>
-
-            {/* DOTS */}
-
-            <div className="absolute bottom-6 right-6 flex items-center gap-2 sm:bottom-8 sm:right-8">
-              {images.map((image, index) => (
-                <button
-                  key={image.image}
-                  type="button"
-                  onClick={() => setCurrentImage(index)}
-                  aria-label={`Show image ${index + 1}`}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    currentImage === index
-                      ? "w-8 bg-white"
-                      : "w-2 bg-white/40 hover:bg-white/70"
-                  }`}
-                />
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-    </motion.div>
-  );
-}
-
-// ============================================================
 // PROJECT DETAILS
 // ============================================================
 
@@ -342,7 +101,7 @@ export default function ProjectDetails() {
   const { slug } = useParams();
 
   // ==========================================================
-  // FIND PROJECT
+  // FIND PROJECT USING URL SLUG
   // ==========================================================
 
   const project = useMemo(
@@ -351,7 +110,7 @@ export default function ProjectDetails() {
   );
 
   // ==========================================================
-  // PROJECT NOT FOUND
+  // IF PROJECT DOES NOT EXIST
   // ==========================================================
 
   if (!project) {
@@ -377,30 +136,20 @@ export default function ProjectDetails() {
       ====================================================== */}
 
       <section className="relative overflow-hidden bg-[#0B3D2E]">
-        {/* HERO IMAGE */}
+        {/* Project Background */}
 
-        <div className="relative h-[500px] w-full overflow-hidden">
-          {project.heroImage ? (
-            <img
-              src={project.heroImage}
-              alt={project.name}
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <div className="h-full w-full bg-gradient-to-br from-[#0B3D2E] via-[#087B5A] to-[#052E23]" />
-          )}
-        </div>
+        <div className="h-[480px] w-full bg-gradient-to-br from-[#0B3D2E] via-[#087B5A] to-[#052E23]" />
 
-        {/* OVERLAY */}
+        {/* Overlay */}
 
         <div className="absolute inset-0 bg-gradient-to-r from-[#041F18]/95 via-[#0B3D2E]/75 to-transparent" />
 
-        {/* HERO CONTENT */}
+        {/* Hero Content */}
 
         <div className="absolute inset-0">
           <div className="mx-auto flex h-full max-w-7xl items-end px-5 pb-16 sm:px-8 lg:px-10">
             <div className="max-w-4xl text-white">
-              {/* BACK */}
+              {/* Back */}
 
               <Link
                 to="/projects"
@@ -410,7 +159,7 @@ export default function ProjectDetails() {
                 Back to Projects
               </Link>
 
-              {/* STATUS */}
+              {/* Status */}
 
               <p
                 className={`text-xs font-bold uppercase tracking-[0.2em] ${
@@ -420,28 +169,23 @@ export default function ProjectDetails() {
                 {project.status}
               </p>
 
-              {/* NAME */}
+              {/* Project Name */}
 
               <h1 className="mt-3 max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
                 {project.name}
               </h1>
 
-              {/* LOCATION + DATE */}
+              {/* Location + Dates */}
 
               <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium text-green-50/80">
                 <span className="flex items-center gap-2">
                   <FaMapMarkerAlt size={13} />
-
                   {project.location}
                 </span>
 
                 <span className="flex items-center gap-2">
                   <FaCalendarAlt size={13} />
-
-                  {formatDate(project.startDate)}
-
-                  {" – "}
-
+                  {formatDate(project.startDate)} –{" "}
                   {formatDate(project.endDate)}
                 </span>
               </div>
@@ -452,30 +196,17 @@ export default function ProjectDetails() {
 
       {/* =====================================================
           ORGANIZATION + DONOR
+          Logo + Name ONLY
       ====================================================== */}
 
       <section className="border-b border-slate-200 bg-white">
-        <div className="mx-auto grid max-w-7xl gap-6 px-5 py-8 sm:px-8 lg:grid-cols-2 lg:px-10">
-          {/* IMPLEMENTED BY */}
+        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-7 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+          {/* =================================================
+              DAFA
+          ================================================== */}
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              x: -20,
-            }}
-            whileInView={{
-              opacity: 1,
-              x: 0,
-            }}
-            viewport={{
-              once: true,
-            }}
-            transition={{
-              duration: 0.6,
-            }}
-            className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5"
-          >
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-white p-2 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-2">
               <img
                 src={project.organization.logo}
                 alt={project.organization.name}
@@ -483,41 +214,17 @@ export default function ProjectDetails() {
               />
             </div>
 
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.15em] text-slate-400">
-                Implemented By
-              </p>
+            <p className="font-bold text-[#0F172A]">
+              {project.organization.name}
+            </p>
+          </div>
 
-              <p className="mt-1 font-bold text-[#0F172A]">
-                {project.organization.name}
-              </p>
+          {/* =================================================
+              DONOR
+          ================================================== */}
 
-              <p className="mt-1 text-xs font-medium text-slate-500">
-                {project.organization.shortName}
-              </p>
-            </div>
-          </motion.div>
-
-          {/* DONOR */}
-
-          <motion.div
-            initial={{
-              opacity: 0,
-              x: 20,
-            }}
-            whileInView={{
-              opacity: 1,
-              x: 0,
-            }}
-            viewport={{
-              once: true,
-            }}
-            transition={{
-              duration: 0.6,
-            }}
-            className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5"
-          >
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-white p-2 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 p-2">
               <img
                 src={project.donor.logo}
                 alt={project.donor.name}
@@ -525,20 +232,8 @@ export default function ProjectDetails() {
               />
             </div>
 
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.15em] text-slate-400">
-                Supported By
-              </p>
-
-              <p className="mt-1 font-bold text-[#0F172A]">
-                {project.donor.name}
-              </p>
-
-              <p className="mt-1 text-xs font-medium text-slate-500">
-                Project Donor
-              </p>
-            </div>
-          </motion.div>
+            <p className="font-bold text-[#0F172A]">{project.donor.name}</p>
+          </div>
         </div>
       </section>
 
@@ -555,22 +250,7 @@ export default function ProjectDetails() {
           <div className="grid gap-12 lg:grid-cols-[1.4fr_0.6fr]">
             {/* OVERVIEW */}
 
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 0.6,
-              }}
-            >
+            <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
                 Project Overview
               </p>
@@ -586,34 +266,17 @@ export default function ProjectDetails() {
               <p className="mt-5 text-base leading-8 text-slate-600">
                 {project.details}
               </p>
-            </motion.div>
+            </div>
 
             {/* PROJECT INFORMATION */}
 
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 0.6,
-                delay: 0.1,
-              }}
-              className="h-fit rounded-3xl border border-slate-200 bg-slate-50 p-7"
-            >
+            <div className="h-fit rounded-3xl border border-slate-200 bg-slate-50 p-7">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
                 Project Information
               </p>
 
               <div className="mt-6 space-y-5">
-                {/* LOCATION */}
+                {/* Location */}
 
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
@@ -627,7 +290,7 @@ export default function ProjectDetails() {
                   </p>
                 </div>
 
-                {/* START */}
+                {/* Start Date */}
 
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
@@ -639,7 +302,7 @@ export default function ProjectDetails() {
                   </p>
                 </div>
 
-                {/* END */}
+                {/* End Date */}
 
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
@@ -651,7 +314,7 @@ export default function ProjectDetails() {
                   </p>
                 </div>
 
-                {/* STATUS */}
+                {/* Status */}
 
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
@@ -669,160 +332,29 @@ export default function ProjectDetails() {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* =================================================
-              PROJECT TIMELINE + TEAM
+              PROJECT DURATION + TEAM
           ================================================== */}
 
           <div className="mt-16 grid gap-6 lg:grid-cols-2">
-            {/* TIMELINE */}
+            {/* =================================================
+                DURATION
+            ================================================== */}
 
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 25,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 0.6,
-              }}
-              className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#087B5A]">
-                    Project Timeline
-                  </p>
+            <ProjectTimeline
+              project={project}
+              duration={duration}
+              isOngoing={isOngoing}
+            />
 
-                  <h3 className="mt-2 text-2xl font-bold text-[#0F172A]">
-                    Project Duration
-                  </h3>
-                </div>
+            {/* =================================================
+                TEAM
+            ================================================== */}
 
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#087B5A]/10 text-[#087B5A]">
-                  <FaClock />
-                </div>
-              </div>
-
-              <div className="mt-8 flex flex-col items-center gap-8 sm:flex-row">
-                {/* PIE */}
-
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    scale: 0.8,
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    scale: 1,
-                  }}
-                  viewport={{
-                    once: true,
-                  }}
-                  transition={{
-                    duration: 0.8,
-                  }}
-                  className="relative h-36 w-36 shrink-0 rounded-full"
-                  style={{
-                    background: `conic-gradient(
-                      #087B5A ${duration.percentage}%,
-                      #E2E8F0 0
-                    )`,
-                  }}
-                >
-                  <div className="absolute inset-3 flex items-center justify-center rounded-full bg-white">
-                    <div className="text-center">
-                      <motion.p
-                        initial={{
-                          opacity: 0,
-                          scale: 0.7,
-                        }}
-                        whileInView={{
-                          opacity: 1,
-                          scale: 1,
-                        }}
-                        viewport={{
-                          once: true,
-                        }}
-                        transition={{
-                          duration: 0.8,
-                        }}
-                        className="text-3xl font-extrabold text-[#0F172A]"
-                      >
-                        {duration.percentage}%
-                      </motion.p>
-
-                      <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-                        Complete
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* TIMELINE INFO */}
-
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-slate-400">
-                      Timeline
-                    </p>
-
-                    <p className="mt-1 text-sm font-bold text-[#0F172A]">
-                      {formatDate(project.startDate)}
-                    </p>
-
-                    <p className="text-sm font-bold text-[#0F172A]">
-                      {formatDate(project.endDate)}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-slate-400">
-                      Total Duration
-                    </p>
-
-                    <p className="mt-1 text-sm font-bold text-[#0F172A]">
-                      {duration.totalDays} days
-                    </p>
-                  </div>
-
-                  <p className="text-sm text-slate-500">
-                    {isOngoing
-                      ? `${duration.remainingDays} days remaining`
-                      : "Project completed"}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* TEAM */}
-
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 25,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 0.6,
-                delay: 0.1,
-              }}
-              className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm"
-            >
+            <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#087B5A]">
                 Project Team
               </p>
@@ -854,15 +386,16 @@ export default function ProjectDetails() {
                   label="Technical Staff"
                 />
               </div>
-            </motion.div>
+            </div>
           </div>
 
           {/* =================================================
-              FULL WIDTH PROJECT IMAGE SLIDER
-              AFTER TIMELINE + TEAM
+              FIELD IMAGE SLIDER
           ================================================== */}
 
-          <ProjectImageSlider project={project} />
+          {project.gallery?.length > 0 && (
+            <ProjectGallery gallery={project.gallery} />
+          )}
 
           {/* =================================================
               OBJECTIVES
@@ -950,7 +483,7 @@ export default function ProjectDetails() {
                   }}
                   className="group flex gap-4 rounded-2xl border border-slate-200 bg-white p-6 transition hover:border-[#087B5A]/30 hover:shadow-sm"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#087B5A]/10 text-sm font-bold text-[#087B5A] transition group-hover:bg-[#087B5A] group-hover:text-white">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#087B5A]/10 text-sm font-bold text-[#087B5A] group-hover:bg-[#087B5A] group-hover:text-white">
                     {index + 1}
                   </span>
 
@@ -969,89 +502,10 @@ export default function ProjectDetails() {
           </div>
 
           {/* =================================================
-              FIELD GALLERY
-          ================================================== */}
-
-          {project.gallery?.length > 0 && (
-            <div className="mt-20 border-t border-slate-200 pt-16">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
-                Field Operations
-              </p>
-
-              <h2 className="mt-3 text-3xl font-bold text-[#0F172A] sm:text-4xl">
-                Project Activities in the Field
-              </h2>
-
-              <p className="mt-5 max-w-3xl text-sm leading-7 text-slate-600">
-                A visual overview of the project's field activities and
-                humanitarian operations.
-              </p>
-
-              <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {project.gallery.map((item, index) => (
-                  <motion.div
-                    key={item.image}
-                    initial={{
-                      opacity: 0,
-                      y: 20,
-                    }}
-                    whileInView={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    viewport={{
-                      once: true,
-                    }}
-                    transition={{
-                      duration: 0.5,
-                      delay: index * 0.08,
-                    }}
-                    className="group relative h-64 overflow-hidden rounded-2xl bg-[#0B3D2E]"
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                    />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#041F18]/90 via-transparent to-transparent" />
-
-                    <div className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-lg bg-black/30 text-xs font-bold text-white backdrop-blur-md">
-                      {String(index + 1).padStart(2, "0")}
-                    </div>
-
-                    <div className="absolute bottom-0 left-0 right-0 p-5">
-                      <p className="text-sm font-bold text-white">
-                        {item.title}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* =================================================
               IMPACT
           ================================================== */}
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 25,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-            }}
-            transition={{
-              duration: 0.7,
-            }}
-            className="mt-20 rounded-3xl bg-[#0B3D2E] p-8 sm:p-12"
-          >
+          <div className="mt-20 rounded-3xl bg-[#0B3D2E] p-8 sm:p-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#A7F3D0]">
               Project Impact
             </p>
@@ -1063,10 +517,10 @@ export default function ProjectDetails() {
             <p className="mt-5 max-w-3xl text-base leading-8 text-green-50/70">
               {project.impact}
             </p>
-          </motion.div>
+          </div>
 
           {/* =================================================
-              BACK TO PROJECTS
+              BACK
           ================================================== */}
 
           <div className="mt-12 border-t border-slate-200 pt-8">
@@ -1081,5 +535,488 @@ export default function ProjectDetails() {
         </div>
       </section>
     </main>
+  );
+}
+
+// ============================================================
+// PROJECT TIMELINE
+// Animation starts ONLY when timeline enters viewport.
+// ============================================================
+
+function ProjectTimeline({ project, duration, isOngoing }) {
+  const timelineRef = useRef(null);
+
+  const isInView = useInView(timelineRef, {
+    once: true,
+    amount: 0.35,
+  });
+
+  return (
+    <motion.div
+      ref={timelineRef}
+      initial={{
+        opacity: 0,
+        y: 30,
+      }}
+      animate={
+        isInView
+          ? {
+              opacity: 1,
+              y: 0,
+            }
+          : {}
+      }
+      transition={{
+        duration: 0.6,
+      }}
+      className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm"
+    >
+      {/* Header */}
+
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#087B5A]">
+            Project Timeline
+          </p>
+
+          <h3 className="mt-2 text-2xl font-bold text-[#0F172A]">
+            Project Duration
+          </h3>
+        </div>
+
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#087B5A]/10 text-[#087B5A]">
+          <FaClock />
+        </div>
+      </div>
+
+      {/* Timeline */}
+
+      <div className="mt-8 flex items-center gap-8">
+        {/* =================================================
+            ANIMATED PIE CHART
+        ================================================== */}
+
+        <motion.div
+          className="relative h-36 w-36 shrink-0 rounded-full"
+          initial={{
+            background: "conic-gradient(#087B5A 0%, #E2E8F0 0)",
+          }}
+          animate={
+            isInView
+              ? {
+                  background: `conic-gradient(#087B5A ${duration.percentage}%, #E2E8F0 0)`,
+                }
+              : {
+                  background: "conic-gradient(#087B5A 0%, #E2E8F0 0)",
+                }
+          }
+          transition={{
+            duration: 1.5,
+            ease: "easeOut",
+          }}
+        >
+          <div className="absolute inset-3 flex items-center justify-center rounded-full bg-white">
+            <div className="text-center">
+              <AnimatedNumber
+                value={duration.percentage}
+                startAnimation={isInView}
+                suffix="%"
+                className="text-3xl font-extrabold text-[#0F172A]"
+              />
+
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                Complete
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* =================================================
+            TIMELINE INFORMATION
+        ================================================== */}
+
+        <div className="space-y-3">
+          <div>
+            <p className="text-xs uppercase tracking-wider text-slate-400">
+              Timeline
+            </p>
+
+            <p className="mt-1 text-sm font-bold text-[#0F172A]">
+              {formatDate(project.startDate)}
+            </p>
+
+            <p className="text-sm font-bold text-[#0F172A]">
+              {formatDate(project.endDate)}
+            </p>
+          </div>
+
+          <p className="text-sm text-slate-500">
+            {isOngoing ? (
+              <>
+                <AnimatedNumber
+                  value={duration.remainingDays}
+                  startAnimation={isInView}
+                />{" "}
+                days remaining
+              </>
+            ) : (
+              "Project completed"
+            )}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ============================================================
+// ANIMATED NUMBER
+// ============================================================
+
+function AnimatedNumber({
+  value,
+  startAnimation,
+  suffix = "",
+  className = "",
+}) {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (!startAnimation) {
+      setDisplayValue(0);
+      return;
+    }
+
+    const target = Number(value) || 0;
+
+    if (target === 0) {
+      setDisplayValue(0);
+      return;
+    }
+
+    const duration = 1400;
+
+    const startTime = performance.now();
+
+    let animationFrame;
+
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
+
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Ease-out
+
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+      const currentValue = Math.round(easedProgress * target);
+
+      setDisplayValue(currentValue);
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      } else {
+        setDisplayValue(target);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+    };
+  }, [startAnimation, value]);
+
+  return (
+    <span className={className}>
+      {displayValue}
+      {suffix}
+    </span>
+  );
+}
+
+// ============================================================
+// PROJECT GALLERY
+// ============================================================
+
+function ProjectGallery({ gallery }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  // ==========================================================
+  // DETECT WHEN GALLERY ENTERS VIEWPORT
+  // ==========================================================
+
+  useEffect(() => {
+    const element = document.getElementById("project-field-gallery");
+
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.25,
+      },
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
+  // ==========================================================
+  // AUTOMATIC SLIDER
+  // ==========================================================
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    if (gallery.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((previous) =>
+        previous === gallery.length - 1 ? 0 : previous + 1,
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isVisible, gallery.length]);
+
+  // ==========================================================
+  // MANUAL CONTROLS
+  // ==========================================================
+
+  const previousImage = () => {
+    setCurrentIndex((previous) =>
+      previous === 0 ? gallery.length - 1 : previous - 1,
+    );
+  };
+
+  const nextImage = () => {
+    setCurrentIndex((previous) =>
+      previous === gallery.length - 1 ? 0 : previous + 1,
+    );
+  };
+
+  const currentImage = gallery[currentIndex];
+
+  return (
+    <motion.div
+      id="project-field-gallery"
+      initial={{
+        opacity: 0,
+        y: 30,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      viewport={{
+        once: true,
+        margin: "-100px",
+      }}
+      transition={{
+        duration: 0.7,
+      }}
+      className="mt-16"
+    >
+      {/* SECTION LABEL */}
+
+      <div className="mb-6 flex items-end justify-between gap-5">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#087B5A]">
+            Field Documentation
+          </p>
+
+          <h3 className="mt-2 text-2xl font-bold text-[#0F172A] sm:text-3xl">
+            Project in the Field
+          </h3>
+        </div>
+
+        {gallery.length > 1 && (
+          <div className="hidden text-sm font-semibold text-slate-400 sm:block">
+            {currentIndex + 1} / {gallery.length}
+          </div>
+        )}
+      </div>
+
+      {/* IMAGE CARD */}
+
+      <div className="group relative h-[300px] overflow-hidden rounded-3xl bg-[#0B3D2E] shadow-lg sm:h-[420px] lg:h-[520px]">
+        {/* IMAGE */}
+
+        <motion.img
+          key={currentImage.image}
+          src={currentImage.image}
+          alt={currentImage.title}
+          initial={{
+            opacity: 0,
+            scale: 1.05,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+          }}
+          transition={{
+            duration: 0.8,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="h-full w-full object-cover"
+        />
+
+        {/* OVERLAY */}
+
+        <div className="absolute inset-0 bg-gradient-to-t from-[#041F18]/90 via-[#041F18]/10 to-transparent" />
+
+        {/* IMAGE TITLE */}
+
+        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#A7F3D0]">
+            Field Image
+          </p>
+
+          <h4 className="mt-2 text-xl font-bold text-white sm:text-2xl">
+            {currentImage.title}
+          </h4>
+        </div>
+
+        {/* =================================================
+            ARROWS
+        ================================================== */}
+
+        {gallery.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={previousImage}
+              aria-label="Previous field image"
+              className="
+                absolute
+                left-4
+                top-1/2
+                flex
+                h-11
+                w-11
+                -translate-y-1/2
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-white/20
+                bg-black/30
+                text-white
+                backdrop-blur-md
+                transition-all
+                duration-300
+                hover:bg-[#087B5A]
+                sm:left-6
+              "
+            >
+              <FaChevronLeft size={13} />
+            </button>
+
+            <button
+              type="button"
+              onClick={nextImage}
+              aria-label="Next field image"
+              className="
+                absolute
+                right-4
+                top-1/2
+                flex
+                h-11
+                w-11
+                -translate-y-1/2
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-white/20
+                bg-black/30
+                text-white
+                backdrop-blur-md
+                transition-all
+                duration-300
+                hover:bg-[#087B5A]
+                sm:right-6
+              "
+            >
+              <FaChevronRight size={13} />
+            </button>
+          </>
+        )}
+
+        {/* =================================================
+            DOTS
+        ================================================== */}
+
+        {gallery.length > 1 && (
+          <div className="absolute bottom-6 right-6 flex items-center gap-2">
+            {gallery.map((image, index) => (
+              <button
+                key={image.image}
+                type="button"
+                onClick={() => setCurrentIndex(index)}
+                aria-label={`Show field image ${index + 1}`}
+                className={`
+                    h-2
+                    rounded-full
+                    transition-all
+                    duration-300
+                    ${
+                      index === currentIndex
+                        ? "w-7 bg-white"
+                        : "w-2 bg-white/40 hover:bg-white/70"
+                    }
+                  `}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+// ============================================================
+// TEAM STAT
+// ============================================================
+
+function TeamStat({ icon, number, label }) {
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 15,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      viewport={{
+        once: true,
+      }}
+      transition={{
+        duration: 0.5,
+      }}
+      className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+    >
+      <div className="flex items-center gap-3">
+        {icon && <span className="text-[#087B5A]">{icon}</span>}
+
+        <span className="text-2xl font-extrabold text-[#0F172A]">{number}</span>
+      </div>
+
+      <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+        {label}
+      </p>
+    </motion.div>
   );
 }
