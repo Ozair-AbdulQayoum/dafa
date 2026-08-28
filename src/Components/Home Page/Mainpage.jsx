@@ -4,7 +4,7 @@ import About from "./About";
 import Programs from "./Programs";
 import Projects from "./Projects";
 import WhereWeWork from "./WhereWeWork";
-import SuccessStories from "./SuccessStories";
+import StoriesCards from "./StoriesCards";
 import PartnersDonors from "./PartnersDonors";
 import Reports from "./Reports";
 import News from "./News";
@@ -18,7 +18,7 @@ export default function Mainpage() {
       <Programs />
       <Projects />
       <WhereWeWork />
-      <SuccessStories />
+      <StoriesCards />
       <PartnersDonors />
       <Reports />
       <News />

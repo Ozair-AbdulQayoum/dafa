@@ -64,8 +64,8 @@ import Reports from "./Components/Resources/Reports/Reports";
 
 // -------------------- Stories --------------------
 
-import Stories from "./Components/Resources/Stories Page/Stories";
-import StoriesDetails from "./Components/Resources/Stories Page/StoriesDetails";
+import Stories from "./Components/Resources/Stories/Stories";
+import StoriesDetails from "./Components/Resources/Stories/StoriesDetails";
 
 // -------------------- News & Updates --------------------
 

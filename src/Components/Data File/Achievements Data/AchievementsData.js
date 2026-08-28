@@ -47,7 +47,7 @@ const achievementsData = [
 
   {
     icon: FaBomb,
-    value: 6968,
+    value: 47313,
     suffix: "",
     label: "Anti-Tank Mines",
     description:
