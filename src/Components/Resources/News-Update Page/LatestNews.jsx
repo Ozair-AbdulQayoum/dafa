@@ -1,6 +1,9 @@
-import React, { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+// src/Components/News/LatestNews.jsx
+
+import React, { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
+
 import {
   FaArrowRight,
   FaCalendarAlt,
@@ -8,85 +11,50 @@ import {
   FaSearch,
 } from "react-icons/fa";
 
-const newsUpdates = [
-  {
-    slug: "dafa-community-meeting",
-    category: "Meetings",
-    title: "DAFA Holds Community Meeting to Strengthen Local Engagement",
-    description:
-      "DAFA representatives meet with community members to discuss humanitarian mine action activities, safety concerns, and local priorities.",
-    date: "December 18, 2025",
-    location: "Kabul, Afghanistan",
-    image: "/images/news-meeting.jpg",
-  },
-  {
-    slug: "dafa-field-team-training",
-    category: "Training",
-    title: "DAFA Conducts Training for Humanitarian Mine Action Teams",
-    description:
-      "A capacity-building training program helps field teams strengthen their technical knowledge, safety practices, and operational skills.",
-    date: "December 08, 2025",
-    location: "Afghanistan",
-    image: "/images/news-training.jpg",
-  },
-  {
-    slug: "dafa-mou-partnership",
-    category: "MOU & Partnerships",
-    title:
-      "DAFA Signs New Partnership Agreement to Support Humanitarian Action",
-    description:
-      "DAFA strengthens cooperation with partners through a new memorandum of understanding focused on humanitarian mine-action activities.",
-    date: "November 24, 2025",
-    location: "Kabul, Afghanistan",
-    image: "/images/news-mou.jpg",
-  },
-  {
-    slug: "dafa-stakeholder-meeting",
-    category: "Meetings",
-    title: "DAFA Meets With Humanitarian Partners",
-    description:
-      "DAFA meets with humanitarian stakeholders to discuss ongoing programs, operational priorities, and opportunities for collaboration.",
-    date: "November 12, 2025",
-    location: "Kabul, Afghanistan",
-    image: "/images/news-stakeholder.jpg",
-  },
-  {
-    slug: "mine-action-awareness-training",
-    category: "Training",
-    title: "Community Safety Awareness Training Conducted",
-    description:
-      "DAFA teams conduct awareness activities to help communities better understand explosive hazards and safer behavior.",
-    date: "October 30, 2025",
-    location: "Afghanistan",
-    image: "/images/news-awareness.jpg",
-  },
-  {
-    slug: "dafa-humanitarian-event",
-    category: "Events",
-    title: "DAFA Participates in Humanitarian Mine Action Event",
-    description:
-      "DAFA joins humanitarian organizations and partners to highlight the importance of mine action and community safety.",
-    date: "October 16, 2025",
-    location: "Kabul, Afghanistan",
-    image: "/images/news-event.jpg",
-  },
-];
-
-const categories = [
-  "All Updates",
-  "Meetings",
-  "Training",
-  "MOU & Partnerships",
-  "Events",
-  "Field Activities",
-  "Announcements",
-];
+import {
+  newsUpdates,
+  newsCategories,
+} from "../../Data File/News Update Data/LatestNews";
 
 export default function LatestNews() {
+  // =========================================================
+  // STATE
+  // =========================================================
+
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All Updates");
+  const [currentImage, setCurrentImage] = useState(0);
 
-  const featuredNews = newsUpdates[0];
+  // =========================================================
+  // LATEST NEWS
+  // =========================================================
+
+  const latestNews = newsUpdates[0];
+
+  // =========================================================
+  // LATEST NEWS GALLERY
+  // =========================================================
+
+  const latestGallery =
+    latestNews?.gallery?.length > 0 ? latestNews.gallery : [latestNews.image];
+
+  // =========================================================
+  // AUTO IMAGE SLIDER
+  // =========================================================
+
+  useEffect(() => {
+    if (latestGallery.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentImage((previous) => (previous + 1) % latestGallery.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [latestGallery.length]);
+
+  // =========================================================
+  // FILTER NEWS
+  // =========================================================
 
   const filteredNews = useMemo(() => {
     const searchText = search.toLowerCase().trim();
@@ -105,9 +73,17 @@ export default function LatestNews() {
     });
   }, [search, category]);
 
+  // =========================================================
+  // OTHER NEWS
+  // =========================================================
+
   const archiveNews = filteredNews.filter(
-    (item) => item.slug !== featuredNews.slug,
+    (item) => item.slug !== latestNews.slug,
   );
+
+  if (!latestNews) {
+    return null;
+  }
 
   return (
     <section
@@ -144,10 +120,7 @@ export default function LatestNews() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{
-            duration: 0.7,
-            ease: [0.22, 1, 0.36, 1],
-          }}
+          transition={{ duration: 0.7 }}
           className="mx-auto max-w-3xl text-center"
         >
           <div className="mb-5 flex items-center justify-center gap-3">
@@ -161,8 +134,7 @@ export default function LatestNews() {
           </div>
 
           <h2 className="text-3xl font-extrabold leading-[1.08] tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
-            Latest From
-            <span className="text-[#087B5A]"> DAFA</span>
+            Latest From <span className="text-[#087B5A]">DAFA</span>
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
@@ -173,82 +145,150 @@ export default function LatestNews() {
         </motion.div>
 
         {/* =====================================================
-            FEATURED STORY
+            FEATURED LATEST NEWS
         ===================================================== */}
 
         {!search && category === "All Updates" && (
           <motion.article
             initial={{ opacity: 0, y: 35 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
+            viewport={{
+              once: true,
+              margin: "-80px",
+            }}
             transition={{
               duration: 0.8,
               delay: 0.1,
-              ease: [0.22, 1, 0.36, 1],
             }}
             className="group relative mt-14 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm transition-all duration-500 hover:shadow-2xl"
           >
             <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
-              {/* IMAGE */}
+              {/* =================================================
+                  FEATURED IMAGE SLIDER
+              ================================================= */}
 
-              <div className="relative min-h-[360px] overflow-hidden bg-[#0B3D2E] sm:min-h-[430px] lg:min-h-[500px]">
-                <img
-                  src={featuredNews.image}
-                  alt={featuredNews.title}
-                  className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                />
+              <div className="relative min-h-[360px] overflow-hidden bg-[#0B3D2E] sm:min-h-[430px] lg:min-h-[520px]">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={latestGallery[currentImage]}
+                    src={latestGallery[currentImage]}
+                    alt={latestNews.title}
+                    initial={{
+                      opacity: 0,
+                      scale: 1.05,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                    }}
+                    exit={{
+                      opacity: 0,
+                    }}
+                    transition={{
+                      duration: 0.8,
+                    }}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </AnimatePresence>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#052E23]/80 via-transparent to-transparent" />
+                {/* Image Overlay */}
 
-                {/* Featured Badge */}
-
-                <div className="absolute left-6 top-6">
-                  <span className="rounded-full bg-[#F97316] px-4 py-2 text-[10px] font-extrabold uppercase tracking-[0.16em] text-white shadow-lg">
-                    Featured Story
-                  </span>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#052E23]/85 via-black/10 to-transparent" />
 
                 {/* Location */}
 
                 <div className="absolute bottom-6 left-6 flex items-center gap-2 text-sm font-semibold text-white">
                   <FaMapMarkerAlt size={12} className="text-[#F97316]" />
 
-                  {featuredNews.location}
+                  {latestNews.location}
                 </div>
+
+                {/* Slider */}
+
+                {latestGallery.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      aria-label="Previous image"
+                      onClick={() =>
+                        setCurrentImage(
+                          (currentImage - 1 + latestGallery.length) %
+                            latestGallery.length,
+                        )
+                      }
+                      className="absolute left-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-2xl text-white backdrop-blur-sm transition hover:bg-black/50"
+                    >
+                      ‹
+                    </button>
+
+                    <button
+                      type="button"
+                      aria-label="Next image"
+                      onClick={() =>
+                        setCurrentImage(
+                          (currentImage + 1) % latestGallery.length,
+                        )
+                      }
+                      className="absolute right-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-2xl text-white backdrop-blur-sm transition hover:bg-black/50"
+                    >
+                      ›
+                    </button>
+
+                    <div className="absolute bottom-6 right-6 flex gap-2">
+                      {latestGallery.map((image, index) => (
+                        <button
+                          key={image}
+                          type="button"
+                          aria-label={`Show image ${index + 1}`}
+                          onClick={() => setCurrentImage(index)}
+                          className={`h-2 rounded-full transition-all duration-300 ${
+                            currentImage === index
+                              ? "w-8 bg-white"
+                              : "w-2 bg-white/50"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
 
-              {/* CONTENT */}
+              {/* =================================================
+                  FEATURED CONTENT
+              ================================================= */}
 
               <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="rounded-full bg-[#087B5A]/10 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#087B5A]">
-                    {featuredNews.category}
-                  </span>
+                {/* Date Only */}
 
-                  <span className="h-1 w-1 rounded-full bg-slate-300" />
+                <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
+                  <FaCalendarAlt size={10} />
 
-                  <span className="flex items-center gap-2 text-xs font-semibold text-slate-400">
-                    <FaCalendarAlt size={10} />
-                    {featuredNews.date}
-                  </span>
+                  {latestNews.date}
                 </div>
 
+                {/* Title */}
+
                 <h3 className="mt-6 text-2xl font-extrabold leading-[1.2] tracking-tight text-[#0F172A] sm:text-3xl lg:text-4xl">
-                  {featuredNews.title}
+                  {latestNews.title}
                 </h3>
 
+                {/* Description */}
+
                 <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
-                  {featuredNews.description}
+                  {latestNews.description}
                 </p>
 
+                {/* Read Story */}
+
                 <Link
-                  to={`/resources/news-updates/${featuredNews.slug}`}
+                  to={`/resources/news-updates/${latestNews.slug}`}
                   className="group/cta mt-8 inline-flex w-fit items-center gap-3 rounded-xl bg-[#087B5A] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#087B5A]/15 transition-all duration-300 hover:-translate-y-1 hover:bg-[#0B3D2E]"
                 >
                   Read Full Story
-                  <span className="transition-transform duration-300 group-hover/cta:translate-x-1">
-                    <FaArrowRight size={11} />
-                  </span>
+                  <FaArrowRight
+                    size={11}
+                    className="transition-transform duration-300 group-hover/cta:translate-x-1"
+                  />
                 </Link>
               </div>
             </div>
@@ -260,14 +300,24 @@ export default function LatestNews() {
         ===================================================== */}
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
           className="mt-12"
         >
           <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:flex-row">
-            {/* SEARCH */}
+            {/* Search */}
 
             <div className="relative flex-1">
               <FaSearch
@@ -284,20 +334,22 @@ export default function LatestNews() {
               />
             </div>
 
-            {/* FILTER */}
+            {/* Category Filter */}
 
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="h-11 rounded-xl border border-slate-200 bg-[#F8FAFC] px-4 text-sm font-semibold text-[#0F172A] outline-none transition focus:border-[#087B5A]"
             >
-              {categories.map((item) => (
+              {newsCategories.map((item) => (
                 <option key={item} value={item}>
                   {item}
                 </option>
               ))}
             </select>
           </div>
+
+          {/* Result Count */}
 
           {(search || category !== "All Updates") && (
             <p className="mt-3 text-xs font-medium text-slate-400">
@@ -315,16 +367,14 @@ export default function LatestNews() {
         ===================================================== */}
 
         <div className="mt-14">
-          <div className="mb-8 flex items-end justify-between gap-5">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#087B5A]">
-                DAFA News Archive
-              </p>
+          <div className="mb-8">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#087B5A]">
+              DAFA News Archive
+            </p>
 
-              <h3 className="mt-2 text-2xl font-extrabold tracking-tight text-[#0F172A] sm:text-3xl">
-                Latest Updates
-              </h3>
-            </div>
+            <h3 className="mt-2 text-2xl font-extrabold tracking-tight text-[#0F172A] sm:text-3xl">
+              More Updates
+            </h3>
           </div>
 
           {archiveNews.length > 0 ? (
@@ -332,30 +382,39 @@ export default function LatestNews() {
               {archiveNews.map((item, index) => (
                 <motion.article
                   key={item.slug}
-                  initial={{ opacity: 0, y: 25 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  initial={{
+                    opacity: 0,
+                    y: 25,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  viewport={{
+                    once: true,
+                  }}
                   transition={{
                     duration: 0.55,
                     delay: index * 0.07,
                   }}
-                  whileHover={{ y: -7 }}
+                  whileHover={{
+                    y: -7,
+                  }}
                   className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:border-[#087B5A]/20 hover:shadow-xl"
                 >
-                  {/* IMAGE */}
+                  {/* Card Image */}
 
                   <div className="relative h-52 overflow-hidden bg-[#0B3D2E]">
                     <img
                       src={item.image}
                       alt={item.title}
+                      loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-[#052E23]/80 via-transparent to-transparent" />
 
-                    <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#087B5A] shadow-sm">
-                      {item.category}
-                    </span>
+                    {/* Location Only */}
 
                     <div className="absolute bottom-4 left-4 flex items-center gap-2 text-xs font-semibold text-white">
                       <FaMapMarkerAlt size={10} className="text-[#F97316]" />
@@ -364,22 +423,30 @@ export default function LatestNews() {
                     </div>
                   </div>
 
-                  {/* CONTENT */}
+                  {/* Card Content */}
 
                   <div className="p-6">
+                    {/* Date */}
+
                     <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-400">
                       <FaCalendarAlt size={9} className="text-[#087B5A]" />
 
                       {item.date}
                     </div>
 
+                    {/* Title */}
+
                     <h3 className="mt-4 text-lg font-extrabold leading-[1.35] tracking-tight text-[#0F172A] transition-colors duration-300 group-hover:text-[#087B5A]">
                       {item.title}
                     </h3>
 
+                    {/* Description */}
+
                     <p className="mt-3 line-clamp-3 text-sm leading-7 text-slate-500">
                       {item.description}
                     </p>
+
+                    {/* Read More */}
 
                     <Link
                       to={`/resources/news-updates/${item.slug}`}
@@ -389,6 +456,8 @@ export default function LatestNews() {
                       <FaArrowRight size={9} />
                     </Link>
                   </div>
+
+                  {/* Bottom Accent */}
 
                   <div className="h-1 w-0 bg-[#F97316] transition-all duration-500 group-hover:w-full" />
                 </motion.article>
@@ -421,28 +490,6 @@ export default function LatestNews() {
             </div>
           )}
         </div>
-
-        {/* =====================================================
-            VIEW ALL NEWS
-        ===================================================== */}
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-14 text-center"
-        >
-          <Link
-            to="/resources/news-updates"
-            className="group inline-flex items-center gap-3 rounded-xl border border-[#087B5A]/20 bg-white px-7 py-3.5 text-sm font-bold text-[#087B5A] shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#087B5A] hover:bg-[#087B5A] hover:text-white hover:shadow-lg"
-          >
-            View All News
-            <span className="transition-transform duration-300 group-hover:translate-x-1">
-              <FaArrowRight size={11} />
-            </span>
-          </Link>
-        </motion.div>
       </div>
     </section>
   );
