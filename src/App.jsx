@@ -1,169 +1,88 @@
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// =====================================================
-// NAVBAR & FOOTER
-// =====================================================
-
+// Navbar & Footer
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 
-// =====================================================
-// HOME
-// =====================================================
-
+// Home
 import Mainpage from "./Components/Home Page/Mainpage";
 
-// =====================================================
-// ABOUT
-// =====================================================
-
+// About
 import AboutPage from "./Components/About Page/AboutDAFA";
 import OrganizationChart from "./Components/Organization Chart Page/OrganizationChart";
 
-// =====================================================
-// WHAT WE DO
-// =====================================================
-
+// What We Do
 import WhatWeDo from "./Components/What We Do page/WhatWeDo";
 import ActivityDetails from "./Components/What We Do page/ActivityDetails";
 
-// =====================================================
-// HUMANITARIAN SUPPORT
-// =====================================================
-
+// Humanitarian Support
 import BeyondDemining from "./Components/What We Do page/BeyondDemining";
 import BeyondDeminingDetails from "./Components/What We Do page/BeyondDeminingDetails";
 
-// =====================================================
-// MEMBERS
-// =====================================================
-
+// Members
 import Members from "./Components/Members Page/Members";
 import MemberProfile from "./Components/Members Page/MemberProfile";
 
-// =====================================================
-// PROJECTS
-// =====================================================
-
+// Projects
 import Projects from "./Components/Projects Page/Projects";
 import ProjectDetails from "./Components/Projects Page/ProjectDetails";
 
-// =====================================================
-// ACHIEVEMENTS
-// =====================================================
-
+// Achievements
 import Achievements from "./Components/Achievements Page/Achievements";
 
-// =====================================================
-// RESOURCES
-// =====================================================
-
-// -------------------- Reports --------------------
-
+// Resources
 import Reports from "./Components/Resources/Reports/Reports";
-
-// -------------------- Stories --------------------
-
 import Stories from "./Components/Resources/Stories/Stories";
 import StoriesDetails from "./Components/Resources/Stories/StoriesDetails";
-
-// -------------------- News & Updates --------------------
-
 import NewsUpdate from "./Components/Resources/News-Update Page/NewsUpdate";
 import NewsUpdateDetails from "./Components/Resources/News-Update Page/NewsUpdateDetails";
-
-// -------------------- Certificates --------------------
-
 import Certificates from "./Components/Resources/Certificate/Certificates";
 
-// =====================================================
-// APP
-// =====================================================
+// Contact
+import Contact from "./Components/Contact";
 
 export default function App() {
   return (
     <BrowserRouter>
-      {/* =================================================
-          NAVBAR
-      ================================================== */}
-
       <Navbar />
 
-      {/* =================================================
-          ROUTES
-      ================================================== */}
-
       <Routes>
-        {/* =================================================
-            HOME
-        ================================================== */}
-
+        {/* HOME */}
         <Route path="/" element={<Mainpage />} />
 
-        {/* =================================================
-            ABOUT
-        ================================================== */}
-
+        {/* ABOUT */}
         <Route path="/about" element={<AboutPage />} />
-
         <Route path="/organization-chart" element={<OrganizationChart />} />
 
-        {/* =================================================
-            WHAT WE DO
-        ================================================== */}
-
+        {/* WHAT WE DO */}
         <Route path="/what-we-do" element={<WhatWeDo />} />
-
         <Route path="/what-we-do/:slug" element={<ActivityDetails />} />
 
-        {/* =================================================
-            HUMANITARIAN SUPPORT
-        ================================================== */}
-
+        {/* HUMANITARIAN SUPPORT */}
         <Route path="/beyond-demining" element={<BeyondDemining />} />
-
         <Route
           path="/beyond-demining/:slug"
           element={<BeyondDeminingDetails />}
         />
 
-        {/* =================================================
-            MEMBERS
-        ================================================== */}
-
+        {/* MEMBERS */}
         <Route path="/members" element={<Members />} />
-
         <Route path="/members/:slug" element={<MemberProfile />} />
 
-        {/* =================================================
-            PROJECTS
-        ================================================== */}
-
+        {/* PROJECTS */}
         <Route path="/projects" element={<Projects />} />
-
         <Route path="/projects/:slug" element={<ProjectDetails />} />
 
-        {/* =================================================
-            ACHIEVEMENTS
-        ================================================== */}
-
+        {/* ACHIEVEMENTS */}
         <Route path="/achievements" element={<Achievements />} />
 
-        {/* =================================================
-            RESOURCES
-        ================================================= */}
-
-        {/* -------------------- Reports -------------------- */}
-
+        {/* RESOURCES */}
         <Route path="/resources/reports" element={<Reports />} />
-
-        {/* -------------------- Stories -------------------- */}
 
         <Route path="/resources/stories" element={<Stories />} />
 
         <Route path="/resources/stories/:slug" element={<StoriesDetails />} />
-
-        {/* -------------------- News & Updates -------------------- */}
 
         <Route path="/resources/news-updates" element={<NewsUpdate />} />
 
@@ -172,14 +91,11 @@ export default function App() {
           element={<NewsUpdateDetails />}
         />
 
-        {/* -------------------- Certificates -------------------- */}
-
         <Route path="/resources/certificates" element={<Certificates />} />
-      </Routes>
 
-      {/* =================================================
-          FOOTER
-      ================================================== */}
+        {/* CONTACT */}
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
 
       <Footer />
     </BrowserRouter>
