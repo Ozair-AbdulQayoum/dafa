@@ -7,76 +7,151 @@ import { programs } from "../../Components/Data File/Main Page Data/ProgramsData
 
 export default function Programs() {
   return (
-    <section className="relative overflow-hidden bg-[#F8FAFC] py-24 sm:py-28 lg:py-32">
+    <section className="relative overflow-hidden bg-slate-50 py-20 sm:py-24 lg:py-28">
       {/* =====================================================
-          BACKGROUND
+          SUBTLE BACKGROUND
       ====================================================== */}
 
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-56 -top-56 h-[600px] w-[600px] rounded-full bg-[#087B5A]/5 blur-3xl" />
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -left-40
+          top-20
+          h-80
+          w-80
+          rounded-full
+          bg-[#087B5A]/5
+          blur-3xl
+        "
+      />
 
-        <div className="absolute -bottom-56 -right-56 h-[600px] w-[600px] rounded-full bg-[#F97316]/5 blur-3xl" />
-
-        <div className="absolute inset-0 opacity-[0.018]">
-          <div
-            className="h-full w-full"
-            style={{
-              backgroundImage:
-                "linear-gradient(#0B3D2E 1px, transparent 1px), linear-gradient(90deg, #0B3D2E 1px, transparent 1px)",
-              backgroundSize: "64px 64px",
-            }}
-          />
-        </div>
-      </div>
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -right-40
+          bottom-0
+          h-80
+          w-80
+          rounded-full
+          bg-[#F97316]/5
+          blur-3xl
+        "
+      />
 
       {/* =====================================================
           CONTAINER
       ====================================================== */}
 
-      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-7xl
+          px-5
+          sm:px-8
+          lg:px-10
+        "
+      >
         {/* =====================================================
-            HEADER
+            SECTION HEADER
         ====================================================== */}
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          initial={{
+            opacity: 0,
+            y: 25,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
           transition={{
             duration: 0.7,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mx-auto mb-16 max-w-3xl text-center"
+          className="mx-auto mb-14 max-w-3xl text-center sm:mb-16"
         >
-          <div className="mb-5 flex items-center justify-center gap-3">
-            <span className="h-[2px] w-10 rounded-full bg-[#F97316]" />
+          {/* LABEL */}
 
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#087B5A] sm:text-sm">
+          <div className="mb-5 flex items-center justify-center gap-3">
+            <span className="h-[2px] w-8 rounded-full bg-[#F97316] sm:w-10" />
+
+            <span
+              className="
+                text-xs
+                font-bold
+                uppercase
+                tracking-[0.2em]
+                text-[#087B5A]
+                sm:text-sm
+              "
+            >
               What We Do
             </span>
 
-            <span className="h-[2px] w-10 rounded-full bg-[#F97316]" />
+            <span className="h-[2px] w-8 rounded-full bg-[#F97316] sm:w-10" />
           </div>
 
-          <h2 className="text-3xl font-extrabold leading-[1.08] tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
+          {/* TITLE */}
+
+          <h2
+            className="
+              text-3xl
+              font-extrabold
+              leading-[1.1]
+              tracking-[-0.025em]
+              text-[#0F172A]
+              sm:text-4xl
+              lg:text-5xl
+            "
+          >
             Humanitarian Action
             <span className="block text-[#087B5A]">
               That Protects Communities
             </span>
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-            From land clearance to emergency response, DAFA delivers
-            humanitarian services that reduce explosive risks and help
-            communities live more safely.
+          {/* DESCRIPTION */}
+
+          <p
+            className="
+              mx-auto
+              mt-6
+              max-w-2xl
+              text-base
+              leading-7
+              text-slate-600
+              sm:text-lg
+              sm:leading-8
+            "
+          >
+            DAFA delivers specialized humanitarian mine action services to
+            reduce explosive risks, protect communities, and help people safely
+            access their land and livelihoods.
           </p>
         </motion.div>
 
         {/* =====================================================
-            THREE PROGRAM CARDS
+            PROGRAM CARDS
         ====================================================== */}
 
-        <div className="mx-auto grid max-w-6xl gap-7 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          className="
+            mx-auto
+            grid
+            max-w-6xl
+            gap-6
+            md:grid-cols-2
+            lg:grid-cols-3
+          "
+        >
           {programs.map((program, index) => {
             const Icon = program.icon;
 
@@ -85,7 +160,7 @@ export default function Programs() {
                 key={program.slug}
                 initial={{
                   opacity: 0,
-                  y: 35,
+                  y: 30,
                 }}
                 whileInView={{
                   opacity: 1,
@@ -93,7 +168,7 @@ export default function Programs() {
                 }}
                 viewport={{
                   once: true,
-                  margin: "-70px",
+                  amount: 0.15,
                 }}
                 transition={{
                   duration: 0.6,
@@ -101,103 +176,284 @@ export default function Programs() {
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 whileHover={{
-                  y: -8,
+                  y: -6,
                 }}
-                className="group relative overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition-all duration-500 hover:border-[#087B5A]/20 hover:shadow-2xl"
+                className="
+                  group
+                  relative
+                  flex
+                  flex-col
+                  overflow-hidden
+                  rounded-2xl
+                  border
+                  border-slate-200
+                  bg-white
+                  shadow-sm
+                  transition-all
+                  duration-300
+                  hover:border-[#087B5A]/20
+                  hover:shadow-xl
+                "
               >
                 {/* =================================================
-                    VISUAL AREA
+                    CARD VISUAL
                 ================================================== */}
 
-                <div className="relative h-[245px] overflow-hidden bg-[#0B3D2E]">
+                <div
+                  className="
+                    relative
+                    h-[230px]
+                    overflow-hidden
+                    bg-[#0B3D2E]
+                  "
+                >
                   {program.image ? (
                     <img
                       src={program.image}
                       alt={program.title}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      loading="lazy"
+                      className="
+                        h-full
+                        w-full
+                        object-cover
+                        transition-transform
+                        duration-700
+                        group-hover:scale-105
+                      "
                     />
                   ) : (
                     <>
                       {/* Background */}
 
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#0B3D2E] via-[#0B3D2E] to-[#087B5A]" />
+                      <div
+                        className="
+                          absolute
+                          inset-0
+                          bg-gradient-to-br
+                          from-[#0B3D2E]
+                          to-[#087B5A]
+                        "
+                      />
 
-                      {/* Top Decorative Circle */}
+                      {/* Decorative Pattern */}
 
-                      <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full border border-white/10" />
+                      <div
+                        className="
+                          absolute
+                          -right-16
+                          -top-16
+                          h-48
+                          w-48
+                          rounded-full
+                          border
+                          border-white/10
+                        "
+                      />
 
-                      {/* Bottom Decorative Circle */}
-
-                      <div className="absolute -bottom-20 -left-20 h-56 w-56 rounded-full border border-[#F97316]/10" />
+                      <div
+                        className="
+                          absolute
+                          -bottom-24
+                          -left-16
+                          h-56
+                          w-56
+                          rounded-full
+                          border
+                          border-white/10
+                        "
+                      />
 
                       {/* Icon */}
 
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-[#A7F3D0] shadow-xl backdrop-blur-sm transition-all duration-500 group-hover:scale-110 group-hover:bg-white/15">
+                        <div
+                          className="
+                            flex
+                            h-20
+                            w-20
+                            items-center
+                            justify-center
+                            rounded-2xl
+                            border
+                            border-white/15
+                            bg-white/10
+                            text-[#A7F3D0]
+                            shadow-xl
+                            backdrop-blur-sm
+                            transition-all
+                            duration-300
+                            group-hover:scale-105
+                            group-hover:bg-white/15
+                          "
+                        >
                           <Icon size={30} />
                         </div>
                       </div>
                     </>
                   )}
 
-                  {/* Overlay */}
+                  {/* Bottom Overlay */}
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#052E23]/90 via-[#052E23]/10 to-transparent" />
+                  <div
+                    className="
+                      absolute
+                      inset-x-0
+                      bottom-0
+                      h-28
+                      bg-gradient-to-t
+                      from-[#052E23]/80
+                      to-transparent
+                    "
+                  />
 
                   {/* Number */}
 
-                  <div className="absolute left-5 top-5 flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-black/20 text-xs font-bold text-white backdrop-blur-md">
+                  <div
+                    className="
+                      absolute
+                      left-5
+                      top-5
+                      flex
+                      h-9
+                      w-9
+                      items-center
+                      justify-center
+                      rounded-lg
+                      border
+                      border-white/20
+                      bg-black/20
+                      text-xs
+                      font-bold
+                      text-white
+                      backdrop-blur-md
+                    "
+                  >
                     {program.number}
                   </div>
 
                   {/* Category */}
 
                   <div className="absolute bottom-5 left-5">
-                    <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#A7F3D0] backdrop-blur-md">
+                    <span
+                      className="
+                        rounded-full
+                        border
+                        border-white/20
+                        bg-black/20
+                        px-3
+                        py-1.5
+                        text-[10px]
+                        font-bold
+                        uppercase
+                        tracking-[0.15em]
+                        text-[#D1FAE5]
+                        backdrop-blur-md
+                      "
+                    >
                       {program.category}
                     </span>
                   </div>
                 </div>
 
                 {/* =================================================
-                    CONTENT
+                    CARD CONTENT
                 ================================================== */}
 
-                <div className="p-7">
-                  <h3 className="text-xl font-extrabold leading-snug tracking-tight text-[#0F172A] transition-colors duration-300 group-hover:text-[#087B5A]">
+                <div className="flex flex-1 flex-col p-6 sm:p-7">
+                  {/* TITLE */}
+
+                  <h3
+                    className="
+                      text-xl
+                      font-extrabold
+                      leading-snug
+                      tracking-tight
+                      text-[#0F172A]
+                      transition-colors
+                      duration-300
+                      group-hover:text-[#087B5A]
+                    "
+                  >
                     {program.title}
                   </h3>
 
-                  <p className="mt-4 text-sm leading-7 text-slate-600">
+                  {/* DESCRIPTION */}
+
+                  <p
+                    className="
+                      mt-3
+                      text-sm
+                      leading-7
+                      text-slate-600
+                    "
+                  >
                     {program.description}
                   </p>
 
-                  {/* =================================================
-                      LEARN MORE
-                  ================================================== */}
+                  {/* LINK */}
 
                   <Link
                     to={`/what-we-do/${program.slug}`}
-                    className="group/link mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#087B5A] transition-colors duration-300 hover:text-[#0B3D2E]"
+                    className="
+                      group/link
+                      mt-6
+                      inline-flex
+                      w-fit
+                      items-center
+                      gap-2
+                      text-sm
+                      font-bold
+                      text-[#087B5A]
+                      transition-colors
+                      duration-300
+                      hover:text-[#0B3D2E]
+                    "
                   >
                     <span>Learn More</span>
 
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#087B5A]/10 transition-all duration-300 group-hover/link:translate-x-1 group-hover/link:bg-[#087B5A] group-hover/link:text-white">
+                    <span
+                      className="
+                        flex
+                        h-7
+                        w-7
+                        items-center
+                        justify-center
+                        rounded-full
+                        bg-[#087B5A]/10
+                        transition-all
+                        duration-300
+                        group-hover/link:translate-x-1
+                        group-hover/link:bg-[#087B5A]
+                        group-hover/link:text-white
+                      "
+                    >
                       <FaArrowRight size={10} />
                     </span>
                   </Link>
                 </div>
 
-                {/* Bottom Accent */}
+                {/* BOTTOM ACCENT */}
 
-                <div className="absolute bottom-0 left-0 h-1 w-0 bg-[#F97316] transition-all duration-500 group-hover:w-full" />
+                <div
+                  className="
+                    absolute
+                    bottom-0
+                    left-0
+                    h-1
+                    w-0
+                    bg-[#F97316]
+                    transition-all
+                    duration-500
+                    group-hover:w-full
+                  "
+                />
               </motion.article>
             );
           })}
         </div>
 
         {/* =====================================================
-            VIEW ALL SERVICES
+            VIEW ALL CTA
         ====================================================== */}
 
         <motion.div
@@ -220,13 +476,41 @@ export default function Programs() {
         >
           <Link
             to="/what-we-do"
-            className="group inline-flex items-center gap-3 rounded-xl border border-[#087B5A] px-7 py-3.5 text-sm font-bold text-[#087B5A] transition-all duration-300 hover:-translate-y-1 hover:bg-[#087B5A] hover:text-white hover:shadow-lg"
+            className="
+              group
+              inline-flex
+              items-center
+              justify-center
+              gap-3
+              rounded-xl
+              border
+              border-[#087B5A]
+              px-6
+              py-3.5
+              text-sm
+              font-bold
+              text-[#087B5A]
+              transition-all
+              duration-300
+              hover:-translate-y-1
+              hover:bg-[#087B5A]
+              hover:text-white
+              hover:shadow-lg
+              focus:outline-none
+              focus:ring-2
+              focus:ring-[#087B5A]/30
+              focus:ring-offset-2
+            "
           >
             <span>View All Our Services</span>
 
             <FaArrowRight
-              size={12}
-              className="transition-transform duration-300 group-hover:translate-x-1"
+              size={11}
+              className="
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+              "
             />
           </Link>
         </motion.div>

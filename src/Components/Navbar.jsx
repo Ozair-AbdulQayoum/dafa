@@ -1,27 +1,19 @@
-// src/Components/Navbar.jsx
-
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
+import { FaBars, FaTimes, FaChevronDown, FaArrowRight } from "react-icons/fa";
 
 import Logo from "../assets/DAFA-New-Logo.jpg";
 import { navItems, navbarData } from "./NavbarData";
 
 export default function Navbar() {
-  // =====================================================
-  // STATE
-  // =====================================================
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const [desktopDropdown, setDesktopDropdown] = useState(null);
-
   const [mobileDropdown, setMobileDropdown] = useState(null);
 
   const desktopNavRef = useRef(null);
 
   // =====================================================
-  // CLOSE EVERYTHING
+  // CLOSE ALL MENUS
   // =====================================================
 
   const closeAllMenus = () => {
@@ -36,11 +28,7 @@ export default function Navbar() {
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen((previous) => !previous);
-
-    // Reset mobile dropdown when opening/closing
     setMobileDropdown(null);
-
-    // Close desktop dropdown
     setDesktopDropdown(null);
   };
 
@@ -61,7 +49,7 @@ export default function Navbar() {
   };
 
   // =====================================================
-  // CLOSE DESKTOP DROPDOWN WHEN CLICKING OUTSIDE
+  // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
   // =====================================================
 
   useEffect(() => {
@@ -100,15 +88,11 @@ export default function Navbar() {
   }, []);
 
   // =====================================================
-  // PREVENT BODY SCROLL WHEN MOBILE MENU IS OPEN
+  // PREVENT BODY SCROLL
   // =====================================================
 
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";
@@ -116,7 +100,7 @@ export default function Navbar() {
   }, [mobileMenuOpen]);
 
   // =====================================================
-  // HANDLE MOBILE LINK
+  // MOBILE LINK CLICK
   // =====================================================
 
   const handleMobileLinkClick = () => {
@@ -126,13 +110,31 @@ export default function Navbar() {
   };
 
   // =====================================================
-  // RENDER
+  // DESKTOP LINK STYLE
   // =====================================================
+
+  const desktopLinkClass = ({ isActive }) =>
+    `
+      group
+      relative
+      flex
+      items-center
+      whitespace-nowrap
+      py-2
+      text-[13px]
+      font-medium
+      transition-colors
+      duration-200
+      xl:text-sm
+      ${
+        isActive ? "font-semibold text-white" : "text-white/85 hover:text-white"
+      }
+    `;
 
   return (
     <>
       {/* =====================================================
-          NAVBAR
+          HEADER
       ====================================================== */}
 
       <header
@@ -142,27 +144,28 @@ export default function Navbar() {
           z-[100]
           border-b
           border-white/10
-          bg-[#087B5A]
-          shadow-md
+          bg-[#087B5A]/95
+          shadow-[0_4px_20px_rgba(0,0,0,0.08)]
+          backdrop-blur-xl
         "
       >
         <div
           className="
             mx-auto
             flex
-            h-[72px]
+            h-[76px]
             w-full
             max-w-7xl
             items-center
             justify-between
-            gap-5
+            gap-6
             px-5
             sm:px-8
             lg:px-10
           "
         >
           {/* =================================================
-              LOGO
+              LOGO / BRAND
           ================================================== */}
 
           <NavLink
@@ -177,13 +180,12 @@ export default function Navbar() {
               gap-3
             "
           >
-            {/* LOGO */}
-
             <div
               className="
                 flex
-                h-12
-                w-12
+                h-11
+                w-11
+                shrink-0
                 items-center
                 justify-center
                 overflow-hidden
@@ -191,16 +193,18 @@ export default function Navbar() {
                 bg-white
                 p-1
                 shadow-sm
+                ring-1
+                ring-white/20
                 transition-transform
                 duration-300
                 group-hover:scale-105
-                sm:h-[52px]
-                sm:w-[52px]
+                sm:h-12
+                sm:w-12
               "
             >
               <img
                 src={Logo}
-                alt="DAFA Logo"
+                alt="DAFA logo"
                 className="
                   h-full
                   w-full
@@ -210,13 +214,11 @@ export default function Navbar() {
               />
             </div>
 
-            {/* BRAND */}
-
             <div className="min-w-0">
-              <h1
+              <div
                 className="
                   text-lg
-                  font-bold
+                  font-extrabold
                   leading-none
                   tracking-tight
                   text-white
@@ -224,23 +226,25 @@ export default function Navbar() {
                 "
               >
                 {navbarData.brand.name}
-              </h1>
+              </div>
 
-              <p
+              <div
                 className="
                   mt-1
+                  hidden
                   max-w-[220px]
                   truncate
                   text-[9px]
                   font-medium
                   leading-none
                   tracking-wide
-                  text-green-100
+                  text-white/65
+                  sm:block
                   sm:text-[10px]
                 "
               >
                 {navbarData.brand.description}
-              </p>
+              </div>
             </div>
           </NavLink>
 
@@ -250,18 +254,15 @@ export default function Navbar() {
 
           <nav
             ref={desktopNavRef}
-            className="hidden lg:block"
+            className="hidden lg:flex"
             aria-label="Main navigation"
           >
             <ul
               className="
                 flex
                 items-center
-                gap-5
-                text-[13px]
-                font-medium
-                xl:gap-6
-                xl:text-sm
+                gap-3
+                xl:gap-5
               "
             >
               {/* HOME */}
@@ -270,39 +271,27 @@ export default function Navbar() {
                 <NavLink
                   to={navbarData.home.path}
                   onClick={() => setDesktopDropdown(null)}
-                  className={({ isActive }) =>
-                    `
-                      group
-                      relative
-                      flex
-                      items-center
-                      whitespace-nowrap
-                      py-2
-                      text-white
-                      transition-colors
-                      duration-200
-                      ${isActive ? "font-semibold" : "hover:text-green-100"}
-                    `
-                  }
+                  className={desktopLinkClass}
                 >
-                  {navbarData.home.title}
+                  {({ isActive }) => (
+                    <>
+                      {navbarData.home.title}
 
-                  <span
-                    className="
-                      absolute
-                      -bottom-0.5
-                      left-0
-                      h-[2px]
-                      w-full
-                      origin-left
-                      scale-x-0
-                      rounded-full
-                      bg-[#F97316]
-                      transition-transform
-                      duration-300
-                      group-hover:scale-x-100
-                    "
-                  />
+                      <span
+                        className={`
+                          absolute
+                          bottom-0
+                          left-0
+                          h-[2px]
+                          rounded-full
+                          bg-[#F97316]
+                          transition-all
+                          duration-300
+                          ${isActive ? "w-full" : "w-0 group-hover:w-full"}
+                        `}
+                      />
+                    </>
+                  )}
                 </NavLink>
               </li>
 
@@ -316,32 +305,38 @@ export default function Navbar() {
 
                       <button
                         type="button"
-                        aria-haspopup="true"
-                        aria-expanded={desktopDropdown === item.title}
                         onClick={(event) => {
                           event.stopPropagation();
-
                           toggleDesktopDropdown(item.title);
                         }}
-                        className="
+                        aria-haspopup="menu"
+                        aria-expanded={desktopDropdown === item.title}
+                        className={`
+                          group
+                          relative
                           flex
                           items-center
-                          gap-1.5
+                          gap-2
                           whitespace-nowrap
                           py-2
-                          text-white
+                          text-[13px]
+                          font-medium
+                          text-white/85
                           transition-colors
                           duration-200
-                          hover:text-green-100
-                        "
+                          hover:text-white
+                          xl:text-sm
+                          ${desktopDropdown === item.title ? "text-white" : ""}
+                        `}
                       >
                         {item.title}
 
                         <FaChevronDown
                           size={8}
+                          aria-hidden="true"
                           className={`
                             transition-transform
-                            duration-300
+                            duration-200
                             ${
                               desktopDropdown === item.title
                                 ? "rotate-180 text-[#FDBA74]"
@@ -349,42 +344,66 @@ export default function Navbar() {
                             }
                           `}
                         />
+
+                        <span
+                          className={`
+                            absolute
+                            bottom-0
+                            left-0
+                            right-0
+                            h-[2px]
+                            rounded-full
+                            bg-[#F97316]
+                            transition-transform
+                            duration-300
+                            ${
+                              desktopDropdown === item.title
+                                ? "scale-x-100"
+                                : "scale-x-0"
+                            }
+                          `}
+                        />
                       </button>
 
-                      {/* DESKTOP DROPDOWN */}
+                      {/* DROPDOWN */}
 
                       <div
                         className={`
                           absolute
                           left-1/2
                           top-full
+                          z-50
                           mt-3
                           w-64
                           -translate-x-1/2
+                          origin-top
                           rounded-xl
                           border
-                          border-slate-100
+                          border-slate-200
                           border-t-2
                           border-t-[#F97316]
                           bg-white
                           p-2
-                          shadow-2xl
+                          shadow-[0_20px_50px_rgba(0,0,0,0.16)]
                           transition-all
                           duration-200
                           ${
                             desktopDropdown === item.title
-                              ? "visible translate-y-0 opacity-100"
-                              : "invisible translate-y-2 opacity-0"
+                              ? "visible translate-y-0 scale-100 opacity-100"
+                              : "invisible translate-y-2 scale-95 opacity-0"
                           }
                         `}
+                        role="menu"
                       >
                         {item.items.map((subItem) => (
                           <NavLink
                             key={subItem.path}
                             to={subItem.path}
                             onClick={() => setDesktopDropdown(null)}
+                            role="menuitem"
                             className={({ isActive }) =>
                               `
+                                group/item
                                 flex
                                 items-center
                                 justify-between
@@ -405,12 +424,15 @@ export default function Navbar() {
                           >
                             <span>{subItem.title}</span>
 
-                            <span
+                            <FaArrowRight
+                              size={9}
                               className="
-                                h-1
-                                w-1
-                                rounded-full
-                                bg-[#F97316]
+                                text-[#F97316]
+                                opacity-0
+                                transition-all
+                                duration-200
+                                group-hover/item:translate-x-1
+                                group-hover/item:opacity-100
                               "
                             />
                           </NavLink>
@@ -421,39 +443,27 @@ export default function Navbar() {
                     <NavLink
                       to={item.path}
                       onClick={() => setDesktopDropdown(null)}
-                      className={({ isActive }) =>
-                        `
-                          group
-                          relative
-                          flex
-                          items-center
-                          whitespace-nowrap
-                          py-2
-                          text-white
-                          transition-colors
-                          duration-200
-                          ${isActive ? "font-semibold" : "hover:text-green-100"}
-                        `
-                      }
+                      className={desktopLinkClass}
                     >
-                      {item.title}
+                      {({ isActive }) => (
+                        <>
+                          {item.title}
 
-                      <span
-                        className="
-                          absolute
-                          -bottom-0.5
-                          left-0
-                          h-[2px]
-                          w-full
-                          origin-left
-                          scale-x-0
-                          rounded-full
-                          bg-[#F97316]
-                          transition-transform
-                          duration-300
-                          group-hover:scale-x-100
-                        "
-                      />
+                          <span
+                            className={`
+                              absolute
+                              bottom-0
+                              left-0
+                              h-[2px]
+                              rounded-full
+                              bg-[#F97316]
+                              transition-all
+                              duration-300
+                              ${isActive ? "w-full" : "w-0 group-hover:w-full"}
+                            `}
+                          />
+                        </>
+                      )}
                     </NavLink>
                   )}
                 </li>
@@ -462,21 +472,23 @@ export default function Navbar() {
           </nav>
 
           {/* =================================================
-              DESKTOP CONTACT
+              CONTACT CTA
           ================================================== */}
 
           <NavLink
             to={navbarData.contact.path}
             onClick={() => setDesktopDropdown(null)}
             className="
+              group
               hidden
+              min-h-[44px]
               shrink-0
               items-center
               justify-center
-              rounded-lg
+              gap-2
+              rounded-xl
               bg-[#F97316]
               px-5
-              py-2.5
               text-[13px]
               font-bold
               text-white
@@ -486,19 +498,39 @@ export default function Navbar() {
               hover:-translate-y-0.5
               hover:bg-[#EA580C]
               hover:shadow-lg
+              focus:outline-none
+              focus:ring-2
+              focus:ring-[#FDBA74]
+              focus:ring-offset-2
+              focus:ring-offset-[#087B5A]
               lg:flex
             "
           >
             {navbarData.contact.title}
+
+            <FaArrowRight
+              size={10}
+              aria-hidden="true"
+              className="
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+              "
+            />
           </NavLink>
 
           {/* =================================================
-              MOBILE BUTTON
+              MOBILE MENU BUTTON
           ================================================== */}
 
           <button
             type="button"
             onClick={toggleMobileMenu}
+            aria-label={
+              mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
             className="
               flex
               h-11
@@ -506,22 +538,27 @@ export default function Navbar() {
               shrink-0
               items-center
               justify-center
-              rounded-lg
-              text-xl
+              rounded-xl
+              border
+              border-white/10
+              bg-white/5
+              text-lg
               text-white
               transition-all
               duration-200
               hover:bg-white/10
               active:scale-95
+              focus:outline-none
+              focus:ring-2
+              focus:ring-white/60
               lg:hidden
             "
-            aria-label={
-              mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
-            }
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-navigation"
           >
-            {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+            {mobileMenuOpen ? (
+              <FaTimes aria-hidden="true" />
+            ) : (
+              <FaBars aria-hidden="true" />
+            )}
           </button>
         </div>
       </header>
@@ -540,12 +577,7 @@ export default function Navbar() {
             lg:hidden
           "
         >
-          {/* =================================================
-              BACKDROP
-
-              IMPORTANT:
-              z-0 keeps backdrop BEHIND the menu.
-          ================================================== */}
+          {/* BACKDROP */}
 
           <button
             type="button"
@@ -554,27 +586,20 @@ export default function Navbar() {
             className="
               absolute
               inset-0
-              z-0
-              bg-black/45
-              backdrop-blur-[2px]
+              bg-black/50
+              backdrop-blur-sm
             "
           />
 
-          {/* =================================================
-              MOBILE PANEL
-
-              IMPORTANT:
-              z-10 guarantees links are clickable.
-          ================================================== */}
+          {/* MOBILE PANEL */}
 
           <div
             className="
               absolute
               left-0
               right-0
-              top-[72px]
-              z-10
-              max-h-[calc(100vh-72px)]
+              top-[76px]
+              max-h-[calc(100vh-76px)]
               overflow-y-auto
               border-t
               border-white/10
@@ -594,9 +619,7 @@ export default function Navbar() {
               aria-label="Mobile navigation"
             >
               <ul className="flex flex-col">
-                {/* =================================================
-                    HOME
-                ================================================== */}
+                {/* HOME */}
 
                 <li className="border-b border-white/10">
                   <NavLink
@@ -608,52 +631,44 @@ export default function Navbar() {
                         block
                         py-4
                         text-[15px]
-                        text-white
-                        ${isActive ? "font-bold text-green-100" : "font-medium"}
+                        ${
+                          isActive
+                            ? "font-bold text-white"
+                            : "font-medium text-white/85"
+                        }
                       `
                     }
                   >
-                    Home
-                    <span
-                      className="
-                        absolute
-                        bottom-0
-                        left-0
-                        h-[2px]
-                        w-8
-                        rounded-full
-                        bg-[#F97316]
-                      "
-                    />
+                    {({ isActive }) => (
+                      <>
+                        Home
+                        {isActive && (
+                          <span
+                            className="
+                              absolute
+                              bottom-0
+                              left-0
+                              h-[2px]
+                              w-8
+                              rounded-full
+                              bg-[#F97316]
+                            "
+                          />
+                        )}
+                      </>
+                    )}
                   </NavLink>
                 </li>
 
-                {/* =================================================
-                    NAV ITEMS
-                ================================================== */}
+                {/* NAV ITEMS */}
 
                 {navItems.map((item) => (
-                  <li
-                    key={item.title}
-                    className="
-                      border-b
-                      border-white/10
-                    "
-                  >
-                    {/* =================================================
-                        DROPDOWN ITEM
-                    ================================================== */}
-
+                  <li key={item.title} className="border-b border-white/10">
                     {item.dropdown ? (
                       <>
                         <button
                           type="button"
-                          onClick={(event) => {
-                            event.preventDefault();
-                            event.stopPropagation();
-
-                            toggleMobileDropdown(item.title);
-                          }}
+                          onClick={() => toggleMobileDropdown(item.title)}
                           aria-expanded={mobileDropdown === item.title}
                           className="
                             flex
@@ -664,13 +679,14 @@ export default function Navbar() {
                             text-left
                             text-[15px]
                             font-medium
-                            text-white
+                            text-white/90
                           "
                         >
                           <span>{item.title}</span>
 
                           <FaChevronDown
-                            size={11}
+                            size={10}
+                            aria-hidden="true"
                             className={`
                               transition-transform
                               duration-300
@@ -683,9 +699,7 @@ export default function Navbar() {
                           />
                         </button>
 
-                        {/* =================================================
-                            MOBILE SUBMENU
-                        ================================================== */}
+                        {/* MOBILE SUBMENU */}
 
                         {mobileDropdown === item.title && (
                           <div
@@ -695,8 +709,6 @@ export default function Navbar() {
                               rounded-xl
                               border
                               border-white/10
-                              border-l-2
-                              border-l-[#F97316]
                               bg-[#063F30]
                             "
                           >
@@ -704,46 +716,39 @@ export default function Navbar() {
                               <NavLink
                                 key={subItem.path}
                                 to={subItem.path}
-                                onClick={(event) => {
-                                  /*
-                                      IMPORTANT:
-                                      Stop the click from
-                                      reaching anything behind
-                                      the submenu.
-                                    */
-
-                                  event.stopPropagation();
-
-                                  handleMobileLinkClick();
-                                }}
+                                onClick={handleMobileLinkClick}
                                 className={({ isActive }) =>
                                   `
-                                      block
-                                      border-b
-                                      border-white/10
-                                      px-4
-                                      py-3.5
-                                      text-[14px]
-                                      last:border-0
-                                      ${
-                                        isActive
-                                          ? "bg-white font-bold text-[#087B5A]"
-                                          : "font-medium text-white hover:bg-white/10"
-                                      }
-                                    `
+                                    flex
+                                    items-center
+                                    justify-between
+                                    border-b
+                                    border-white/10
+                                    px-4
+                                    py-3.5
+                                    text-[14px]
+                                    last:border-0
+                                    ${
+                                      isActive
+                                        ? "bg-white font-bold text-[#087B5A]"
+                                        : "font-medium text-white/90 hover:bg-white/10"
+                                    }
+                                  `
                                 }
                               >
-                                {subItem.title}
+                                <span>{subItem.title}</span>
+
+                                <FaArrowRight
+                                  size={9}
+                                  aria-hidden="true"
+                                  className="text-[#F97316]"
+                                />
                               </NavLink>
                             ))}
                           </div>
                         )}
                       </>
                     ) : (
-                      /* =================================================
-                         NORMAL MOBILE LINK
-                      ================================================== */
-
                       <NavLink
                         to={item.path}
                         onClick={handleMobileLinkClick}
@@ -753,60 +758,76 @@ export default function Navbar() {
                             block
                             py-4
                             text-[15px]
-                            text-white
                             ${
                               isActive
-                                ? "font-bold text-green-100"
-                                : "font-medium"
+                                ? "font-bold text-white"
+                                : "font-medium text-white/85"
                             }
                           `
                         }
                       >
-                        {item.title}
+                        {({ isActive }) => (
+                          <>
+                            {item.title}
 
-                        <span
-                          className="
-                            absolute
-                            bottom-0
-                            left-0
-                            h-[2px]
-                            w-8
-                            rounded-full
-                            bg-[#F97316]
-                          "
-                        />
+                            {isActive && (
+                              <span
+                                className="
+                                  absolute
+                                  bottom-0
+                                  left-0
+                                  h-[2px]
+                                  w-8
+                                  rounded-full
+                                  bg-[#F97316]
+                                "
+                              />
+                            )}
+                          </>
+                        )}
                       </NavLink>
                     )}
                   </li>
                 ))}
 
-                {/* =================================================
-                    CONTACT
-                ================================================== */}
+                {/* CONTACT */}
 
                 <li className="pt-5">
                   <NavLink
                     to={navbarData.contact.path}
                     onClick={handleMobileLinkClick}
                     className="
-                      block
+                      group
+                      flex
+                      min-h-[50px]
                       w-full
-                      rounded-lg
+                      items-center
+                      justify-center
+                      gap-2
+                      rounded-xl
                       bg-[#F97316]
                       px-5
-                      py-3.5
-                      text-center
                       text-[14px]
                       font-bold
                       text-white
-                      shadow-sm
+                      shadow-lg
                       transition-all
                       duration-300
                       hover:bg-[#EA580C]
-                      hover:shadow-lg
+                      hover:shadow-xl
                     "
                   >
                     {navbarData.contact.title}
+
+                    <FaArrowRight
+                      size={10}
+                      aria-hidden="true"
+                      className="
+                        transition-transform
+                        duration-300
+                        group-hover:translate-x-1
+                      "
+                    />
                   </NavLink>
                 </li>
               </ul>

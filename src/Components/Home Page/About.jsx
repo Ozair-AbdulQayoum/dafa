@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaCheck } from "react-icons/fa";
 
 import { aboutData } from "../../Components/Data File/Main Page Data/AboutData";
 
@@ -9,7 +9,7 @@ export default function About() {
   return (
     <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
       {/* =====================================================
-          DECORATIVE BACKGROUND
+          BACKGROUND DECORATION
       ====================================================== */}
 
       <div
@@ -56,7 +56,7 @@ export default function About() {
         "
       >
         {/* =====================================================
-            IMAGE + CONTENT
+            MAIN GRID
         ====================================================== */}
 
         <div
@@ -64,12 +64,13 @@ export default function About() {
             grid
             items-center
             gap-12
-            lg:grid-cols-2
+            lg:grid-cols-[0.95fr_1.05fr]
             lg:gap-20
+            xl:gap-24
           "
         >
           {/* =================================================
-              IMAGE
+              IMAGE SIDE
           ================================================== */}
 
           <motion.div
@@ -91,7 +92,7 @@ export default function About() {
             }}
             className="relative"
           >
-            {/* IMAGE WRAPPER */}
+            {/* IMAGE */}
 
             <div
               className="
@@ -100,12 +101,13 @@ export default function About() {
                 overflow-hidden
                 rounded-[2rem]
                 bg-[#0B3D2E]
-                shadow-[0_25px_70px_rgba(15,23,42,0.12)]
+                shadow-[0_25px_70px_rgba(15,23,42,0.14)]
               "
             >
               <img
                 src={aboutData.image.src}
                 alt={aboutData.image.alt}
+                loading="lazy"
                 className="
                   h-[380px]
                   w-full
@@ -119,15 +121,15 @@ export default function About() {
                 "
               />
 
-              {/* IMAGE OVERLAY */}
+              {/* IMAGE GRADIENT */}
 
               <div
                 className="
                   absolute
                   inset-0
                   bg-gradient-to-t
-                  from-[#06281E]/70
-                  via-transparent
+                  from-[#06281E]/75
+                  via-[#06281E]/10
                   to-transparent
                 "
               />
@@ -143,12 +145,13 @@ export default function About() {
                     bg-black/20
                     px-4
                     py-2
-                    text-xs
-                    font-semibold
+                    text-[10px]
+                    font-bold
                     uppercase
                     tracking-[0.16em]
                     text-white
                     backdrop-blur-md
+                    sm:text-xs
                   "
                 >
                   {aboutData.image.label}
@@ -185,7 +188,7 @@ export default function About() {
           </motion.div>
 
           {/* =================================================
-              TEXT CONTENT
+              CONTENT SIDE
           ================================================== */}
 
           <motion.div
@@ -209,24 +212,15 @@ export default function About() {
           >
             {/* SECTION LABEL */}
 
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 12,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: 0.6,
-              }}
-              className="mb-5 flex items-center gap-3"
-            >
-              <span className="h-[2px] w-10 rounded-full bg-[#087B5A]" />
+            <div className="mb-5 flex items-center gap-3">
+              <span
+                className="
+                  h-[2px]
+                  w-10
+                  rounded-full
+                  bg-[#F97316]
+                "
+              />
 
               <span
                 className="
@@ -240,7 +234,7 @@ export default function About() {
               >
                 {aboutData.label}
               </span>
-            </motion.div>
+            </div>
 
             {/* HEADING */}
 
@@ -248,20 +242,24 @@ export default function About() {
               className="
                 max-w-2xl
                 text-3xl
-                font-bold
-                leading-[1.12]
-                tracking-tight
+                font-extrabold
+                leading-[1.08]
+                tracking-[-0.025em]
                 text-[#0F172A]
                 sm:text-4xl
-                lg:text-5xl
+                lg:text-[3.2rem]
+                xl:text-[3.5rem]
               "
             >
               {aboutData.title}
             </h2>
 
-            {/* GREEN LINE */}
+            {/* ACCENT LINE */}
 
-            <div className="mt-6 h-1 w-16 rounded-full bg-[#087B5A]" />
+            <div className="mt-6 flex items-center gap-2">
+              <span className="h-1 w-12 rounded-full bg-[#087B5A]" />
+              <span className="h-1 w-3 rounded-full bg-[#F97316]" />
+            </div>
 
             {/* MAIN DESCRIPTION */}
 
@@ -273,110 +271,126 @@ export default function About() {
                 leading-8
                 text-slate-600
                 sm:text-lg
+                sm:leading-8
               "
             >
               {aboutData.description}
             </p>
 
-            {/* SECONDARY DESCRIPTION */}
+            {/* KEY POINTS */}
 
-            <p
+            <div
               className="
-                mt-5
-                max-w-2xl
-                text-sm
-                leading-7
-                text-slate-500
-                sm:text-base
+                mt-7
+                grid
+                gap-3
+                sm:grid-cols-2
               "
             >
-              {aboutData.secondaryDescription}
-            </p>
+              {aboutData.highlights.map((item) => (
+                <div
+                  key={item}
+                  className="
+                    flex
+                    items-center
+                    gap-3
+                    rounded-xl
+                    border
+                    border-slate-100
+                    bg-slate-50/70
+                    px-4
+                    py-3
+                  "
+                >
+                  <span
+                    className="
+                      flex
+                      h-6
+                      w-6
+                      shrink-0
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-[#087B5A]/10
+                      text-[#087B5A]
+                    "
+                  >
+                    <FaCheck size={9} />
+                  </span>
+
+                  <span
+                    className="
+                      text-sm
+                      font-semibold
+                      text-slate-700
+                    "
+                  >
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA */}
+
+            <div className="mt-8">
+              <Link
+                to={aboutData.button.path}
+                className="
+                  group
+                  inline-flex
+                  items-center
+                  justify-center
+                  gap-3
+                  rounded-xl
+                  bg-[#087B5A]
+                  px-6
+                  py-3.5
+                  text-sm
+                  font-bold
+                  text-white
+                  shadow-lg
+                  shadow-[#087B5A]/15
+                  transition-all
+                  duration-300
+                  hover:-translate-y-1
+                  hover:bg-[#0B3D2E]
+                  hover:shadow-xl
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-[#087B5A]/40
+                  focus:ring-offset-2
+                "
+              >
+                <span>{aboutData.button.text}</span>
+
+                <span
+                  className="
+                    flex
+                    h-7
+                    w-7
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-white/10
+                    transition-all
+                    duration-300
+                    group-hover:bg-white/20
+                  "
+                >
+                  <FaArrowRight
+                    size={10}
+                    className="
+                      transition-transform
+                      duration-300
+                      group-hover:translate-x-1
+                    "
+                  />
+                </span>
+              </Link>
+            </div>
           </motion.div>
         </div>
-
-        {/* =====================================================
-            CENTERED BUTTON
-        ====================================================== */}
-
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.7,
-            delay: 0.2,
-          }}
-          className="
-            mt-12
-            flex
-            justify-center
-            sm:mt-14
-          "
-        >
-          <Link
-            to={aboutData.button.path}
-            className="
-              group
-              inline-flex
-              items-center
-              justify-center
-              gap-3
-              rounded-xl
-              bg-[#087B5A]
-              px-7
-              py-3.5
-              text-sm
-              font-semibold
-              text-white
-              shadow-lg
-              shadow-[#087B5A]/15
-              transition-all
-              duration-300
-              hover:-translate-y-1
-              hover:bg-[#0B3D2E]
-              hover:shadow-xl
-              focus:outline-none
-              focus:ring-2
-              focus:ring-[#087B5A]/40
-              focus:ring-offset-2
-            "
-          >
-            <span>{aboutData.button.text}</span>
-
-            <span
-              className="
-                flex
-                h-7
-                w-7
-                items-center
-                justify-center
-                rounded-full
-                bg-white/10
-                transition-all
-                duration-300
-                group-hover:bg-white/20
-              "
-            >
-              <FaArrowRight
-                size={11}
-                className="
-                  transition-transform
-                  duration-300
-                  group-hover:translate-x-1
-                "
-              />
-            </span>
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

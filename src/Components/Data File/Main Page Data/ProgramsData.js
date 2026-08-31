@@ -2,7 +2,8 @@ import { FaShieldAlt, FaHardHat, FaExclamationTriangle } from "react-icons/fa";
 
 // =====================================================
 // HOME PAGE PROGRAMS
-// Only 3 programs are displayed on the main page
+// Featured services shown on the Home Page.
+// Full services are available on /what-we-do.
 // =====================================================
 
 export const programs = [
@@ -35,7 +36,7 @@ export const programs = [
     slug: "ied-response",
     category: "Emergency Response",
     description:
-      "Professional teams assess and respond to improvised explosive device threats to help protect people and communities.",
+      "Professional teams assess and respond to explosive threats to help protect people, infrastructure, and communities.",
     icon: FaExclamationTriangle,
   },
 ];

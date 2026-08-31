@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaChevronDown } from "react-icons/fa";
 
@@ -7,106 +7,101 @@ import {
   heroData,
   heroImages,
 } from "../../Components/Data File/Main Page Data/Herodata";
+
 export default function Hero() {
   const [currentImage, setCurrentImage] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   // =====================================================
   // AUTO SLIDER
-  // CHANGE EVERY 5 SECONDS
   // =====================================================
 
   useEffect(() => {
-    if (heroImages.length <= 1) return;
+    if (heroImages.length <= 1 || shouldReduceMotion) return;
 
     const interval = setInterval(() => {
-      setCurrentImage((previous) => {
-        return (previous + 1) % heroImages.length;
-      });
-    }, 5000);
+      setCurrentImage((previous) => (previous + 1) % heroImages.length);
+    }, 6000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [shouldReduceMotion]);
+
+  const currentHero = heroImages[currentImage];
 
   return (
-    <section className="relative min-h-[90vh] overflow-hidden bg-[#052E23] sm:min-h-[94vh]">
+    <section
+      className="
+        relative
+        isolate
+        min-h-[92vh]
+        overflow-hidden
+        bg-[#052E23]
+        sm:min-h-[94vh]
+      "
+      aria-label="DAFA introduction"
+    >
       {/* =====================================================
-          BACKGROUND IMAGE SLIDER
+          BACKGROUND IMAGE
       ====================================================== */}
 
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 -z-20">
         <AnimatePresence initial={false} mode="sync">
           <motion.div
-            key={heroImages[currentImage].id}
-            initial={{
-              x: "100%",
-            }}
-            animate={{
-              x: 0,
-            }}
-            exit={{
-              x: "-100%",
-            }}
+            key={currentHero.id}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{
-              duration: 1.2,
-              ease: [0.76, 0, 0.24, 1],
+              duration: shouldReduceMotion ? 0 : 1,
+              ease: "easeInOut",
             }}
             className="absolute inset-0"
           >
             <motion.img
-              src={heroImages[currentImage].image}
-              alt={heroImages[currentImage].alt}
-              initial={{
-                scale: 1.08,
-              }}
-              animate={{
-                scale: 1,
-              }}
+              src={currentHero.image}
+              alt={currentHero.alt}
+              initial={shouldReduceMotion ? { scale: 1 } : { scale: 1.06 }}
+              animate={{ scale: 1 }}
               transition={{
-                duration: 5,
+                duration: shouldReduceMotion ? 0 : 6,
                 ease: "linear",
               }}
-              className="
-                h-full
-                w-full
-                object-cover
-              "
+              className="h-full w-full object-cover"
             />
           </motion.div>
         </AnimatePresence>
       </div>
 
       {/* =====================================================
-          DARK LEFT OVERLAY
+          PRIMARY OVERLAY
       ====================================================== */}
 
       <div
         className="
           absolute
           inset-0
+          -z-10
           bg-gradient-to-r
           from-[#021812]
-          via-[#052E23]/80
-          via-45%
-          to-transparent
+          via-[#052E23]/90
+          to-[#052E23]/20
         "
       />
 
       {/* =====================================================
-          EXTRA GRADIENT
+          MOBILE OVERLAY
       ====================================================== */}
 
       <div
         className="
           absolute
           inset-0
-          bg-[linear-gradient(
-            90deg,
-            rgba(2,24,18,0.95)_0%,
-            rgba(3,31,24,0.78)_30%,
-            rgba(5,46,35,0.40)_55%,
-            rgba(5,46,35,0.10)_78%,
-            transparent_100%
-          )]
+          -z-10
+          bg-gradient-to-t
+          from-[#021812]
+          via-transparent
+          to-[#021812]/30
+          lg:hidden
         "
       />
 
@@ -117,118 +112,88 @@ export default function Hero() {
       <div
         className="
           absolute
-          inset-0
+          inset-x-0
+          bottom-0
+          -z-10
+          h-48
           bg-gradient-to-t
-          from-[#021812]/80
-          via-transparent
+          from-[#021812]
           to-transparent
         "
       />
 
       {/* =====================================================
-          DECORATIVE CIRCLES
+          SUBTLE DECORATION
       ====================================================== */}
 
       <div
+        aria-hidden="true"
         className="
           pointer-events-none
           absolute
           -right-32
           -top-32
-          h-96
-          w-96
+          hidden
+          h-[28rem]
+          w-[28rem]
           rounded-full
           border
           border-white/10
+          lg:block
         "
       />
 
       <div
+        aria-hidden="true"
         className="
           pointer-events-none
           absolute
           -right-16
           -top-16
+          hidden
           h-56
           w-56
           rounded-full
           border
           border-white/10
+          lg:block
         "
       />
 
-      {/* =====================================================
-          GREEN GLOW
-      ====================================================== */}
-
       <div
+        aria-hidden="true"
         className="
           pointer-events-none
           absolute
-          bottom-0
+          bottom-20
           left-0
-          h-72
-          w-72
+          hidden
+          h-64
+          w-64
           rounded-full
           bg-[#087B5A]/20
           blur-3xl
+          lg:block
         "
       />
 
       {/* =====================================================
-          ORANGE GLOW
+          LEFT ACCENT LINE
       ====================================================== */}
 
       <div
-        className="
-          pointer-events-none
-          absolute
-          right-[15%]
-          top-[25%]
-          h-48
-          w-48
-          rounded-full
-          bg-[#F97316]/5
-          blur-3xl
-        "
-      />
-
-      {/* =====================================================
-          LEFT ORANGE LINE
-      ====================================================== */}
-
-      <div
+        aria-hidden="true"
         className="
           absolute
           left-0
-          top-[42%]
+          top-1/2
           hidden
           h-px
-          w-24
-          bg-[#F97316]/70
+          w-16
+          -translate-y-1/2
+          bg-[#F97316]
           lg:block
-        "
-      />
-
-      <motion.div
-        initial={{ scaleY: 0 }}
-        animate={{ scaleY: 1 }}
-        transition={{
-          duration: 1,
-          delay: 0.5,
-        }}
-        className="
-          absolute
-          bottom-0
-          left-8
-          hidden
-          h-32
-          w-px
-          origin-bottom
-          bg-gradient-to-t
-          from-[#F97316]
-          to-transparent
-          lg:block
+          xl:w-24
         "
       />
 
@@ -242,60 +207,54 @@ export default function Hero() {
           z-10
           mx-auto
           flex
-          min-h-[90vh]
+          min-h-[92vh]
           max-w-7xl
           items-center
           px-5
-          py-24
+          pb-28
+          pt-32
           sm:min-h-[94vh]
           sm:px-8
+          sm:pb-32
           lg:px-10
+          lg:pb-36
         "
       >
         <motion.div
-          initial={{
-            opacity: 0,
-            x: -40,
-          }}
-          animate={{
-            opacity: 1,
-            x: 0,
-          }}
+          initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{
-            duration: 0.9,
+            duration: shouldReduceMotion ? 0 : 0.8,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="max-w-4xl text-white"
+          className="w-full max-w-4xl"
         >
           {/* =================================================
               EYEBROW
           ================================================== */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: -10,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.6,
-              delay: 0.15,
-            }}
-            className="flex items-center gap-3"
+            initial={
+              shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }
+            }
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+            className="mb-6 flex items-center gap-3"
           >
-            <span className="h-[2px] w-10 rounded-full bg-[#F97316]" />
+            <span
+              aria-hidden="true"
+              className="h-[2px] w-8 rounded-full bg-[#F97316] sm:w-10"
+            />
 
             <span
               className="
-                text-xs
+                text-[11px]
                 font-bold
                 uppercase
-                tracking-[0.22em]
+                tracking-[0.18em]
                 text-[#FDBA74]
-                sm:text-sm
+                sm:text-xs
+                sm:tracking-[0.22em]
               "
             >
               {heroData.eyebrow}
@@ -303,121 +262,41 @@ export default function Hero() {
           </motion.div>
 
           {/* =================================================
-              SINCE
-          ================================================== */}
-
-          <motion.p
-            initial={{
-              opacity: 0,
-              y: 15,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.7,
-              delay: 0.25,
-            }}
-            className="
-              mt-8
-              text-sm
-              font-semibold
-              uppercase
-              tracking-[0.25em]
-              text-[#FDBA74]
-              sm:text-base
-            "
-          >
-            {heroData.since}
-          </motion.p>
-
-          {/* =================================================
-              HEADING
+              MAIN HEADING
           ================================================== */}
 
           <motion.h1
-            initial={{
-              opacity: 0,
-              y: 25,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
+            initial={
+              shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }
+            }
+            animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: 0.8,
-              delay: 0.35,
+              duration: shouldReduceMotion ? 0 : 0.8,
+              delay: shouldReduceMotion ? 0 : 0.1,
+              ease: [0.22, 1, 0.36, 1],
             }}
             className="
-              mt-4
               max-w-4xl
+              text-[3.25rem]
               font-extrabold
-              leading-[0.88]
-              tracking-[-0.05em]
+              leading-[0.94]
+              tracking-[-0.045em]
+              text-white
+              sm:text-6xl
+              md:text-7xl
+              lg:text-[5.5rem]
+              xl:text-[6.2rem]
             "
           >
-            {/* YEARS */}
-
-            <span
-              className="
-                block
-                text-[4rem]
-                sm:text-6xl
-                md:text-7xl
-                lg:text-[5.8rem]
-                xl:text-[6.3rem]
-              "
-            >
-              <span className="text-[#FBBF24]">{heroData.years}</span>
-
-              <span
-                className="
-                  ml-3
-                  text-[2rem]
-                  font-bold
-                  tracking-[-0.02em]
-                  text-white
-                  sm:text-3xl
-                  md:text-4xl
-                "
-              >
-                {heroData.yearsLabel}
-              </span>
+            <span className="block">
+              <span className="text-[#FBBF24]">{heroData.years}</span>{" "}
+              <span className="text-white">{heroData.yearsLabel}</span>
             </span>
 
-            {/* HUMANITARIAN */}
+            <span className="mt-3 block">{heroData.title}</span>
 
-            <span
-              className="
-                mt-4
-                block
-                text-[3.1rem]
-                text-white
-                sm:text-5xl
-                md:text-6xl
-                lg:text-[4.8rem]
-                xl:text-[5.2rem]
-              "
-            >
-              Humanitarian
-            </span>
-
-            {/* MINE ACTION */}
-
-            <span
-              className="
-                mt-1
-                block
-                text-[3.1rem]
-                text-[#A7F3D0]
-                sm:text-5xl
-                md:text-6xl
-                lg:text-[4.8rem]
-                xl:text-[5.2rem]
-              "
-            >
-              Mine Action
+            <span className="mt-1 block text-[#A7F3D0]">
+              {heroData.highlight}
             </span>
           </motion.h1>
 
@@ -426,24 +305,21 @@ export default function Hero() {
           ================================================== */}
 
           <motion.p
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
+            initial={
+              shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }
+            }
+            animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: 0.7,
-              delay: 0.5,
+              duration: shouldReduceMotion ? 0 : 0.7,
+              delay: shouldReduceMotion ? 0 : 0.25,
             }}
             className="
-              mt-8
+              mt-7
               max-w-2xl
               text-base
               leading-7
               text-white/80
+              sm:mt-8
               sm:text-lg
               sm:leading-8
               lg:text-xl
@@ -454,52 +330,64 @@ export default function Hero() {
           </motion.p>
 
           {/* =================================================
-              BUTTONS
+              CTA BUTTONS
           ================================================== */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 15,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
+            initial={
+              shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }
+            }
+            animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: 0.7,
-              delay: 0.65,
+              duration: shouldReduceMotion ? 0 : 0.7,
+              delay: shouldReduceMotion ? 0 : 0.4,
             }}
-            className="mt-9 flex flex-wrap gap-3"
+            className="
+              mt-8
+              flex
+              flex-col
+              gap-3
+              sm:flex-row
+              sm:items-center
+            "
           >
+            {/* PRIMARY CTA */}
+
             <Link
               to="/projects"
               className="
                 group
                 inline-flex
+                min-h-[52px]
                 items-center
                 justify-center
                 gap-3
                 rounded-xl
                 bg-[#F97316]
                 px-6
-                py-3.5
                 text-sm
                 font-bold
                 text-white
-                shadow-xl
+                shadow-lg
                 shadow-black/20
                 transition-all
                 duration-300
-                hover:-translate-y-1
+                hover:-translate-y-0.5
                 hover:bg-[#EA580C]
-                hover:shadow-2xl
+                hover:shadow-xl
+                focus:outline-none
+                focus:ring-2
+                focus:ring-[#FDBA74]
+                focus:ring-offset-2
+                focus:ring-offset-[#052E23]
+                sm:px-7
               "
             >
               {heroData.buttons.primary}
 
               <FaArrowRight
                 size={12}
+                aria-hidden="true"
                 className="
                   transition-transform
                   duration-300
@@ -508,27 +396,35 @@ export default function Hero() {
               />
             </Link>
 
+            {/* SECONDARY CTA */}
+
             <Link
               to="/about"
               className="
                 inline-flex
+                min-h-[52px]
                 items-center
                 justify-center
-                gap-2
                 rounded-xl
                 border
-                border-white/20
+                border-white/25
                 bg-white/10
                 px-6
-                py-3.5
                 text-sm
                 font-bold
                 text-white
-                backdrop-blur-sm
+                backdrop-blur-md
                 transition-all
                 duration-300
-                hover:-translate-y-1
+                hover:-translate-y-0.5
+                hover:border-white/40
                 hover:bg-white/15
+                focus:outline-none
+                focus:ring-2
+                focus:ring-white/60
+                focus:ring-offset-2
+                focus:ring-offset-[#052E23]
+                sm:px-7
               "
             >
               {heroData.buttons.secondary}
@@ -538,42 +434,65 @@ export default function Hero() {
       </div>
 
       {/* =====================================================
-          SLIDER INDICATORS
+          SLIDER CONTROLS
       ====================================================== */}
 
       {heroImages.length > 1 && (
         <div
           className="
             absolute
-            bottom-16
+            bottom-20
             right-5
             z-20
             flex
             items-center
             gap-2
+            sm:bottom-20
             sm:right-8
             lg:right-10
           "
+          aria-label="Hero image navigation"
         >
-          {heroImages.map((image, index) => (
-            <button
-              key={image.id}
-              type="button"
-              onClick={() => setCurrentImage(index)}
-              aria-label={`Show hero image ${index + 1}`}
-              className={`
-                h-1.5
-                rounded-full
-                transition-all
-                duration-300
-                ${
-                  currentImage === index
-                    ? "w-8 bg-[#F97316]"
-                    : "w-2 bg-white/40 hover:bg-white/70"
-                }
-              `}
-            />
-          ))}
+          {heroImages.map((image, index) => {
+            const isActive = currentImage === index;
+
+            return (
+              <button
+                key={image.id}
+                type="button"
+                onClick={() => setCurrentImage(index)}
+                aria-label={`Show slide ${index + 1}`}
+                aria-current={isActive ? "true" : undefined}
+                className="
+                  group
+                  flex
+                  min-h-8
+                  min-w-8
+                  items-center
+                  justify-center
+                  rounded-full
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-white/70
+                "
+              >
+                <span
+                  className={`
+                    block
+                    h-1.5
+                    rounded-full
+                    transition-all
+                    duration-300
+                    ${
+                      isActive
+                        ? "w-8 bg-[#F97316]"
+                        : "w-2 bg-white/40 group-hover:bg-white/70"
+                    }
+                  `}
+                />
+              </button>
+            );
+          })}
         </div>
       )}
 
@@ -582,17 +501,11 @@ export default function Hero() {
       ====================================================== */}
 
       <motion.div
-        initial={{
-          opacity: 0,
-          y: 20,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
+        initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{
-          duration: 0.7,
-          delay: 1,
+          duration: shouldReduceMotion ? 0 : 0.7,
+          delay: shouldReduceMotion ? 0 : 0.7,
         }}
         className="
           absolute
@@ -602,7 +515,7 @@ export default function Hero() {
           z-20
           border-t
           border-white/10
-          bg-black/15
+          bg-[#021812]/40
           backdrop-blur-md
         "
       >
@@ -619,40 +532,48 @@ export default function Hero() {
             lg:px-10
           "
         >
-          <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#F97316]" />
+          <div className="flex items-center gap-2.5">
+            <span
+              aria-hidden="true"
+              className="
+                h-1.5
+                w-1.5
+                rounded-full
+                bg-[#F97316]
+                shadow-[0_0_8px_rgba(249,115,22,0.8)]
+              "
+            />
 
             <p
               className="
-                text-[10px]
+                text-[9px]
                 font-bold
                 uppercase
-                tracking-[0.18em]
-                text-white/60
-                sm:text-xs
+                tracking-[0.15em]
+                text-white/65
+                sm:text-[10px]
+                sm:tracking-[0.18em]
+                md:text-xs
               "
             >
               {heroData.bottomBar.label}
             </p>
           </div>
 
-          <p className="hidden text-xs text-white/40 sm:block">
+          <p
+            className="
+              hidden
+              text-xs
+              text-white/40
+              md:block
+            "
+          >
             {heroData.bottomBar.tagline}
           </p>
 
-          <motion.div
-            animate={{
-              y: [0, 5, 0],
-            }}
-            transition={{
-              duration: 1.8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="text-[#F97316]"
-          >
-            <FaChevronDown size={11} />
-          </motion.div>
+          <div aria-hidden="true" className="text-[#F97316]">
+            <FaChevronDown size={10} />
+          </div>
         </div>
       </motion.div>
     </section>

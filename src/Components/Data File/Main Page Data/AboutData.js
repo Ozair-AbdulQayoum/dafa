@@ -14,9 +14,16 @@ export const aboutData = {
 
   image: {
     src: aboutImg,
-    alt: "DAFA humanitarian mine action operation",
+    alt: "DAFA humanitarian mine action team working in Afghanistan",
     label: "Humanitarian Mine Action",
   },
+
+  highlights: [
+    "Humanitarian mine action",
+    "Community protection",
+    "Safer communities",
+    "Afghanistan-wide operations",
+  ],
 
   button: {
     text: "Learn More About DAFA",

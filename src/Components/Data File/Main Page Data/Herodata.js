@@ -5,11 +5,12 @@
 export const heroData = {
   eyebrow: "Demining Agency for Afghanistan",
 
-  since: "Since 1990",
-
   years: "36",
-
   yearsLabel: "Years of",
+
+  title: "Humanitarian",
+
+  highlight: "Mine Action",
 
   description:
     "Working toward a safer Afghanistan by removing landmines and explosive remnants of war, protecting communities, and creating opportunities for a safer future.",
@@ -30,9 +31,6 @@ export const heroData = {
 // =====================================================
 
 import heroImage1 from "../../../assets/hero1.png";
-
-// Add these later when you receive the official images:
-//
 import heroImage2 from "../../../assets/hero2.png";
 import heroImage3 from "../../../assets/hero3.png";
 
@@ -42,15 +40,11 @@ export const heroImages = [
     image: heroImage1,
     alt: "DAFA humanitarian mine action team working in Afghanistan",
   },
-
-  // Uncomment when you have the official images:
-
   {
     id: 2,
     image: heroImage2,
     alt: "DAFA humanitarian mine action operations in Afghanistan",
   },
-
   {
     id: 3,
     image: heroImage3,
