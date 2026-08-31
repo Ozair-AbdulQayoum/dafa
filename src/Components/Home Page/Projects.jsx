@@ -8,34 +8,21 @@ import {
   FaProjectDiagram,
 } from "react-icons/fa";
 
-// ============================================================
-// ONE SOURCE OF TRUTH
-// ============================================================
-
 import projects from "../../Components/Data File/Project Data/ProjectsData";
 
-// ============================================================
-// HOMEPAGE PROJECTS
-// Automatically gets Ongoing projects
-// Maximum 3 projects
-// ============================================================
-
-const homeProjects = projects
-  .filter((project) => project.status === "Ongoing")
-  .slice(0, 3);
-
-// ============================================================
-// COMPONENT
-// ============================================================
-
 export default function Projects() {
+  // Show only 3 ongoing projects on homepage
+  const homeProjects = projects
+    .filter((project) => project.status === "Ongoing")
+    .slice(0, 3);
+
   return (
-    <section className="relative overflow-hidden bg-white py-24 sm:py-28">
+    <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
       {/* =====================================================
-          BACKGROUND
+          BACKGROUND DECORATION
       ====================================================== */}
 
-      <div className="pointer-events-none absolute inset-0">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute -left-60 top-0 h-[500px] w-[500px] rounded-full bg-[#087B5A]/5 blur-3xl" />
 
         <div className="absolute -right-60 bottom-0 h-[500px] w-[500px] rounded-full bg-[#F97316]/5 blur-3xl" />
@@ -64,37 +51,43 @@ export default function Projects() {
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{
             duration: 0.7,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="mx-auto max-w-3xl text-center"
         >
-          <div className="mb-5 flex items-center justify-center gap-3">
-            <span className="h-px w-10 bg-[#F97316]" />
+          {/* Label */}
 
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#087B5A]">
+          <div className="mb-5 flex items-center justify-center gap-3">
+            <span className="h-[2px] w-10 rounded-full bg-[#F97316]" />
+
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#087B5A] sm:text-sm">
               Featured Projects
             </span>
 
-            <span className="h-px w-10 bg-[#F97316]" />
+            <span className="h-[2px] w-10 rounded-full bg-[#F97316]" />
           </div>
 
-          <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
+          {/* Heading */}
+
+          <h2 className="text-3xl font-extrabold leading-[1.1] tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
             Turning Humanitarian Action
             <span className="block text-[#087B5A]">Into Lasting Impact</span>
           </h2>
 
+          {/* Description */}
+
           <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-            Explore DAFA's ongoing humanitarian projects helping communities
-            across Afghanistan reduce explosive hazards and create safer
-            environments.
+            Explore DAFA&apos;s ongoing humanitarian projects helping
+            communities across Afghanistan reduce explosive hazards and create
+            safer environments.
           </p>
         </motion.div>
 
         {/* =====================================================
-            ONGOING PROJECTS
+            PROJECT CARDS
         ====================================================== */}
 
         {homeProjects.length > 0 ? (
@@ -102,29 +95,20 @@ export default function Projects() {
             {homeProjects.map((project, index) => (
               <motion.article
                 key={project.slug}
-                initial={{
-                  opacity: 0,
-                  y: 35,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                  margin: "-60px",
-                }}
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
                   duration: 0.6,
                   delay: index * 0.1,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                whileHover={{
-                  y: -8,
-                }}
+                whileHover={{ y: -8 }}
                 className="
                   group
                   relative
+                  flex
+                  flex-col
                   overflow-hidden
                   rounded-3xl
                   border
@@ -158,16 +142,11 @@ export default function Projects() {
                     />
                   ) : (
                     <>
-                      <div
-                        className="
-                          absolute
-                          inset-0
-                          bg-gradient-to-br
-                          from-[#052E23]
-                          via-[#0B3D2E]
-                          to-[#087B5A]
-                        "
-                      />
+                      {/* Background */}
+
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#052E23] via-[#0B3D2E] to-[#087B5A]" />
+
+                      {/* Pattern */}
 
                       <div className="absolute inset-0 opacity-20">
                         <div
@@ -180,25 +159,11 @@ export default function Projects() {
                         />
                       </div>
 
+                      {/* Icon */}
+
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div
-                          className="
-                            flex
-                            h-20
-                            w-20
-                            items-center
-                            justify-center
-                            rounded-2xl
-                            border
-                            border-white/15
-                            bg-white/10
-                            backdrop-blur-sm
-                          "
-                        >
-                          <FaProjectDiagram
-                            size={30}
-                            className="text-[#A7F3D0]"
-                          />
+                        <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-[#A7F3D0] backdrop-blur-sm transition-transform duration-300 group-hover:scale-105">
+                          <FaProjectDiagram size={30} />
                         </div>
                       </div>
                     </>
@@ -206,39 +171,11 @@ export default function Projects() {
 
                   {/* Overlay */}
 
-                  <div
-                    className="
-                      absolute
-                      inset-0
-                      bg-gradient-to-t
-                      from-[#052E23]/90
-                      via-[#052E23]/10
-                      to-transparent
-                    "
-                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#052E23]/90 via-[#052E23]/10 to-transparent" />
 
                   {/* Location */}
 
-                  <div
-                    className="
-                      absolute
-                      left-5
-                      top-5
-                      flex
-                      items-center
-                      gap-2
-                      rounded-full
-                      border
-                      border-white/20
-                      bg-[#052E23]/75
-                      px-4
-                      py-2
-                      text-xs
-                      font-bold
-                      text-white
-                      backdrop-blur-md
-                    "
-                  >
+                  <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full border border-white/20 bg-[#052E23]/75 px-4 py-2 text-xs font-bold text-white backdrop-blur-md">
                     <FaMapMarkerAlt size={11} className="text-[#FDBA74]" />
 
                     {project.location}
@@ -246,53 +183,19 @@ export default function Projects() {
 
                   {/* Status */}
 
-                  <div
-                    className="
-                      absolute
-                      right-5
-                      top-5
-                      rounded-full
-                      border
-                      border-orange-200
-                      bg-orange-50
-                      px-3.5
-                      py-2
-                      text-[11px]
-                      font-bold
-                      text-orange-700
-                    "
-                  >
+                  <div className="absolute right-5 top-5 rounded-full border border-orange-200 bg-orange-50 px-3.5 py-2 text-[11px] font-bold text-orange-700">
                     {project.status}
                   </div>
 
                   {/* Project Info */}
 
                   <div className="absolute bottom-5 left-5">
-                    <p
-                      className="
-                        text-[10px]
-                        font-bold
-                        uppercase
-                        tracking-[0.2em]
-                        text-[#A7F3D0]
-                      "
-                    >
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A7F3D0]">
                       DAFA Project
                     </p>
 
-                    <div
-                      className="
-                        mt-2
-                        flex
-                        items-center
-                        gap-2
-                        text-xs
-                        font-medium
-                        text-white/80
-                      "
-                    >
+                    <div className="mt-2 flex items-center gap-2 text-xs font-medium text-white/80">
                       <FaCalendarAlt size={10} />
-
                       {project.year}
                     </div>
                   </div>
@@ -302,30 +205,16 @@ export default function Projects() {
                     CONTENT
                 ================================================== */}
 
-                <div className="p-7">
-                  <h3
-                    className="
-                      text-xl
-                      font-extrabold
-                      leading-snug
-                      tracking-tight
-                      text-[#0F172A]
-                      transition-colors
-                      duration-300
-                      group-hover:text-[#087B5A]
-                    "
-                  >
+                <div className="flex flex-1 flex-col p-7">
+                  {/* Title */}
+
+                  <h3 className="text-xl font-extrabold leading-snug tracking-tight text-[#0F172A] transition-colors duration-300 group-hover:text-[#087B5A]">
                     {project.title}
                   </h3>
 
-                  <p
-                    className="
-                      mt-4
-                      text-sm
-                      leading-7
-                      text-slate-600
-                    "
-                  >
+                  {/* Description */}
+
+                  <p className="mt-4 text-sm leading-7 text-slate-600">
                     {project.description}
                   </p>
 
@@ -353,56 +242,30 @@ export default function Projects() {
                       duration-300
                       hover:bg-[#087B5A]
                       hover:text-white
+                      focus:outline-none
+                      focus:ring-2
+                      focus:ring-[#087B5A]/30
+                      focus:ring-offset-2
                     "
                   >
                     <span>View Project</span>
 
-                    <span
-                      className="
-                        flex
-                        h-7
-                        w-7
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-[#087B5A]/10
-                        transition-all
-                        duration-300
-                        group-hover/link:bg-white/10
-                      "
-                    >
-                      <FaArrowRight
-                        size={11}
-                        className="
-                          transition-transform
-                          duration-300
-                          group-hover/link:translate-x-1
-                        "
-                      />
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#087B5A]/10 transition-all duration-300 group-hover/link:translate-x-1 group-hover/link:bg-white/10">
+                      <FaArrowRight size={11} />
                     </span>
                   </Link>
                 </div>
 
                 {/* Bottom Accent */}
 
-                <div
-                  className="
-                    absolute
-                    bottom-0
-                    left-0
-                    h-1
-                    w-0
-                    bg-[#F97316]
-                    transition-all
-                    duration-500
-                    group-hover:w-full
-                  "
-                />
+                <div className="absolute bottom-0 left-0 h-1 w-0 bg-[#F97316] transition-all duration-500 group-hover:w-full" />
               </motion.article>
             ))}
           </div>
         ) : (
-          <div className="mt-14 rounded-3xl border border-slate-200 bg-white px-6 py-16 text-center">
+          /* Empty State */
+
+          <div className="mt-14 rounded-3xl border border-slate-200 bg-slate-50 px-6 py-16 text-center">
             <h3 className="text-xl font-bold text-[#0F172A]">
               No Ongoing Projects
             </h3>
@@ -414,26 +277,18 @@ export default function Projects() {
         )}
 
         {/* =====================================================
-            VIEW ALL PROJECTS
+            VIEW ALL
         ====================================================== */}
 
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{
             duration: 0.7,
             delay: 0.2,
           }}
-          className="mt-14 text-center"
+          className="mt-14 flex justify-center"
         >
           <Link
             to="/projects"
@@ -456,24 +311,15 @@ export default function Projects() {
               hover:-translate-y-1
               hover:bg-[#0B3D2E]
               hover:shadow-xl
+              focus:outline-none
+              focus:ring-2
+              focus:ring-[#087B5A]/40
+              focus:ring-offset-2
             "
           >
             <span>View All Projects</span>
 
-            <span
-              className="
-                flex
-                h-7
-                w-7
-                items-center
-                justify-center
-                rounded-full
-                bg-white/10
-                transition-transform
-                duration-300
-                group-hover:translate-x-1
-              "
-            >
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:translate-x-1">
               <FaArrowRight size={11} />
             </span>
           </Link>

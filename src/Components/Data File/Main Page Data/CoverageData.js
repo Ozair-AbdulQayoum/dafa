@@ -1,7 +1,7 @@
-// src/Components/Main Page Data/CoverageData.js
+// src/Components/Data File/Main Page Data/CoverageData.js
 
 // =========================================================
-// PROVINCES
+// PROVINCES DATA
 // =========================================================
 
 export const provinces = [
@@ -35,14 +35,12 @@ export const provinces = [
     areasCleared: "5.1M m²",
     dafaWork: true,
   },
-
   {
     id: "daykundi",
     name: "Daykundi",
     areasCleared: "—",
     dafaWork: false,
   },
-
   {
     id: "farah",
     name: "Farah",
@@ -61,29 +59,24 @@ export const provinces = [
     areasCleared: "12.1M m²",
     dafaWork: true,
   },
-
   {
     id: "ghor",
     name: "Ghor",
     areasCleared: "—",
     dafaWork: false,
   },
-
   {
     id: "helmand",
     name: "Helmand",
     areasCleared: "21.6M m²",
     dafaWork: true,
   },
-
-  // HERAT
   {
     id: "herat",
     name: "Herat",
     areasCleared: "18.9M m²",
     dafaWork: true,
   },
-
   {
     id: "jowzjan",
     name: "Jowzjan",
@@ -186,15 +179,12 @@ export const provinces = [
     areasCleared: "6.3M m²",
     dafaWork: true,
   },
-
-  // SAR-E-PUL
   {
     id: "sar-e-pol",
     name: "Sar-e Pol",
     areasCleared: "7.9M m²",
     dafaWork: true,
   },
-
   {
     id: "takhar",
     name: "Takhar",
@@ -207,15 +197,12 @@ export const provinces = [
     areasCleared: "8.1M m²",
     dafaWork: true,
   },
-
-  // MAIDAN WARDAK
   {
     id: "wardak",
     name: "Maidan Wardak",
     areasCleared: "6.7M m²",
     dafaWork: true,
   },
-
   {
     id: "zabul",
     name: "Zabul",
@@ -225,7 +212,7 @@ export const provinces = [
 ];
 
 // =========================================================
-// NORMALIZE PROVINCE NAME
+// NORMALIZE NAME
 // =========================================================
 
 export const normalizeProvinceName = (name = "") => {
@@ -246,7 +233,7 @@ export const normalizeProvinceName = (name = "") => {
 };
 
 // =========================================================
-// CREATE COMPACT NAME
+// COMPACT NAME
 // =========================================================
 
 const compactProvinceName = (name = "") => {
@@ -258,41 +245,22 @@ const compactProvinceName = (name = "") => {
 // =========================================================
 
 const provinceAliases = {
-  // -----------------------------
-  // Badakhshan
-  // -----------------------------
   badakhshan: "badakhshan",
   badakshan: "badakhshan",
   badahkshan: "badakhshan",
 
-  // -----------------------------
-  // Badghis
-  // -----------------------------
   badghis: "badghis",
   badgis: "badghis",
 
-  // -----------------------------
-  // Baghlan
-  // -----------------------------
   baghlan: "baghlan",
   baglan: "baghlan",
 
-  // -----------------------------
-  // Balkh
-  // -----------------------------
   balkh: "balkh",
-  balخ: "balkh",
 
-  // -----------------------------
-  // Bamyan
-  // -----------------------------
   bamyan: "bamyan",
   bamian: "bamyan",
   bamiyan: "bamyan",
 
-  // -----------------------------
-  // Daykundi
-  // -----------------------------
   daykundi: "daykundi",
   daikundi: "daykundi",
   daikondi: "daykundi",
@@ -300,160 +268,82 @@ const provinceAliases = {
   "day kandi": "daykundi",
   "daik kandi": "daykundi",
 
-  // -----------------------------
-  // Farah
-  // -----------------------------
   farah: "farah",
 
-  // -----------------------------
-  // Faryab
-  // -----------------------------
   faryab: "faryab",
   fariab: "faryab",
 
-  // -----------------------------
-  // Ghazni
-  // -----------------------------
   ghazni: "ghazni",
   ghazna: "ghazni",
 
-  // -----------------------------
-  // Ghor
-  // -----------------------------
   ghor: "ghor",
   gour: "ghor",
   ghur: "ghor",
 
-  // -----------------------------
-  // Helmand
-  // -----------------------------
   helmand: "helmand",
   hilmand: "helmand",
   helmnd: "helmand",
-
-  // =====================================================
-  // HERAT - IMPORTANT
-  // =====================================================
 
   herat: "herat",
   hirat: "herat",
   herāt: "herat",
   hirāt: "herat",
-  heratprovince: "herat",
-  hiratprovince: "herat",
-  heratwilayat: "herat",
-  hiratwilayat: "herat",
 
-  // -----------------------------
-  // Jowzjan
-  // -----------------------------
   jowzjan: "jowzjan",
   jawzjan: "jowzjan",
   jozjan: "jowzjan",
-  jawzjān: "jowzjan",
+  jawzjan: "jowzjan",
 
-  // -----------------------------
-  // Kabul
-  // -----------------------------
   kabul: "kabul",
 
-  // -----------------------------
-  // Kandahar
-  // -----------------------------
   kandahar: "kandahar",
   kandhar: "kandahar",
   qandahar: "kandahar",
 
-  // -----------------------------
-  // Kapisa
-  // -----------------------------
   kapisa: "kapisa",
 
-  // -----------------------------
-  // Khost
-  // -----------------------------
   khost: "khost",
 
-  // -----------------------------
-  // Kunar
-  // -----------------------------
   kunar: "kunar",
   kunarha: "kunar",
   konar: "kunar",
 
-  // -----------------------------
-  // Kunduz
-  // -----------------------------
   kunduz: "kunduz",
   qunduz: "kunduz",
 
-  // -----------------------------
-  // Laghman
-  // -----------------------------
   laghman: "laghman",
   lagman: "laghman",
 
-  // -----------------------------
-  // Logar
-  // -----------------------------
   logar: "logar",
   loghar: "logar",
 
-  // -----------------------------
-  // Nangarhar
-  // -----------------------------
   nangarhar: "nangarhar",
   nangrahar: "nangarhar",
 
-  // -----------------------------
-  // Nimroz
-  // -----------------------------
   nimroz: "nimroz",
   nimruz: "nimroz",
 
-  // -----------------------------
-  // Nuristan
-  // -----------------------------
   nuristan: "nuristan",
   nooristan: "nuristan",
 
-  // -----------------------------
-  // Paktia
-  // -----------------------------
   paktia: "paktia",
   paktya: "paktia",
   paktiya: "paktia",
   paktyah: "paktia",
 
-  // -----------------------------
-  // Paktika
-  // -----------------------------
   paktika: "paktika",
   paktyka: "paktika",
   paktiqa: "paktika",
 
-  // -----------------------------
-  // Panjshir
-  // -----------------------------
   panjshir: "panjshir",
   panjsher: "panjshir",
   panjsheer: "panjshir",
 
-  // -----------------------------
-  // Parwan
-  // -----------------------------
   parwan: "parwan",
   parvan: "parwan",
 
-  // -----------------------------
-  // Samangan
-  // -----------------------------
   samangan: "samangan",
   samangān: "samangan",
-
-  // =====================================================
-  // SAR-E-PUL - IMPORTANT
-  // =====================================================
 
   "sar e pol": "sar-e-pol",
   "sar e pul": "sar-e-pol",
@@ -463,7 +353,6 @@ const provinceAliases = {
   "sar i pul": "sar-e-pol",
   "sar e poul": "sar-e-pol",
   "sar e pool": "sar-e-pol",
-
   sarepol: "sar-e-pol",
   sarepul: "sar-e-pol",
   sarpol: "sar-e-pol",
@@ -473,33 +362,18 @@ const provinceAliases = {
   saripoul: "sar-e-pol",
   saripool: "sar-e-pol",
 
-  "sar e pol province": "sar-e-pol",
-  "sar e pul province": "sar-e-pol",
-
-  // -----------------------------
-  // Takhar
-  // -----------------------------
   takhar: "takhar",
   takhār: "takhar",
 
-  // -----------------------------
-  // Uruzgan
-  // -----------------------------
   uruzgan: "uruzgan",
   oruzgan: "uruzgan",
   urzgan: "uruzgan",
 
-  // -----------------------------
-  // Wardak
-  // -----------------------------
   wardak: "wardak",
   maidanwardak: "wardak",
   "maidan wardak": "wardak",
   maidan: "wardak",
 
-  // -----------------------------
-  // Zabul
-  // -----------------------------
   zabul: "zabul",
 };
 
@@ -508,7 +382,7 @@ const provinceAliases = {
 // =========================================================
 
 export const getProvinceById = (id) => {
-  return provinces.find((province) => province.id === id);
+  return provinces.find((province) => province.id === id) || null;
 };
 
 // =========================================================
@@ -519,9 +393,9 @@ export const getProvinceFromGeoJSON = (name = "") => {
   const normalized = normalizeProvinceName(name);
   const compact = compactProvinceName(name);
 
-  // =====================================================
-  // HERAT - HARD MATCH
-  // =====================================================
+  // -----------------------------
+  // HERAT
+  // -----------------------------
 
   if (
     compact === "herat" ||
@@ -532,9 +406,9 @@ export const getProvinceFromGeoJSON = (name = "") => {
     return getProvinceById("herat");
   }
 
-  // =====================================================
-  // SAR-E-PUL - HARD MATCH
-  // =====================================================
+  // -----------------------------
+  // SAR-E-PUL
+  // -----------------------------
 
   if (
     compact === "sarepol" ||
@@ -551,9 +425,9 @@ export const getProvinceFromGeoJSON = (name = "") => {
     return getProvinceById("sar-e-pol");
   }
 
-  // =====================================================
-  // WARDAK - HARD MATCH
-  // =====================================================
+  // -----------------------------
+  // WARDAK
+  // -----------------------------
 
   if (
     compact === "wardak" ||
@@ -563,9 +437,9 @@ export const getProvinceFromGeoJSON = (name = "") => {
     return getProvinceById("wardak");
   }
 
-  // =====================================================
+  // -----------------------------
   // ALIAS MATCH
-  // =====================================================
+  // -----------------------------
 
   const alias = provinceAliases[normalized] || provinceAliases[compact];
 
@@ -573,21 +447,21 @@ export const getProvinceFromGeoJSON = (name = "") => {
     return getProvinceById(alias);
   }
 
-  // =====================================================
-  // NORMAL ID MATCH
-  // =====================================================
+  // -----------------------------
+  // ID MATCH
+  // -----------------------------
 
-  const directMatch = provinces.find(
+  const idMatch = provinces.find(
     (province) => normalizeProvinceName(province.id) === normalized,
   );
 
-  if (directMatch) {
-    return directMatch;
+  if (idMatch) {
+    return idMatch;
   }
 
-  // =====================================================
+  // -----------------------------
   // DISPLAY NAME MATCH
-  // =====================================================
+  // -----------------------------
 
   const nameMatch = provinces.find(
     (province) => normalizeProvinceName(province.name) === normalized,
@@ -601,7 +475,7 @@ export const getProvinceFromGeoJSON = (name = "") => {
 };
 
 // =========================================================
-// COVERED PROVINCES
+// COVERED PROVINCES COUNT
 // =========================================================
 
 export const coveredProvinces = provinces.filter(

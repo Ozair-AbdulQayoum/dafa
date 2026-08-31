@@ -12,9 +12,9 @@ export default function Navbar() {
 
   const desktopNavRef = useRef(null);
 
-  // =====================================================
-  // CLOSE ALL MENUS
-  // =====================================================
+  /* =========================================================
+     CLOSE MENUS
+  ========================================================= */
 
   const closeAllMenus = () => {
     setMobileMenuOpen(false);
@@ -22,35 +22,35 @@ export default function Navbar() {
     setMobileDropdown(null);
   };
 
-  // =====================================================
-  // MOBILE MENU
-  // =====================================================
+  /* =========================================================
+     MOBILE MENU
+  ========================================================= */
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen((previous) => !previous);
-    setMobileDropdown(null);
     setDesktopDropdown(null);
+    setMobileDropdown(null);
   };
 
-  // =====================================================
-  // MOBILE DROPDOWN
-  // =====================================================
+  /* =========================================================
+     MOBILE DROPDOWN
+  ========================================================= */
 
   const toggleMobileDropdown = (title) => {
     setMobileDropdown((previous) => (previous === title ? null : title));
   };
 
-  // =====================================================
-  // DESKTOP DROPDOWN
-  // =====================================================
+  /* =========================================================
+     DESKTOP DROPDOWN
+  ========================================================= */
 
   const toggleDesktopDropdown = (title) => {
     setDesktopDropdown((previous) => (previous === title ? null : title));
   };
 
-  // =====================================================
-  // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
-  // =====================================================
+  /* =========================================================
+     CLOSE DROPDOWN WHEN CLICKING OUTSIDE
+  ========================================================= */
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -69,9 +69,9 @@ export default function Navbar() {
     };
   }, []);
 
-  // =====================================================
-  // ESCAPE KEY
-  // =====================================================
+  /* =========================================================
+     ESCAPE KEY
+  ========================================================= */
 
   useEffect(() => {
     const handleEscape = (event) => {
@@ -87,9 +87,9 @@ export default function Navbar() {
     };
   }, []);
 
-  // =====================================================
-  // PREVENT BODY SCROLL
-  // =====================================================
+  /* =========================================================
+     PREVENT BODY SCROLL WHEN MOBILE MENU IS OPEN
+  ========================================================= */
 
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
@@ -99,37 +99,32 @@ export default function Navbar() {
     };
   }, [mobileMenuOpen]);
 
-  // =====================================================
-  // MOBILE LINK CLICK
-  // =====================================================
+  /* =========================================================
+     MOBILE LINK CLICK
+  ========================================================= */
 
   const handleMobileLinkClick = () => {
-    setMobileMenuOpen(false);
-    setMobileDropdown(null);
-    setDesktopDropdown(null);
+    closeAllMenus();
   };
 
-  // =====================================================
-  // DESKTOP LINK STYLE
-  // =====================================================
+  /* =========================================================
+     DESKTOP LINK CLASS
+  ========================================================= */
 
-  const desktopLinkClass = ({ isActive }) =>
-    `
-      group
-      relative
-      flex
-      items-center
-      whitespace-nowrap
-      py-2
-      text-[13px]
-      font-medium
-      transition-colors
-      duration-200
-      xl:text-sm
-      ${
-        isActive ? "font-semibold text-white" : "text-white/85 hover:text-white"
-      }
-    `;
+  const desktopLinkClass = ({ isActive }) => `
+    group
+    relative
+    flex
+    items-center
+    whitespace-nowrap
+    py-2.5
+    text-[13px]
+    font-medium
+    transition-colors
+    duration-200
+    xl:text-sm
+    ${isActive ? "font-semibold text-white" : "text-white/85 hover:text-white"}
+  `;
 
   return (
     <>
@@ -158,10 +153,11 @@ export default function Navbar() {
             max-w-7xl
             items-center
             justify-between
-            gap-6
+            gap-4
             px-5
             sm:px-8
             lg:px-10
+            xl:gap-6
           "
         >
           {/* =================================================
@@ -175,6 +171,7 @@ export default function Navbar() {
             className="
               group
               flex
+              min-w-0
               shrink-0
               items-center
               gap-3
@@ -250,11 +247,12 @@ export default function Navbar() {
 
           {/* =================================================
               DESKTOP NAVIGATION
+              XL = 1280px+
           ================================================== */}
 
           <nav
             ref={desktopNavRef}
-            className="hidden lg:flex"
+            className="hidden xl:flex"
             aria-label="Main navigation"
           >
             <ul
@@ -262,7 +260,7 @@ export default function Navbar() {
                 flex
                 items-center
                 gap-3
-                xl:gap-5
+                2xl:gap-5
               "
             >
               {/* HOME */}
@@ -318,13 +316,19 @@ export default function Navbar() {
                           items-center
                           gap-2
                           whitespace-nowrap
-                          py-2
+                          rounded-md
+                          py-2.5
                           text-[13px]
                           font-medium
                           text-white/85
                           transition-colors
                           duration-200
                           hover:text-white
+                          focus:outline-none
+                          focus-visible:ring-2
+                          focus-visible:ring-[#FDBA74]
+                          focus-visible:ring-offset-2
+                          focus-visible:ring-offset-[#087B5A]
                           xl:text-sm
                           ${desktopDropdown === item.title ? "text-white" : ""}
                         `}
@@ -373,7 +377,7 @@ export default function Navbar() {
                           left-1/2
                           top-full
                           z-50
-                          mt-3
+                          mt-2
                           w-64
                           -translate-x-1/2
                           origin-top
@@ -390,10 +394,11 @@ export default function Navbar() {
                           ${
                             desktopDropdown === item.title
                               ? "visible translate-y-0 scale-100 opacity-100"
-                              : "invisible translate-y-2 scale-95 opacity-0"
+                              : "invisible translate-y-1 scale-[0.98] opacity-0"
                           }
                         `}
                         role="menu"
+                        aria-hidden={desktopDropdown !== item.title}
                       >
                         {item.items.map((subItem) => (
                           <NavLink
@@ -401,6 +406,7 @@ export default function Navbar() {
                             to={subItem.path}
                             onClick={() => setDesktopDropdown(null)}
                             role="menuitem"
+                            tabIndex={desktopDropdown === item.title ? 0 : -1}
                             className={({ isActive }) =>
                               `
                                 group/item
@@ -414,6 +420,9 @@ export default function Navbar() {
                                 font-medium
                                 transition-all
                                 duration-200
+                                focus:outline-none
+                                focus-visible:ring-2
+                                focus-visible:ring-[#087B5A]
                                 ${
                                   isActive
                                     ? "bg-green-50 font-semibold text-[#087B5A]"
@@ -426,6 +435,7 @@ export default function Navbar() {
 
                             <FaArrowRight
                               size={9}
+                              aria-hidden="true"
                               className="
                                 text-[#F97316]
                                 opacity-0
@@ -499,11 +509,11 @@ export default function Navbar() {
               hover:bg-[#EA580C]
               hover:shadow-lg
               focus:outline-none
-              focus:ring-2
-              focus:ring-[#FDBA74]
-              focus:ring-offset-2
-              focus:ring-offset-[#087B5A]
-              lg:flex
+              focus-visible:ring-2
+              focus-visible:ring-[#FDBA74]
+              focus-visible:ring-offset-2
+              focus-visible:ring-offset-[#087B5A]
+              xl:flex
             "
           >
             {navbarData.contact.title}
@@ -549,9 +559,9 @@ export default function Navbar() {
               hover:bg-white/10
               active:scale-95
               focus:outline-none
-              focus:ring-2
-              focus:ring-white/60
-              lg:hidden
+              focus-visible:ring-2
+              focus-visible:ring-white/60
+              xl:hidden
             "
           >
             {mobileMenuOpen ? (
@@ -574,7 +584,7 @@ export default function Navbar() {
             fixed
             inset-0
             z-[90]
-            lg:hidden
+            xl:hidden
           "
         >
           {/* BACKDROP */}
@@ -631,10 +641,12 @@ export default function Navbar() {
                         block
                         py-4
                         text-[15px]
+                        transition-colors
+                        duration-200
                         ${
                           isActive
                             ? "font-bold text-white"
-                            : "font-medium text-white/85"
+                            : "font-medium text-white/85 hover:text-white"
                         }
                       `
                     }
@@ -672,14 +684,20 @@ export default function Navbar() {
                           aria-expanded={mobileDropdown === item.title}
                           className="
                             flex
+                            min-h-[56px]
                             w-full
                             items-center
                             justify-between
-                            py-4
                             text-left
                             text-[15px]
                             font-medium
                             text-white/90
+                            transition-colors
+                            duration-200
+                            hover:text-white
+                            focus:outline-none
+                            focus-visible:ring-2
+                            focus-visible:ring-white/60
                           "
                         >
                           <span>{item.title}</span>
@@ -720,6 +738,7 @@ export default function Navbar() {
                                 className={({ isActive }) =>
                                   `
                                     flex
+                                    min-h-[52px]
                                     items-center
                                     justify-between
                                     border-b
@@ -727,7 +746,13 @@ export default function Navbar() {
                                     px-4
                                     py-3.5
                                     text-[14px]
+                                    transition-colors
+                                    duration-200
                                     last:border-0
+                                    focus:outline-none
+                                    focus-visible:ring-2
+                                    focus-visible:ring-inset
+                                    focus-visible:ring-white/60
                                     ${
                                       isActive
                                         ? "bg-white font-bold text-[#087B5A]"
@@ -758,10 +783,12 @@ export default function Navbar() {
                             block
                             py-4
                             text-[15px]
+                            transition-colors
+                            duration-200
                             ${
                               isActive
                                 ? "font-bold text-white"
-                                : "font-medium text-white/85"
+                                : "font-medium text-white/85 hover:text-white"
                             }
                           `
                         }
@@ -790,7 +817,7 @@ export default function Navbar() {
                   </li>
                 ))}
 
-                {/* CONTACT */}
+                {/* CONTACT CTA */}
 
                 <li className="pt-5">
                   <NavLink
@@ -815,6 +842,11 @@ export default function Navbar() {
                       duration-300
                       hover:bg-[#EA580C]
                       hover:shadow-xl
+                      focus:outline-none
+                      focus-visible:ring-2
+                      focus-visible:ring-[#FDBA74]
+                      focus-visible:ring-offset-2
+                      focus-visible:ring-offset-[#087B5A]
                     "
                   >
                     {navbarData.contact.title}

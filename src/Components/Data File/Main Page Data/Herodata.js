@@ -6,6 +6,7 @@ export const heroData = {
   eyebrow: "Demining Agency for Afghanistan",
 
   years: "36",
+
   yearsLabel: "Years of",
 
   title: "Humanitarian",
@@ -40,11 +41,13 @@ export const heroImages = [
     image: heroImage1,
     alt: "DAFA humanitarian mine action team working in Afghanistan",
   },
+
   {
     id: 2,
     image: heroImage2,
     alt: "DAFA humanitarian mine action operations in Afghanistan",
   },
+
   {
     id: 3,
     image: heroImage3,

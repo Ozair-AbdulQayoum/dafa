@@ -33,9 +33,7 @@ export default function WhereWeWork() {
           throw new Error("The GeoJSON file is not valid JSON.");
         }
       })
-      .then((data) => {
-        setGeoData(data);
-      })
+      .then(setGeoData)
       .catch((err) => {
         console.error("GeoJSON error:", err);
         setError(err.message);
@@ -136,7 +134,7 @@ export default function WhereWeWork() {
   };
 
   // =====================================================
-  // MATCH GEOJSON WITH OUR DATA
+  // MATCH GEOJSON WITH PROVINCE DATA
   // =====================================================
 
   const getProvinceData = (feature) => {
@@ -173,10 +171,7 @@ export default function WhereWeWork() {
       properties.VARNAME_1,
     ].filter((value) => typeof value === "string" && value.trim().length > 0);
 
-    // ---------------------------------------------------
-    // NORMAL MATCH
-    // ---------------------------------------------------
-
+    // Normal matching
     for (const name of possibleNames) {
       const matched = getProvinceFromGeoJSON(name);
 
@@ -185,10 +180,7 @@ export default function WhereWeWork() {
       }
     }
 
-    // ---------------------------------------------------
-    // SEARCH ALL GEOJSON PROPERTY VALUES
-    // ---------------------------------------------------
-
+    // Search every GeoJSON property
     for (const value of Object.values(properties)) {
       if (typeof value !== "string") continue;
 
@@ -199,10 +191,7 @@ export default function WhereWeWork() {
       }
     }
 
-    // ---------------------------------------------------
-    // EXTRA MATCHING
-    // ---------------------------------------------------
-
+    // Extra matching
     for (const value of Object.values(properties)) {
       if (typeof value !== "string") continue;
 
@@ -212,24 +201,11 @@ export default function WhereWeWork() {
         .replace(/[\u0300-\u036f]/g, "")
         .replace(/[^a-z0-9]/g, "");
 
-      // HERAT / HIRAT
-      if (
-        clean === "herat" ||
-        clean === "hirat" ||
-        clean.includes("herat") ||
-        clean.includes("hirat")
-      ) {
+      if (clean.includes("herat") || clean.includes("hirat")) {
         return provinces.find((province) => province.id === "herat");
       }
 
-      // SAR-E-POL / SAR-E-PUL
       if (
-        clean === "sarepol" ||
-        clean === "sarepul" ||
-        clean === "sarpol" ||
-        clean === "sarpul" ||
-        clean === "saripol" ||
-        clean === "saripul" ||
         clean.includes("sarepol") ||
         clean.includes("sarepul") ||
         clean.includes("saripol") ||
@@ -238,28 +214,19 @@ export default function WhereWeWork() {
         return provinces.find((province) => province.id === "sar-e-pol");
       }
 
-      // WARDAK / MAIDAN WARDAK
-      if (
-        clean === "wardak" ||
-        clean === "maidanwardak" ||
-        clean.includes("wardak")
-      ) {
+      if (clean.includes("wardak")) {
         return provinces.find((province) => province.id === "wardak");
       }
 
-      // DAYKUNDI / DAIKUNDI
       if (
-        clean === "daykundi" ||
-        clean === "daikundi" ||
-        clean === "daykandi" ||
-        clean === "daikondi" ||
         clean.includes("daykundi") ||
-        clean.includes("daikundi")
+        clean.includes("daikundi") ||
+        clean.includes("daykandi") ||
+        clean.includes("daikondi")
       ) {
         return provinces.find((province) => province.id === "daykundi");
       }
 
-      // GHOR / GOUR
       if (
         clean === "ghor" ||
         clean === "gour" ||
@@ -399,12 +366,19 @@ export default function WhereWeWork() {
             <div className="relative w-full overflow-visible">
               <svg
                 viewBox={`0 0 ${mapData.width} ${mapData.height}`}
-                className="h-auto w-full overflow-visible"
+                className="
+                  h-auto
+                  w-[115%]
+                  -translate-x-[7.5%]
+                  overflow-visible
+                  sm:w-full
+                  sm:translate-x-0
+                "
                 preserveAspectRatio="xMidYMid meet"
               >
                 {/* =================================================
-                    ALL PROVINCES
-                ================================================= */}
+                    PROVINCES
+                ================================================== */}
 
                 {features.map((feature, index) => {
                   const province = getProvinceData(feature);
@@ -425,14 +399,14 @@ export default function WhereWeWork() {
                     <path
                       key={provinceId}
                       d={mapData.pathGenerator(feature)}
-                      /*
-                        EVERY PROVINCE:
-                        Same border thickness.
-                      */
-
                       fill={isDafaWork ? "#087B5A" : "#FFFFFF"}
-                      stroke={isHovered ? "#0F172A" : "#FFFFFF"}
-                      strokeWidth={isHovered ? 2.5 : 1.5}
+                      /*
+                       * Border removed.
+                       * Provinces now have no visible lines.
+                       */
+
+                      stroke="none"
+                      strokeWidth="0"
                       vectorEffect="non-scaling-stroke"
                       className="cursor-pointer transition-all duration-200"
                       style={{
@@ -456,8 +430,8 @@ export default function WhereWeWork() {
                 })}
 
                 {/* =================================================
-                    SMALL HOVER BADGE
-                ================================================= */}
+                    HOVER BADGE
+                ================================================== */}
 
                 {hoveredProvince &&
                   (() => {
@@ -469,9 +443,7 @@ export default function WhereWeWork() {
 
                     const projected = mapData.projection(centroid);
 
-                    if (!projected) {
-                      return null;
-                    }
+                    if (!projected) return null;
 
                     const [x, y] = projected;
 
