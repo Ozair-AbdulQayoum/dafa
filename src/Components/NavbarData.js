@@ -63,10 +63,6 @@ export const navItems = [
     dropdown: true,
     items: [
       {
-        title: "Reports",
-        path: "/resources/reports",
-      },
-      {
         title: "Stories",
         path: "/resources/stories",
       },

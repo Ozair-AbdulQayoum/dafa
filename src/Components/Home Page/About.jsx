@@ -1,7 +1,7 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { FaArrowRight, FaCheck } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 import { aboutData } from "../../Components/Data File/Main Page Data/AboutData";
 
@@ -13,7 +13,10 @@ export default function About() {
       className="
         relative
         overflow-hidden
-        bg-white
+        bg-gradient-to-br
+        from-[#F4FAF7]
+        via-[#EAF5EF]
+        to-[#F7FAF8]
         py-20
         sm:py-24
         lg:py-28
@@ -21,36 +24,70 @@ export default function About() {
       aria-labelledby="about-section-title"
     >
       {/* =====================================================
-          SUBTLE BACKGROUND
+          BACKGROUND DECORATION
       ====================================================== */}
 
+      {/* Green glow - top left */}
       <div
         aria-hidden="true"
         className="
           pointer-events-none
           absolute
           -left-40
-          top-24
-          h-80
-          w-80
+          -top-40
+          h-[500px]
+          w-[500px]
           rounded-full
-          bg-[#087B5A]/[0.035]
-          blur-3xl
+          bg-[#087B5A]/[0.07]
+          blur-[110px]
         "
       />
 
+      {/* Blue glow - right */}
       <div
         aria-hidden="true"
         className="
           pointer-events-none
           absolute
           -right-40
-          bottom-0
-          h-96
-          w-96
+          top-1/3
+          h-[450px]
+          w-[450px]
           rounded-full
-          bg-[#0284C7]/[0.025]
-          blur-3xl
+          bg-[#0284C7]/[0.045]
+          blur-[110px]
+        "
+      />
+
+      {/* Orange glow - bottom */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          bottom-[-220px]
+          left-1/2
+          h-[450px]
+          w-[450px]
+          -translate-x-1/2
+          rounded-full
+          bg-[#F97316]/[0.035]
+          blur-[120px]
+        "
+      />
+
+      {/* Subtle vertical gradient */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-x-0
+          top-0
+          h-32
+          bg-gradient-to-b
+          from-white/50
+          to-transparent
         "
       />
 
@@ -88,7 +125,10 @@ export default function About() {
             initial={
               shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -30 }
             }
-            whileInView={{ opacity: 1, x: 0 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+            }}
             viewport={{
               once: true,
               amount: 0.2,
@@ -105,8 +145,10 @@ export default function About() {
                 relative
                 overflow-hidden
                 rounded-[1.75rem]
+                border
+                border-[#087B5A]/15
                 bg-[#0B3D2E]
-                shadow-[0_20px_60px_rgba(15,23,42,0.12)]
+                shadow-[0_20px_60px_rgba(15,23,42,0.14)]
               "
             >
               <img
@@ -142,39 +184,6 @@ export default function About() {
                   to-transparent
                 "
               />
-
-              {/* IMAGE LABEL */}
-
-              <div
-                className="
-                  absolute
-                  bottom-5
-                  left-5
-                  sm:bottom-6
-                  sm:left-6
-                "
-              >
-                <span
-                  className="
-                    inline-flex
-                    rounded-full
-                    border
-                    border-white/20
-                    bg-black/20
-                    px-4
-                    py-2
-                    text-[10px]
-                    font-bold
-                    uppercase
-                    tracking-[0.15em]
-                    text-white
-                    backdrop-blur-md
-                    sm:text-xs
-                  "
-                >
-                  {aboutData.image.label}
-                </span>
-              </div>
             </div>
           </motion.div>
 
@@ -186,7 +195,10 @@ export default function About() {
             initial={
               shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 30 }
             }
-            whileInView={{ opacity: 1, x: 0 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+            }}
             viewport={{
               once: true,
               amount: 0.2,
@@ -196,9 +208,15 @@ export default function About() {
               delay: shouldReduceMotion ? 0 : 0.08,
               ease: [0.22, 1, 0.36, 1],
             }}
+            className="
+              flex
+              flex-col
+              justify-center
+              lg:min-h-[520px]
+            "
           >
             {/* =================================================
-                LABEL
+                SMALL HEADING
             ================================================== */}
 
             <div className="mb-5 flex items-center gap-3">
@@ -215,16 +233,17 @@ export default function About() {
 
               <span
                 className="
+                  whitespace-nowrap
                   text-[11px]
                   font-bold
                   uppercase
-                  tracking-[0.18em]
+                  tracking-[0.12em]
                   text-[#087B5A]
                   sm:text-xs
-                  sm:tracking-[0.2em]
+                  sm:tracking-[0.15em]
                 "
               >
-                {aboutData.label}
+                WE PROVIDE HUMANITARIAN DEMINING SERVICES
               </span>
             </div>
 
@@ -268,70 +287,6 @@ export default function About() {
             >
               {aboutData.description}
             </p>
-
-            {/* =================================================
-                HIGHLIGHTS
-            ================================================== */}
-
-            <ul
-              className="
-                mt-7
-                grid
-                gap-2.5
-                sm:grid-cols-2
-                sm:gap-3
-              "
-              aria-label="DAFA key areas"
-            >
-              {aboutData.highlights.map((item) => (
-                <li
-                  key={item}
-                  className="
-                    flex
-                    items-center
-                    gap-3
-                    rounded-xl
-                    border
-                    border-slate-100
-                    bg-slate-50/60
-                    px-4
-                    py-3
-                    transition-all
-                    duration-200
-                    hover:border-[#087B5A]/15
-                    hover:bg-[#087B5A]/[0.035]
-                  "
-                >
-                  <span
-                    aria-hidden="true"
-                    className="
-                      flex
-                      h-6
-                      w-6
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-[#087B5A]/10
-                      text-[#087B5A]
-                    "
-                  >
-                    <FaCheck size={9} />
-                  </span>
-
-                  <span
-                    className="
-                      text-sm
-                      font-semibold
-                      leading-5
-                      text-slate-700
-                    "
-                  >
-                    {item}
-                  </span>
-                </li>
-              ))}
-            </ul>
 
             {/* =================================================
                 CTA

@@ -32,7 +32,6 @@ import ProjectDetails from "./Components/Projects Page/ProjectDetails";
 import Achievements from "./Components/Achievements Page/Achievements";
 
 // Resources
-import Reports from "./Components/Resources/Reports/Reports";
 import Stories from "./Components/Resources/Stories/Stories";
 import StoriesDetails from "./Components/Resources/Stories/StoriesDetails";
 import NewsUpdate from "./Components/Resources/News-Update Page/NewsUpdate";
@@ -78,7 +77,6 @@ export default function App() {
         <Route path="/achievements" element={<Achievements />} />
 
         {/* RESOURCES */}
-        <Route path="/resources/reports" element={<Reports />} />
 
         <Route path="/resources/stories" element={<Stories />} />
 

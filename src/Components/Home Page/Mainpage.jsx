@@ -6,7 +6,6 @@ import Projects from "./Projects";
 import WhereWeWork from "./WhereWeWork";
 import StoriesCards from "./StoriesCards";
 import PartnersDonors from "./PartnersDonors";
-import Reports from "./Reports";
 import News from "./News";
 import CommunityVoices from "./CommunityVoices";
 export default function Mainpage() {
@@ -20,7 +19,6 @@ export default function Mainpage() {
       <WhereWeWork />
       <StoriesCards />
       <PartnersDonors />
-      <Reports />
       <News />
       <CommunityVoices />
     </>

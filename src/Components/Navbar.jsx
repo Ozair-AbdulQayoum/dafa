@@ -13,7 +13,7 @@ export default function Navbar() {
   const desktopNavRef = useRef(null);
 
   /* =========================================================
-     CLOSE MENUS
+     CLOSE ALL MENUS
   ========================================================= */
 
   const closeAllMenus = () => {
@@ -28,6 +28,7 @@ export default function Navbar() {
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen((previous) => !previous);
+
     setDesktopDropdown(null);
     setMobileDropdown(null);
   };
@@ -49,7 +50,7 @@ export default function Navbar() {
   };
 
   /* =========================================================
-     CLOSE DROPDOWN WHEN CLICKING OUTSIDE
+     CLOSE DESKTOP DROPDOWN OUTSIDE
   ========================================================= */
 
   useEffect(() => {
@@ -116,52 +117,84 @@ export default function Navbar() {
     relative
     flex
     items-center
+    gap-2
     whitespace-nowrap
+    rounded-xl
+    px-3
     py-2.5
     text-[13px]
     font-medium
-    transition-colors
-    duration-200
+    transition-all
+    duration-300
     xl:text-sm
-    ${isActive ? "font-semibold text-white" : "text-white/85 hover:text-white"}
+
+    ${
+      isActive
+        ? `
+          bg-white/10
+          font-semibold
+          text-white
+          shadow-[inset_2px_2px_5px_rgba(0,0,0,0.10)]
+        `
+        : `
+          text-white/85
+          hover:bg-white/10
+          hover:text-white
+        `
+    }
   `;
 
   return (
     <>
       {/* =====================================================
-          HEADER
+          FIXED NAVBAR
       ====================================================== */}
 
       <header
         className="
-          sticky
+          fixed
+          left-0
+          right-0
           top-0
           z-[100]
-          border-b
-          border-white/10
-          bg-[#087B5A]/95
-          shadow-[0_4px_20px_rgba(0,0,0,0.08)]
-          backdrop-blur-xl
+          w-full
+          bg-transparent
+          px-3
+          pt-3
+          font-[Poppins]
+          sm:px-5
+          lg:px-7
         "
       >
+        {/* ===================================================
+            NAVBAR GLASS CONTAINER
+        ==================================================== */}
+
         <div
           className="
             mx-auto
             flex
-            h-[76px]
+            h-[70px]
             w-full
             max-w-7xl
             items-center
             justify-between
             gap-4
-            px-5
-            sm:px-8
-            lg:px-10
+            rounded-2xl
+            border
+            border-white/15
+            bg-[#087B5A]/40
+            px-4
+            backdrop-blur-xl
+            backdrop-saturate-150
+            shadow-[0_8px_30px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.08)]
+            sm:px-6
+            lg:px-7
             xl:gap-6
           "
         >
           {/* =================================================
-              LOGO / BRAND
+              LOGO + BRAND
           ================================================== */}
 
           <NavLink
@@ -177,6 +210,8 @@ export default function Navbar() {
               gap-3
             "
           >
+            {/* CIRCULAR LOGO */}
+
             <div
               className="
                 flex
@@ -187,14 +222,15 @@ export default function Navbar() {
                 justify-center
                 overflow-hidden
                 rounded-full
+                border-2
+                border-white/90
                 bg-white
-                p-1
-                shadow-sm
-                ring-1
-                ring-white/20
-                transition-transform
+                p-[2px]
+                shadow-[0_5px_15px_rgba(0,0,0,0.22)]
+                transition-all
                 duration-300
                 group-hover:scale-105
+                group-hover:border-white
                 sm:h-12
                 sm:w-12
               "
@@ -211,14 +247,17 @@ export default function Navbar() {
               />
             </div>
 
+            {/* BRAND */}
+
             <div className="min-w-0">
               <div
                 className="
                   text-lg
                   font-extrabold
                   leading-none
-                  tracking-tight
+                  tracking-[-0.02em]
                   text-white
+                  drop-shadow-sm
                   sm:text-xl
                 "
               >
@@ -234,7 +273,7 @@ export default function Navbar() {
                   text-[9px]
                   font-medium
                   leading-none
-                  tracking-wide
+                  tracking-[0.02em]
                   text-white/65
                   sm:block
                   sm:text-[10px]
@@ -247,7 +286,6 @@ export default function Navbar() {
 
           {/* =================================================
               DESKTOP NAVIGATION
-              XL = 1280px+
           ================================================== */}
 
           <nav
@@ -259,11 +297,19 @@ export default function Navbar() {
               className="
                 flex
                 items-center
-                gap-3
-                2xl:gap-5
+                gap-1
+                rounded-2xl
+                border
+                border-white/10
+                bg-[#087B5A]/20
+                p-1.5
+                shadow-[inset_1px_1px_5px_rgba(0,0,0,0.10),inset_-1px_-1px_5px_rgba(255,255,255,0.04)]
+                2xl:gap-1.5
               "
             >
-              {/* HOME */}
+              {/* =================================================
+                  HOME
+              ================================================== */}
 
               <li>
                 <NavLink
@@ -278,14 +324,15 @@ export default function Navbar() {
                       <span
                         className={`
                           absolute
-                          bottom-0
-                          left-0
+                          bottom-1
+                          left-1/2
                           h-[2px]
+                          -translate-x-1/2
                           rounded-full
                           bg-[#F97316]
                           transition-all
                           duration-300
-                          ${isActive ? "w-full" : "w-0 group-hover:w-full"}
+                          ${isActive ? "w-5 opacity-100" : "w-0 opacity-0"}
                         `}
                       />
                     </>
@@ -293,7 +340,9 @@ export default function Navbar() {
                 </NavLink>
               </li>
 
-              {/* NAV ITEMS */}
+              {/* =================================================
+                  NAV ITEMS
+              ================================================== */}
 
               {navItems.map((item) => (
                 <li key={item.title} className="relative">
@@ -305,6 +354,7 @@ export default function Navbar() {
                         type="button"
                         onClick={(event) => {
                           event.stopPropagation();
+
                           toggleDesktopDropdown(item.title);
                         }}
                         aria-haspopup="menu"
@@ -316,21 +366,31 @@ export default function Navbar() {
                           items-center
                           gap-2
                           whitespace-nowrap
-                          rounded-md
+                          rounded-xl
+                          px-3
                           py-2.5
                           text-[13px]
                           font-medium
-                          text-white/85
-                          transition-colors
-                          duration-200
-                          hover:text-white
+                          transition-all
+                          duration-300
                           focus:outline-none
                           focus-visible:ring-2
                           focus-visible:ring-[#FDBA74]
-                          focus-visible:ring-offset-2
-                          focus-visible:ring-offset-[#087B5A]
                           xl:text-sm
-                          ${desktopDropdown === item.title ? "text-white" : ""}
+
+                          ${
+                            desktopDropdown === item.title
+                              ? `
+                                bg-white/10
+                                text-white
+                                shadow-[inset_2px_2px_5px_rgba(0,0,0,0.10)]
+                              `
+                              : `
+                                text-white/85
+                                hover:bg-white/10
+                                hover:text-white
+                              `
+                          }
                         `}
                       >
                         {item.title}
@@ -340,7 +400,7 @@ export default function Navbar() {
                           aria-hidden="true"
                           className={`
                             transition-transform
-                            duration-200
+                            duration-300
                             ${
                               desktopDropdown === item.title
                                 ? "rotate-180 text-[#FDBA74]"
@@ -352,24 +412,26 @@ export default function Navbar() {
                         <span
                           className={`
                             absolute
-                            bottom-0
-                            left-0
-                            right-0
+                            bottom-1
+                            left-1/2
                             h-[2px]
+                            -translate-x-1/2
                             rounded-full
                             bg-[#F97316]
-                            transition-transform
+                            transition-all
                             duration-300
                             ${
                               desktopDropdown === item.title
-                                ? "scale-x-100"
-                                : "scale-x-0"
+                                ? "w-5 opacity-100"
+                                : "w-0 opacity-0"
                             }
                           `}
                         />
                       </button>
 
-                      {/* DROPDOWN */}
+                      {/* =================================================
+                          DESKTOP DROPDOWN
+                      ================================================== */}
 
                       <div
                         className={`
@@ -377,24 +439,33 @@ export default function Navbar() {
                           left-1/2
                           top-full
                           z-50
-                          mt-2
+                          mt-3
                           w-64
                           -translate-x-1/2
                           origin-top
-                          rounded-xl
+                          rounded-2xl
                           border
-                          border-slate-200
-                          border-t-2
-                          border-t-[#F97316]
-                          bg-white
+                          border-white/15
+                          bg-[#087B5A]/90
                           p-2
-                          shadow-[0_20px_50px_rgba(0,0,0,0.16)]
+                          backdrop-blur-2xl
+                          shadow-[0_20px_50px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.08)]
                           transition-all
                           duration-200
                           ${
                             desktopDropdown === item.title
-                              ? "visible translate-y-0 scale-100 opacity-100"
-                              : "invisible translate-y-1 scale-[0.98] opacity-0"
+                              ? `
+                                visible
+                                translate-y-0
+                                scale-100
+                                opacity-100
+                              `
+                              : `
+                                invisible
+                                translate-y-2
+                                scale-[0.97]
+                                opacity-0
+                              `
                           }
                         `}
                         role="menu"
@@ -413,20 +484,29 @@ export default function Navbar() {
                                 flex
                                 items-center
                                 justify-between
-                                rounded-lg
+                                rounded-xl
                                 px-4
                                 py-3
                                 text-[13px]
-                                font-medium
                                 transition-all
                                 duration-200
                                 focus:outline-none
                                 focus-visible:ring-2
-                                focus-visible:ring-[#087B5A]
+                                focus-visible:ring-[#FDBA74]
+
                                 ${
                                   isActive
-                                    ? "bg-green-50 font-semibold text-[#087B5A]"
-                                    : "text-slate-700 hover:bg-green-50 hover:text-[#087B5A]"
+                                    ? `
+                                      bg-white/15
+                                      font-semibold
+                                      text-white
+                                    `
+                                    : `
+                                      font-medium
+                                      text-white/80
+                                      hover:bg-white/10
+                                      hover:text-white
+                                    `
                                 }
                               `
                             }
@@ -462,14 +542,15 @@ export default function Navbar() {
                           <span
                             className={`
                               absolute
-                              bottom-0
-                              left-0
+                              bottom-1
+                              left-1/2
                               h-[2px]
+                              -translate-x-1/2
                               rounded-full
                               bg-[#F97316]
                               transition-all
                               duration-300
-                              ${isActive ? "w-full" : "w-0 group-hover:w-full"}
+                              ${isActive ? "w-5 opacity-100" : "w-0 opacity-0"}
                             `}
                           />
                         </>
@@ -482,7 +563,7 @@ export default function Navbar() {
           </nav>
 
           {/* =================================================
-              CONTACT CTA
+              CONTACT BUTTON
           ================================================== */}
 
           <NavLink
@@ -497,22 +578,23 @@ export default function Navbar() {
               justify-center
               gap-2
               rounded-xl
-              bg-[#F97316]
+              border
+              border-white/10
+              bg-[#F97316]/95
               px-5
               text-[13px]
               font-bold
               text-white
-              shadow-sm
+              shadow-[0_5px_15px_rgba(0,0,0,0.18)]
               transition-all
               duration-300
               hover:-translate-y-0.5
               hover:bg-[#EA580C]
-              hover:shadow-lg
+              hover:shadow-[0_8px_20px_rgba(0,0,0,0.24)]
+              active:translate-y-0
               focus:outline-none
               focus-visible:ring-2
               focus-visible:ring-[#FDBA74]
-              focus-visible:ring-offset-2
-              focus-visible:ring-offset-[#087B5A]
               xl:flex
             "
           >
@@ -550,13 +632,16 @@ export default function Navbar() {
               justify-center
               rounded-xl
               border
-              border-white/10
+              border-white/15
               bg-white/5
               text-lg
               text-white
+              backdrop-blur-xl
+              shadow-[0_5px_15px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.08)]
               transition-all
               duration-200
               hover:bg-white/10
+              hover:text-[#FDBA74]
               active:scale-95
               focus:outline-none
               focus-visible:ring-2
@@ -584,6 +669,7 @@ export default function Navbar() {
             fixed
             inset-0
             z-[90]
+            font-[Poppins]
             xl:hidden
           "
         >
@@ -596,104 +682,111 @@ export default function Navbar() {
             className="
               absolute
               inset-0
-              bg-black/50
+              bg-black/45
               backdrop-blur-sm
             "
           />
 
-          {/* MOBILE PANEL */}
+          {/* =================================================
+              MOBILE PANEL
+          ================================================== */}
 
           <div
             className="
               absolute
-              left-0
-              right-0
-              top-[76px]
-              max-h-[calc(100vh-76px)]
+              left-3
+              right-3
+              top-[88px]
+              max-h-[calc(100vh-105px)]
               overflow-y-auto
-              border-t
-              border-white/10
-              bg-[#087B5A]
-              shadow-2xl
+              rounded-2xl
+              border
+              border-white/15
+              bg-[#087B5A]/80
+              p-2
+              backdrop-blur-2xl
+              shadow-[0_20px_50px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.08)]
+              sm:left-5
+              sm:right-5
             "
           >
             <nav
               className="
                 mx-auto
                 max-w-7xl
-                px-5
-                pb-8
-                pt-2
-                sm:px-8
+                px-2
+                pb-4
+                pt-1
+                sm:px-3
               "
               aria-label="Mobile navigation"
             >
               <ul className="flex flex-col">
                 {/* HOME */}
 
-                <li className="border-b border-white/10">
+                <li>
                   <NavLink
                     to="/"
                     onClick={handleMobileLinkClick}
                     className={({ isActive }) =>
                       `
-                        relative
-                        block
-                        py-4
+                        flex
+                        min-h-[52px]
+                        items-center
+                        rounded-xl
+                        px-4
                         text-[15px]
-                        transition-colors
+                        transition-all
                         duration-200
+
                         ${
                           isActive
-                            ? "font-bold text-white"
-                            : "font-medium text-white/85 hover:text-white"
+                            ? `
+                              bg-white/10
+                              font-bold
+                              text-white
+                            `
+                            : `
+                              font-medium
+                              text-white/85
+                              hover:bg-white/10
+                              hover:text-white
+                            `
                         }
                       `
                     }
                   >
-                    {({ isActive }) => (
-                      <>
-                        Home
-                        {isActive && (
-                          <span
-                            className="
-                              absolute
-                              bottom-0
-                              left-0
-                              h-[2px]
-                              w-8
-                              rounded-full
-                              bg-[#F97316]
-                            "
-                          />
-                        )}
-                      </>
-                    )}
+                    Home
                   </NavLink>
                 </li>
 
                 {/* NAV ITEMS */}
 
                 {navItems.map((item) => (
-                  <li key={item.title} className="border-b border-white/10">
+                  <li key={item.title}>
                     {item.dropdown ? (
                       <>
+                        {/* MOBILE DROPDOWN BUTTON */}
+
                         <button
                           type="button"
                           onClick={() => toggleMobileDropdown(item.title)}
                           aria-expanded={mobileDropdown === item.title}
                           className="
                             flex
-                            min-h-[56px]
+                            min-h-[52px]
                             w-full
                             items-center
                             justify-between
+                            rounded-xl
+                            px-4
                             text-left
                             text-[15px]
                             font-medium
                             text-white/90
-                            transition-colors
+                            transition-all
                             duration-200
+                            hover:bg-white/10
                             hover:text-white
                             focus:outline-none
                             focus-visible:ring-2
@@ -722,12 +815,13 @@ export default function Navbar() {
                         {mobileDropdown === item.title && (
                           <div
                             className="
-                              mb-3
+                              mb-2
                               overflow-hidden
                               rounded-xl
                               border
                               border-white/10
-                              bg-[#063F30]
+                              bg-[#063F30]/80
+                              p-1
                             "
                           >
                             {item.items.map((subItem) => (
@@ -737,26 +831,31 @@ export default function Navbar() {
                                 onClick={handleMobileLinkClick}
                                 className={({ isActive }) =>
                                   `
+                                    group/item
                                     flex
-                                    min-h-[52px]
+                                    min-h-[50px]
                                     items-center
                                     justify-between
-                                    border-b
-                                    border-white/10
+                                    rounded-lg
                                     px-4
-                                    py-3.5
+                                    py-3
                                     text-[14px]
-                                    transition-colors
+                                    transition-all
                                     duration-200
-                                    last:border-0
-                                    focus:outline-none
-                                    focus-visible:ring-2
-                                    focus-visible:ring-inset
-                                    focus-visible:ring-white/60
+
                                     ${
                                       isActive
-                                        ? "bg-white font-bold text-[#087B5A]"
-                                        : "font-medium text-white/90 hover:bg-white/10"
+                                        ? `
+                                          bg-white/10
+                                          font-bold
+                                          text-white
+                                        `
+                                        : `
+                                          font-medium
+                                          text-white/80
+                                          hover:bg-white/10
+                                          hover:text-white
+                                        `
                                     }
                                   `
                                 }
@@ -766,7 +865,12 @@ export default function Navbar() {
                                 <FaArrowRight
                                   size={9}
                                   aria-hidden="true"
-                                  className="text-[#F97316]"
+                                  className="
+                                    text-[#F97316]
+                                    transition-transform
+                                    duration-200
+                                    group-hover/item:translate-x-1
+                                  "
                                 />
                               </NavLink>
                             ))}
@@ -779,74 +883,68 @@ export default function Navbar() {
                         onClick={handleMobileLinkClick}
                         className={({ isActive }) =>
                           `
-                            relative
-                            block
-                            py-4
+                            flex
+                            min-h-[52px]
+                            items-center
+                            rounded-xl
+                            px-4
                             text-[15px]
-                            transition-colors
+                            transition-all
                             duration-200
+
                             ${
                               isActive
-                                ? "font-bold text-white"
-                                : "font-medium text-white/85 hover:text-white"
+                                ? `
+                                  bg-white/10
+                                  font-bold
+                                  text-white
+                                `
+                                : `
+                                  font-medium
+                                  text-white/85
+                                  hover:bg-white/10
+                                  hover:text-white
+                                `
                             }
                           `
                         }
                       >
-                        {({ isActive }) => (
-                          <>
-                            {item.title}
-
-                            {isActive && (
-                              <span
-                                className="
-                                  absolute
-                                  bottom-0
-                                  left-0
-                                  h-[2px]
-                                  w-8
-                                  rounded-full
-                                  bg-[#F97316]
-                                "
-                              />
-                            )}
-                          </>
-                        )}
+                        {item.title}
                       </NavLink>
                     )}
                   </li>
                 ))}
 
-                {/* CONTACT CTA */}
+                {/* CONTACT */}
 
-                <li className="pt-5">
+                <li className="mt-3">
                   <NavLink
                     to={navbarData.contact.path}
                     onClick={handleMobileLinkClick}
                     className="
                       group
                       flex
-                      min-h-[50px]
+                      min-h-[52px]
                       w-full
                       items-center
                       justify-center
                       gap-2
                       rounded-xl
-                      bg-[#F97316]
+                      border
+                      border-white/10
+                      bg-[#F97316]/95
                       px-5
                       text-[14px]
                       font-bold
                       text-white
-                      shadow-lg
+                      shadow-[0_6px_16px_rgba(0,0,0,0.20)]
                       transition-all
                       duration-300
                       hover:bg-[#EA580C]
-                      hover:shadow-xl
+                      active:scale-[0.99]
                       focus:outline-none
                       focus-visible:ring-2
                       focus-visible:ring-[#FDBA74]
-                      focus-visible:ring-offset-2
-                      focus-visible:ring-offset-[#087B5A]
                     "
                   >
                     {navbarData.contact.title}

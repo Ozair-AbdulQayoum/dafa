@@ -62,6 +62,7 @@ export default function Hero() {
         min-h-[calc(100svh-76px)]
         overflow-hidden
         bg-[#052E23]
+        font-[Poppins]
       "
       aria-label="DAFA introduction"
       onKeyDown={handleKeyDown}
@@ -94,7 +95,9 @@ export default function Hero() {
               initial={{
                 scale: shouldReduceMotion ? 1 : 1.035,
               }}
-              animate={{ scale: 1 }}
+              animate={{
+                scale: 1,
+              }}
               transition={{
                 duration: shouldReduceMotion ? 0 : 7,
                 ease: "linear",
@@ -164,46 +167,6 @@ export default function Hero() {
       />
 
       {/* =====================================================
-          SUBTLE DECORATION
-      ====================================================== */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -right-36
-          -top-36
-          -z-10
-          hidden
-          h-[30rem]
-          w-[30rem]
-          rounded-full
-          border
-          border-white/10
-          lg:block
-        "
-      />
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -right-20
-          -top-20
-          -z-10
-          hidden
-          h-56
-          w-56
-          rounded-full
-          border
-          border-white/10
-          lg:block
-        "
-      />
-
-      {/* =====================================================
           MAIN CONTENT
       ====================================================== */}
 
@@ -218,13 +181,14 @@ export default function Hero() {
           max-w-7xl
           items-center
           px-5
-          pb-32
-          pt-20
+          pb-20
+          pt-32
           sm:px-8
-          sm:pb-36
+          sm:pb-24
+          sm:pt-36
           lg:px-10
-          lg:pb-40
-          lg:pt-16
+          lg:pb-28
+          lg:pt-40
         "
       >
         <motion.div
@@ -243,56 +207,6 @@ export default function Hero() {
             lg:max-w-4xl
           "
         >
-          {/* =================================================
-              EYEBROW
-          ================================================== */}
-
-          <motion.div
-            initial={
-              shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }
-            }
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: shouldReduceMotion ? 0 : 0.55,
-            }}
-            className="
-              mb-5
-              flex
-              items-center
-              gap-3
-              sm:mb-6
-            "
-          >
-            <span
-              aria-hidden="true"
-              className="
-                h-[2px]
-                w-7
-                shrink-0
-                rounded-full
-                bg-[#F97316]
-                sm:w-10
-              "
-            />
-
-            <span
-              className="
-                text-[10px]
-                font-bold
-                uppercase
-                tracking-[0.16em]
-                text-[#FDBA74]
-                sm:text-xs
-                sm:tracking-[0.2em]
-              "
-            >
-              {heroData.eyebrow}
-            </span>
-          </motion.div>
-
           {/* =================================================
               MAIN HEADING
           ================================================== */}
@@ -336,38 +250,6 @@ export default function Hero() {
           </motion.h1>
 
           {/* =================================================
-              DESCRIPTION
-          ================================================== */}
-
-          <motion.p
-            initial={
-              shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }
-            }
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: shouldReduceMotion ? 0 : 0.65,
-              delay: shouldReduceMotion ? 0 : 0.2,
-            }}
-            className="
-              mt-6
-              max-w-xl
-              text-sm
-              leading-6
-              text-white/80
-              sm:mt-7
-              sm:text-base
-              sm:leading-7
-              lg:text-lg
-              lg:leading-8
-            "
-          >
-            {heroData.description}
-          </motion.p>
-
-          {/* =================================================
               CTA BUTTONS
           ================================================== */}
 
@@ -381,14 +263,14 @@ export default function Hero() {
             }}
             transition={{
               duration: shouldReduceMotion ? 0 : 0.65,
-              delay: shouldReduceMotion ? 0 : 0.35,
+              delay: shouldReduceMotion ? 0 : 0.2,
             }}
             className="
-              mt-7
+              mt-8
               flex
               flex-col
               gap-3
-              sm:mt-8
+              sm:mt-9
               sm:flex-row
             "
           >
@@ -552,7 +434,7 @@ export default function Hero() {
         }}
         transition={{
           duration: shouldReduceMotion ? 0 : 0.6,
-          delay: shouldReduceMotion ? 0 : 0.55,
+          delay: shouldReduceMotion ? 0 : 0.45,
         }}
         className="
           absolute

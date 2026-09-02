@@ -9,7 +9,13 @@ const projects = [
 
   {
     slug: "kandahar-humanitarian-demining-operations",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Kandahar Province",
     year: "2026",
     title: "Kandahar Humanitarian Demining Operations",
@@ -20,7 +26,13 @@ const projects = [
 
   {
     slug: "nangarhar-explosive-risk-education",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Nangarhar Province",
     year: "2026",
     title: "Nangarhar Explosive Risk Education",
@@ -31,7 +43,13 @@ const projects = [
 
   {
     slug: "herat-clearance-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Herat Province",
     year: "2026",
     title: "Herat Humanitarian Clearance Project",
@@ -42,7 +60,13 @@ const projects = [
 
   {
     slug: "2026-community-protection-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Kabul Province",
     year: "2026",
     title: "Community Protection Project",
@@ -57,7 +81,13 @@ const projects = [
 
   {
     slug: "kabul-humanitarian-clearance-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Kabul Province",
     year: "2025",
     title: "Kabul Humanitarian Clearance Project",
@@ -68,7 +98,13 @@ const projects = [
 
   {
     slug: "nangarhar-community-clearance-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Nangarhar Province",
     year: "2025",
     title: "Nangarhar Community Clearance Project",
@@ -79,7 +115,13 @@ const projects = [
 
   {
     slug: "balkh-land-release-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Balkh Province",
     year: "2025",
     title: "Balkh Land Release Project",
@@ -90,7 +132,13 @@ const projects = [
 
   {
     slug: "2025-community-clearance",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Kunduz Province",
     year: "2025",
     title: "Community Clearance Initiative",
@@ -105,7 +153,13 @@ const projects = [
 
   {
     slug: "kandahar-land-clearance-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Kandahar Province",
     year: "2024",
     title: "Kandahar Land Clearance Project",
@@ -116,7 +170,13 @@ const projects = [
 
   {
     slug: "herat-community-safety-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Herat Province",
     year: "2024",
     title: "Herat Community Safety Project",
@@ -127,7 +187,13 @@ const projects = [
 
   {
     slug: "2024-explosive-hazard-reduction",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Logar Province",
     year: "2024",
     title: "Explosive Hazard Reduction Project",
@@ -138,7 +204,13 @@ const projects = [
 
   {
     slug: "2024-safe-access-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Parwan Province",
     year: "2024",
     title: "Safe Access & Community Support Project",
@@ -153,7 +225,13 @@ const projects = [
 
   {
     slug: "helmand-clearance-operation",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Helmand Province",
     year: "2023",
     title: "Helmand Clearance Operation",
@@ -164,7 +242,13 @@ const projects = [
 
   {
     slug: "balkh-safe-land-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Balkh Province",
     year: "2023",
     title: "Balkh Safe Land Project",
@@ -175,7 +259,13 @@ const projects = [
 
   {
     slug: "kabul-explosive-hazard-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Kabul Province",
     year: "2023",
     title: "Kabul Explosive Hazard Reduction Project",
@@ -186,7 +276,13 @@ const projects = [
 
   {
     slug: "nangarhar-safe-communities-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Nangarhar Province",
     year: "2023",
     title: "Nangarhar Safe Communities Project",
@@ -201,7 +297,13 @@ const projects = [
 
   {
     slug: "logar-humanitarian-clearance",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Logar Province",
     year: "2022",
     title: "Logar Humanitarian Clearance",
@@ -212,7 +314,13 @@ const projects = [
 
   {
     slug: "parwan-mine-action-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Parwan Province",
     year: "2022",
     title: "Parwan Mine Action Project",
@@ -223,7 +331,13 @@ const projects = [
 
   {
     slug: "2022-community-safety-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Wardak Province",
     year: "2022",
     title: "Community Safety & Clearance Project",
@@ -238,7 +352,13 @@ const projects = [
 
   {
     slug: "wardak-community-clearance",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Wardak Province",
     year: "2021",
     title: "Wardak Community Clearance Project",
@@ -249,7 +369,13 @@ const projects = [
 
   {
     slug: "paktiya-explosive-hazard-reduction",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1593113646773-028c64a8f1b8?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Paktiya Province",
     year: "2021",
     title: "Paktiya Explosive Hazard Reduction",
@@ -260,7 +386,13 @@ const projects = [
 
   {
     slug: "2021-safe-land-project",
-    image: "",
+
+    images: [
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
+    ],
+
     location: "Khost Province",
     year: "2021",
     title: "Khost Safe Land Project",
