@@ -1,166 +1,267 @@
+// ============================================================
+// DAFA DIRECTOR DATA
+// ============================================================
+
+export const director = {
+  slug: "director",
+  name: "Director",
+  position: "Director",
+  experience: "15+ Years Experience",
+  image: "https://i.pravatar.cc/1000?img=1",
+};
+
+// ============================================================
+// DAFA DEPARTMENTS & PERSONNEL DATA
+// ============================================================
+
 export const departments = [
+  // ============================================================
+  // ADMINISTRATION
+  // ============================================================
+
   {
     name: "Administration",
     icon: "FaUserCog",
+
     description:
       "Supporting organizational administration, human resources, coordination, documentation, and internal services.",
 
     members: [
       {
         slug: "administration-manager",
-        name: "Example Name",
+        name: "Sarah Johnson",
         position: "HR / Admin Manager",
         experience: "10+ Years Experience",
-        image: "/images/team/admin-manager.jpg",
+        image: "https://i.pravatar.cc/800?img=47",
       },
       {
         slug: "administration-officer",
-        name: "Example Name",
+        name: "Michael Smith",
         position: "HR / Admin Officer",
         experience: "7+ Years Experience",
-        image: "/images/team/admin-officer.jpg",
+        image: "https://i.pravatar.cc/800?img=12",
       },
       {
-        slug: "administration-assistant",
-        name: "Example Name",
-        position: "Administration Assistant",
-        experience: "4+ Years Experience",
-        image: "/images/team/admin-assistant.jpg",
+        slug: "liaison-officer",
+        name: "Emily Davis",
+        position: "Liaison Officer",
+        experience: "6+ Years Experience",
+        image: "https://i.pravatar.cc/800?img=45",
       },
     ],
   },
 
+  // ============================================================
+  // FINANCE
+  // ============================================================
+
   {
     name: "Finance",
     icon: "FaCalculator",
+
     description:
       "Supporting financial management, reporting, planning, compliance, and responsible use of organizational resources.",
 
     members: [
       {
         slug: "finance-manager",
-        name: "Example Name",
+        name: "Daniel Wilson",
         position: "Finance Manager",
         experience: "12+ Years Experience",
-        image: "/images/team/finance-manager.jpg",
+        image: "https://i.pravatar.cc/800?img=11",
       },
       {
         slug: "finance-officer",
-        name: "Example Name",
+        name: "James Anderson",
         position: "Finance Officer",
         experience: "8+ Years Experience",
-        image: "/images/team/finance-officer.jpg",
+        image: "https://i.pravatar.cc/800?img=13",
       },
       {
-        slug: "finance-assistant",
-        name: "Example Name",
-        position: "Finance Assistant",
+        slug: "assistant-finance-officer",
+        name: "Robert Taylor",
+        position: "Assistant Finance Officer",
+        experience: "6+ Years Experience",
+        image: "https://i.pravatar.cc/800?img=68",
+      },
+      {
+        slug: "finance-grants-officer",
+        name: "Olivia Martin",
+        position: "Finance & Grants Officer",
+        experience: "7+ Years Experience",
+        image: "https://i.pravatar.cc/800?img=32",
+      },
+      {
+        slug: "cashier-finance-assistant",
+        name: "Sophia Moore",
+        position: "Cashier / Finance Assistant",
         experience: "5+ Years Experience",
-        image: "/images/team/finance-assistant.jpg",
+        image: "https://i.pravatar.cc/800?img=44",
       },
     ],
   },
 
+  // ============================================================
+  // LOGISTICS
+  // ============================================================
+
   {
     name: "Logistics",
     icon: "FaTruck",
+
     description:
       "Supporting procurement, transportation, storage, inventory, and the availability of resources across DAFA operations.",
 
     members: [
       {
         slug: "logistics-manager",
-        name: "Example Name",
-        position: "Logistics Manager",
+        name: "William Thomas",
+        position: "Logistics / Support Manager",
         experience: "12+ Years Experience",
-        image: "/images/team/logistics-manager.jpg",
+        image: "https://i.pravatar.cc/800?img=3",
       },
       {
         slug: "logistics-officer",
-        name: "Example Name",
+        name: "Christopher Jackson",
         position: "Logistics Officer",
         experience: "8+ Years Experience",
-        image: "/images/team/logistics-officer.jpg",
+        image: "https://i.pravatar.cc/800?img=52",
       },
       {
         slug: "logistics-assistant",
-        name: "Example Name",
+        name: "Matthew White",
         position: "Logistics Assistant",
         experience: "5+ Years Experience",
-        image: "/images/team/logistics-assistant.jpg",
+        image: "https://i.pravatar.cc/800?img=14",
       },
       {
         slug: "storekeeper",
-        name: "Example Name",
+        name: "David Harris",
         position: "Storekeeper",
         experience: "6+ Years Experience",
-        image: "/images/team/storekeeper.jpg",
+        image: "https://i.pravatar.cc/800?img=8",
       },
       {
         slug: "logistics-coordinator",
-        name: "Example Name",
+        name: "Jessica Clark",
         position: "Logistics Coordinator",
         experience: "7+ Years Experience",
-        image: "/images/team/logistics-coordinator.jpg",
+        image: "https://i.pravatar.cc/800?img=49",
       },
     ],
   },
 
+  // ============================================================
+  // OPERATIONS
+  // ============================================================
+
   {
     name: "Operations",
     icon: "FaTools",
+
     description:
-      "Supporting the planning, coordination, quality assurance, and delivery of humanitarian mine-action activities.",
+      "Supporting the planning, coordination, and delivery of humanitarian mine-action activities across operational areas.",
 
     members: [
       {
-        slug: "operations-manager",
-        name: "Example Name",
-        position: "Operations Manager",
+        slug: "head-of-operations",
+        name: "Andrew Lewis",
+        position: "Head of Operations",
         experience: "15+ Years Experience",
-        image: "/images/team/operations-manager.jpg",
+        image: "https://i.pravatar.cc/800?img=60",
+      },
+      {
+        slug: "operations-manager",
+        name: "Daniel Walker",
+        position: "Operations Manager",
+        experience: "12+ Years Experience",
+        image: "https://i.pravatar.cc/800?img=56",
       },
       {
         slug: "operations-officer",
-        name: "Example Name",
+        name: "Mark Robinson",
         position: "Operations Officer",
         experience: "9+ Years Experience",
-        image: "/images/team/operations-officer.jpg",
+        image: "https://i.pravatar.cc/800?img=59",
       },
       {
-        slug: "operations-assistant",
-        name: "Example Name",
-        position: "Operations Assistant",
+        slug: "common-mobilizer",
+        name: "Ahmed Rahimi",
+        position: "Common Mobilizer",
         experience: "5+ Years Experience",
-        image: "/images/team/operations-assistant.jpg",
+        image: "https://i.pravatar.cc/800?img=70",
       },
+    ],
+  },
+
+  // ============================================================
+  // QUALITY ASSURANCE
+  // ============================================================
+
+  {
+    name: "Quality Assurance",
+    icon: "FaCheckCircle",
+
+    description:
+      "Ensuring operational quality, compliance, inspection, monitoring, and adherence to humanitarian mine-action standards.",
+
+    members: [
       {
         slug: "qa-manager",
-        name: "Example Name",
+        name: "Thomas Edwards",
         position: "QA Manager",
         experience: "11+ Years Experience",
-        image: "/images/team/qa-manager.jpg",
+        image: "https://i.pravatar.cc/800?img=69",
       },
       {
         slug: "qa-officer",
-        name: "Example Name",
+        name: "George Adams",
         position: "QA Officer",
         experience: "7+ Years Experience",
-        image: "/images/team/qa-officer.jpg",
+        image: "https://i.pravatar.cc/800?img=67",
       },
       {
-        slug: "field-operations-officer",
-        name: "Example Name",
-        position: "Field Operations Officer",
+        slug: "qa-inspector",
+        name: "Daniel Green",
+        position: "QA Inspector",
+        experience: "6+ Years Experience",
+        image: "https://i.pravatar.cc/800?img=65",
+      },
+    ],
+  },
+
+  // ============================================================
+  // MIS
+  // ============================================================
+
+  {
+    name: "MIS",
+    icon: "FaDatabase",
+
+    description:
+      "Supporting management information systems, data management, reporting, information processing, and organizational data services.",
+
+    members: [
+      {
+        slug: "mis-manager",
+        name: "Alex Johnson",
+        position: "MIS Manager",
+        experience: "10+ Years Experience",
+        image: "https://i.pravatar.cc/800?img=53",
+      },
+      {
+        slug: "mis-officer",
+        name: "Ryan Williams",
+        position: "MIS Officer",
         experience: "7+ Years Experience",
-        image: "/images/team/field-operations-officer.jpg",
+        image: "https://i.pravatar.cc/800?img=54",
       },
       {
-        slug: "field-operations-assistant",
-        name: "Example Name",
-        position: "Field Operations Assistant",
+        slug: "data-processor",
+        name: "Kevin Martinez",
+        position: "Data Processor",
         experience: "5+ Years Experience",
-        image: "/images/team/field-operations-assistant.jpg",
+        image: "https://i.pravatar.cc/800?img=51",
       },
     ],
   },

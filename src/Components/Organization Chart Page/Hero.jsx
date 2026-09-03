@@ -1,72 +1,349 @@
+// =====================================================
+// ORGANIZATION CHART
+// =====================================================
+
 import React from "react";
 import { motion } from "framer-motion";
-import { FaArrowDown, FaCheckCircle, FaSitemap } from "react-icons/fa";
+import {
+  FaSitemap,
+  FaChevronDown,
+  FaUserTie,
+  FaCheckCircle,
+} from "react-icons/fa";
 
 import {
   organizationPageData,
   leadershipData,
   departments,
-  organizationWorkflow,
 } from "../../Components/Data File/Organization Chart Data/OrganizationChartData";
 
 // =====================================================
-// ANIMATION VARIANTS
+// ANIMATIONS
 // =====================================================
 
 const fadeUp = {
   hidden: {
     opacity: 0,
-    y: 30,
+    y: 25,
   },
 
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-const cardAnimation = {
-  hidden: {
-    opacity: 0,
-    y: 35,
-  },
-
-  visible: (index) => ({
-    opacity: 1,
-    y: 0,
 
     transition: {
       duration: 0.65,
-      delay: index * 0.1,
       ease: [0.22, 1, 0.36, 1],
     },
-  }),
+  },
 };
 
 // =====================================================
-// COMPONENT
+// COLOR SYSTEM
+// =====================================================
+
+const accentStyles = {
+  green: {
+    icon: "bg-[#087B5A]/10 text-[#087B5A]",
+    border: "border-[#087B5A]/20",
+    line: "bg-[#087B5A]/30",
+    dot: "bg-[#087B5A]",
+  },
+
+  blue: {
+    icon: "bg-[#2563EB]/10 text-[#2563EB]",
+    border: "border-[#2563EB]/20",
+    line: "bg-[#2563EB]/25",
+    dot: "bg-[#2563EB]",
+  },
+
+  orange: {
+    icon: "bg-[#F97316]/10 text-[#F97316]",
+    border: "border-[#F97316]/20",
+    line: "bg-[#F97316]/25",
+    dot: "bg-[#F97316]",
+  },
+};
+
+// =====================================================
+// POSITION NODE
+// =====================================================
+
+function PositionNode({ title, accent = "green", primary = false }) {
+  const styles = accentStyles[accent];
+
+  return (
+    <motion.div
+      whileHover={{
+        y: -3,
+      }}
+      transition={{
+        duration: 0.25,
+      }}
+      className={`
+        relative z-10 rounded-2xl border
+        px-4 py-4 text-center
+        backdrop-blur-xl
+        transition-all duration-300
+        ${styles.border}
+        ${
+          primary
+            ? "bg-[#0B3D2E] text-white shadow-[0_12px_30px_rgba(11,61,46,0.15)]"
+            : "bg-white/80 text-[#0F172A] shadow-sm"
+        }
+      `}
+    >
+      {primary && (
+        <div className="mx-auto mb-2 h-1.5 w-8 rounded-full bg-[#A7F3D0]" />
+      )}
+
+      <p
+        className={`text-[11px] font-black uppercase leading-5 tracking-[0.05em] ${
+          primary ? "text-white" : "text-[#0F172A]"
+        }`}
+      >
+        {title}
+      </p>
+    </motion.div>
+  );
+}
+
+// =====================================================
+// RECURSIVE POSITION TREE
+// =====================================================
+
+function PositionTree({ node, accent, level = 0 }) {
+  if (!node) return null;
+
+  const hasChildren = node.children && node.children.length > 0;
+
+  return (
+    <div className="relative flex flex-col items-center">
+      {/* Connector from parent */}
+
+      {level > 0 && (
+        <div className="absolute -top-6 left-1/2 h-6 w-px bg-slate-300" />
+      )}
+
+      <PositionNode title={node.title} accent={accent} primary={level === 0} />
+
+      {hasChildren && (
+        <>
+          {/* Vertical connector */}
+
+          <div className="h-7 w-px bg-slate-300" />
+
+          {/* Children */}
+
+          <div className="relative w-full">
+            {/* Horizontal connector */}
+
+            {node.children.length > 1 && (
+              <div className="absolute left-[15%] right-[15%] top-0 hidden h-px bg-slate-300 md:block" />
+            )}
+
+            <div
+              className={`
+                grid gap-4 pt-6
+                ${
+                  node.children.length === 1
+                    ? "grid-cols-1"
+                    : node.children.length === 2
+                      ? "grid-cols-1 sm:grid-cols-2"
+                      : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                }
+              `}
+            >
+              {node.children.map((child, index) => (
+                <div
+                  key={`${child.title}-${index}`}
+                  className="relative flex justify-center"
+                >
+                  {/* Child vertical connector */}
+
+                  <div className="absolute -top-6 left-1/2 hidden h-6 w-px bg-slate-300 md:block" />
+
+                  <div className="w-full">
+                    <PositionTree
+                      node={child}
+                      accent={accent}
+                      level={level + 1}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// =====================================================
+// DEPARTMENT TREE
+// =====================================================
+
+function DepartmentTree({ department, index }) {
+  const Icon = department.icon;
+  const styles = accentStyles[department.accent] || accentStyles.green;
+
+  return (
+    <motion.article
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{
+        once: true,
+        amount: 0.08,
+      }}
+      transition={{
+        delay: index * 0.08,
+      }}
+      className="relative"
+    >
+      {/* =================================================
+          DEPARTMENT HEADER
+      ================================================= */}
+
+      <div className="relative mx-auto w-full max-w-[330px]">
+        <div className="absolute -inset-1 rounded-[24px] bg-gradient-to-r from-[#087B5A]/10 via-[#2563EB]/10 to-[#F97316]/10 blur-lg" />
+
+        <div className="relative rounded-[22px] bg-gradient-to-br from-[#0B3D2E] to-[#087B5A] p-[1px] shadow-[0_18px_40px_rgba(11,61,46,0.15)]">
+          <div className="rounded-[21px] bg-[#0B3D2E] px-5 py-5 text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-[#A7F3D0]">
+              <Icon size={20} />
+            </div>
+
+            <p className="mt-3 text-[9px] font-black uppercase tracking-[0.18em] text-[#A7F3D0]/65">
+              Department
+            </p>
+
+            <h3 className="mt-1 text-xl font-black text-white">
+              {department.name}
+            </h3>
+
+            <p className="mt-2 text-[11px] leading-5 text-green-50/55">
+              {department.label}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* =================================================
+          DEPARTMENT → MANAGEMENT
+      ================================================= */}
+
+      <div className="mt-7">
+        <div className="mx-auto h-7 w-px bg-slate-300" />
+
+        <PositionTree node={department.hierarchy} accent={department.accent} />
+      </div>
+    </motion.article>
+  );
+}
+
+// =====================================================
+// DEPARTMENT DETAIL CARD
+// =====================================================
+
+function DepartmentDetail({ department, index }) {
+  const Icon = department.icon;
+  const styles = accentStyles[department.accent] || accentStyles.green;
+
+  return (
+    <motion.article
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{
+        once: true,
+        amount: 0.12,
+      }}
+      transition={{
+        delay: index * 0.06,
+      }}
+      whileHover={{
+        y: -5,
+      }}
+      className="relative overflow-hidden rounded-[26px] bg-[#F7FBF9] p-[1px] shadow-sm"
+    >
+      <div className="relative h-full rounded-[25px] bg-white/80 p-6 backdrop-blur-xl sm:p-7">
+        {/* Top line */}
+
+        <div className="absolute inset-x-7 top-0 h-[3px] rounded-full bg-gradient-to-r from-[#087B5A] via-[#2563EB] to-[#F97316]" />
+
+        {/* Header */}
+
+        <div className="flex items-center gap-4">
+          <div
+            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${styles.icon}`}
+          >
+            <Icon size={20} />
+          </div>
+
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#087B5A]">
+              Department
+            </p>
+
+            <h3 className="text-xl font-black text-[#0F172A]">
+              {department.name}
+            </h3>
+          </div>
+        </div>
+
+        {/* Description */}
+
+        <p className="mt-5 text-sm leading-7 text-slate-600">
+          {department.description}
+        </p>
+
+        {/* Responsibilities */}
+
+        <div className="mt-6">
+          <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">
+            Key Responsibilities
+          </p>
+
+          <div className="mt-3 space-y-2.5">
+            {department.responsibilities.map((responsibility) => (
+              <div key={responsibility} className="flex items-start gap-2.5">
+                <FaCheckCircle
+                  className="mt-1 shrink-0 text-[#087B5A]"
+                  size={12}
+                />
+
+                <span className="text-xs leading-5 text-slate-600">
+                  {responsibility}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+// =====================================================
+// MAIN COMPONENT
 // =====================================================
 
 export default function OrganizationChart() {
-  const DirectorIcon = leadershipData.icon;
-
   return (
-    <main className="overflow-hidden bg-white">
+    <main className="overflow-hidden bg-[#F4FAF7]">
       {/* =================================================
           HERO
-      ================================================== */}
+      ================================================= */}
 
       <section className="relative overflow-hidden bg-[#06281E]">
-        {/* Background Glow */}
+        {/* Green glow */}
 
         <motion.div
-          className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#A7F3D0]/10 blur-3xl"
+          className="absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#087B5A]/20 blur-3xl"
           animate={{
-            scale: [1, 1.1, 1],
+            scale: [1, 1.12, 1],
             opacity: [0.3, 0.55, 0.3],
           }}
           transition={{
@@ -76,11 +353,13 @@ export default function OrganizationChart() {
           }}
         />
 
+        {/* Blue glow */}
+
         <motion.div
-          className="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-[#0284C7]/10 blur-3xl"
+          className="absolute -bottom-40 -left-40 h-[500px] w-[500px] rounded-full bg-[#2563EB]/15 blur-3xl"
           animate={{
-            scale: [1, 1.12, 1],
-            opacity: [0.2, 0.45, 0.2],
+            scale: [1, 1.1, 1],
+            opacity: [0.2, 0.4, 0.2],
           }}
           transition={{
             duration: 9,
@@ -88,6 +367,10 @@ export default function OrganizationChart() {
             ease: "easeInOut",
           }}
         />
+
+        {/* Orange glow */}
+
+        <div className="absolute left-1/2 top-1/3 h-48 w-48 -translate-x-1/2 rounded-full bg-[#F97316]/10 blur-3xl" />
 
         {/* Grid */}
 
@@ -102,7 +385,7 @@ export default function OrganizationChart() {
           />
         </div>
 
-        {/* Hero Content */}
+        {/* Hero content */}
 
         <div className="relative z-10 mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24 lg:px-10 lg:py-28">
           <motion.div
@@ -111,8 +394,6 @@ export default function OrganizationChart() {
             animate="visible"
             className="mx-auto max-w-4xl text-center"
           >
-            {/* Eyebrow */}
-
             <div className="mb-6 flex items-center justify-center gap-3">
               <span className="h-px w-8 bg-[#F97316] sm:w-10" />
 
@@ -123,325 +404,212 @@ export default function OrganizationChart() {
               <span className="h-px w-8 bg-[#F97316] sm:w-10" />
             </div>
 
-            {/* Heading */}
-
             <h1 className="text-4xl font-black leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
               {organizationPageData.title}
             </h1>
-
-            {/* Description */}
 
             <p className="mx-auto mt-7 max-w-3xl text-sm leading-7 text-green-50/75 sm:text-base sm:leading-8 lg:text-lg">
               {organizationPageData.description}
             </p>
 
-            {/* Supporting Line */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#A7F3D0]/70 sm:text-sm">
+              {organizationPageData.supportingText
+                .split("•")
+                .map((item, index) => (
+                  <React.Fragment key={item}>
+                    {index > 0 && <span className="text-[#F97316]">•</span>}
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs font-semibold uppercase tracking-[0.15em] text-[#A7F3D0]/70 sm:text-sm">
-              <span>{organizationPageData.supportingText}</span>
+                    <span>{item.trim()}</span>
+                  </React.Fragment>
+                ))}
             </div>
           </motion.div>
         </div>
-
-        {/* Bottom Fade */}
-
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#06281E] to-transparent" />
       </section>
 
       {/* =================================================
           ORGANIZATION CHART
-      ================================================== */}
+      ================================================= */}
 
-      <section className="relative bg-slate-50 py-20 sm:py-24 lg:py-28">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          {/* Section Header */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#E8F5EF] via-[#F7FBF9] to-[#EAF4F8] py-20 sm:py-24 lg:py-28">
+        {/* Background glows */}
+
+        <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-[#087B5A]/10 blur-3xl" />
+
+        <div className="pointer-events-none absolute -right-40 bottom-20 h-96 w-96 rounded-full bg-[#2563EB]/10 blur-3xl" />
+
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[#F97316]/5 blur-3xl" />
+
+        <div className="relative mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10">
+          {/* =================================================
+              HEADER
+          ================================================= */}
 
           <motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{
+              once: true,
+              amount: 0.2,
+            }}
             className="mx-auto max-w-3xl text-center"
           >
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#087B5A]/10 text-[#087B5A]">
-              <FaSitemap size={20} />
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#087B5A]/10 text-[#087B5A]">
+              <FaSitemap size={22} />
             </div>
 
-            <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
-              DAFA Structure
+            <p className="mt-5 text-xs font-black uppercase tracking-[0.2em] text-[#087B5A]">
+              Organizational Chart
             </p>
 
             <h2 className="mt-3 text-3xl font-black tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
-              Leadership & Departments
+              DAFA Organizational Structure
             </h2>
 
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
-              DAFA's teams work together across leadership, administrative,
-              financial, logistical, and operational functions to support
-              humanitarian mine-action activities.
+              A structured view of DAFA's leadership, departments, management
+              roles, and supporting positions.
             </p>
           </motion.div>
 
           {/* =================================================
               DIRECTOR
-          ================================================== */}
+          ================================================= */}
 
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="mt-14 flex flex-col items-center"
-          >
-            {/* Icon */}
+          <div className="mt-16 flex flex-col items-center">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{
+                once: true,
+              }}
+              className="relative"
+            >
+              <div className="absolute -inset-5 rounded-full bg-[#087B5A]/15 blur-xl" />
 
-            <div className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-[#0B3D2E] text-[#A7F3D0] shadow-xl ring-1 ring-[#087B5A]/20">
-              <DirectorIcon size={27} />
-            </div>
+              <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-[#06281E] to-[#087B5A] text-[#A7F3D0] shadow-[0_20px_50px_rgba(8,123,90,0.25)] ring-8 ring-white/70">
+                <FaUserTie size={30} />
+              </div>
+            </motion.div>
 
-            {/* Card */}
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{
+                once: true,
+              }}
+              className="mt-6 w-full max-w-sm"
+            >
+              <div className="rounded-[23px] bg-gradient-to-r from-[#087B5A] via-[#2563EB] to-[#F97316] p-[1px] shadow-[0_18px_40px_rgba(11,61,46,0.16)]">
+                <div className="rounded-[22px] bg-[#0B3D2E] px-7 py-6 text-center">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#A7F3D0]/70">
+                    Leadership
+                  </p>
 
-            <div className="mt-5 w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-lg sm:p-7">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#087B5A]">
-                Leadership
-              </p>
+                  <h3 className="mt-2 text-2xl font-black text-white">
+                    {leadershipData.position}
+                  </h3>
 
-              <h3 className="mt-2 text-2xl font-black text-[#0F172A]">
-                {leadershipData.name}
-              </h3>
+                  <p className="mt-2 text-xs leading-5 text-green-50/60">
+                    {leadershipData.description}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
 
-              <p className="mt-1 text-sm font-bold text-[#F97316]">
-                {leadershipData.position}
-              </p>
+            {/* Director connector */}
 
-              <p className="mt-4 text-sm leading-7 text-slate-600">
-                {leadershipData.description}
-              </p>
-            </div>
-
-            {/* Connector */}
-
-            <div className="relative mt-7 flex h-14 flex-col items-center">
-              <div className="h-full w-px bg-[#087B5A]/25" />
-
-              <div className="absolute bottom-0 flex h-7 w-7 items-center justify-center rounded-full border border-[#087B5A]/20 bg-white text-[#087B5A]">
-                <FaArrowDown size={10} />
+            <div className="relative mt-8 h-16 w-px bg-[#087B5A]/35">
+              <div className="absolute bottom-0 left-1/2 flex h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full bg-white text-[#087B5A] shadow-md">
+                <FaChevronDown size={9} />
               </div>
             </div>
-          </motion.div>
-
-          {/* =================================================
-              DEPARTMENT CONNECTOR
-          ================================================== */}
-
-          <div className="relative mx-auto max-w-6xl">
-            {/* Desktop Horizontal Line */}
-
-            <div className="absolute left-[12.5%] right-[12.5%] top-0 hidden h-px bg-[#087B5A]/20 lg:block" />
-
-            {/* Desktop Vertical Lines */}
-
-            {departments.map((_, index) => (
-              <div
-                key={index}
-                className="absolute top-0 hidden h-7 w-px bg-[#087B5A]/20 lg:block"
-                style={{
-                  left: `${12.5 + index * 25}%`,
-                }}
-              />
-            ))}
           </div>
 
           {/* =================================================
-              DEPARTMENT CARDS
-          ================================================== */}
+              DEPARTMENT CONNECTION LINE
+          ================================================= */}
 
-          <div className="mt-7 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          <div className="relative hidden lg:block">
+            <div className="absolute left-[8%] right-[8%] top-0 h-[2px] rounded-full bg-gradient-to-r from-transparent via-[#087B5A]/35 to-transparent" />
+
             {departments.map((department, index) => {
-              const Icon = department.icon;
+              const left =
+                departments.length === 1
+                  ? 50
+                  : 8 + (index * 84) / (departments.length - 1);
 
               return (
-                <motion.article
+                <div
                   key={department.id}
-                  custom={index}
-                  variants={cardAnimation}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{
-                    once: true,
-                    amount: 0.15,
+                  className="absolute top-0 h-8 w-px bg-[#087B5A]/30"
+                  style={{
+                    left: `${left}%`,
                   }}
-                  whileHover={{
-                    y: -7,
-                  }}
-                  className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-xl"
-                >
-                  {/* Top Accent */}
-
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#087B5A] to-[#F97316]" />
-
-                  {/* Department Icon */}
-
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#087B5A]/10 text-[#087B5A] transition-all duration-300 group-hover:bg-[#087B5A] group-hover:text-white">
-                    <Icon size={20} />
-                  </div>
-
-                  {/* Title */}
-
-                  <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#087B5A]">
-                    {department.label}
-                  </p>
-
-                  <h3 className="mt-1 text-xl font-black text-[#0F172A]">
-                    {department.name}
-                  </h3>
-
-                  {/* Description */}
-
-                  <p className="mt-4 text-sm leading-7 text-slate-600">
-                    {department.description}
-                  </p>
-
-                  {/* Divider */}
-
-                  <div className="my-5 h-px bg-slate-100" />
-
-                  {/* Responsibilities */}
-
-                  <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
-                      Key Responsibilities
-                    </p>
-
-                    <div className="mt-3 space-y-2.5">
-                      {department.responsibilities.map((responsibility) => (
-                        <div
-                          key={responsibility}
-                          className="flex items-start gap-2"
-                        >
-                          <FaCheckCircle
-                            className="mt-1 shrink-0 text-[#087B5A]"
-                            size={12}
-                          />
-
-                          <span className="text-xs leading-5 text-slate-600">
-                            {responsibility}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Personnel */}
-
-                  <div className="mt-6 rounded-xl bg-slate-50 p-4">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
-                      Key Positions
-                    </p>
-
-                    <div className="mt-3 space-y-2">
-                      {department.positions.map((position) => (
-                        <div key={position} className="flex items-start gap-2">
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#F97316]" />
-
-                          <span className="text-xs font-semibold leading-5 text-slate-700">
-                            {position}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.article>
+                />
               );
             })}
+          </div>
+
+          {/* =================================================
+              DEPARTMENT TREES
+          ================================================= */}
+
+          <div className="mt-8 grid gap-16 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-20">
+            {departments.map((department, index) => (
+              <DepartmentTree
+                key={department.id}
+                department={department}
+                index={index}
+              />
+            ))}
           </div>
         </div>
       </section>
 
       {/* =================================================
-          HOW WE WORK TOGETHER
-      ================================================== */}
+          DEPARTMENT DETAILS
+      ================================================= */}
 
-      <section className="bg-white py-20 sm:py-24">
+      <section className="relative bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          {/* Header */}
-
           <motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{
+              once: true,
+            }}
             className="mx-auto max-w-3xl text-center"
           >
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
-              Working Together
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-[#087B5A]">
+              Department Overview
             </p>
 
             <h2 className="mt-3 text-3xl font-black tracking-tight text-[#0F172A] sm:text-4xl">
-              From Leadership to Community Impact
+              Roles & Responsibilities
             </h2>
 
-            <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
-              Every part of DAFA's organizational structure contributes to the
-              shared goal of delivering effective humanitarian mine action and
-              helping communities live safer lives.
+            <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-base">
+              Each department contributes specialized expertise and support to
+              DAFA's humanitarian mine-action mission.
             </p>
           </motion.div>
 
-          {/* Workflow */}
+          {/* Detail cards */}
 
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {organizationWorkflow.map((step, index) => (
-              <motion.div
-                key={step.number}
-                custom={index}
-                variants={cardAnimation}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{
-                  once: true,
-                  amount: 0.2,
-                }}
-                className="relative rounded-2xl border border-slate-200 bg-slate-50 p-6"
-              >
-                <span className="text-3xl font-black text-[#087B5A]/15">
-                  {step.number}
-                </span>
-
-                <h3 className="mt-3 text-lg font-bold text-[#0F172A]">
-                  {step.title}
-                </h3>
-
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  {step.description}
-                </p>
-
-                {index !== organizationWorkflow.length - 1 && (
-                  <div className="absolute -right-3 top-1/2 z-10 hidden h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-[#087B5A] lg:flex">
-                    <FaArrowDown className="-rotate-90" size={9} />
-                  </div>
-                )}
-              </motion.div>
+          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {departments.map((department, index) => (
+              <DepartmentDetail
+                key={department.id}
+                department={department}
+                index={index}
+              />
             ))}
           </div>
-
-          {/* Bottom Statement */}
-
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="mx-auto mt-12 max-w-3xl text-center"
-          >
-            <div className="mx-auto mb-6 h-px max-w-xs bg-slate-200" />
-
-            <p className="text-sm leading-7 text-slate-500 sm:text-base sm:leading-8">
-              Through coordinated leadership, dedicated staff, and specialized
-              teams, DAFA works toward safer communities and a safer future for
-              Afghanistan.
-            </p>
-          </motion.div>
         </div>
       </section>
     </main>

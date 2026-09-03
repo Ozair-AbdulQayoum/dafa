@@ -25,7 +25,10 @@ import partner5 from "../../../assets/DMAC.png";
 
 export const partnerGroups = [
   {
+    id: "donors",
     title: "Donors",
+    description:
+      "Organizations and institutions supporting humanitarian mine action through resources, funding, and long-term commitment.",
     accent: "#087B5A",
 
     logos: [
@@ -79,7 +82,10 @@ export const partnerGroups = [
   },
 
   {
+    id: "un-agencies",
     title: "UN Agencies",
+    description:
+      "International organizations working alongside humanitarian actors to support safer communities, coordination, and mine action efforts.",
     accent: "#2563EB",
 
     logos: [
@@ -118,7 +124,10 @@ export const partnerGroups = [
   },
 
   {
-    title: "Our Partners - Supporters",
+    id: "partners",
+    title: "Our Partners & Supporters",
+    description:
+      "Dedicated organizations and institutions contributing expertise, coordination, technical support, and collaboration to humanitarian mine action.",
     accent: "#F97316",
 
     logos: [

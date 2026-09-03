@@ -9,9 +9,9 @@ const whatWeDoData = [
       "DAFA's manual demining teams conduct systematic clearance operations to identify and remove landmines and other explosive hazards from contaminated areas.",
 
     images: [
-      "/images/what-we-do/manual-demining-1.jpg",
-      "/images/what-we-do/manual-demining-2.jpg",
-      "/images/what-we-do/manual-demining-3.jpg",
+      "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1578496781985-452d4a934d50?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -36,9 +36,9 @@ const whatWeDoData = [
       "Mechanical demining units support the clearance of contaminated land through the use of specialized machinery and trained technical personnel.",
 
     images: [
-      "/images/what-we-do/mechanical-mdu-1.jpg",
-      "/images/what-we-do/mechanical-mdu-2.jpg",
-      "/images/what-we-do/mechanical-mdu-3.jpg",
+      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -63,9 +63,9 @@ const whatWeDoData = [
       "DAFA supports humanitarian mine action activities addressing risks associated with improvised explosive devices and other explosive hazards.",
 
     images: [
-      "/images/what-we-do/ied-1.jpg",
-      "/images/what-we-do/ied-2.jpg",
-      "/images/what-we-do/ied-3.jpg",
+      "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -90,9 +90,9 @@ const whatWeDoData = [
       "DAFA's EOD capability supports the safe identification, assessment and disposal of explosive ordnance and other hazardous items.",
 
     images: [
-      "/images/what-we-do/eod-1.jpg",
-      "/images/what-we-do/eod-2.jpg",
-      "/images/what-we-do/eod-3.jpg",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1581091870622-3e6e9c7b9f2b?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -117,9 +117,9 @@ const whatWeDoData = [
       "Explosive Ordnance Risk Education helps communities understand explosive hazards and adopt safer behaviours in contaminated and potentially hazardous areas.",
 
     images: [
-      "/images/what-we-do/eore-1.jpg",
-      "/images/what-we-do/eore-2.jpg",
-      "/images/what-we-do/eore-3.jpg",
+      "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1494386346843-e12284507169?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -144,9 +144,9 @@ const whatWeDoData = [
       "Mine Detection Dog Teams support mine action operations by using trained dogs and handlers to help identify areas that may contain explosive hazards.",
 
     images: [
-      "/images/what-we-do/mdd-1.jpg",
-      "/images/what-we-do/mdd-2.jpg",
-      "/images/what-we-do/mdd-3.jpg",
+      "https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -171,9 +171,9 @@ const whatWeDoData = [
       "DAFA provides appropriate operational support to humanitarian efforts related to natural disaster management and emergency response.",
 
     images: [
-      "/images/what-we-do/natural-disaster-1.jpg",
-      "/images/what-we-do/natural-disaster-2.jpg",
-      "/images/what-we-do/natural-disaster-3.jpg",
+      "https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -198,9 +198,9 @@ const whatWeDoData = [
       "Battle Area Clearance focuses on identifying and clearing explosive remnants of war and unexploded ordnance from areas affected by armed conflict.",
 
     images: [
-      "/images/what-we-do/bac-1.jpg",
-      "/images/what-we-do/bac-2.jpg",
-      "/images/what-we-do/bac-3.jpg",
+      "https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -225,9 +225,9 @@ const whatWeDoData = [
       "DAFA conducts area clearance activities to identify and remove explosive hazards and help return contaminated land to safe use.",
 
     images: [
-      "/images/what-we-do/area-clearance-1.jpg",
-      "/images/what-we-do/area-clearance-2.jpg",
-      "/images/what-we-do/area-clearance-3.jpg",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -252,9 +252,9 @@ const whatWeDoData = [
       "Non-Technical Survey collects and analyses information to identify, assess and define suspected hazardous areas without physical intervention.",
 
     images: [
-      "/images/what-we-do/nts-1.jpg",
-      "/images/what-we-do/nts-2.jpg",
-      "/images/what-we-do/nts-3.jpg",
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -279,9 +279,9 @@ const whatWeDoData = [
       "Technical Survey investigates suspected hazardous areas through systematic field activities to determine the presence and extent of explosive contamination.",
 
     images: [
-      "/images/what-we-do/ts-1.jpg",
-      "/images/what-we-do/ts-2.jpg",
-      "/images/what-we-do/ts-3.jpg",
+      "https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -306,9 +306,9 @@ const whatWeDoData = [
       "Victim Assistance supports people affected by landmines and explosive remnants of war by helping connect them with appropriate assistance and services.",
 
     images: [
-      "/images/what-we-do/victim-assistance-1.jpg",
-      "/images/what-we-do/victim-assistance-2.jpg",
-      "/images/what-we-do/victim-assistance-3.jpg",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -333,9 +333,9 @@ const whatWeDoData = [
       "Integrated Technical Survey and Clearance combines survey and clearance activities to investigate and address explosive hazards through an integrated operational approach.",
 
     images: [
-      "/images/what-we-do/integrated-1.jpg",
-      "/images/what-we-do/integrated-2.jpg",
-      "/images/what-we-do/integrated-3.jpg",
+      "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:

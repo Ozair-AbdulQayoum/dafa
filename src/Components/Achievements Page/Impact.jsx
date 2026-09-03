@@ -1,15 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { FaArrowRight } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaCheckCircle,
+  FaShieldAlt,
+  FaUsers,
+} from "react-icons/fa";
 
 import achievementsData from "../../Components/Data File/Achievements Data/AchievementsData";
 
-// =====================================================
-// COUNTER
-// =====================================================
+/* =========================================================
+   Animated Counter
+========================================================= */
 
 function Counter({ value, suffix = "" }) {
   const ref = useRef(null);
+
   const isInView = useInView(ref, {
     once: true,
     margin: "-100px",
@@ -28,7 +34,6 @@ function Counter({ value, suffix = "" }) {
     const animate = (currentTime) => {
       const progress = Math.min((currentTime - startTime) / duration, 1);
 
-      // Smooth ease-out animation
       const easedProgress = 1 - Math.pow(1 - progress, 3);
 
       setCount(Math.floor(easedProgress * value));
@@ -53,227 +58,285 @@ function Counter({ value, suffix = "" }) {
   );
 }
 
-// =====================================================
-// ACHIEVEMENTS
-// =====================================================
+/* =========================================================
+   Impact Page
+========================================================= */
 
 export default function Impact() {
   return (
-    <main className="bg-white">
-      <section className="relative overflow-hidden bg-[#F8FAFC] py-20 sm:py-24 lg:py-28">
-        {/* =================================================
-            BACKGROUND DECORATION
-        ================================================= */}
+    <main className="relative overflow-hidden bg-[#F4FAF7] py-20 sm:py-24 lg:py-28">
+      {/* =====================================================
+          Main Background Decorations
+      ===================================================== */}
 
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-[#087B5A]/5 blur-3xl" />
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-32 top-20 h-72 w-72 rounded-full bg-[#0B3D2E]/10 blur-3xl" />
 
-          <div className="absolute -right-40 bottom-0 h-[500px] w-[500px] rounded-full bg-[#F97316]/5 blur-3xl" />
-        </div>
+        <div className="absolute -right-32 top-[35%] h-80 w-80 rounded-full bg-[#0B3D2E]/8 blur-3xl" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          {/* =================================================
-              HERO HEADING
-          ================================================= */}
+        <div className="absolute bottom-0 left-[40%] h-72 w-72 rounded-full bg-[#087B5A]/10 blur-3xl" />
+      </div>
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 25,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-            }}
-            transition={{
-              duration: 0.7,
-            }}
-            className="mx-auto max-w-4xl text-center"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#087B5A]/10 bg-white px-4 py-2 shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#F97316]" />
+      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        {/* =====================================================
+            Hero Intro
+        ===================================================== */}
 
-              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#087B5A]">
-                Our Impact
-              </span>
-            </div>
+        <section className="relative mb-20 overflow-hidden rounded-[2rem] border border-[#0B3D2E]/15 bg-gradient-to-br from-[#DDEFE7] via-[#F2FAF6] to-[#E8F5EF] px-6 py-16 shadow-sm sm:px-10 lg:px-16 lg:py-20">
+          {/* DAFA Green Glow */}
+          <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[#0B3D2E]/15 blur-3xl" />
 
-            <h1 className="mt-5 text-4xl font-bold leading-tight tracking-tight text-[#0F172A] sm:text-5xl lg:text-6xl">
+          <div className="pointer-events-none absolute -bottom-28 -left-24 h-80 w-80 rounded-full bg-[#087B5A]/10 blur-3xl" />
+
+          {/* Decorative Circle */}
+          <div className="pointer-events-none absolute right-10 top-10 hidden h-20 w-20 rounded-full border border-[#0B3D2E]/10 lg:block" />
+
+          <div className="pointer-events-none absolute bottom-10 left-10 hidden h-12 w-12 rounded-full border border-[#087B5A]/10 lg:block" />
+
+          <div className="relative z-10 mx-auto max-w-4xl text-center">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#0B3D2E]/15 bg-white/75 px-4 py-2 text-sm font-semibold text-[#0B3D2E] shadow-sm backdrop-blur-md"
+            >
+              <span className="h-2 w-2 rounded-full bg-[#087B5A]" />
+              Our Impact
+            </motion.div>
+
+            {/* Heading */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl font-extrabold tracking-tight text-[#06281E] sm:text-5xl lg:text-6xl"
+            >
               Decades of Impact,
-              <span className="block text-[#087B5A]">Measurable Results</span>
-            </h1>
+              <br />
+              <span className="text-[#0B3D2E]">Measurable Results</span>
+            </motion.h1>
 
-            <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg">
+            {/* Green Underline */}
+            <motion.div
+              initial={{ width: 0, opacity: 0 }}
+              whileInView={{ width: 80, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="mx-auto mt-5 h-1 rounded-full bg-[#087B5A]"
+            />
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="mx-auto mt-6 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg"
+            >
               For more than three decades, DAFA has worked to reduce explosive
               hazards, support affected communities, and create safer
               environments across Afghanistan.
-            </p>
-          </motion.div>
+            </motion.p>
+          </div>
+        </section>
 
-          {/* =================================================
-              ACHIEVEMENT CARDS
-          ================================================= */}
+        {/* =====================================================
+            Achievements
+        ===================================================== */}
 
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <section>
+          {/* Section Heading */}
+          <div className="mb-10 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full border border-[#0B3D2E]/10 bg-white px-4 py-2 text-sm font-semibold text-[#0B3D2E] shadow-sm"
+            >
+              <FaCheckCircle />
+              Our Achievements
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl font-extrabold text-[#06281E] sm:text-4xl"
+            >
+              Measuring Progress Through Action
+            </motion.h2>
+          </div>
+
+          {/* Achievement Cards */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {achievementsData.map((achievement, index) => {
-              const Icon = achievement.icon;
+              const Icon = achievement.icon || FaCheckCircle;
 
               return (
                 <motion.article
-                  key={achievement.label}
-                  initial={{
-                    opacity: 0,
-                    y: 25,
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  viewport={{
-                    once: true,
-                    amount: 0.15,
-                  }}
+                  key={achievement.id || index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   transition={{
-                    duration: 0.5,
-                    delay: index * 0.05,
+                    delay: index * 0.08,
                   }}
-                  className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-[#087B5A]/30 hover:shadow-xl"
+                  className="group relative overflow-hidden rounded-3xl border border-white/70 bg-white/75 p-7 shadow-lg shadow-slate-200/50 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#0B3D2E]/15"
                 >
-                  {/* Top Accent */}
-
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#087B5A] to-[#F97316] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-                  {/* Background Number */}
-
-                  <span className="pointer-events-none absolute right-4 top-2 text-6xl font-black text-slate-100 transition-colors duration-300 group-hover:text-[#087B5A]/5">
+                  {/* Decorative Number */}
+                  <span className="pointer-events-none absolute right-5 top-3 z-0 text-6xl font-black text-[#0B3D2E]/5">
                     {String(index + 1).padStart(2, "0")}
                   </span>
 
                   {/* Icon */}
-
-                  <div className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-[#087B5A]/10 text-[#087B5A] transition-all duration-300 group-hover:bg-[#0B3D2E] group-hover:text-white">
-                    <Icon size={18} />
+                  <div className="relative z-10 mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0B3D2E]/10 text-xl text-[#0B3D2E] transition-all duration-500 group-hover:bg-[#0B3D2E] group-hover:text-white">
+                    <Icon />
                   </div>
 
                   {/* Counter */}
-
-                  <div className="relative mt-7 text-3xl font-extrabold tracking-tight text-[#0B3D2E] sm:text-4xl">
+                  <div className="relative z-10 text-4xl font-extrabold text-[#06281E]">
                     <Counter
                       value={achievement.value}
-                      suffix={achievement.suffix}
+                      suffix={achievement.suffix || ""}
                     />
                   </div>
 
                   {/* Label */}
-
-                  <h2 className="relative mt-4 text-sm font-bold uppercase leading-6 tracking-[0.06em] text-[#0F172A]">
-                    {achievement.label}
-                  </h2>
+                  <h3 className="relative z-10 mt-3 text-lg font-bold text-[#0B3D2E]">
+                    {achievement.title}
+                  </h3>
 
                   {/* Description */}
-
-                  <p className="relative mt-2 text-xs leading-6 text-slate-500">
+                  <p className="relative z-10 mt-3 text-sm leading-7 text-slate-600">
                     {achievement.description}
                   </p>
+
+                  {/* Bottom Accent */}
+                  <div className="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-[#0B3D2E] transition-transform duration-500 group-hover:scale-x-100" />
                 </motion.article>
               );
             })}
           </div>
+        </section>
 
-          {/* =================================================
-              BOTTOM FEATURE
-          ================================================= */}
+        {/* =====================================================
+            Making a Difference
+        ===================================================== */}
 
+        <section className="mt-20">
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 25,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-            }}
-            transition={{
-              duration: 0.7,
-            }}
-            className="mt-14 overflow-hidden rounded-2xl bg-[#0B3D2E] sm:mt-16 sm:rounded-3xl"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative overflow-hidden rounded-[2rem] border border-white/70 bg-white/65 p-7 shadow-xl shadow-slate-200/50 backdrop-blur-xl sm:p-10 lg:p-12"
           >
-            <div className="relative px-6 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12">
-              {/* Glow */}
+            {/* Background Glows */}
+            <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#0B3D2E]/10 blur-3xl" />
 
-              <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#F97316]/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-[#087B5A]/10 blur-3xl" />
 
-              <div className="pointer-events-none absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[#A7F3D0]/10 blur-3xl" />
-
-              <div className="relative z-10 flex flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
-                {/* Text */}
-
-                <div className="max-w-3xl">
-                  <div className="flex items-center gap-3">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#F97316]" />
-
-                    <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#A7F3D0]">
-                      Humanitarian Impact
-                    </span>
-                  </div>
-
-                  <h3 className="mt-3 text-xl font-bold leading-tight text-white sm:text-2xl">
-                    Continuing the commitment to safer communities.
-                  </h3>
-
-                  <p className="mt-3 text-sm leading-7 text-green-50/70 sm:text-base">
-                    DAFA's achievements reflect years of dedicated humanitarian
-                    mine action, operational experience, and commitment to
-                    protecting communities across Afghanistan.
-                  </p>
+            <div className="relative z-10 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+              {/* Text */}
+              <div>
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#0B3D2E]/10 px-4 py-2 text-sm font-semibold text-[#0B3D2E]">
+                  <FaShieldAlt />
+                  Making a Difference
                 </div>
 
-                {/* Impact Badge */}
+                <h2 className="max-w-xl text-3xl font-extrabold leading-tight text-[#06281E] sm:text-4xl">
+                  Turning humanitarian action into lasting community impact.
+                </h2>
 
-                <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-6 py-5 backdrop-blur-sm">
+                <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
+                  Through mine action, community engagement, risk education, and
+                  support to affected communities, DAFA continues to contribute
+                  to safer and more resilient communities across Afghanistan.
+                </p>
+              </div>
+
+              {/* Impact Points */}
+              <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+                {/* Safer Communities */}
+                <div className="group flex items-center gap-4 rounded-2xl border border-white/80 bg-white/70 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#0B3D2E]/10 text-[#0B3D2E] transition-colors duration-300 group-hover:bg-[#0B3D2E] group-hover:text-white">
+                    <FaShieldAlt />
+                  </div>
+
                   <div>
-                    <p className="text-2xl font-bold text-white">12M+</p>
+                    <h3 className="font-bold text-[#06281E]">
+                      Safer Communities
+                    </h3>
 
-                    <p className="mt-1 text-xs text-green-50/60">
-                      People Benefited
+                    <p className="mt-1 text-sm text-slate-500">
+                      Reducing explosive hazards
                     </p>
                   </div>
+
+                  <FaArrowRight className="ml-auto text-[#0B3D2E]" />
+                </div>
+
+                {/* Community Support */}
+                <div className="group flex items-center gap-4 rounded-2xl border border-white/80 bg-white/70 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#0B3D2E]/10 text-[#0B3D2E] transition-colors duration-300 group-hover:bg-[#0B3D2E] group-hover:text-white">
+                    <FaUsers />
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-[#06281E]">
+                      Community Support
+                    </h3>
+
+                    <p className="mt-1 text-sm text-slate-500">
+                      Supporting affected people
+                    </p>
+                  </div>
+
+                  <FaArrowRight className="ml-auto text-[#0B3D2E]" />
+                </div>
+
+                {/* Sustainable Impact */}
+                <div className="group flex items-center gap-4 rounded-2xl border border-white/80 bg-white/70 p-5 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#0B3D2E]/10 text-[#0B3D2E] transition-colors duration-300 group-hover:bg-[#0B3D2E] group-hover:text-white">
+                    <FaCheckCircle />
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-[#06281E]">
+                      Sustainable Impact
+                    </h3>
+
+                    <p className="mt-1 text-sm text-slate-500">
+                      Creating lasting results
+                    </p>
+                  </div>
+
+                  <FaArrowRight className="ml-auto text-[#0B3D2E]" />
                 </div>
               </div>
             </div>
+
+            {/* Bottom DAFA Green Accent */}
+            <div className="absolute inset-x-0 bottom-0 h-1 bg-[#0B3D2E]" />
           </motion.div>
+        </section>
 
-          {/* =================================================
-              DATA NOTE
-          ================================================= */}
+        {/* =====================================================
+            Data Note
+        ===================================================== */}
 
-          <motion.p
-            initial={{
-              opacity: 0,
-            }}
-            whileInView={{
-              opacity: 1,
-            }}
-            viewport={{
-              once: true,
-            }}
-            transition={{
-              duration: 0.7,
-            }}
-            className="mx-auto mt-6 max-w-3xl text-center text-[11px] leading-5 text-slate-400"
-          >
-            Achievement figures should be maintained and updated using
-            officially verified DAFA program data and approved organizational
-            records.
-          </motion.p>
-        </div>
-      </section>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-10 text-center"
+        >
+          <p className="text-xs leading-6 text-slate-400">
+            Impact figures and achievements are presented based on available
+            DAFA organizational information and official reporting.
+          </p>
+        </motion.div>
+      </div>
     </main>
   );
 }

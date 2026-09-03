@@ -6,12 +6,13 @@ export const storiesCardsData = [
 
     slug: "a-safer-future-for-a-rural-community",
 
-    image: "/images/stories/story-1.jpg",
+    image:
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1600&q=85",
 
     gallery: [
-      "/images/stories/story-1.jpg",
-      "/images/stories/story-1-2.jpg",
-      "/images/stories/story-1-3.jpg",
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1600&q=85",
     ],
 
     category: "Community Impact",
@@ -31,12 +32,13 @@ export const storiesCardsData = [
 
     slug: "clearing-the-path-to-a-better-life",
 
-    image: "/images/stories/story-2.jpg",
+    image:
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1600&q=85",
 
     gallery: [
-      "/images/stories/story-2.jpg",
-      "/images/stories/story-2-2.jpg",
-      "/images/stories/story-2-3.jpg",
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1494386346843-e12284507169?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1600&q=85",
     ],
 
     category: "Mine Clearance",
@@ -56,12 +58,13 @@ export const storiesCardsData = [
 
     slug: "returning-safe-land-to-families",
 
-    image: "/images/stories/story-3.jpg",
+    image:
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1600&q=85",
 
     gallery: [
-      "/images/stories/story-3.jpg",
-      "/images/stories/story-3-2.jpg",
-      "/images/stories/story-3-3.jpg",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1600&q=85",
     ],
 
     category: "Community",
@@ -81,12 +84,13 @@ export const storiesCardsData = [
 
     slug: "living-without-the-fear-of-mines",
 
-    image: "/images/stories/story-4.jpg",
+    image:
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1600&q=85",
 
     gallery: [
-      "/images/stories/story-4.jpg",
-      "/images/stories/story-4-2.jpg",
-      "/images/stories/story-4-3.jpg",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1494386346843-e12284507169?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1600&q=85",
     ],
 
     category: "Human Impact",
@@ -106,12 +110,13 @@ export const storiesCardsData = [
 
     slug: "teaching-communities-to-stay-safe",
 
-    image: "/images/stories/story-5.jpg",
+    image:
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1600&q=85",
 
     gallery: [
-      "/images/stories/story-5.jpg",
-      "/images/stories/story-5-2.jpg",
-      "/images/stories/story-5-3.jpg",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1600&q=85",
     ],
 
     category: "Education",

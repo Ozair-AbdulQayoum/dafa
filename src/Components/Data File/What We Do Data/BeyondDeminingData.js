@@ -9,9 +9,9 @@ const beyondDeminingData = [
       "DAFA supports vulnerable and affected communities through vocational training opportunities designed to strengthen practical skills, livelihoods, and economic resilience.",
 
     images: [
-      "/images/beyond-demining/vocational-training-1.jpg",
-      "/images/beyond-demining/vocational-training-2.jpg",
-      "/images/beyond-demining/vocational-training-3.jpg",
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -37,9 +37,9 @@ const beyondDeminingData = [
       "DAFA's Cash for Work interventions provide temporary employment opportunities while supporting communities and contributing to local humanitarian activities.",
 
     images: [
-      "/images/beyond-demining/cash-for-work-1.jpg",
-      "/images/beyond-demining/cash-for-work-2.jpg",
-      "/images/beyond-demining/cash-for-work-3.jpg",
+      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -65,9 +65,9 @@ const beyondDeminingData = [
       "DAFA provides humanitarian emergency support to communities affected by crises, helping address immediate needs and strengthen community resilience.",
 
     images: [
-      "/images/beyond-demining/emergency-relief-1.jpg",
-      "/images/beyond-demining/emergency-relief-2.jpg",
-      "/images/beyond-demining/emergency-relief-3.jpg",
+      "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:
@@ -93,9 +93,9 @@ const beyondDeminingData = [
       "DAFA's humanitarian support extends beyond demining through community-focused initiatives that respond to emerging needs and help vulnerable populations.",
 
     images: [
-      "/images/beyond-demining/humanitarian-support-1.jpg",
-      "/images/beyond-demining/humanitarian-support-2.jpg",
-      "/images/beyond-demining/humanitarian-support-3.jpg",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1200&q=85",
     ],
 
     overview:

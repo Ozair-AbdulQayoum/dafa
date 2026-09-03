@@ -10,11 +10,14 @@ export const newsUpdates = [
       "DAFA representatives meet with community members to discuss humanitarian mine action activities, safety concerns, and local priorities.",
     date: "December 18, 2025",
     location: "Kabul, Afghanistan",
-    image: "/images/news/news-meeting.jpg",
+
+    image:
+      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=85",
+
     gallery: [
-      "/images/news/news-meeting.jpg",
-      "/images/news/news-meeting-2.jpg",
-      "/images/news/news-meeting-3.jpg",
+      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=85",
     ],
   },
 
@@ -27,10 +30,13 @@ export const newsUpdates = [
       "A capacity-building training program helps field teams strengthen their technical knowledge, safety practices, and operational skills.",
     date: "December 08, 2025",
     location: "Afghanistan",
-    image: "/images/news/news-training.jpg",
+
+    image:
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1600&q=85",
+
     gallery: [
-      "/images/news/news-training.jpg",
-      "/images/news/news-training-2.jpg",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=85",
     ],
   },
 
@@ -44,8 +50,14 @@ export const newsUpdates = [
       "DAFA strengthens cooperation with partners through a new memorandum of understanding focused on humanitarian mine-action activities.",
     date: "November 24, 2025",
     location: "Kabul, Afghanistan",
-    image: "/images/news/news-mou.jpg",
-    gallery: ["/images/news/news-mou.jpg", "/images/news/news-mou-2.jpg"],
+
+    image:
+      "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=85",
+
+    gallery: [
+      "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=85",
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=85",
+    ],
   },
 
   {
@@ -57,8 +69,13 @@ export const newsUpdates = [
       "DAFA meets with humanitarian stakeholders to discuss ongoing programs, operational priorities, and opportunities for collaboration.",
     date: "November 12, 2025",
     location: "Kabul, Afghanistan",
-    image: "/images/news/news-stakeholder.jpg",
-    gallery: ["/images/news/news-stakeholder.jpg"],
+
+    image:
+      "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1600&q=85",
+
+    gallery: [
+      "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1600&q=85",
+    ],
   },
 
   {
@@ -70,8 +87,13 @@ export const newsUpdates = [
       "DAFA teams conduct awareness activities to help communities better understand explosive hazards and safer behavior.",
     date: "October 30, 2025",
     location: "Afghanistan",
-    image: "/images/news/news-awareness.jpg",
-    gallery: ["/images/news/news-awareness.jpg"],
+
+    image:
+      "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&q=85",
+
+    gallery: [
+      "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1600&q=85",
+    ],
   },
 
   {
@@ -83,26 +105,25 @@ export const newsUpdates = [
       "DAFA joins humanitarian organizations and partners to highlight the importance of mine action and community safety.",
     date: "October 16, 2025",
     location: "Kabul, Afghanistan",
-    image: "/images/news/news-event.jpg",
-    gallery: ["/images/news/news-event.jpg"],
+
+    image:
+      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=85",
+
+    gallery: [
+      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=85",
+    ],
   },
 ];
 
-/*
-|--------------------------------------------------------------------------
-| LATEST NEWS FOR HOME PAGE
-|--------------------------------------------------------------------------
-| The first item is considered the latest news.
-| Change the order of newsUpdates whenever you add a new news item.
-*/
+/* ============================================================
+   LATEST NEWS FOR HOME PAGE
+============================================================ */
 
 export const latestNews = newsUpdates[0];
 
-/*
-|--------------------------------------------------------------------------
-| NEWS CATEGORIES
-|--------------------------------------------------------------------------
-*/
+/* ============================================================
+   NEWS CATEGORIES
+============================================================ */
 
 export const newsCategories = [
   "All Updates",

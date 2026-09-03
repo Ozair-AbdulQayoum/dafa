@@ -1,29 +1,31 @@
-// =========================================================
-// MEMBERS DATA
-// =========================================================
+// ============================================================
+// DAFA MEMBERS / PERSONNEL PROFILE DATA
+// ============================================================
 
 export const members = {
-  // =======================================================
+  // ============================================================
   // DIRECTOR
-  // =======================================================
+  // ============================================================
+
   director: {
-    name: "Example Name",
+    name: "John Anderson",
     position: "Director",
     department: "Executive Leadership",
-    experience: "20+ Years Experience",
+    experience: "15+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/director.jpg",
+    image: "https://i.pravatar.cc/1000?img=1",
 
     introduction:
       "The Director provides strategic leadership and overall direction for DAFA, guiding the organization in delivering humanitarian mine action activities and supporting safer communities across Afghanistan.",
 
     biography:
-      "As the Director of the Demining Agency for Afghanistan, the Director provides overall strategic, operational, and organizational leadership. The role includes guiding departmental coordination, supporting organizational development, maintaining relationships with partners and stakeholders, and ensuring that DAFA's humanitarian objectives are implemented effectively and responsibly.",
+      "The Director provides overall strategic, operational, and organizational leadership for the Demining Agency for Afghanistan. The role includes guiding departmental coordination, supporting organizational development, maintaining relationships with partners and stakeholders, and ensuring that DAFA's humanitarian objectives are implemented effectively, responsibly, and in accordance with organizational standards.",
 
     education: [
       "Bachelor's Degree",
       "Professional Leadership and Management Training",
       "Humanitarian Mine Action Training",
+      "Strategic Management Training",
     ],
 
     responsibilities: [
@@ -54,22 +56,23 @@ export const members = {
     ],
   },
 
-  // =======================================================
+  // ============================================================
   // ADMINISTRATION MANAGER
-  // =======================================================
+  // ============================================================
+
   "administration-manager": {
-    name: "Example Name",
-    position: "HR / Administration Manager",
+    name: "Sarah Johnson",
+    position: "HR / Admin Manager",
     department: "Administration",
     experience: "10+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/admin-manager.jpg",
+    image: "https://i.pravatar.cc/800?img=47",
 
     introduction:
-      "An experienced administration professional supporting organizational coordination, human resources, documentation, and effective administrative systems.",
+      "An experienced administration professional supporting human resources, organizational coordination, documentation, and effective administrative systems.",
 
     biography:
-      "Supports administrative planning, human resources, documentation, internal coordination, and organizational processes that contribute to effective day-to-day operations.",
+      "Supports administrative planning, human resources, documentation, internal coordination, and organizational processes that contribute to effective day-to-day operations and staff support.",
 
     education: [
       "Bachelor's Degree in Business Administration",
@@ -88,7 +91,7 @@ export const members = {
     career: [
       {
         period: "2022 – Present",
-        position: "HR / Administration Manager",
+        position: "HR / Admin Manager",
         organization: "Demining Agency for Afghanistan",
       },
       {
@@ -99,16 +102,17 @@ export const members = {
     ],
   },
 
-  // =======================================================
+  // ============================================================
   // ADMINISTRATION OFFICER
-  // =======================================================
+  // ============================================================
+
   "administration-officer": {
-    name: "Example Name",
-    position: "HR / Administration Officer",
+    name: "Michael Smith",
+    position: "HR / Admin Officer",
     department: "Administration",
     experience: "7+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/admin-officer.jpg",
+    image: "https://i.pravatar.cc/800?img=12",
 
     introduction:
       "An administration professional supporting HR processes, documentation, coordination, and daily administrative activities.",
@@ -133,7 +137,7 @@ export const members = {
     career: [
       {
         period: "2021 – Present",
-        position: "HR / Administration Officer",
+        position: "HR / Admin Officer",
         organization: "Demining Agency for Afghanistan",
       },
       {
@@ -144,16 +148,63 @@ export const members = {
     ],
   },
 
-  // =======================================================
+  // ============================================================
+  // LIAISON OFFICER
+  // ============================================================
+
+  "liaison-officer": {
+    name: "Emily Davis",
+    position: "Liaison Officer",
+    department: "Administration",
+    experience: "6+ Years Experience",
+    location: "Kabul, Afghanistan",
+    image: "https://i.pravatar.cc/800?img=45",
+
+    introduction:
+      "A coordination professional supporting communication and relationships between DAFA, partners, authorities, and stakeholders.",
+
+    biography:
+      "Supports organizational communication and coordination with relevant partners, authorities, and stakeholders while helping maintain effective working relationships.",
+
+    education: [
+      "Bachelor's Degree",
+      "Communication and Coordination Training",
+      "Stakeholder Engagement Training",
+    ],
+
+    responsibilities: [
+      "Support communication with external stakeholders.",
+      "Coordinate meetings and official communications.",
+      "Maintain stakeholder coordination records.",
+      "Support organizational representation activities.",
+      "Assist management with liaison requirements.",
+    ],
+
+    career: [
+      {
+        period: "2021 – Present",
+        position: "Liaison Officer",
+        organization: "Demining Agency for Afghanistan",
+      },
+      {
+        period: "2018 – 2021",
+        position: "Administrative Officer",
+        organization: "Humanitarian Organization",
+      },
+    ],
+  },
+
+  // ============================================================
   // FINANCE MANAGER
-  // =======================================================
+  // ============================================================
+
   "finance-manager": {
-    name: "Example Name",
+    name: "Daniel Wilson",
     position: "Finance Manager",
     department: "Finance",
     experience: "12+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/finance-manager.jpg",
+    image: "https://i.pravatar.cc/800?img=11",
 
     introduction:
       "An experienced finance professional supporting responsible financial management, planning, reporting, and organizational accountability.",
@@ -189,16 +240,17 @@ export const members = {
     ],
   },
 
-  // =======================================================
+  // ============================================================
   // FINANCE OFFICER
-  // =======================================================
+  // ============================================================
+
   "finance-officer": {
-    name: "Example Name",
+    name: "James Anderson",
     position: "Finance Officer",
     department: "Finance",
     experience: "8+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/finance-officer.jpg",
+    image: "https://i.pravatar.cc/800?img=13",
 
     introduction:
       "A finance professional supporting financial records, reporting, transactions, and day-to-day financial activities.",
@@ -233,22 +285,146 @@ export const members = {
     ],
   },
 
-  // =======================================================
+  // ============================================================
+  // ASSISTANT FINANCE OFFICER
+  // ============================================================
+
+  "assistant-finance-officer": {
+    name: "Robert Taylor",
+    position: "Assistant Finance Officer",
+    department: "Finance",
+    experience: "6+ Years Experience",
+    location: "Kabul, Afghanistan",
+    image: "https://i.pravatar.cc/800?img=68",
+
+    introduction:
+      "A finance support professional assisting with financial records, documentation, reporting, and daily accounting activities.",
+
+    biography:
+      "Provides practical support to the finance team through financial documentation, transaction records, reporting assistance, and routine accounting activities.",
+
+    education: [
+      "Bachelor's Degree in Accounting",
+      "Financial Reporting Training",
+      "Accounting Software Training",
+    ],
+
+    responsibilities: [
+      "Assist with financial documentation.",
+      "Support transaction recording.",
+      "Assist with financial reports.",
+      "Maintain organized accounting records.",
+      "Support routine finance activities.",
+    ],
+
+    career: [
+      {
+        period: "2022 – Present",
+        position: "Assistant Finance Officer",
+        organization: "Demining Agency for Afghanistan",
+      },
+    ],
+  },
+
+  // ============================================================
+  // FINANCE & GRANTS OFFICER
+  // ============================================================
+
+  "finance-grants-officer": {
+    name: "Olivia Martin",
+    position: "Finance & Grants Officer",
+    department: "Finance",
+    experience: "7+ Years Experience",
+    location: "Kabul, Afghanistan",
+    image: "https://i.pravatar.cc/800?img=32",
+
+    introduction:
+      "A finance and grants professional supporting financial reporting, grant documentation, compliance, and donor-related requirements.",
+
+    biography:
+      "Supports grant financial management, reporting, documentation, and coordination to help maintain accountability and compliance with donor requirements.",
+
+    education: [
+      "Bachelor's Degree in Finance",
+      "Grants Management Training",
+      "Donor Compliance Training",
+    ],
+
+    responsibilities: [
+      "Support grants financial management.",
+      "Prepare financial documentation for grants.",
+      "Assist with donor financial reporting.",
+      "Monitor grant-related expenditures.",
+      "Support financial compliance requirements.",
+    ],
+
+    career: [
+      {
+        period: "2021 – Present",
+        position: "Finance & Grants Officer",
+        organization: "Demining Agency for Afghanistan",
+      },
+    ],
+  },
+
+  // ============================================================
+  // CASHIER / FINANCE ASSISTANT
+  // ============================================================
+
+  "cashier-finance-assistant": {
+    name: "Sophia Moore",
+    position: "Cashier / Finance Assistant",
+    department: "Finance",
+    experience: "5+ Years Experience",
+    location: "Kabul, Afghanistan",
+    image: "https://i.pravatar.cc/800?img=44",
+
+    introduction:
+      "A finance support professional assisting with cash management, financial records, payments, and routine accounting activities.",
+
+    biography:
+      "Supports daily finance operations through cash handling, payment documentation, record keeping, and coordination with the finance team.",
+
+    education: [
+      "Bachelor's Degree",
+      "Accounting Training",
+      "Cash Management Training",
+    ],
+
+    responsibilities: [
+      "Support cash management activities.",
+      "Maintain payment and receipt records.",
+      "Assist with financial documentation.",
+      "Support daily accounting activities.",
+      "Maintain organized cash-related records.",
+    ],
+
+    career: [
+      {
+        period: "2022 – Present",
+        position: "Cashier / Finance Assistant",
+        organization: "Demining Agency for Afghanistan",
+      },
+    ],
+  },
+
+  // ============================================================
   // LOGISTICS MANAGER
-  // =======================================================
-  "ahmad-example": {
-    name: "Ahmad Example",
-    position: "Logistics Manager / Support Manager",
+  // ============================================================
+
+  "logistics-manager": {
+    name: "William Thomas",
+    position: "Logistics / Support Manager",
     department: "Logistics",
     experience: "12+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/logistics-manager.jpg",
+    image: "https://i.pravatar.cc/800?img=3",
 
     introduction:
-      "An experienced logistics professional supporting DAFA's humanitarian operations through effective planning, coordination, resource management, and operational support.",
+      "An experienced logistics professional supporting humanitarian operations through effective planning, coordination, resource management, and operational support.",
 
     biography:
-      "With extensive experience in humanitarian and operational environments, Ahmad supports the coordination of logistics activities and helps ensure that essential resources are available to support DAFA's programs and field operations.",
+      "Supports the coordination of logistics activities and helps ensure that essential resources, transportation, equipment, and supplies are available to support DAFA programs and field operations.",
 
     education: [
       "Bachelor's Degree in Business Administration",
@@ -267,7 +443,7 @@ export const members = {
     career: [
       {
         period: "2021 – Present",
-        position: "Logistics Manager / Support Manager",
+        position: "Logistics / Support Manager",
         organization: "Demining Agency for Afghanistan",
       },
       {
@@ -283,16 +459,17 @@ export const members = {
     ],
   },
 
-  // =======================================================
+  // ============================================================
   // LOGISTICS OFFICER
-  // =======================================================
+  // ============================================================
+
   "logistics-officer": {
-    name: "Example Name",
+    name: "Christopher Jackson",
     position: "Logistics Officer",
     department: "Logistics",
     experience: "8+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/logistics-officer.jpg",
+    image: "https://i.pravatar.cc/800?img=52",
 
     introduction:
       "A logistics professional supporting transportation, supplies, equipment, inventory, and operational resource coordination.",
@@ -324,16 +501,17 @@ export const members = {
     ],
   },
 
-  // =======================================================
+  // ============================================================
   // LOGISTICS ASSISTANT
-  // =======================================================
+  // ============================================================
+
   "logistics-assistant": {
-    name: "Example Name",
+    name: "Matthew White",
     position: "Logistics Assistant",
     department: "Logistics",
     experience: "5+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/logistics-assistant.jpg",
+    image: "https://i.pravatar.cc/800?img=14",
 
     introduction:
       "A logistics support professional assisting with supplies, transportation, inventory, and daily operational requirements.",
@@ -360,16 +538,17 @@ export const members = {
     ],
   },
 
-  // =======================================================
+  // ============================================================
   // STOREKEEPER
-  // =======================================================
+  // ============================================================
+
   storekeeper: {
-    name: "Example Name",
+    name: "David Harris",
     position: "Storekeeper",
     department: "Logistics",
     experience: "6+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/storekeeper.jpg",
+    image: "https://i.pravatar.cc/800?img=8",
 
     introduction:
       "A logistics support professional responsible for organized storage, inventory monitoring, and equipment management.",
@@ -404,16 +583,105 @@ export const members = {
     ],
   },
 
-  // =======================================================
-  // OPERATIONS MANAGER
-  // =======================================================
-  "operations-manager": {
-    name: "Example Name",
-    position: "Operations Manager",
+  // ============================================================
+  // LOGISTICS COORDINATOR
+  // ============================================================
+
+  "logistics-coordinator": {
+    name: "Jessica Clark",
+    position: "Logistics Coordinator",
+    department: "Logistics",
+    experience: "7+ Years Experience",
+    location: "Kabul, Afghanistan",
+    image: "https://i.pravatar.cc/800?img=49",
+
+    introduction:
+      "A logistics coordination professional supporting resource planning, transportation, supplies, and communication between departments and field teams.",
+
+    biography:
+      "Supports logistics coordination by helping organize resources, transportation requirements, supplies, and operational support across DAFA activities.",
+
+    education: [
+      "Bachelor's Degree",
+      "Logistics Management Training",
+      "Supply Chain Coordination Training",
+    ],
+
+    responsibilities: [
+      "Coordinate logistics requirements.",
+      "Support transportation schedules.",
+      "Coordinate supply requests.",
+      "Maintain logistics documentation.",
+      "Support communication between logistics and field teams.",
+    ],
+
+    career: [
+      {
+        period: "2021 – Present",
+        position: "Logistics Coordinator",
+        organization: "Demining Agency for Afghanistan",
+      },
+    ],
+  },
+
+  // ============================================================
+  // HEAD OF OPERATIONS
+  // ============================================================
+
+  "head-of-operations": {
+    name: "Andrew Lewis",
+    position: "Head of Operations",
     department: "Operations",
     experience: "15+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/operations-manager.jpg",
+    image: "https://i.pravatar.cc/800?img=60",
+
+    introduction:
+      "An experienced operations leader supporting strategic planning, field coordination, and effective delivery of humanitarian mine action activities.",
+
+    biography:
+      "Provides operational leadership and coordination across field activities while supporting effective planning, implementation, monitoring, and resource coordination.",
+
+    education: [
+      "Bachelor's Degree",
+      "Humanitarian Mine Action Training",
+      "Operational Management Training",
+      "Leadership Development Training",
+    ],
+
+    responsibilities: [
+      "Provide leadership for operational activities.",
+      "Coordinate operational planning and implementation.",
+      "Support field teams and operational managers.",
+      "Monitor operational performance.",
+      "Coordinate with senior management and technical teams.",
+    ],
+
+    career: [
+      {
+        period: "2016 – Present",
+        position: "Head of Operations",
+        organization: "Demining Agency for Afghanistan",
+      },
+      {
+        period: "2011 – 2016",
+        position: "Operations Manager",
+        organization: "Humanitarian Organization",
+      },
+    ],
+  },
+
+  // ============================================================
+  // OPERATIONS MANAGER
+  // ============================================================
+
+  "operations-manager": {
+    name: "Daniel Walker",
+    position: "Operations Manager",
+    department: "Operations",
+    experience: "12+ Years Experience",
+    location: "Kabul, Afghanistan",
+    image: "https://i.pravatar.cc/800?img=56",
 
     introduction:
       "An experienced operations professional supporting the planning, coordination, and delivery of humanitarian mine action activities.",
@@ -449,16 +717,17 @@ export const members = {
     ],
   },
 
-  // =======================================================
+  // ============================================================
   // OPERATIONS OFFICER
-  // =======================================================
+  // ============================================================
+
   "operations-officer": {
-    name: "Example Name",
+    name: "Mark Robinson",
     position: "Operations Officer",
     department: "Operations",
     experience: "9+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/operations-officer.jpg",
+    image: "https://i.pravatar.cc/800?img=59",
 
     introduction:
       "An operations professional supporting field planning, coordination, monitoring, and implementation of humanitarian activities.",
@@ -490,19 +759,61 @@ export const members = {
     ],
   },
 
-  // =======================================================
-  // QA MANAGER
-  // =======================================================
-  "qa-manager": {
-    name: "Example Name",
-    position: "QA Manager",
+  // ============================================================
+  // COMMON MOBILIZER
+  // ============================================================
+
+  "common-mobilizer": {
+    name: "Ahmed Rahimi",
+    position: "Common Mobilizer",
     department: "Operations",
-    experience: "11+ Years Experience",
+    experience: "5+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/qa-manager.jpg",
+    image: "https://i.pravatar.cc/800?img=70",
 
     introduction:
-      "A quality assurance professional supporting the monitoring and continuous improvement of humanitarian mine action activities.",
+      "A community-focused professional supporting communication, awareness, coordination, and engagement with communities in operational areas.",
+
+    biography:
+      "Supports field teams by communicating with communities, assisting awareness activities, facilitating local coordination, and helping ensure effective engagement with people affected by mine contamination.",
+
+    education: [
+      "Bachelor's Degree",
+      "Community Engagement Training",
+      "Mine Risk Education Training",
+    ],
+
+    responsibilities: [
+      "Support community engagement activities.",
+      "Coordinate communication with local communities.",
+      "Support awareness and outreach activities.",
+      "Assist field teams with community coordination.",
+      "Document community feedback and concerns.",
+    ],
+
+    career: [
+      {
+        period: "2022 – Present",
+        position: "Common Mobilizer",
+        organization: "Demining Agency for Afghanistan",
+      },
+    ],
+  },
+
+  // ============================================================
+  // QA MANAGER
+  // ============================================================
+
+  "qa-manager": {
+    name: "Thomas Edwards",
+    position: "QA Manager",
+    department: "Quality Assurance",
+    experience: "11+ Years Experience",
+    location: "Kabul, Afghanistan",
+    image: "https://i.pravatar.cc/800?img=69",
+
+    introduction:
+      "A quality assurance professional supporting monitoring, inspection, compliance, and continuous improvement of humanitarian mine action activities.",
 
     biography:
       "Supports quality assurance systems and monitoring processes to help ensure that operational activities meet required standards and organizational procedures.",
@@ -511,6 +822,7 @@ export const members = {
       "Bachelor's Degree",
       "Quality Management Training",
       "Humanitarian Mine Action Training",
+      "Quality Assurance Training",
     ],
 
     responsibilities: [
@@ -535,16 +847,17 @@ export const members = {
     ],
   },
 
-  // =======================================================
+  // ============================================================
   // QA OFFICER
-  // =======================================================
+  // ============================================================
+
   "qa-officer": {
-    name: "Example Name",
+    name: "George Adams",
     position: "QA Officer",
-    department: "Operations",
+    department: "Quality Assurance",
     experience: "7+ Years Experience",
     location: "Kabul, Afghanistan",
-    image: "/images/team/qa-officer.jpg",
+    image: "https://i.pravatar.cc/800?img=67",
 
     introduction:
       "A quality assurance professional supporting monitoring, assessment, documentation, and compliance with operational standards.",
@@ -576,6 +889,185 @@ export const members = {
         period: "2019 – 2022",
         position: "Field Officer",
         organization: "Humanitarian Organization",
+      },
+    ],
+  },
+
+  // ============================================================
+  // QA INSPECTOR
+  // ============================================================
+
+  "qa-inspector": {
+    name: "Daniel Green",
+    position: "QA Inspector",
+    department: "Quality Assurance",
+    experience: "6+ Years Experience",
+    location: "Kabul, Afghanistan",
+    image: "https://i.pravatar.cc/800?img=65",
+
+    introduction:
+      "A quality assurance professional supporting field inspections, monitoring, documentation, and compliance with operational procedures.",
+
+    biography:
+      "Supports field-level quality inspections and monitoring activities while documenting observations and helping operational teams address identified requirements.",
+
+    education: [
+      "Bachelor's Degree",
+      "Quality Inspection Training",
+      "Humanitarian Mine Action Training",
+    ],
+
+    responsibilities: [
+      "Conduct field quality inspections.",
+      "Document inspection findings.",
+      "Monitor operational procedures.",
+      "Support quality assessment activities.",
+      "Report identified quality issues.",
+    ],
+
+    career: [
+      {
+        period: "2022 – Present",
+        position: "QA Inspector",
+        organization: "Demining Agency for Afghanistan",
+      },
+      {
+        period: "2019 – 2022",
+        position: "Field Operations Assistant",
+        organization: "Humanitarian Organization",
+      },
+    ],
+  },
+
+  // ============================================================
+  // MIS MANAGER
+  // ============================================================
+
+  "mis-manager": {
+    name: "Alex Johnson",
+    position: "MIS Manager",
+    department: "MIS",
+    experience: "10+ Years Experience",
+    location: "Kabul, Afghanistan",
+    image: "https://i.pravatar.cc/800?img=53",
+
+    introduction:
+      "An information systems professional supporting organizational data management, reporting, information processing, and digital systems.",
+
+    biography:
+      "Supports management information systems, organizational reporting, data management, information processing, and the effective use of digital information for operational and management decision-making.",
+
+    education: [
+      "Bachelor's Degree in Information Technology",
+      "Database Management Training",
+      "Management Information Systems Training",
+    ],
+
+    responsibilities: [
+      "Manage organizational information systems.",
+      "Oversee data management and reporting.",
+      "Support information processing and analysis.",
+      "Maintain data quality and accuracy.",
+      "Coordinate MIS requirements with departments.",
+    ],
+
+    career: [
+      {
+        period: "2020 – Present",
+        position: "MIS Manager",
+        organization: "Demining Agency for Afghanistan",
+      },
+      {
+        period: "2016 – 2020",
+        position: "MIS Officer",
+        organization: "Humanitarian Organization",
+      },
+    ],
+  },
+
+  // ============================================================
+  // MIS OFFICER
+  // ============================================================
+
+  "mis-officer": {
+    name: "Ryan Williams",
+    position: "MIS Officer",
+    department: "MIS",
+    experience: "7+ Years Experience",
+    location: "Kabul, Afghanistan",
+    image: "https://i.pravatar.cc/800?img=54",
+
+    introduction:
+      "An information systems professional supporting data management, reporting, database activities, and organizational information services.",
+
+    biography:
+      "Supports the MIS team through data collection, processing, reporting, database maintenance, and information management activities.",
+
+    education: [
+      "Bachelor's Degree in Information Technology",
+      "Database Management Training",
+      "Data Analysis Training",
+    ],
+
+    responsibilities: [
+      "Support organizational data management.",
+      "Maintain databases and information records.",
+      "Prepare reports and data summaries.",
+      "Process and validate organizational data.",
+      "Support departmental MIS requirements.",
+    ],
+
+    career: [
+      {
+        period: "2022 – Present",
+        position: "MIS Officer",
+        organization: "Demining Agency for Afghanistan",
+      },
+      {
+        period: "2019 – 2022",
+        position: "Data Assistant",
+        organization: "Humanitarian Organization",
+      },
+    ],
+  },
+
+  // ============================================================
+  // DATA PROCESSOR
+  // ============================================================
+
+  "data-processor": {
+    name: "Kevin Martinez",
+    position: "Data Processor",
+    department: "MIS",
+    experience: "5+ Years Experience",
+    location: "Kabul, Afghanistan",
+    image: "https://i.pravatar.cc/800?img=51",
+
+    introduction:
+      "A data management professional supporting accurate data entry, processing, validation, and organizational information management.",
+
+    biography:
+      "Supports the MIS team by processing operational data, maintaining accurate records, performing data validation, and assisting with routine reporting requirements.",
+
+    education: [
+      "Bachelor's Degree",
+      "Data Management Training",
+      "Computer Applications Training",
+    ],
+
+    responsibilities: [
+      "Process and enter organizational data.",
+      "Validate data accuracy and completeness.",
+      "Maintain digital records.",
+      "Support data cleaning and organization.",
+      "Assist with routine reports and data requests.",
+    ],
+
+    career: [
+      {
+        period: "2022 – Present",
+        position: "Data Processor",
+        organization: "Demining Agency for Afghanistan",
       },
     ],
   },

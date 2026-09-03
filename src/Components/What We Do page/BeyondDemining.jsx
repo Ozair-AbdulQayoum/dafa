@@ -6,32 +6,35 @@ import { FaArrowRight } from "react-icons/fa";
 import beyondDeminingData from "../../Components/Data File/What We Do Data/BeyondDeminingData";
 
 export default function BeyondDemining() {
+  // Remove the 3rd card
+  const activities = beyondDeminingData.filter((_, index) => index !== 2);
+
   return (
-    <main className="bg-white">
+    <main className="bg-[#F4FAF7]">
       {/* =====================================================
           HUMANITARIAN SUPPORT
       ===================================================== */}
-
       <section className="py-20 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          {/* Section Introduction */}
-
+          {/* =================================================
+              SECTION HEADING
+          ================================================= */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="mx-auto max-w-3xl text-center"
           >
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
+            <span className="inline-flex rounded-full border border-[#087B5A]/20 bg-[#087B5A]/5 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A]">
               Humanitarian Support
-            </p>
+            </span>
 
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl">
+            <h1 className="mt-5 text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
               Supporting Communities Beyond Demining
-            </h2>
+            </h1>
 
-            <p className="mt-4 text-base leading-7 text-slate-500">
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-500 sm:text-lg">
               Through additional humanitarian initiatives, DAFA works to support
               vulnerable communities, strengthen livelihoods, and respond to
               urgent needs.
@@ -41,14 +44,13 @@ export default function BeyondDemining() {
           {/* =================================================
               CARDS
           ================================================= */}
-
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {beyondDeminingData.map((activity, index) => (
+          <div className="mt-14 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+            {activities.map((activity, index) => (
               <motion.article
                 key={activity.slug}
                 initial={{
                   opacity: 0,
-                  y: 25,
+                  y: 30,
                 }}
                 whileInView={{
                   opacity: 1,
@@ -59,59 +61,140 @@ export default function BeyondDemining() {
                   amount: 0.15,
                 }}
                 transition={{
-                  duration: 0.5,
+                  duration: 0.55,
                   delay: index * 0.08,
                 }}
+                className="group"
               >
                 <Link
                   to={`/beyond-demining/${activity.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-[#087B5A]/30 hover:shadow-xl"
+                  className="
+                    relative block h-[430px]
+                    overflow-hidden rounded-3xl
+                    bg-[#06281E]
+                    shadow-lg shadow-slate-200/60
+                    transition-all duration-500
+                    hover:-translate-y-2
+                    hover:shadow-2xl
+                    hover:shadow-[#087B5A]/20
+                  "
                 >
                   {/* Image */}
+                  <img
+                    src={activity.images[0]}
+                    alt={activity.title}
+                    loading="lazy"
+                    className="
+                      absolute inset-0
+                      h-full w-full object-cover
+                      transition-transform duration-700 ease-out
+                      group-hover:scale-110
+                    "
+                  />
 
-                  <div className="relative h-56 overflow-hidden bg-[#E8F3EF]">
-                    <img
-                      src={activity.images[0]}
-                      alt={activity.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                    />
+                  {/* Dark Overlay */}
+                  <div
+                    className="
+                      absolute inset-0
+                      bg-gradient-to-t
+                      from-[#031C14]/85
+                      via-[#06281E]/20
+                      to-transparent
+                    "
+                  />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  {/* Green Hover Overlay */}
+                  <div
+                    className="
+                      absolute inset-0
+                      bg-gradient-to-t
+                      from-[#087B5A]/35
+                      via-transparent
+                      to-transparent
+                      opacity-0
+                      transition-opacity duration-500
+                      group-hover:opacity-100
+                    "
+                  />
 
-                    {/* Abbreviation */}
-
-                    <span className="absolute bottom-4 right-4 rounded-lg bg-[#06281E]/90 px-3 py-1.5 text-xs font-bold text-white">
-                      {activity.abbreviation}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-
-                  <div className="flex flex-1 flex-col p-6">
-                    <h3 className="text-xl font-bold leading-snug text-[#0F172A] transition-colors group-hover:text-[#087B5A]">
+                  {/* Glass Content */}
+                  <div
+                    className="
+                      absolute inset-x-5 bottom-5
+                      rounded-2xl
+                      border border-white/20
+                      bg-[#06281E]/45
+                      p-5
+                      backdrop-blur-xl
+                      shadow-2xl
+                      transition-all duration-500
+                      group-hover:border-white/30
+                      group-hover:bg-[#06281E]/60
+                    "
+                  >
+                    <h2
+                      className="
+                        text-xl font-bold
+                        leading-tight text-white
+                        sm:text-2xl
+                      "
+                    >
                       {activity.title}
-                    </h3>
+                    </h2>
 
-                    <p className="mt-3 line-clamp-4 text-sm leading-7 text-slate-500">
-                      {activity.description}
-                    </p>
-
-                    {/* Bottom */}
-
-                    <div className="mt-auto flex items-center justify-between border-t border-slate-100 pt-5">
-                      <span className="text-sm font-semibold text-[#087B5A]">
+                    {/* Explore Button */}
+                    <div className="mt-4">
+                      <span
+                        className="
+                          inline-flex items-center gap-3
+                          rounded-xl
+                          border border-white/20
+                          bg-white/10
+                          px-4 py-2.5
+                          text-sm font-semibold text-white
+                          backdrop-blur-md
+                          transition-all duration-300
+                          group-hover:bg-white
+                          group-hover:text-[#06281E]
+                        "
+                      >
                         Explore More
-                      </span>
-
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#087B5A]/10 text-[#087B5A] transition-all duration-300 group-hover:bg-[#087B5A] group-hover:text-white">
-                        <FaArrowRight
-                          size={12}
-                          className="transition-transform duration-300 group-hover:translate-x-1"
-                        />
+                        <span
+                          className="
+                            flex h-7 w-7
+                            items-center justify-center
+                            rounded-full
+                            bg-white/15
+                            transition-all duration-300
+                            group-hover:bg-[#087B5A]
+                            group-hover:text-white
+                          "
+                        >
+                          <FaArrowRight
+                            size={11}
+                            className="
+                              transition-transform duration-300
+                              group-hover:translate-x-1
+                            "
+                          />
+                        </span>
                       </span>
                     </div>
                   </div>
+
+                  {/* Bottom Accent */}
+                  <div
+                    className="
+                      absolute bottom-0 left-0 right-0 h-1
+                      bg-gradient-to-r
+                      from-[#087B5A]
+                      via-[#A7F3D0]
+                      to-[#0284C7]
+                      opacity-0
+                      transition-opacity duration-500
+                      group-hover:opacity-100
+                    "
+                  />
                 </Link>
               </motion.article>
             ))}

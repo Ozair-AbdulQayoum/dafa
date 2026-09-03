@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -14,7 +14,21 @@ import { latestNews } from "../../Components/Data File/News Update Data/LatestNe
 export default function News() {
   const [currentImage, setCurrentImage] = useState(0);
 
-  const images = latestNews.gallery || [latestNews.image];
+  /* =====================================================
+     IMAGE DATA
+  ===================================================== */
+
+  const images = useMemo(() => {
+    if (latestNews?.gallery?.length > 0) {
+      return latestNews.gallery;
+    }
+
+    if (latestNews?.image) {
+      return [latestNews.image];
+    }
+
+    return [];
+  }, []);
 
   /* =====================================================
      AUTO IMAGE SLIDER
@@ -28,13 +42,15 @@ export default function News() {
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [images]);
+  }, [images.length]);
 
   /* =====================================================
      NEXT IMAGE
   ===================================================== */
 
   const nextImage = () => {
+    if (images.length <= 1) return;
+
     setCurrentImage((previous) => (previous + 1) % images.length);
   };
 
@@ -43,6 +59,8 @@ export default function News() {
   ===================================================== */
 
   const previousImage = () => {
+    if (images.length <= 1) return;
+
     setCurrentImage(
       (previous) => (previous - 1 + images.length) % images.length,
     );
@@ -63,7 +81,7 @@ export default function News() {
       "
     >
       {/* =====================================================
-          SOFT BACKGROUND GLOWS
+          BACKGROUND GLOWS
       ===================================================== */}
 
       <div className="pointer-events-none absolute inset-0">
@@ -140,9 +158,11 @@ export default function News() {
           }}
           transition={{
             duration: 0.7,
+            ease: "easeOut",
           }}
           viewport={{
             once: true,
+            margin: "-100px",
           }}
           className="
             mx-auto
@@ -202,7 +222,7 @@ export default function News() {
         </motion.div>
 
         {/* =====================================================
-            LATEST NEWS CARD
+            MAIN NEWS CARD
         ===================================================== */}
 
         <motion.article
@@ -216,17 +236,19 @@ export default function News() {
           }}
           transition={{
             duration: 0.8,
+            ease: "easeOut",
           }}
           viewport={{
             once: true,
+            margin: "-80px",
           }}
           className="
             mx-auto
-            max-w-5xl
+            max-w-6xl
             overflow-hidden
             rounded-[2rem]
             border
-            border-white
+            border-white/80
             bg-[#F3F9F6]/90
             shadow-[10px_12px_30px_rgba(15,23,42,0.10),-10px_-10px_28px_rgba(255,255,255,0.95)]
             backdrop-blur-xl
@@ -235,65 +257,92 @@ export default function News() {
             hover:shadow-[14px_16px_38px_rgba(15,23,42,0.12),-12px_-12px_32px_rgba(255,255,255,1)]
           "
         >
-          <div className="grid lg:grid-cols-2">
+          {/* =================================================
+              LEFT IMAGE / RIGHT CONTENT
+          ================================================= */}
+
+          <div className="grid min-h-[420px] lg:grid-cols-[1.05fr_0.95fr]">
             {/* =================================================
-                IMAGE SLIDER
+                IMAGE — LEFT SIDE
             ================================================= */}
 
             <div
               className="
                 relative
                 h-[300px]
+                min-h-full
                 overflow-hidden
                 bg-[#0B3D2E]
-                sm:h-[360px]
-                lg:h-[420px]
+                sm:h-[380px]
+                lg:h-auto
               "
             >
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={images[currentImage]}
-                  src={images[currentImage]}
-                  alt={latestNews.title}
-                  initial={{
-                    opacity: 0,
-                    scale: 1.06,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    scale: 1.02,
-                  }}
-                  transition={{
-                    duration: 0.9,
-                  }}
+              {images.length > 0 ? (
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={`${images[currentImage]}-${currentImage}`}
+                    src={images[currentImage]}
+                    alt={latestNews?.title || "Latest DAFA news"}
+                    initial={{
+                      opacity: 0,
+                      scale: 1.08,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: 1.03,
+                    }}
+                    transition={{
+                      duration: 0.8,
+                      ease: "easeOut",
+                    }}
+                    className="
+                      absolute
+                      inset-0
+                      h-full
+                      w-full
+                      object-cover
+                    "
+                  />
+                </AnimatePresence>
+              ) : (
+                <div
                   className="
-                    absolute
-                    inset-0
+                    flex
                     h-full
-                    w-full
-                    object-cover
+                    min-h-[300px]
+                    items-center
+                    justify-center
+                    bg-[#0B3D2E]
+                    text-sm
+                    font-semibold
+                    text-white/70
                   "
-                />
-              </AnimatePresence>
+                >
+                  DAFA News
+                </div>
+              )}
 
-              {/* Image Overlay */}
+              {/* Dark Cinematic Overlay */}
 
               <div
                 className="
+                  pointer-events-none
                   absolute
                   inset-0
                   bg-gradient-to-t
-                  from-[#031F18]/75
-                  via-transparent
+                  from-[#031F18]/80
+                  via-[#031F18]/15
                   to-transparent
                 "
               />
 
-              {/* Previous */}
+              {/* =================================================
+                  PREVIOUS BUTTON
+              ================================================= */}
 
               {images.length > 1 && (
                 <button
@@ -304,6 +353,7 @@ export default function News() {
                     absolute
                     left-4
                     top-1/2
+                    z-20
                     flex
                     h-10
                     w-10
@@ -318,7 +368,6 @@ export default function News() {
                     backdrop-blur-md
                     transition-all
                     duration-300
-                    hover:-translate-y-1/2
                     hover:bg-white
                     hover:text-[#087B5A]
                   "
@@ -327,7 +376,9 @@ export default function News() {
                 </button>
               )}
 
-              {/* Next */}
+              {/* =================================================
+                  NEXT BUTTON
+              ================================================= */}
 
               {images.length > 1 && (
                 <button
@@ -338,6 +389,7 @@ export default function News() {
                     absolute
                     right-4
                     top-1/2
+                    z-20
                     flex
                     h-10
                     w-10
@@ -352,7 +404,6 @@ export default function News() {
                     backdrop-blur-md
                     transition-all
                     duration-300
-                    hover:-translate-y-1/2
                     hover:bg-white
                     hover:text-[#087B5A]
                   "
@@ -361,7 +412,9 @@ export default function News() {
                 </button>
               )}
 
-              {/* Slider Dots */}
+              {/* =================================================
+                  SLIDER DOTS
+              ================================================= */}
 
               {images.length > 1 && (
                 <div
@@ -369,6 +422,7 @@ export default function News() {
                     absolute
                     bottom-5
                     left-1/2
+                    z-20
                     flex
                     -translate-x-1/2
                     items-center
@@ -406,7 +460,7 @@ export default function News() {
             </div>
 
             {/* =================================================
-                NEWS CONTENT
+                CONTENT — RIGHT SIDE
             ================================================= */}
 
             <div
@@ -416,15 +470,15 @@ export default function News() {
                 justify-center
                 p-7
                 sm:p-9
-                lg:p-10
+                lg:p-11
               "
             >
-              {/* Latest News */}
+              {/* Latest News Badge */}
 
               <div
                 className="
                   mb-5
-                  inline-flex
+                  flex
                   w-fit
                   items-center
                   gap-2
@@ -469,7 +523,7 @@ export default function News() {
                   text-[#087B5A]
                 "
               >
-                {latestNews.category}
+                {latestNews?.category}
               </p>
 
               {/* Date */}
@@ -489,7 +543,7 @@ export default function News() {
               >
                 <FaCalendarAlt className="text-[#087B5A]" />
 
-                <span>{latestNews.date}</span>
+                <span>{latestNews?.date}</span>
               </div>
 
               {/* Title */}
@@ -503,9 +557,10 @@ export default function News() {
                   tracking-tight
                   text-[#0F172A]
                   sm:text-3xl
+                  lg:text-[2.1rem]
                 "
               >
-                {latestNews.title}
+                {latestNews?.title}
               </h3>
 
               {/* Description */}
@@ -513,21 +568,24 @@ export default function News() {
               <p
                 className="
                   mt-5
+                  max-w-xl
                   text-sm
                   leading-7
                   text-slate-600
                   sm:text-base
                 "
               >
-                {latestNews.description}
+                {latestNews?.description}
               </p>
+
+              {/* Divider */}
 
               <div className="my-7 h-px bg-slate-200/70" />
 
               {/* Read More */}
 
               <Link
-                to={`/resources/news-updates/${latestNews.slug}`}
+                to={`/resources/news-updates/${latestNews?.slug}`}
                 className="
                   group
                   inline-flex
@@ -567,7 +625,24 @@ export default function News() {
             VIEW ALL NEWS
         ===================================================== */}
 
-        <div className="mt-8 text-center">
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 15,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 0.6,
+            delay: 0.1,
+          }}
+          viewport={{
+            once: true,
+          }}
+          className="mt-8 text-center"
+        >
           <Link
             to="/resources/news-updates"
             className="
@@ -603,7 +678,7 @@ export default function News() {
               "
             />
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
