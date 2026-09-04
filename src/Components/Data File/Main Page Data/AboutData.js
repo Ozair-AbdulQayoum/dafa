@@ -1,16 +1,16 @@
-// =====================================================
-// ABOUT SECTION DATA
-// =====================================================
-
 import aboutImg from "../../../assets/About-img.png";
+
+// =====================================================
+// ABOUT DAFA SECTION DATA
+// =====================================================
 
 export const aboutData = {
   label: "About DAFA",
 
-  title: "WE PROVIDE HUMANITARIAN DEMINING SERVICES",
+  title: "Protecting Communities. Building Safer Futures.",
 
   description:
-    "The Demining Agency for Afghanistan (DAFA) is a humanitarian mine clearance non-governmental organization (NGO) established in June 1990 under the auspices of the United Nations Office for the Coordination of Humanitarian Assistance to Afghanistan (UNOCHA). For more than three decades, DAFA has continued to operate across Afghanistan, working under challenging conditions to clear landmines and other explosive hazards and help create safer communities.",
+    "DAFA is a humanitarian mine action organization with decades of experience reducing explosive hazards across Afghanistan. Through professional field teams and community-focused operations, DAFA works to make communities safer and help people build a more secure future.",
 
   image: {
     src: aboutImg,
@@ -19,10 +19,21 @@ export const aboutData = {
   },
 
   highlights: [
-    "Humanitarian mine action",
-    "Community protection",
-    "Safer communities",
-    "Afghanistan-wide operations",
+    {
+      title: "Humanitarian Mission",
+      description: "Protecting people from explosive hazards.",
+      icon: "mission",
+    },
+    {
+      title: "Experienced Teams",
+      description: "Skilled professionals working in challenging environments.",
+      icon: "team",
+    },
+    {
+      title: "Nationwide Operations",
+      description: "Supporting safer communities across Afghanistan.",
+      icon: "operations",
+    },
   ],
 
   button: {

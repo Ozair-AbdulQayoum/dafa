@@ -3,7 +3,7 @@ import { FaShieldAlt, FaHardHat, FaExclamationTriangle } from "react-icons/fa";
 // =====================================================
 // HOME PAGE PROGRAMS
 //
-// Only 3 featured programs are displayed on the Home Page.
+// Only featured programs are displayed on the Home Page.
 // Full services can be shown on /what-we-do.
 // =====================================================
 

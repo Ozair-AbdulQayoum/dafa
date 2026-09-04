@@ -134,3 +134,5 @@ export const newsCategories = [
   "Field Activities",
   "Announcements",
 ];
+
+export default newsUpdates;

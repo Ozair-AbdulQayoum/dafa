@@ -1,18 +1,36 @@
-// src/Components/Home-Page/WhereWeWork.jsx
-
 import React, { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import { geoMercator, geoPath, geoCentroid } from "d3-geo";
+
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+
+import { Link } from "react-router-dom";
+
+import {
+  FaArrowRight,
+  FaMapMarkerAlt,
+  FaCheckCircle,
+  FaInfoCircle,
+  FaProjectDiagram,
+  FaHandshake,
+  FaBullseye,
+} from "react-icons/fa";
+
+import { geoMercator, geoPath } from "d3-geo";
 
 import {
   provinces,
+  coveredProvinces,
   getProvinceFromGeoJSON,
 } from "../../Components/Data File/Main Page Data/CoverageData";
 
 export default function WhereWeWork() {
+  const shouldReduceMotion = useReducedMotion();
+
   const [geoData, setGeoData] = useState(null);
   const [error, setError] = useState(null);
+
   const [hoveredProvince, setHoveredProvince] = useState(null);
+
+  const [selectedProvince, setSelectedProvince] = useState(null);
 
   // =====================================================
   // LOAD GEOJSON
@@ -68,8 +86,8 @@ export default function WhereWeWork() {
   const mapData = useMemo(() => {
     if (!features.length) return null;
 
-    const width = 1100;
-    const height = 650;
+    const width = 900;
+    const height = 620;
 
     const collection = {
       type: "FeatureCollection",
@@ -78,7 +96,7 @@ export default function WhereWeWork() {
 
     const projection = geoMercator();
 
-    projection.fitSize([width - 30, height - 30], collection);
+    projection.fitSize([width - 40, height - 40], collection);
 
     const pathGenerator = geoPath(projection);
 
@@ -91,7 +109,7 @@ export default function WhereWeWork() {
   }, [features]);
 
   // =====================================================
-  // GET GEOJSON PROVINCE NAME
+  // GEOJSON NAME
   // =====================================================
 
   const getGeoJSONProvinceName = (feature) => {
@@ -134,7 +152,7 @@ export default function WhereWeWork() {
   };
 
   // =====================================================
-  // MATCH GEOJSON WITH PROVINCE DATA
+  // MATCH GEOJSON TO PROVINCE DATA
   // =====================================================
 
   const getProvinceData = (feature) => {
@@ -171,7 +189,6 @@ export default function WhereWeWork() {
       properties.VARNAME_1,
     ].filter((value) => typeof value === "string" && value.trim().length > 0);
 
-    // Normal matching
     for (const name of possibleNames) {
       const matched = getProvinceFromGeoJSON(name);
 
@@ -180,7 +197,6 @@ export default function WhereWeWork() {
       }
     }
 
-    // Search every GeoJSON property
     for (const value of Object.values(properties)) {
       if (typeof value !== "string") continue;
 
@@ -191,54 +207,32 @@ export default function WhereWeWork() {
       }
     }
 
-    // Extra matching
-    for (const value of Object.values(properties)) {
-      if (typeof value !== "string") continue;
-
-      const clean = value
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]/g, "");
-
-      if (clean.includes("herat") || clean.includes("hirat")) {
-        return provinces.find((province) => province.id === "herat");
-      }
-
-      if (
-        clean.includes("sarepol") ||
-        clean.includes("sarepul") ||
-        clean.includes("saripol") ||
-        clean.includes("saripul")
-      ) {
-        return provinces.find((province) => province.id === "sar-e-pol");
-      }
-
-      if (clean.includes("wardak")) {
-        return provinces.find((province) => province.id === "wardak");
-      }
-
-      if (
-        clean.includes("daykundi") ||
-        clean.includes("daikundi") ||
-        clean.includes("daykandi") ||
-        clean.includes("daikondi")
-      ) {
-        return provinces.find((province) => province.id === "daykundi");
-      }
-
-      if (
-        clean === "ghor" ||
-        clean === "gour" ||
-        clean.includes("ghor") ||
-        clean.includes("gour")
-      ) {
-        return provinces.find((province) => province.id === "ghor");
-      }
-    }
-
     return null;
   };
+
+  // =====================================================
+  // SELECT PROVINCE
+  // =====================================================
+
+  const handleProvinceSelect = (
+    province,
+    provinceId,
+    provinceName,
+    feature,
+  ) => {
+    setSelectedProvince({
+      id: provinceId,
+      province,
+      name: provinceName,
+      feature,
+    });
+  };
+
+  // =====================================================
+  // CURRENT DISPLAYED PROVINCE
+  // =====================================================
+
+  const activeProvince = selectedProvince || hoveredProvince;
 
   // =====================================================
   // LOADING
@@ -246,11 +240,46 @@ export default function WhereWeWork() {
 
   if (!geoData && !error) {
     return (
-      <section className="bg-[#F8FAFC] py-24">
-        <div className="mx-auto max-w-7xl px-5 text-center">
-          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-[#087B5A]/20 border-t-[#087B5A]" />
+      <section
+        aria-label="Where We Work"
+        className="
+          bg-[#F7FBF8]
+          py-16
+          sm:py-20
+          lg:py-24
+        "
+      >
+        <div
+          className="
+            mx-auto
+            max-w-7xl
+            px-5
+            text-center
+            sm:px-8
+            lg:px-10
+          "
+        >
+          <div
+            className="
+              mx-auto
+              h-9
+              w-9
+              animate-spin
+              rounded-full
+              border-[3px]
+              border-[#0B3D2E]/15
+              border-t-[#0B3D2E]
+            "
+          />
 
-          <p className="mt-4 text-sm font-semibold text-slate-500">
+          <p
+            className="
+              mt-4
+              text-sm
+              font-semibold
+              text-slate-500
+            "
+          >
             Loading Afghanistan map...
           </p>
         </div>
@@ -264,16 +293,60 @@ export default function WhereWeWork() {
 
   if (error) {
     return (
-      <section className="bg-[#F8FAFC] py-24">
-        <div className="mx-auto max-w-3xl px-5 text-center">
-          <div className="rounded-2xl border border-red-200 bg-red-50 p-6">
-            <p className="font-bold text-red-700">
+      <section
+        aria-label="Where We Work"
+        className="
+          bg-[#F7FBF8]
+          py-16
+          sm:py-20
+          lg:py-24
+        "
+      >
+        <div
+          className="
+            mx-auto
+            max-w-3xl
+            px-5
+            text-center
+          "
+        >
+          <div
+            className="
+              rounded-2xl
+              border
+              border-red-200
+              bg-red-50
+              p-6
+            "
+          >
+            <p
+              className="
+                font-bold
+                text-red-700
+              "
+            >
               Afghanistan map could not be loaded.
             </p>
 
-            <p className="mt-2 text-sm text-red-600">{error}</p>
+            <p
+              className="
+                mt-2
+                text-sm
+                text-red-600
+              "
+            >
+              {error}
+            </p>
 
-            <code className="mt-4 block text-xs font-bold text-slate-700">
+            <code
+              className="
+                mt-4
+                block
+                text-xs
+                font-semibold
+                text-slate-600
+              "
+            >
               public/maps/afghanistan-provinces.geojson
             </code>
           </div>
@@ -287,99 +360,274 @@ export default function WhereWeWork() {
   // =====================================================
 
   return (
-    <section className="relative overflow-hidden bg-[#F8FAFC] py-20 sm:py-24 lg:py-28">
-      {/* =====================================================
-          BACKGROUND
-      ===================================================== */}
-
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-60 -top-40 h-[500px] w-[500px] rounded-full bg-[#087B5A]/5 blur-3xl" />
-
-        <div className="absolute -bottom-40 -right-60 h-[500px] w-[500px] rounded-full bg-[#F97316]/5 blur-3xl" />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+    <section
+      aria-labelledby="where-we-work-title"
+      className="
+        relative
+        overflow-hidden
+        bg-[#F7FBF8]
+        py-12
+        sm:py-14
+        lg:py-16
+      "
+    >
+      <div
+        className="
+          mx-auto
+          w-full
+          max-w-7xl
+          px-5
+          sm:px-8
+          lg:px-10
+        "
+      >
         {/* =====================================================
             HEADER
-        ===================================================== */}
+        ====================================================== */}
 
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 25,
-          }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
           whileInView={{
             opacity: 1,
             y: 0,
           }}
           viewport={{
             once: true,
+            amount: 0.25,
           }}
           transition={{
-            duration: 0.7,
+            duration: shouldReduceMotion ? 0 : 0.55,
+            ease: [0.22, 1, 0.36, 1],
           }}
-          className="mx-auto max-w-3xl text-center"
+          className="
+            mx-auto
+            max-w-3xl
+            text-center
+          "
         >
-          <div className="mb-5 flex items-center justify-center gap-3">
-            <span className="h-[2px] w-10 rounded-full bg-[#F97316]" />
+          <div
+            className="
+              mb-4
+              flex
+              items-center
+              justify-center
+              gap-3
+            "
+          >
+            <span
+              aria-hidden="true"
+              className="
+                h-[2px]
+                w-8
+                rounded-full
+                bg-[#F97316]
+                sm:w-10
+              "
+            />
 
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#087B5A]">
-              Geographical Coverage
+            <span
+              className="
+                text-[11px]
+                font-extrabold
+                uppercase
+                tracking-[0.18em]
+                text-[#0B3D2E]
+                sm:text-sm
+                sm:tracking-[0.2em]
+              "
+            >
+              Where We Work
             </span>
 
-            <span className="h-[2px] w-10 rounded-full bg-[#F97316]" />
+            <span
+              aria-hidden="true"
+              className="
+                h-[2px]
+                w-8
+                rounded-full
+                bg-[#F97316]
+                sm:w-10
+              "
+            />
           </div>
 
-          <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-[#0F172A] sm:text-5xl lg:text-[3.5rem]">
-            Where We Work
-            <span className="block text-[#087B5A]">Across Afghanistan</span>
+          <h2
+            id="where-we-work-title"
+            className="
+              text-[1.9rem]
+              font-extrabold
+              leading-[1.08]
+              tracking-[-0.035em]
+              text-[#0F172A]
+              sm:text-4xl
+              lg:text-[2.8rem]
+              xl:text-5xl
+            "
+          >
+            Creating Safer Communities{" "}
+            <span className="text-[#0B3D2E]">Across Afghanistan</span>
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-            DAFA works across Afghanistan to reduce explosive hazards, clear
-            contaminated land, and help communities live safer.
+          <p
+            className="
+              mx-auto
+              mt-4
+              max-w-2xl
+              text-sm
+              leading-6
+              text-slate-600
+              sm:mt-5
+              sm:text-base
+              sm:leading-7
+            "
+          >
+            DAFA operates across Afghanistan to reduce explosive hazards, clear
+            contaminated land, and support communities affected by mines and
+            explosive remnants of war.
           </p>
         </motion.div>
 
         {/* =====================================================
-            MAP
-        ===================================================== */}
+            MAP + INFORMATION
+        ====================================================== */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: 0.8,
-          }}
-          className="relative mt-12 overflow-visible"
+        <div
+          className="
+            mt-9
+            grid
+            items-stretch
+            gap-5
+            lg:grid-cols-[1.55fr_0.75fr]
+            lg:gap-6
+            xl:mt-11
+          "
         >
-          <div className="relative w-full overflow-visible rounded-[2rem] border border-slate-200 bg-white p-3 shadow-xl sm:p-6 lg:p-8">
-            <div className="relative w-full overflow-visible">
+          {/* ===================================================
+              MAP
+          ==================================================== */}
+
+          <motion.div
+            initial={
+              shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -20 }
+            }
+            whileInView={{
+              opacity: 1,
+              x: 0,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.15,
+            }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.65,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="
+              overflow-hidden
+              rounded-2xl
+              border
+              border-[#0B3D2E]/10
+              bg-white
+              shadow-[0_10px_30px_rgba(15,23,42,0.05)]
+              sm:rounded-3xl
+            "
+          >
+            <div
+              className="
+                border-b
+                border-slate-100
+                px-5
+                py-4
+                sm:px-6
+              "
+            >
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-between
+                  gap-4
+                "
+              >
+                <div>
+                  <p
+                    className="
+                      text-sm
+                      font-extrabold
+                      text-[#0F172A]
+                    "
+                  >
+                    DAFA Geographic Coverage
+                  </p>
+
+                  <p
+                    className="
+                      mt-1
+                      text-xs
+                      text-slate-500
+                    "
+                  >
+                    Select a province to view coverage.
+                  </p>
+                </div>
+
+                <div
+                  className="
+                    hidden
+                    shrink-0
+                    items-center
+                    gap-2
+                    rounded-lg
+                    bg-[#0B3D2E]/[0.06]
+                    px-3
+                    py-2
+                    sm:flex
+                  "
+                >
+                  <span
+                    className="
+                      h-2.5
+                      w-2.5
+                      rounded-full
+                      bg-[#0B3D2E]
+                    "
+                  />
+
+                  <span
+                    className="
+                      text-xs
+                      font-bold
+                      text-[#0B3D2E]
+                    "
+                  >
+                    {coveredProvinces} covered
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* SVG MAP */}
+
+            <div
+              className="
+                relative
+                px-2
+                py-3
+                sm:px-5
+                sm:py-5
+              "
+            >
               <svg
                 viewBox={`0 0 ${mapData.width} ${mapData.height}`}
+                role="img"
+                aria-label="Interactive map of Afghanistan provinces"
                 className="
                   h-auto
-                  w-[115%]
-                  -translate-x-[7.5%]
+                  w-full
                   overflow-visible
-                  sm:w-full
-                  sm:translate-x-0
                 "
                 preserveAspectRatio="xMidYMid meet"
               >
-                {/* =================================================
-                    PROVINCES
-                ================================================== */}
-
                 {features.map((feature, index) => {
                   const province = getProvinceData(feature);
 
@@ -391,28 +639,54 @@ export default function WhereWeWork() {
                   const provinceId =
                     province?.id || `geo-${index}-${provinceName}`;
 
-                  const isDafaWork = province ? province.dafaWork : true;
+                  const isCovered = province ? province.dafaWork : false;
 
                   const isHovered = hoveredProvince?.id === provinceId;
+
+                  const isSelected = selectedProvince?.id === provinceId;
+
+                  let fill = "#E7ECE9";
+
+                  if (isCovered) {
+                    fill = "#6BA58F";
+                  }
+
+                  if (isHovered) {
+                    fill = "#0A5A42";
+                  }
+
+                  if (isSelected) {
+                    fill = "#0B3D2E";
+                  }
 
                   return (
                     <path
                       key={provinceId}
                       d={mapData.pathGenerator(feature)}
-                      fill={isDafaWork ? "#087B5A" : "#FFFFFF"}
-                      /*
-                       * Border removed.
-                       * Provinces now have no visible lines.
-                       */
-
-                      stroke="none"
-                      strokeWidth="0"
+                      fill={fill}
+                      stroke={isSelected ? "#F97316" : "#FFFFFF"}
+                      strokeWidth={isSelected ? 2.2 : 1.2}
                       vectorEffect="non-scaling-stroke"
-                      className="cursor-pointer transition-all duration-200"
+                      tabIndex={0}
+                      role="button"
+                      aria-label={`${provinceName}${
+                        isCovered
+                          ? ", DAFA works here"
+                          : ", no current DAFA coverage"
+                      }`}
+                      className="
+                        cursor-pointer
+                        outline-none
+                        transition-all
+                        duration-200
+                        focus-visible:stroke-[#F97316]
+                        focus-visible:stroke-[2]
+                      "
                       style={{
-                        filter: isHovered
-                          ? "drop-shadow(0 3px 5px rgba(15,23,42,0.25))"
-                          : "none",
+                        filter:
+                          isHovered || isSelected
+                            ? "drop-shadow(0 3px 5px rgba(15,23,42,0.18))"
+                            : "none",
                       }}
                       onMouseEnter={() => {
                         setHoveredProvince({
@@ -425,84 +699,680 @@ export default function WhereWeWork() {
                       onMouseLeave={() => {
                         setHoveredProvince(null);
                       }}
+                      onFocus={() => {
+                        setHoveredProvince({
+                          id: provinceId,
+                          feature,
+                          province,
+                          name: provinceName,
+                        });
+                      }}
+                      onBlur={() => {
+                        setHoveredProvince(null);
+                      }}
+                      onClick={() => {
+                        handleProvinceSelect(
+                          province,
+                          provinceId,
+                          provinceName,
+                          feature,
+                        );
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+
+                          handleProvinceSelect(
+                            province,
+                            provinceId,
+                            provinceName,
+                            feature,
+                          );
+                        }
+                      }}
                     />
                   );
                 })}
-
-                {/* =================================================
-                    HOVER BADGE
-                ================================================== */}
-
-                {hoveredProvince &&
-                  (() => {
-                    const feature = hoveredProvince.feature;
-
-                    const province = hoveredProvince.province;
-
-                    const centroid = geoCentroid(feature);
-
-                    const projected = mapData.projection(centroid);
-
-                    if (!projected) return null;
-
-                    const [x, y] = projected;
-
-                    return (
-                      <g
-                        pointerEvents="none"
-                        transform={`translate(${x}, ${y})`}
-                      >
-                        <foreignObject
-                          x="-105"
-                          y="-82"
-                          width="210"
-                          height="75"
-                          overflow="visible"
-                        >
-                          <div className="flex justify-center">
-                            <div className="min-w-[150px] rounded-xl bg-[#0F172A] px-4 py-3 text-center shadow-2xl">
-                              <p className="text-xs font-extrabold text-white">
-                                {province?.name || hoveredProvince.name}
-                              </p>
-
-                              <p className="mt-1 text-[11px] font-semibold text-white/75">
-                                {province?.dafaWork === false
-                                  ? "No DAFA coverage"
-                                  : `${province?.areasCleared || "—"} cleared`}
-                              </p>
-                            </div>
-                          </div>
-                        </foreignObject>
-
-                        <path d="M -7 -14 L 0 -5 L 7 -14 Z" fill="#0F172A" />
-                      </g>
-                    );
-                  })()}
               </svg>
             </div>
 
-            {/* =====================================================
-                LEGEND
-            ===================================================== */}
+            {/* Legend */}
 
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-5 border-t border-slate-100 pt-5">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-sm bg-[#087B5A]" />
+            <div
+              className="
+                flex
+                flex-wrap
+                items-center
+                gap-x-5
+                gap-y-3
+                border-t
+                border-slate-100
+                px-5
+                py-4
+                sm:px-6
+              "
+            >
+              <div
+                className="
+                  flex
+                  items-center
+                  gap-2
+                "
+              >
+                <span
+                  className="
+                    h-3
+                    w-3
+                    rounded-sm
+                    bg-[#6BA58F]
+                  "
+                />
 
-                <span className="text-xs font-semibold text-slate-600">
-                  DAFA Work
+                <span
+                  className="
+                    text-xs
+                    font-semibold
+                    text-slate-600
+                  "
+                >
+                  DAFA coverage
                 </span>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-sm bg-white ring-1 ring-slate-300" />
+              <div
+                className="
+                  flex
+                  items-center
+                  gap-2
+                "
+              >
+                <span
+                  className="
+                    h-3
+                    w-3
+                    rounded-sm
+                    bg-[#E7ECE9]
+                    ring-1
+                    ring-slate-300
+                  "
+                />
 
-                <span className="text-xs font-semibold text-slate-600">
-                  No DAFA Coverage
+                <span
+                  className="
+                    text-xs
+                    font-semibold
+                    text-slate-600
+                  "
+                >
+                  No current coverage
+                </span>
+              </div>
+
+              <div
+                className="
+                  flex
+                  items-center
+                  gap-2
+                "
+              >
+                <span
+                  className="
+                    h-3
+                    w-3
+                    rounded-sm
+                    bg-[#0B3D2E]
+                    ring-2
+                    ring-[#F97316]/60
+                  "
+                />
+
+                <span
+                  className="
+                    text-xs
+                    font-semibold
+                    text-slate-600
+                  "
+                >
+                  Selected
                 </span>
               </div>
             </div>
-          </div>
+          </motion.div>
+
+          {/* ===================================================
+              INFORMATION PANEL
+          ==================================================== */}
+
+          <motion.aside
+            initial={
+              shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 20 }
+            }
+            whileInView={{
+              opacity: 1,
+              x: 0,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.15,
+            }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.65,
+              delay: shouldReduceMotion ? 0 : 0.08,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="
+              flex
+              min-h-[360px]
+              flex-col
+              rounded-2xl
+              border
+              border-[#0B3D2E]/10
+              bg-[#0B3D2E]
+              p-5
+              shadow-[0_10px_30px_rgba(11,61,46,0.10)]
+              sm:p-6
+              lg:min-h-0
+              lg:rounded-3xl
+            "
+          >
+            <div
+              className="
+                flex
+                items-center
+                gap-2
+                text-[#A7F3D0]
+              "
+            >
+              <FaMapMarkerAlt size={13} aria-hidden="true" />
+
+              <span
+                className="
+                  text-[10px]
+                  font-extrabold
+                  uppercase
+                  tracking-[0.16em]
+                "
+              >
+                Selected Province
+              </span>
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeProvince?.id || "default-province"}
+                initial={
+                  shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 8 }
+                }
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                exit={shouldReduceMotion ? undefined : { opacity: 0, y: -6 }}
+                transition={{
+                  duration: shouldReduceMotion ? 0 : 0.25,
+                }}
+                className="mt-7"
+              >
+                <h3
+                  className="
+                    text-2xl
+                    font-extrabold
+                    tracking-[-0.025em]
+                    text-white
+                    sm:text-3xl
+                  "
+                >
+                  {activeProvince?.province?.name ||
+                    activeProvince?.name ||
+                    "Select a Province"}
+                </h3>
+
+                {activeProvince?.province ? (
+                  <>
+                    {/* Coverage Status */}
+
+                    <div
+                      className="
+                        mt-5
+                        flex
+                        items-center
+                        gap-2
+                      "
+                    >
+                      {activeProvince.province.dafaWork ? (
+                        <>
+                          <FaCheckCircle
+                            size={13}
+                            className="text-[#A7F3D0]"
+                            aria-hidden="true"
+                          />
+
+                          <span
+                            className="
+                              text-sm
+                              font-bold
+                              text-[#A7F3D0]
+                            "
+                          >
+                            DAFA works in this province
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <FaInfoCircle
+                            size={13}
+                            className="text-white/60"
+                            aria-hidden="true"
+                          />
+
+                          <span
+                            className="
+                              text-sm
+                              font-semibold
+                              text-white/70
+                            "
+                          >
+                            No current DAFA coverage
+                          </span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* =================================================
+                        TOTAL AREA CLEARED
+                    ================================================== */}
+
+                    <div
+                      className="
+                        mt-7
+                        rounded-xl
+                        border
+                        border-white/10
+                        bg-white/[0.05]
+                        p-4
+                      "
+                    >
+                      <p
+                        className="
+                          text-[10px]
+                          font-bold
+                          uppercase
+                          tracking-[0.14em]
+                          text-white/50
+                        "
+                      >
+                        Total Area Cleared
+                      </p>
+
+                      <p
+                        className="
+                          mt-1.5
+                          text-2xl
+                          font-extrabold
+                          text-white
+                        "
+                      >
+                        {activeProvince.province.areasCleared || "—"}
+                      </p>
+                    </div>
+
+                    {/* =================================================
+                        PROJECT DETAILS
+                    ================================================== */}
+
+                    {activeProvince.province.dafaWork && (
+                      <div
+                        className="
+                          mt-4
+                          space-y-4
+                          border-t
+                          border-white/10
+                          pt-5
+                        "
+                      >
+                        {/* Current Project */}
+
+                        <div
+                          className="
+                            flex
+                            items-start
+                            gap-3
+                          "
+                        >
+                          <div
+                            className="
+                              mt-0.5
+                              flex
+                              h-8
+                              w-8
+                              shrink-0
+                              items-center
+                              justify-center
+                              rounded-lg
+                              bg-white/10
+                              text-[#A7F3D0]
+                            "
+                          >
+                            <FaProjectDiagram size={12} />
+                          </div>
+
+                          <div className="min-w-0">
+                            <p
+                              className="
+                                text-[9px]
+                                font-bold
+                                uppercase
+                                tracking-[0.12em]
+                                text-white/45
+                              "
+                            >
+                              Current Project
+                            </p>
+
+                            <p
+                              className="
+                                mt-1
+                                text-sm
+                                font-bold
+                                leading-5
+                                text-white
+                              "
+                            >
+                              {activeProvince.province.currentProject || "—"}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Current Donor */}
+
+                        <div
+                          className="
+                            flex
+                            items-start
+                            gap-3
+                          "
+                        >
+                          <div
+                            className="
+                              mt-0.5
+                              flex
+                              h-8
+                              w-8
+                              shrink-0
+                              items-center
+                              justify-center
+                              rounded-lg
+                              bg-white/10
+                              text-[#A7F3D0]
+                            "
+                          >
+                            <FaHandshake size={12} />
+                          </div>
+
+                          <div className="min-w-0">
+                            <p
+                              className="
+                                text-[9px]
+                                font-bold
+                                uppercase
+                                tracking-[0.12em]
+                                text-white/45
+                              "
+                            >
+                              Current Donor / Partner
+                            </p>
+
+                            <p
+                              className="
+                                mt-1
+                                text-sm
+                                font-bold
+                                leading-5
+                                text-white
+                              "
+                            >
+                              {activeProvince.province.currentDonor || "—"}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Project Focus */}
+
+                        <div
+                          className="
+                            flex
+                            items-start
+                            gap-3
+                          "
+                        >
+                          <div
+                            className="
+                              mt-0.5
+                              flex
+                              h-8
+                              w-8
+                              shrink-0
+                              items-center
+                              justify-center
+                              rounded-lg
+                              bg-white/10
+                              text-[#A7F3D0]
+                            "
+                          >
+                            <FaBullseye size={12} />
+                          </div>
+
+                          <div className="min-w-0">
+                            <p
+                              className="
+                                text-[9px]
+                                font-bold
+                                uppercase
+                                tracking-[0.12em]
+                                text-white/45
+                              "
+                            >
+                              Project Focus
+                            </p>
+
+                            <p
+                              className="
+                                mt-1
+                                text-sm
+                                font-bold
+                                leading-5
+                                text-white
+                              "
+                            >
+                              {activeProvince.province.projectFocus || "—"}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Project Status */}
+
+                        <div
+                          className="
+                            flex
+                            items-center
+                            justify-between
+                            gap-3
+                            border-t
+                            border-white/10
+                            pt-4
+                          "
+                        >
+                          <span
+                            className="
+                              text-[9px]
+                              font-bold
+                              uppercase
+                              tracking-[0.12em]
+                              text-white/45
+                            "
+                          >
+                            Project Status
+                          </span>
+
+                          <span
+                            className="
+                              rounded-full
+                              bg-[#A7F3D0]/10
+                              px-3
+                              py-1
+                              text-[10px]
+                              font-extrabold
+                              text-[#A7F3D0]
+                            "
+                          >
+                            {activeProvince.province.projectStatus || "—"}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <p
+                    className="
+                      mt-4
+                      max-w-xs
+                      text-sm
+                      leading-6
+                      text-white/65
+                    "
+                  >
+                    Hover over a province or tap one on the map to view
+                    available coverage information.
+                  </p>
+                )}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Panel bottom */}
+
+            <div
+              className="
+                mt-auto
+                border-t
+                border-white/10
+                pt-5
+              "
+            >
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-between
+                  gap-4
+                "
+              >
+                <div>
+                  <p
+                    className="
+                      text-[10px]
+                      font-bold
+                      uppercase
+                      tracking-[0.12em]
+                      text-white/45
+                    "
+                  >
+                    Geographic presence
+                  </p>
+
+                  <p
+                    className="
+                      mt-1
+                      text-sm
+                      font-bold
+                      text-white
+                    "
+                  >
+                    {coveredProvinces} provinces
+                  </p>
+                </div>
+
+                <div
+                  className="
+                    h-9
+                    w-9
+                    rounded-full
+                    border
+                    border-white/10
+                    bg-white/5
+                  "
+                />
+              </div>
+            </div>
+          </motion.aside>
+        </div>
+
+        {/* =====================================================
+            CTA
+        ====================================================== */}
+
+        <motion.div
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.45,
+            delay: shouldReduceMotion ? 0 : 0.15,
+          }}
+          className="
+            mt-8
+            flex
+            justify-center
+            sm:mt-9
+          "
+        >
+          <Link
+            to="/coverage"
+            className="
+              group
+              inline-flex
+              min-h-[46px]
+              items-center
+              justify-center
+              gap-2.5
+              rounded-xl
+              border
+              border-[#0B3D2E]
+              bg-white
+              px-5
+              text-sm
+              font-bold
+              text-[#0B3D2E]
+              shadow-[0_6px_18px_rgba(15,23,42,0.05)]
+              transition-all
+              duration-300
+              hover:-translate-y-0.5
+              hover:bg-[#0B3D2E]
+              hover:text-white
+              hover:shadow-[0_10px_25px_rgba(11,61,46,0.12)]
+              focus:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-[#F97316]
+              focus-visible:ring-offset-2
+            "
+          >
+            <span>Explore Our Coverage</span>
+
+            <FaArrowRight
+              size={10}
+              aria-hidden="true"
+              className="
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+              "
+            />
+          </Link>
         </motion.div>
       </div>
     </section>

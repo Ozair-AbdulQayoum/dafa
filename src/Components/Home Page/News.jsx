@@ -1,136 +1,76 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+// src/Components/Home-Page/News.jsx
+
+import React from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
-import {
-  FaArrowRight,
-  FaCalendarAlt,
-  FaChevronLeft,
-  FaChevronRight,
-} from "react-icons/fa";
+import { FaArrowRight, FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
 
-import { latestNews } from "../../Components/Data File/News Update Data/LatestNews";
+import {
+  newsUpdates,
+  latestNews,
+} from "../../Components/Data File/News Update Data/LatestNews";
 
 export default function News() {
-  const [currentImage, setCurrentImage] = useState(0);
+  /*
+   * =========================================================
+   * HOMEPAGE NEWS SELECTION
+   * =========================================================
+   */
 
-  /* =====================================================
-     IMAGE DATA
-  ===================================================== */
+  const featuredNews = latestNews || newsUpdates?.[0];
 
-  const images = useMemo(() => {
-    if (latestNews?.gallery?.length > 0) {
-      return latestNews.gallery;
-    }
+  const secondaryNews = newsUpdates
+    ?.filter((article) => article.id !== featuredNews?.id)
+    .slice(0, 2);
 
-    if (latestNews?.image) {
-      return [latestNews.image];
-    }
-
-    return [];
-  }, []);
-
-  /* =====================================================
-     AUTO IMAGE SLIDER
-  ===================================================== */
-
-  useEffect(() => {
-    if (images.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setCurrentImage((previous) => (previous + 1) % images.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  /* =====================================================
-     NEXT IMAGE
-  ===================================================== */
-
-  const nextImage = () => {
-    if (images.length <= 1) return;
-
-    setCurrentImage((previous) => (previous + 1) % images.length);
-  };
-
-  /* =====================================================
-     PREVIOUS IMAGE
-  ===================================================== */
-
-  const previousImage = () => {
-    if (images.length <= 1) return;
-
-    setCurrentImage(
-      (previous) => (previous - 1 + images.length) % images.length,
-    );
-  };
+  if (!featuredNews) return null;
 
   return (
     <section
+      id="news-media"
       className="
         relative
         overflow-hidden
-        bg-gradient-to-br
-        from-[#E8F5EF]
-        via-[#F4FAF7]
-        to-[#EAF4F8]
-        py-14
-        sm:py-16
-        lg:py-20
+        bg-white
+        py-16
+        sm:py-20
+        lg:py-24
       "
     >
       {/* =====================================================
-          BACKGROUND GLOWS
+          SUBTLE BACKGROUND
       ===================================================== */}
 
-      <div className="pointer-events-none absolute inset-0">
-        {/* Green */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          right-0
+          top-0
+          h-72
+          w-72
+          rounded-full
+          bg-[#0B3D2E]/[0.035]
+          blur-3xl
+        "
+        aria-hidden="true"
+      />
 
-        <div
-          className="
-            absolute
-            -right-40
-            -top-40
-            h-96
-            w-96
-            rounded-full
-            bg-[#087B5A]/10
-            blur-[120px]
-          "
-        />
-
-        {/* Blue */}
-
-        <div
-          className="
-            absolute
-            -bottom-40
-            -left-40
-            h-96
-            w-96
-            rounded-full
-            bg-[#0284C7]/8
-            blur-[120px]
-          "
-        />
-
-        {/* Orange */}
-
-        <div
-          className="
-            absolute
-            bottom-[-180px]
-            left-1/2
-            h-96
-            w-96
-            -translate-x-1/2
-            rounded-full
-            bg-[#F97316]/5
-            blur-[120px]
-          "
-        />
-      </div>
+      <div
+        className="
+          pointer-events-none
+          absolute
+          bottom-0
+          left-0
+          h-64
+          w-64
+          rounded-full
+          bg-[#F97316]/[0.025]
+          blur-3xl
+        "
+        aria-hidden="true"
+      />
 
       <div
         className="
@@ -144,20 +84,20 @@ export default function News() {
         "
       >
         {/* =====================================================
-            SECTION HEADING
+            SECTION HEADER
         ===================================================== */}
 
-        <motion.div
+        <motion.header
           initial={{
             opacity: 0,
-            y: 25,
+            y: 24,
           }}
           whileInView={{
             opacity: 1,
             y: 0,
           }}
           transition={{
-            duration: 0.7,
+            duration: 0.65,
             ease: "easeOut",
           }}
           viewport={{
@@ -165,15 +105,23 @@ export default function News() {
             margin: "-100px",
           }}
           className="
-            mx-auto
             mb-10
             max-w-3xl
-            text-center
             sm:mb-12
           "
         >
-          <div className="mb-4 flex items-center justify-center gap-3">
-            <span className="h-[2px] w-10 rounded-full bg-[#087B5A]" />
+          {/* Eyebrow */}
+
+          <div className="mb-4 flex items-center gap-3">
+            <span
+              className="
+                h-[2px]
+                w-9
+                rounded-full
+                bg-[#F97316]
+              "
+              aria-hidden="true"
+            />
 
             <p
               className="
@@ -181,15 +129,15 @@ export default function News() {
                 font-bold
                 uppercase
                 tracking-[0.22em]
-                text-[#087B5A]
+                text-[#0A5A42]
                 sm:text-sm
               "
             >
-              Latest Updates
+              News &amp; Media
             </p>
-
-            <span className="h-[2px] w-10 rounded-full bg-[#087B5A]" />
           </div>
+
+          {/* Heading */}
 
           <h2
             className="
@@ -202,12 +150,13 @@ export default function News() {
               lg:text-5xl
             "
           >
-            News & <span className="text-[#087B5A]">Updates</span>
+            Latest Updates From <span className="text-[#0B3D2E]">DAFA</span>
           </h2>
+
+          {/* Description */}
 
           <p
             className="
-              mx-auto
               mt-4
               max-w-2xl
               text-base
@@ -216,334 +165,189 @@ export default function News() {
               sm:text-lg
             "
           >
-            Stay connected with DAFA activities, achievements, meetings, and
-            humanitarian efforts across Afghanistan.
+            Stay informed about DAFA&apos;s latest activities, field updates,
+            meetings, training, and humanitarian initiatives across Afghanistan.
           </p>
-        </motion.div>
+        </motion.header>
 
         {/* =====================================================
-            MAIN NEWS CARD
+            NEWS GRID
         ===================================================== */}
 
-        <motion.article
-          initial={{
-            opacity: 0,
-            y: 35,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.8,
-            ease: "easeOut",
-          }}
-          viewport={{
-            once: true,
-            margin: "-80px",
-          }}
+        <div
           className="
-            mx-auto
-            max-w-6xl
-            overflow-hidden
-            rounded-[2rem]
-            border
-            border-white/80
-            bg-[#F3F9F6]/90
-            shadow-[10px_12px_30px_rgba(15,23,42,0.10),-10px_-10px_28px_rgba(255,255,255,0.95)]
-            backdrop-blur-xl
-            transition-all
-            duration-500
-            hover:shadow-[14px_16px_38px_rgba(15,23,42,0.12),-12px_-12px_32px_rgba(255,255,255,1)]
+            grid
+            items-stretch
+            gap-6
+            lg:grid-cols-[1.25fr_0.75fr]
           "
         >
-          {/* =================================================
-              LEFT IMAGE / RIGHT CONTENT
-          ================================================= */}
+          {/* ===================================================
+              FEATURED ARTICLE
+          =================================================== */}
 
-          <div className="grid min-h-[420px] lg:grid-cols-[1.05fr_0.95fr]">
+          <motion.article
+            initial={{
+              opacity: 0,
+              y: 28,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.7,
+              ease: "easeOut",
+            }}
+            viewport={{
+              once: true,
+              margin: "-80px",
+            }}
+            className="
+              group
+              flex
+              h-full
+              flex-col
+              overflow-hidden
+              rounded-2xl
+              border
+              border-slate-200
+              bg-white
+              transition-all
+              duration-300
+              hover:-translate-y-1
+              hover:border-[#0B3D2E]/20
+              hover:shadow-[0_18px_45px_rgba(15,23,42,0.09)]
+            "
+          >
             {/* =================================================
-                IMAGE — LEFT SIDE
+                FEATURED IMAGE
             ================================================= */}
 
-            <div
+            <Link
+              to={`/resources/news-updates/${featuredNews.slug}`}
+              aria-label={`Read ${featuredNews.title}`}
               className="
                 relative
-                h-[300px]
-                min-h-full
+                block
+                h-[270px]
+                shrink-0
                 overflow-hidden
-                bg-[#0B3D2E]
-                sm:h-[380px]
-                lg:h-auto
+                sm:h-[320px]
+                lg:h-[335px]
               "
             >
-              {images.length > 0 ? (
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={`${images[currentImage]}-${currentImage}`}
-                    src={images[currentImage]}
-                    alt={latestNews?.title || "Latest DAFA news"}
-                    initial={{
-                      opacity: 0,
-                      scale: 1.08,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      scale: 1.03,
-                    }}
-                    transition={{
-                      duration: 0.8,
-                      ease: "easeOut",
-                    }}
-                    className="
-                      absolute
-                      inset-0
-                      h-full
-                      w-full
-                      object-cover
-                    "
-                  />
-                </AnimatePresence>
-              ) : (
-                <div
-                  className="
-                    flex
-                    h-full
-                    min-h-[300px]
-                    items-center
-                    justify-center
-                    bg-[#0B3D2E]
-                    text-sm
-                    font-semibold
-                    text-white/70
-                  "
-                >
-                  DAFA News
-                </div>
-              )}
+              <img
+                src={featuredNews.image}
+                alt={featuredNews.title}
+                className="
+                  h-full
+                  w-full
+                  object-cover
+                  transition-transform
+                  duration-700
+                  ease-out
+                  group-hover:scale-[1.03]
+                "
+                loading="lazy"
+              />
 
-              {/* Dark Cinematic Overlay */}
+              {/* Subtle image gradient */}
 
               <div
                 className="
                   pointer-events-none
                   absolute
-                  inset-0
+                  inset-x-0
+                  bottom-0
+                  h-24
                   bg-gradient-to-t
-                  from-[#031F18]/80
-                  via-[#031F18]/15
+                  from-black/35
                   to-transparent
                 "
+                aria-hidden="true"
               />
 
-              {/* =================================================
-                  PREVIOUS BUTTON
-              ================================================= */}
+              {/* Featured label */}
 
-              {images.length > 1 && (
-                <button
-                  type="button"
-                  onClick={previousImage}
-                  aria-label="Previous image"
-                  className="
-                    absolute
-                    left-4
-                    top-1/2
-                    z-20
-                    flex
-                    h-10
-                    w-10
-                    -translate-y-1/2
-                    items-center
-                    justify-center
-                    rounded-xl
-                    border
-                    border-white/20
-                    bg-black/25
-                    text-white
-                    backdrop-blur-md
-                    transition-all
-                    duration-300
-                    hover:bg-white
-                    hover:text-[#087B5A]
-                  "
-                >
-                  <FaChevronLeft size={13} />
-                </button>
-              )}
-
-              {/* =================================================
-                  NEXT BUTTON
-              ================================================= */}
-
-              {images.length > 1 && (
-                <button
-                  type="button"
-                  onClick={nextImage}
-                  aria-label="Next image"
-                  className="
-                    absolute
-                    right-4
-                    top-1/2
-                    z-20
-                    flex
-                    h-10
-                    w-10
-                    -translate-y-1/2
-                    items-center
-                    justify-center
-                    rounded-xl
-                    border
-                    border-white/20
-                    bg-black/25
-                    text-white
-                    backdrop-blur-md
-                    transition-all
-                    duration-300
-                    hover:bg-white
-                    hover:text-[#087B5A]
-                  "
-                >
-                  <FaChevronRight size={13} />
-                </button>
-              )}
-
-              {/* =================================================
-                  SLIDER DOTS
-              ================================================= */}
-
-              {images.length > 1 && (
-                <div
-                  className="
-                    absolute
-                    bottom-5
-                    left-1/2
-                    z-20
-                    flex
-                    -translate-x-1/2
-                    items-center
-                    gap-2
-                    rounded-xl
-                    border
-                    border-white/20
-                    bg-black/25
-                    px-3
-                    py-2
-                    backdrop-blur-md
-                  "
-                >
-                  {images.map((_, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      onClick={() => setCurrentImage(index)}
-                      aria-label={`Show image ${index + 1}`}
-                      className={`
-                        h-2
-                        rounded-full
-                        transition-all
-                        duration-500
-                        ${
-                          currentImage === index
-                            ? "w-7 bg-white"
-                            : "w-2 bg-white/50"
-                        }
-                      `}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
+              <span
+                className="
+                  absolute
+                  left-5
+                  top-5
+                  rounded-md
+                  bg-[#0B3D2E]
+                  px-3
+                  py-1.5
+                  text-[10px]
+                  font-bold
+                  uppercase
+                  tracking-[0.16em]
+                  text-white
+                  sm:left-6
+                  sm:top-6
+                "
+              >
+                Featured
+              </span>
+            </Link>
 
             {/* =================================================
-                CONTENT — RIGHT SIDE
+                FEATURED CONTENT
             ================================================= */}
 
             <div
               className="
                 flex
+                flex-1
                 flex-col
-                justify-center
-                p-7
-                sm:p-9
-                lg:p-11
+                p-6
+                sm:p-7
+                lg:p-8
               "
             >
-              {/* Latest News Badge */}
+              {/* Category + Date */}
 
               <div
                 className="
-                  mb-5
                   flex
-                  w-fit
+                  flex-wrap
                   items-center
-                  gap-2
-                  rounded-xl
-                  bg-[#E6F3ED]
-                  px-4
-                  py-2
-                  shadow-[4px_4px_10px_rgba(15,23,42,0.06),-4px_-4px_10px_rgba(255,255,255,0.8)]
+                  gap-x-4
+                  gap-y-2
+                  text-xs
+                  font-semibold
+                  uppercase
+                  tracking-[0.08em]
                 "
               >
+                <span className="text-[#0A5A42]">{featuredNews.category}</span>
+
                 <span
                   className="
-                    h-2
-                    w-2
-                    animate-pulse
+                    h-1
+                    w-1
                     rounded-full
-                    bg-[#087B5A]
+                    bg-[#F97316]
                   "
+                  aria-hidden="true"
                 />
 
                 <span
                   className="
-                    text-[11px]
-                    font-bold
-                    uppercase
-                    tracking-[0.16em]
-                    text-[#087B5A]
+                    inline-flex
+                    items-center
+                    gap-2
+                    text-slate-400
                   "
                 >
-                  Latest News
+                  <FaCalendarAlt
+                    className="text-[#F97316]"
+                    aria-hidden="true"
+                  />
+
+                  {featuredNews.date}
                 </span>
-              </div>
-
-              {/* Category */}
-
-              <p
-                className="
-                  text-xs
-                  font-bold
-                  uppercase
-                  tracking-[0.15em]
-                  text-[#087B5A]
-                "
-              >
-                {latestNews?.category}
-              </p>
-
-              {/* Date */}
-
-              <div
-                className="
-                  mt-3
-                  flex
-                  items-center
-                  gap-2
-                  text-xs
-                  font-medium
-                  uppercase
-                  tracking-wide
-                  text-slate-400
-                "
-              >
-                <FaCalendarAlt className="text-[#087B5A]" />
-
-                <span>{latestNews?.date}</span>
               </div>
 
               {/* Title */}
@@ -551,75 +355,338 @@ export default function News() {
               <h3
                 className="
                   mt-4
+                  max-w-3xl
                   text-2xl
                   font-bold
                   leading-tight
                   tracking-tight
                   text-[#0F172A]
+                  transition-colors
+                  duration-300
+                  group-hover:text-[#0B3D2E]
                   sm:text-3xl
-                  lg:text-[2.1rem]
+                  lg:text-[1.9rem]
                 "
               >
-                {latestNews?.title}
+                {featuredNews.title}
               </h3>
 
               {/* Description */}
 
-              <p
+              {featuredNews.description && (
+                <p
+                  className="
+                    mt-4
+                    max-w-2xl
+                    text-sm
+                    leading-7
+                    text-slate-600
+                    sm:text-base
+                  "
+                >
+                  {featuredNews.description}
+                </p>
+              )}
+
+              {/* =================================================
+                  FEATURED FOOTER
+              ================================================= */}
+
+              <div
                 className="
-                  mt-5
-                  max-w-xl
-                  text-sm
-                  leading-7
-                  text-slate-600
-                  sm:text-base
+                  mt-auto
+                  pt-6
                 "
               >
-                {latestNews?.description}
-              </p>
+                <div
+                  className="
+                    mb-5
+                    h-px
+                    w-full
+                    bg-slate-200
+                  "
+                />
 
-              {/* Divider */}
+                <div
+                  className="
+                    flex
+                    flex-col
+                    gap-4
+                    sm:flex-row
+                    sm:items-center
+                    sm:justify-between
+                  "
+                >
+                  {/* Location */}
 
-              <div className="my-7 h-px bg-slate-200/70" />
+                  {featuredNews.location && (
+                    <div
+                      className="
+                        flex
+                        items-center
+                        gap-2
+                        text-xs
+                        font-medium
+                        text-slate-500
+                      "
+                    >
+                      <FaMapMarkerAlt
+                        className="text-[#0A5A42]"
+                        aria-hidden="true"
+                      />
 
-              {/* Read More */}
+                      <span>{featuredNews.location}</span>
+                    </div>
+                  )}
 
-              <Link
-                to={`/resources/news-updates/${latestNews?.slug}`}
+                  {/* Read Article */}
+
+                  <Link
+                    to={`/resources/news-updates/${featuredNews.slug}`}
+                    className="
+                      group/link
+                      inline-flex
+                      min-h-[44px]
+                      w-fit
+                      items-center
+                      gap-2.5
+                      rounded-lg
+                      bg-[#0B3D2E]
+                      px-5
+                      py-3
+                      text-sm
+                      font-bold
+                      text-white
+                      transition-all
+                      duration-300
+                      hover:bg-[#0A5A42]
+                      focus:outline-none
+                      focus:ring-2
+                      focus:ring-[#F97316]
+                      focus:ring-offset-2
+                    "
+                  >
+                    <span>Read Article</span>
+
+                    <FaArrowRight
+                      size={11}
+                      className="
+                        transition-transform
+                        duration-300
+                        group-hover/link:translate-x-1
+                      "
+                      aria-hidden="true"
+                    />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </motion.article>
+
+          {/* ===================================================
+              SECONDARY ARTICLES
+          =================================================== */}
+
+          <div
+            className="
+              grid
+              gap-6
+              sm:grid-cols-2
+              lg:grid-cols-1
+            "
+          >
+            {secondaryNews?.map((article, index) => (
+              <motion.article
+                key={article.id}
+                initial={{
+                  opacity: 0,
+                  y: 28,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.1,
+                  ease: "easeOut",
+                }}
+                viewport={{
+                  once: true,
+                  margin: "-80px",
+                }}
                 className="
                   group
-                  inline-flex
-                  w-fit
-                  items-center
-                  gap-3
-                  rounded-xl
-                  bg-[#087B5A]
-                  px-6
-                  py-3.5
-                  text-sm
-                  font-bold
-                  text-white
-                  shadow-[5px_6px_14px_rgba(8,123,90,0.20)]
+                  flex
+                  h-full
+                  flex-col
+                  overflow-hidden
+                  rounded-2xl
+                  border
+                  border-slate-200
+                  bg-white
                   transition-all
                   duration-300
                   hover:-translate-y-1
-                  hover:bg-[#0B3D2E]
+                  hover:border-[#0B3D2E]/20
+                  hover:shadow-[0_16px_38px_rgba(15,23,42,0.08)]
+                  sm:flex-row
+                  lg:flex-col
                 "
               >
-                <span>Read More</span>
+                {/* Image */}
 
-                <FaArrowRight
-                  size={12}
+                <Link
+                  to={`/resources/news-updates/${article.slug}`}
+                  aria-label={`Read ${article.title}`}
                   className="
-                    transition-transform
-                    duration-300
-                    group-hover:translate-x-1
+                    relative
+                    block
+                    h-[205px]
+                    shrink-0
+                    overflow-hidden
+                    sm:h-auto
+                    sm:w-[42%]
+                    lg:h-[170px]
+                    lg:w-full
                   "
-                />
-              </Link>
-            </div>
+                >
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="
+                      h-full
+                      w-full
+                      object-cover
+                      transition-transform
+                      duration-700
+                      ease-out
+                      group-hover:scale-[1.04]
+                    "
+                    loading="lazy"
+                  />
+                </Link>
+
+                {/* Content */}
+
+                <div
+                  className="
+                    flex
+                    min-w-0
+                    flex-1
+                    flex-col
+                    p-5
+                    sm:p-6
+                    lg:p-5
+                  "
+                >
+                  {/* Category + Date */}
+
+                  <div
+                    className="
+                      flex
+                      flex-wrap
+                      items-center
+                      gap-x-3
+                      gap-y-1.5
+                      text-[10px]
+                      font-bold
+                      uppercase
+                      tracking-[0.1em]
+                    "
+                  >
+                    <span className="text-[#0A5A42]">{article.category}</span>
+
+                    <span
+                      className="
+                        h-1
+                        w-1
+                        rounded-full
+                        bg-[#F97316]
+                      "
+                      aria-hidden="true"
+                    />
+
+                    <span className="text-slate-400">{article.date}</span>
+                  </div>
+
+                  {/* Title */}
+
+                  <h3
+                    className="
+                      mt-3
+                      line-clamp-2
+                      text-lg
+                      font-bold
+                      leading-snug
+                      tracking-tight
+                      text-[#0F172A]
+                      transition-colors
+                      duration-300
+                      group-hover:text-[#0B3D2E]
+                      sm:text-xl
+                      lg:text-lg
+                    "
+                  >
+                    {article.title}
+                  </h3>
+
+                  {/* Short excerpt */}
+
+                  {article.description && (
+                    <p
+                      className="
+                        mt-3
+                        line-clamp-2
+                        text-sm
+                        leading-6
+                        text-slate-500
+                      "
+                    >
+                      {article.description}
+                    </p>
+                  )}
+
+                  {/* CTA */}
+
+                  <Link
+                    to={`/resources/news-updates/${article.slug}`}
+                    className="
+                      group/link
+                      mt-auto
+                      pt-4
+                      inline-flex
+                      min-h-[42px]
+                      w-fit
+                      items-center
+                      gap-2
+                      text-sm
+                      font-bold
+                      text-[#0B3D2E]
+                      transition-colors
+                      duration-300
+                      hover:text-[#F97316]
+                      focus:outline-none
+                      focus-visible:underline
+                    "
+                  >
+                    <span>Read Article</span>
+
+                    <FaArrowRight
+                      size={10}
+                      className="
+                        transition-transform
+                        duration-300
+                        group-hover/link:translate-x-1
+                      "
+                      aria-hidden="true"
+                    />
+                  </Link>
+                </div>
+              </motion.article>
+            ))}
           </div>
-        </motion.article>
+        </div>
 
         {/* =====================================================
             VIEW ALL NEWS
@@ -628,7 +695,7 @@ export default function News() {
         <motion.div
           initial={{
             opacity: 0,
-            y: 15,
+            y: 18,
           }}
           whileInView={{
             opacity: 1,
@@ -637,37 +704,46 @@ export default function News() {
           transition={{
             duration: 0.6,
             delay: 0.1,
+            ease: "easeOut",
           }}
           viewport={{
             once: true,
           }}
-          className="mt-8 text-center"
+          className="
+            mt-10
+            flex
+            justify-center
+            sm:mt-12
+          "
         >
           <Link
             to="/resources/news-updates"
             className="
               group
               inline-flex
+              min-h-[48px]
               items-center
               gap-3
-              rounded-xl
+              rounded-lg
               border
-              border-white
-              bg-[#F3F9F6]
+              border-[#0B3D2E]
+              bg-white
               px-7
               py-3.5
               text-sm
               font-bold
-              text-[#087B5A]
-              shadow-[6px_6px_14px_rgba(15,23,42,0.08),-6px_-6px_14px_rgba(255,255,255,0.9)]
+              text-[#0B3D2E]
               transition-all
               duration-300
-              hover:-translate-y-1
-              hover:bg-[#087B5A]
+              hover:bg-[#0B3D2E]
               hover:text-white
+              focus:outline-none
+              focus:ring-2
+              focus:ring-[#F97316]
+              focus:ring-offset-2
             "
           >
-            <span>See More News & Meetings</span>
+            <span>View All News</span>
 
             <FaArrowRight
               size={11}
@@ -676,6 +752,7 @@ export default function News() {
                 duration-300
                 group-hover:translate-x-1
               "
+              aria-hidden="true"
             />
           </Link>
         </motion.div>

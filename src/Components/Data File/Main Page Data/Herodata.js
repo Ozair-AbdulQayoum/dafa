@@ -5,21 +5,32 @@
 export const heroData = {
   eyebrow: "Demining Agency for Afghanistan",
 
-  years: "36",
+  title: "Building a Safer Afghanistan,",
 
-  yearsLabel: "Years of",
-
-  title: "Humanitarian",
-
-  highlight: "Mine Action",
+  highlight: "One Community at a Time.",
 
   description:
     "Working toward a safer Afghanistan by removing landmines and explosive remnants of war, protecting communities, and creating opportunities for a safer future.",
 
   buttons: {
-    primary: "Explore Our Projects",
+    primary: "Explore Our Work",
     secondary: "About DAFA",
   },
+
+  trustIndicators: [
+    {
+      value: "30+",
+      label: "Years of Experience",
+    },
+    {
+      value: "34",
+      label: "Provinces of Operations",
+    },
+    {
+      value: "Thousands",
+      label: "Lives Impacted",
+    },
+  ],
 
   bottomBar: {
     label: "Humanitarian Mine Action",
@@ -41,13 +52,11 @@ export const heroImages = [
     image: heroImage1,
     alt: "DAFA humanitarian mine action team working in Afghanistan",
   },
-
   {
     id: 2,
     image: heroImage2,
     alt: "DAFA humanitarian mine action operations in Afghanistan",
   },
-
   {
     id: 3,
     image: heroImage3,

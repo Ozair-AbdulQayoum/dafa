@@ -1,4 +1,4 @@
-// src/Components/Main Page Data/PartnersDonorsData.js
+// src/Components/Data File/Main Page Data/PartnersDonorsData.js
 
 import donor1 from "../../../assets/USA.jpg";
 import donor2 from "../../../assets/WRA.jpg";
@@ -159,3 +159,5 @@ export const partnerGroups = [
     ],
   },
 ];
+
+export default partnerGroups;

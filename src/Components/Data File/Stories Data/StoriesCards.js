@@ -1,4 +1,6 @@
-// src/Data File/Stories Data/StoriesCards.js
+// ============================================================
+// SUCCESS STORIES DATA
+// ============================================================
 
 export const storiesCardsData = [
   {
@@ -131,3 +133,5 @@ export const storiesCardsData = [
     date: "February 2026",
   },
 ];
+
+export default storiesCardsData;

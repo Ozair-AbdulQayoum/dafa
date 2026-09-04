@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { FaArrowRight, FaMapMarkerAlt } from "react-icons/fa";
+import { FaArrowRight, FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
 
 import projects from "../../Components/Data File/Project Data/ProjectsData";
 
@@ -13,25 +13,20 @@ export default function Projects() {
     .filter((project) => project.status === "Ongoing")
     .slice(0, 3);
 
-  // Different ambient glow color for each card
-  const glowColors = ["#087B5A", "#0284C7", "#F97316"];
-
   return (
     <section
+      aria-labelledby="featured-projects-heading"
       className="
         relative
         overflow-hidden
-        bg-gradient-to-br
-        from-[#E8F5EF]
-        via-[#F4FAF7]
-        to-[#EAF4F8]
-        py-14
-        sm:py-16
-        lg:py-20
+        bg-[#F6FAF8]
+        py-16
+        sm:py-20
+        lg:py-24
       "
     >
       {/* =====================================================
-          BACKGROUND GLOWS
+          SUBTLE BACKGROUND DETAIL
       ====================================================== */}
 
       <div
@@ -39,55 +34,34 @@ export default function Projects() {
         className="
           pointer-events-none
           absolute
-          inset-0
+          left-0
+          top-0
+          h-72
+          w-72
+          -translate-x-1/2
+          -translate-y-1/2
+          rounded-full
+          bg-[#0B3D2E]/[0.035]
+          blur-3xl
         "
-      >
-        {/* Green */}
+      />
 
-        <div
-          className="
-            absolute
-            -left-40
-            -top-32
-            h-[480px]
-            w-[480px]
-            rounded-full
-            bg-[#087B5A]/10
-            blur-[120px]
-          "
-        />
-
-        {/* Blue */}
-
-        <div
-          className="
-            absolute
-            -right-40
-            top-1/4
-            h-[450px]
-            w-[450px]
-            rounded-full
-            bg-[#0284C7]/10
-            blur-[120px]
-          "
-        />
-
-        {/* Orange */}
-
-        <div
-          className="
-            absolute
-            bottom-[-220px]
-            left-1/2
-            h-[500px]
-            w-[500px]
-            -translate-x-1/2
-            rounded-full
-            bg-[#F97316]/10
-            blur-[130px]
-          "
-        />
-      </div>
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          bottom-0
+          right-0
+          h-80
+          w-80
+          translate-x-1/3
+          translate-y-1/3
+          rounded-full
+          bg-[#F97316]/[0.025]
+          blur-3xl
+        "
+      />
 
       {/* =====================================================
           CONTAINER
@@ -108,42 +82,29 @@ export default function Projects() {
             HEADER
         ====================================================== */}
 
-        <motion.div
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 25 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
+        <motion.header
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{
             once: true,
             amount: 0.2,
           }}
           transition={{
-            duration: shouldReduceMotion ? 0 : 0.7,
+            duration: shouldReduceMotion ? 0 : 0.65,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="
-            mx-auto
             max-w-3xl
-            text-center
           "
         >
-          {/* LABEL */}
+          {/* EYEBROW */}
 
-          <div
-            className="
-              mb-5
-              flex
-              items-center
-              justify-center
-              gap-3
-            "
-          >
+          <div className="flex items-center gap-3">
             <span
+              aria-hidden="true"
               className="
-                h-[2px]
-                w-10
-                rounded-full
+                h-px
+                w-9
                 bg-[#F97316]
               "
             />
@@ -153,89 +114,92 @@ export default function Projects() {
                 text-xs
                 font-bold
                 uppercase
-                tracking-[0.22em]
-                text-[#087B5A]
+                tracking-[0.2em]
+                text-[#0A5A42]
                 sm:text-sm
               "
             >
               Featured Projects
             </span>
-
-            <span
-              className="
-                h-[2px]
-                w-10
-                rounded-full
-                bg-[#F97316]
-              "
-            />
           </div>
 
-          {/* TITLE */}
+          {/* HEADING */}
 
           <h2
+            id="featured-projects-heading"
             className="
+              mt-5
+              max-w-2xl
               text-3xl
               font-extrabold
-              leading-[1.1]
-              tracking-tight
+              leading-[1.08]
+              tracking-[-0.035em]
               text-[#0F172A]
               sm:text-4xl
               lg:text-5xl
             "
           >
-            Turning Humanitarian Action
-            <span className="block text-[#087B5A]">Into Lasting Impact</span>
+            Turning Humanitarian Action Into{" "}
+            <span className="text-[#0B3D2E]">Real Impact</span>
           </h2>
 
           {/* DESCRIPTION */}
 
           <p
             className="
-              mx-auto
               mt-5
               max-w-2xl
               text-base
-              leading-8
+              leading-7
               text-slate-600
               sm:text-lg
+              sm:leading-8
             "
           >
-            Explore DAFA&apos;s ongoing humanitarian projects helping
-            communities across Afghanistan reduce explosive hazards and create
-            safer environments.
+            DAFA projects help reduce explosive hazards and support safer
+            communities across Afghanistan.
           </p>
-        </motion.div>
+        </motion.header>
 
         {/* =====================================================
-            PROJECT CARDS
+            PROJECT AREA
         ====================================================== */}
 
         {homeProjects.length > 0 ? (
           <div
             className="
-              mx-auto
-              mt-12
+              mt-10
               grid
-              max-w-6xl
-              gap-7
-              md:grid-cols-2
-              lg:grid-cols-3
+              gap-6
+              lg:mt-12
+              lg:grid-cols-[1.35fr_0.85fr]
             "
           >
-            {homeProjects.map((project, index) => {
-              const glowColor = glowColors[index % glowColors.length];
+            {/* =================================================
+                FEATURED PROJECT
+            ================================================== */}
 
-              return (
-                <ProjectCard
+            {homeProjects[0] && (
+              <FeaturedProjectCard
+                project={homeProjects[0]}
+                shouldReduceMotion={shouldReduceMotion}
+              />
+            )}
+
+            {/* =================================================
+                SECONDARY PROJECTS
+            ================================================== */}
+
+            <div className="grid gap-6">
+              {homeProjects.slice(1, 3).map((project, index) => (
+                <SecondaryProjectCard
                   key={project.slug}
                   project={project}
-                  glowColor={glowColor}
                   index={index}
                   shouldReduceMotion={shouldReduceMotion}
                 />
-              );
-            })}
+              ))}
+            </div>
           </div>
         ) : (
           /* =====================================================
@@ -244,21 +208,15 @@ export default function Projects() {
 
           <div
             className="
-              mx-auto
-              mt-12
-              max-w-6xl
-              rounded-[30px]
-
-              bg-[#0B3D2E]/10
-
+              mt-10
+              rounded-2xl
+              border
+              border-[#0B3D2E]/10
+              bg-white
               px-6
               py-16
-
               text-center
-
-              backdrop-blur-2xl
-
-              shadow-[0_20px_50px_rgba(11,61,46,0.12)]
+              shadow-[0_10px_35px_rgba(11,61,46,0.06)]
             "
           >
             <h3
@@ -288,81 +246,64 @@ export default function Projects() {
         ====================================================== */}
 
         <motion.div
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
           whileInView={{
             opacity: 1,
             y: 0,
           }}
           viewport={{
             once: true,
+            amount: 0.2,
           }}
           transition={{
-            duration: shouldReduceMotion ? 0 : 0.7,
-            delay: shouldReduceMotion ? 0 : 0.2,
+            duration: shouldReduceMotion ? 0 : 0.6,
+            delay: shouldReduceMotion ? 0 : 0.15,
           }}
           className="
-            mt-12
+            mt-10
             flex
             justify-center
+            lg:mt-12
           "
         >
           <Link
             to="/projects"
             className="
               group
-
               inline-flex
+              min-h-12
               items-center
               gap-3
-
-              rounded-full
-
-              bg-[#087B5A]
-
-              px-7
-              py-3.5
-
+              rounded-xl
+              bg-[#0B3D2E]
+              px-6
+              py-3
               text-sm
               font-bold
               text-white
-
-              shadow-[0_10px_30px_rgba(8,123,90,0.18)]
-
+              shadow-[0_10px_25px_rgba(11,61,46,0.16)]
               transition-all
               duration-300
-
-              hover:-translate-y-1
-              hover:bg-[#0B3D2E]
-              hover:shadow-[0_15px_35px_rgba(11,61,46,0.25)]
-
+              hover:-translate-y-0.5
+              hover:bg-[#0A5A42]
+              hover:shadow-[0_14px_30px_rgba(11,61,46,0.20)]
               focus:outline-none
               focus-visible:ring-2
-              focus-visible:ring-[#087B5A]/40
+              focus-visible:ring-[#F97316]
               focus-visible:ring-offset-2
             "
           >
             <span>View All Projects</span>
 
-            <span
+            <FaArrowRight
+              size={12}
+              aria-hidden="true"
               className="
-                flex
-                h-7
-                w-7
-                items-center
-                justify-center
-
-                rounded-full
-
-                bg-white/10
-
                 transition-transform
                 duration-300
-
                 group-hover:translate-x-1
               "
-            >
-              <FaArrowRight size={11} aria-hidden="true" />
-            </span>
+            />
           </Link>
         </motion.div>
       </div>
@@ -371,10 +312,10 @@ export default function Projects() {
 }
 
 /* ============================================================
-   PROJECT CARD
+   FEATURED PROJECT CARD
 ============================================================ */
 
-function ProjectCard({ project, glowColor, index, shouldReduceMotion }) {
+function FeaturedProjectCard({ project, shouldReduceMotion }) {
   const images =
     project.images?.length > 0
       ? project.images
@@ -384,30 +325,19 @@ function ProjectCard({ project, glowColor, index, shouldReduceMotion }) {
 
   const [currentImage, setCurrentImage] = useState(0);
 
-  /* ==========================================================
-     AUTOMATIC IMAGE SLIDER
-  ========================================================== */
-
   useEffect(() => {
     if (images.length <= 1 || shouldReduceMotion) return;
 
     const interval = setInterval(() => {
       setCurrentImage((previous) => (previous + 1) % images.length);
-    }, 4000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [images.length, shouldReduceMotion]);
 
   return (
     <motion.article
-      initial={
-        shouldReduceMotion
-          ? { opacity: 1 }
-          : {
-              opacity: 0,
-              y: 35,
-            }
-      }
+      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 28 }}
       whileInView={{
         opacity: 1,
         y: 0,
@@ -418,217 +348,129 @@ function ProjectCard({ project, glowColor, index, shouldReduceMotion }) {
       }}
       transition={{
         duration: shouldReduceMotion ? 0 : 0.65,
-        delay: shouldReduceMotion ? 0 : index * 0.08,
         ease: [0.22, 1, 0.36, 1],
       }}
       whileHover={
         shouldReduceMotion
           ? {}
           : {
-              y: -10,
+              y: -5,
             }
       }
       className="
         group
-
-        relative
         overflow-hidden
-
-        rounded-[30px]
-
-        bg-[#0B3D2E]/10
-
-        backdrop-blur-2xl
-
-        shadow-[0_20px_50px_rgba(11,61,46,0.14)]
-
-        transition-all
-        duration-500
-
-        hover:bg-[#0B3D2E]/15
-        hover:shadow-[0_30px_70px_rgba(11,61,46,0.20)]
+        rounded-2xl
+        border
+        border-slate-200/90
+        bg-white
+        shadow-[0_12px_35px_rgba(15,23,42,0.07)]
+        transition-shadow
+        duration-300
+        hover:shadow-[0_18px_45px_rgba(15,23,42,0.10)]
       "
     >
-      {/* =====================================================
-          SUBTLE GLASS LIGHT
-      ====================================================== */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-
-          absolute
-          -right-20
-          -top-20
-
-          z-20
-
-          h-40
-          w-40
-
-          rounded-full
-
-          bg-[#A7F3D0]/10
-
-          blur-[60px]
-        "
-      />
-
-      {/* =====================================================
-          IMAGE AREA
-      ====================================================== */}
+      {/* IMAGE */}
 
       <div
         className="
           relative
-          h-[390px]
+          h-[300px]
           overflow-hidden
+          sm:h-[380px]
+          lg:h-[500px]
         "
       >
-        {/* =================================================
-            IMAGES
-        ================================================== */}
-
         {images.length > 0 ? (
           images.map((image, imageIndex) => (
             <motion.img
               key={`${image}-${imageIndex}`}
               src={image}
-              alt={project.title}
+              alt={`${project.title} project`}
               loading={imageIndex === 0 ? "eager" : "lazy"}
               decoding="async"
               initial={false}
               animate={{
                 opacity: currentImage === imageIndex ? 1 : 0,
-
-                scale: currentImage === imageIndex ? 1 : 1.04,
+                scale: currentImage === imageIndex ? 1 : 1.025,
               }}
               transition={{
                 opacity: {
                   duration: 0.8,
-                  ease: "easeInOut",
                 },
                 scale: {
-                  duration: 1.2,
-                  ease: "easeOut",
+                  duration: 1,
                 },
               }}
               className="
+                absolute
+                inset-0
                 h-full
                 w-full
-
                 object-cover
                 object-center
+                transition-transform
+                duration-700
+                group-hover:scale-[1.025]
               "
-              style={{
-                position: imageIndex === 0 ? "relative" : "absolute",
-
-                inset: imageIndex === 0 ? undefined : 0,
-              }}
             />
           ))
         ) : (
-          /* =================================================
-             FALLBACK
-          ================================================== */
-
-          <div
-            className="
-              flex
-              h-full
-              w-full
-              items-center
-              justify-center
-
-              bg-gradient-to-br
-              from-[#052E23]
-              via-[#0B3D2E]
-              to-[#087B5A]
-            "
-          >
-            <span
-              className="
-                text-sm
-                font-semibold
-                text-[#A7F3D0]
-              "
-            >
-              DAFA Project
-            </span>
-          </div>
+          <ProjectImageFallback />
         )}
 
-        {/* =================================================
-            CINEMATIC OVERLAY
-        ================================================== */}
+        {/* SUBTLE IMAGE OVERLAY */}
 
         <div
           aria-hidden="true"
           className="
             pointer-events-none
-
             absolute
             inset-0
-
             bg-gradient-to-t
-            from-[#03150F]
-            via-[#03150F]/45
+            from-black/65
+            via-black/10
             to-transparent
           "
         />
 
-        {/* =================================================
-            COLORED AMBIENT GLOW
-        ================================================== */}
+        {/* FEATURED LABEL */}
 
         <div
-          aria-hidden="true"
           className="
-            pointer-events-none
-
             absolute
-            bottom-[-100px]
-            left-1/2
-
-            h-[250px]
-            w-[90%]
-
-            -translate-x-1/2
-
+            left-5
+            top-5
             rounded-full
-
-            opacity-40
-
-            blur-[85px]
-
-            transition-all
-            duration-700
-
-            group-hover:scale-125
-            group-hover:opacity-60
+            bg-[#0B3D2E]
+            px-3.5
+            py-1.5
+            text-[11px]
+            font-bold
+            uppercase
+            tracking-[0.12em]
+            text-white
+            shadow-lg
+            sm:left-6
+            sm:top-6
           "
-          style={{
-            backgroundColor: glowColor,
-          }}
-        />
+        >
+          Featured Project
+        </div>
 
-        {/* =================================================
-            IMAGE SLIDER DOTS
-        ================================================== */}
+        {/* IMAGE INDICATORS */}
 
         {images.length > 1 && (
           <div
             className="
               absolute
               right-5
-              top-5
-              z-30
-
+              top-6
               flex
               items-center
               gap-1.5
             "
+            aria-hidden="true"
           >
             {images.map((_, imageIndex) => (
               <span
@@ -637,12 +479,11 @@ function ProjectCard({ project, glowColor, index, shouldReduceMotion }) {
                   h-1.5
                   rounded-full
                   transition-all
-                  duration-500
-
+                  duration-300
                   ${
                     currentImage === imageIndex
                       ? "w-5 bg-white"
-                      : "w-1.5 bg-white/45"
+                      : "w-1.5 bg-white/60"
                   }
                 `}
               />
@@ -650,166 +491,427 @@ function ProjectCard({ project, glowColor, index, shouldReduceMotion }) {
           </div>
         )}
 
-        {/* =================================================
-            CONTENT
-        ================================================== */}
+        {/* CONTENT */}
 
         <div
           className="
             absolute
             inset-x-0
             bottom-0
-
-            z-30
-
-            p-6
+            p-5
             sm:p-7
+            lg:p-8
           "
         >
-          {/* PROJECT TITLE */}
+          <div
+            className="
+              flex
+              flex-wrap
+              items-center
+              gap-x-4
+              gap-y-2
+              text-sm
+              text-white/90
+            "
+          >
+            <ProjectLocation location={project.location} />
+
+            {project.year && <ProjectYear year={project.year} />}
+          </div>
 
           <h3
             className="
-              max-w-[95%]
-
+              mt-3
+              max-w-2xl
               text-2xl
               font-extrabold
-              leading-[1.15]
-              tracking-[-0.025em]
-
+              leading-tight
+              tracking-[-0.02em]
               text-white
-
-              drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)]
+              sm:text-3xl
             "
           >
             {project.title}
           </h3>
 
-          {/* LOCATION + STATUS */}
-
-          <div
+          <p
             className="
               mt-3
-
-              flex
-              flex-wrap
-              items-center
-              gap-3
-            "
-          >
-            {/* LOCATION */}
-
-            <div
-              className="
-                flex
-                items-center
-                gap-2
-
-                text-sm
-                font-medium
-
-                text-white
-
-                drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)]
-              "
-            >
-              <FaMapMarkerAlt size={12} className="text-[#FDBA74]" />
-
-              <span>{project.location}</span>
-            </div>
-
-            {/* STATUS */}
-
-            <span
-              className="
-                rounded-full
-
-                bg-[#0B3D2E]/65
-
-                px-3
-                py-1
-
-                text-[11px]
-                font-bold
-
-                text-[#D1FAE5]
-
-                backdrop-blur-xl
-              "
-            >
-              {project.status}
-            </span>
-          </div>
-
-          {/* VIEW PROJECT */}
-
-          <Link
-            to={`/projects/${project.slug}`}
-            aria-label={`View ${project.title}`}
-            className="
-              group/link
-
-              mt-5
-
-              inline-flex
-              items-center
-              gap-3
-
-              rounded-full
-
-              bg-[#0B3D2E]/70
-
-              px-4
-              py-2.5
-
+              max-w-2xl
               text-sm
-              font-semibold
-
-              text-white
-
-              backdrop-blur-xl
-
-              shadow-[0_8px_25px_rgba(0,0,0,0.20)]
-
-              transition-all
-              duration-300
-
-              hover:-translate-y-0.5
-              hover:bg-[#087B5A]
-
-              hover:shadow-[0_12px_30px_rgba(8,123,90,0.30)]
-
-              focus:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[#A7F3D0]/70
-              focus-visible:ring-offset-2
+              leading-6
+              text-white/85
+              sm:text-base
+              sm:leading-7
             "
           >
-            <span>View Project</span>
+            {project.description}
+          </p>
 
-            <span
-              className="
-                flex
-                h-6
-                w-6
-                items-center
-                justify-center
-
-                rounded-full
-
-                bg-white/10
-
-                transition-transform
-                duration-300
-
-                group-hover/link:translate-x-1
-              "
-            >
-              <FaArrowRight size={9} aria-hidden="true" />
-            </span>
-          </Link>
+          <ProjectLink project={project} light />
         </div>
       </div>
     </motion.article>
+  );
+}
+
+/* ============================================================
+   SECONDARY PROJECT CARD
+============================================================ */
+
+function SecondaryProjectCard({ project, index, shouldReduceMotion }) {
+  const images =
+    project.images?.length > 0
+      ? project.images
+      : project.image
+        ? [project.image]
+        : [];
+
+  const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1 || shouldReduceMotion) return;
+
+    const interval = setInterval(() => {
+      setCurrentImage((previous) => (previous + 1) % images.length);
+    }, 5500);
+
+    return () => clearInterval(interval);
+  }, [images.length, shouldReduceMotion]);
+
+  return (
+    <motion.article
+      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 28 }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      viewport={{
+        once: true,
+        amount: 0.15,
+      }}
+      transition={{
+        duration: shouldReduceMotion ? 0 : 0.6,
+        delay: shouldReduceMotion ? 0 : index * 0.08,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      whileHover={
+        shouldReduceMotion
+          ? {}
+          : {
+              y: -5,
+            }
+      }
+      className="
+        group
+        overflow-hidden
+        rounded-2xl
+        border
+        border-slate-200/90
+        bg-white
+        shadow-[0_10px_30px_rgba(15,23,42,0.055)]
+        transition-shadow
+        duration-300
+        hover:shadow-[0_16px_38px_rgba(15,23,42,0.09)]
+      "
+    >
+      <div
+        className="
+          grid
+          min-h-[250px]
+          sm:grid-cols-[0.9fr_1.1fr]
+          lg:min-h-[240px]
+        "
+      >
+        {/* IMAGE */}
+
+        <div
+          className="
+            relative
+            h-[220px]
+            overflow-hidden
+            sm:h-full
+            sm:min-h-[250px]
+          "
+        >
+          {images.length > 0 ? (
+            images.map((image, imageIndex) => (
+              <motion.img
+                key={`${image}-${imageIndex}`}
+                src={image}
+                alt={`${project.title} project`}
+                loading="lazy"
+                decoding="async"
+                initial={false}
+                animate={{
+                  opacity: currentImage === imageIndex ? 1 : 0,
+                  scale: currentImage === imageIndex ? 1 : 1.025,
+                }}
+                transition={{
+                  opacity: {
+                    duration: 0.8,
+                  },
+                  scale: {
+                    duration: 1,
+                  },
+                }}
+                className="
+                  absolute
+                  inset-0
+                  h-full
+                  w-full
+                  object-cover
+                  object-center
+                  transition-transform
+                  duration-700
+                  group-hover:scale-[1.035]
+                "
+              />
+            ))
+          ) : (
+            <ProjectImageFallback />
+          )}
+
+          <div
+            aria-hidden="true"
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              bg-gradient-to-t
+              from-black/35
+              to-transparent
+              sm:bg-gradient-to-r
+              sm:from-black/10
+              sm:to-transparent
+            "
+          />
+
+          {images.length > 1 && (
+            <div
+              className="
+                absolute
+                bottom-4
+                left-4
+                flex
+                gap-1.5
+              "
+              aria-hidden="true"
+            >
+              {images.map((_, imageIndex) => (
+                <span
+                  key={imageIndex}
+                  className={`
+                    h-1.5
+                    rounded-full
+                    transition-all
+                    duration-300
+                    ${
+                      currentImage === imageIndex
+                        ? "w-5 bg-white"
+                        : "w-1.5 bg-white/60"
+                    }
+                  `}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* CONTENT */}
+
+        <div
+          className="
+            flex
+            flex-col
+            justify-center
+            p-5
+            sm:p-6
+          "
+        >
+          <div
+            className="
+              flex
+              flex-wrap
+              items-center
+              gap-x-4
+              gap-y-2
+            "
+          >
+            <ProjectLocation location={project.location} dark />
+
+            {project.year && <ProjectYear year={project.year} dark />}
+          </div>
+
+          <h3
+            className="
+              mt-3
+              text-xl
+              font-extrabold
+              leading-tight
+              tracking-[-0.02em]
+              text-[#0F172A]
+            "
+          >
+            {project.title}
+          </h3>
+
+          <p
+            className="
+              mt-2.5
+              line-clamp-3
+              text-sm
+              leading-6
+              text-slate-600
+            "
+          >
+            {project.description}
+          </p>
+
+          <ProjectLink project={project} />
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+/* ============================================================
+   LOCATION
+============================================================ */
+
+function ProjectLocation({ location, dark = false }) {
+  if (!location) return null;
+
+  return (
+    <span
+      className={`
+        inline-flex
+        items-center
+        gap-2
+        text-xs
+        font-semibold
+        ${dark ? "text-[#0A5A42]" : "text-white/90"}
+      `}
+    >
+      <FaMapMarkerAlt
+        size={11}
+        className={dark ? "text-[#F97316]" : "text-[#FDBA74]"}
+        aria-hidden="true"
+      />
+
+      <span>{location}</span>
+    </span>
+  );
+}
+
+/* ============================================================
+   YEAR
+============================================================ */
+
+function ProjectYear({ year, dark = false }) {
+  return (
+    <span
+      className={`
+        inline-flex
+        items-center
+        gap-2
+        text-xs
+        font-semibold
+        ${dark ? "text-slate-500" : "text-white/80"}
+      `}
+    >
+      <FaCalendarAlt size={10} aria-hidden="true" />
+
+      <span>{year}</span>
+    </span>
+  );
+}
+
+/* ============================================================
+   PROJECT LINK
+============================================================ */
+
+function ProjectLink({ project, light = false }) {
+  return (
+    <Link
+      to={`/projects/${project.slug}`}
+      aria-label={`View ${project.title}`}
+      className={`
+        group/link
+        mt-4
+        inline-flex
+        min-h-10
+        w-fit
+        items-center
+        gap-2
+        rounded-lg
+        px-3.5
+        py-2
+        text-sm
+        font-bold
+        transition-all
+        duration-300
+        focus:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-[#F97316]
+        focus-visible:ring-offset-2
+        ${
+          light
+            ? `
+              bg-white/10
+              text-white
+              hover:bg-white/20
+              focus-visible:ring-offset-[#0B3D2E]
+            `
+            : `
+              bg-[#0B3D2E]/[0.06]
+              text-[#0B3D2E]
+              hover:bg-[#0B3D2E]
+              hover:text-white
+            `
+        }
+      `}
+    >
+      <span>View Project</span>
+
+      <FaArrowRight
+        size={10}
+        aria-hidden="true"
+        className="
+          transition-transform
+          duration-300
+          group-hover/link:translate-x-1
+        "
+      />
+    </Link>
+  );
+}
+
+/* ============================================================
+   IMAGE FALLBACK
+============================================================ */
+
+function ProjectImageFallback() {
+  return (
+    <div
+      className="
+        flex
+        h-full
+        w-full
+        items-center
+        justify-center
+        bg-[#0B3D2E]
+      "
+    >
+      <span
+        className="
+          text-sm
+          font-semibold
+          text-[#A7F3D0]
+        "
+      >
+        DAFA Project
+      </span>
+    </div>
   );
 }

@@ -2,12 +2,12 @@ import PageTitle from "../../Components/PageTitle";
 import Hero from "./Hero";
 import About from "./About";
 import Programs from "./Programs";
-import Projects from "./Projects";
 import WhereWeWork from "./WhereWeWork";
+import Projects from "./Projects";
 import StoriesCards from "./StoriesCards";
-import PartnersDonors from "./PartnersDonors";
 import News from "./News";
-import CommunityVoices from "./CommunityVoices";
+import PartnersDonors from "./PartnersDonors";
+import FinalCTA from "./FinalCTA.jsx";
 export default function Mainpage() {
   return (
     <>
@@ -15,12 +15,12 @@ export default function Mainpage() {
       <Hero />
       <About />
       <Programs />
-      <Projects />
       <WhereWeWork />
+      <Projects />
       <StoriesCards />
-      <PartnersDonors />
       <News />
-      <CommunityVoices />
+      <PartnersDonors />
+      <FinalCTA />
     </>
   );
 }

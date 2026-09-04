@@ -10,204 +10,340 @@ export const provinces = [
     name: "Badakhshan",
     areasCleared: "8.2M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "badghis",
     name: "Badghis",
     areasCleared: "7.6M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "baghlan",
     name: "Baghlan",
     areasCleared: "11.4M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "balkh",
     name: "Balkh",
     areasCleared: "13.8M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "bamyan",
     name: "Bamyan",
     areasCleared: "5.1M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "daykundi",
     name: "Daykundi",
     areasCleared: "—",
     dafaWork: false,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "—",
+    projectStatus: "No Current Coverage",
   },
   {
     id: "farah",
     name: "Farah",
     areasCleared: "10.3M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "faryab",
     name: "Faryab",
     areasCleared: "9.7M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "ghazni",
     name: "Ghazni",
     areasCleared: "12.1M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "ghor",
     name: "Ghor",
     areasCleared: "—",
     dafaWork: false,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "—",
+    projectStatus: "No Current Coverage",
   },
   {
     id: "helmand",
     name: "Helmand",
     areasCleared: "21.6M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "herat",
     name: "Herat",
     areasCleared: "18.9M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "jowzjan",
     name: "Jowzjan",
     areasCleared: "6.8M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "kabul",
     name: "Kabul",
     areasCleared: "7.4M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "kandahar",
     name: "Kandahar",
     areasCleared: "19.5M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "kapisa",
     name: "Kapisa",
     areasCleared: "3.2M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "khost",
     name: "Khost",
     areasCleared: "8.6M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "kunar",
     name: "Kunar",
     areasCleared: "7.1M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "kunduz",
     name: "Kunduz",
     areasCleared: "10.8M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "laghman",
     name: "Laghman",
     areasCleared: "5.9M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "logar",
     name: "Logar",
     areasCleared: "4.7M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "nangarhar",
     name: "Nangarhar",
     areasCleared: "16.2M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "nimroz",
     name: "Nimroz",
     areasCleared: "9.1M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "nuristan",
     name: "Nuristan",
     areasCleared: "2.8M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "paktia",
     name: "Paktia",
     areasCleared: "8.9M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "paktika",
     name: "Paktika",
     areasCleared: "10.7M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "panjshir",
     name: "Panjshir",
     areasCleared: "2.1M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "parwan",
     name: "Parwan",
     areasCleared: "4.5M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "samangan",
     name: "Samangan",
     areasCleared: "6.3M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "sar-e-pol",
     name: "Sar-e Pol",
     areasCleared: "7.9M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "takhar",
     name: "Takhar",
     areasCleared: "9.4M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "uruzgan",
     name: "Uruzgan",
     areasCleared: "8.1M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "wardak",
     name: "Maidan Wardak",
     areasCleared: "6.7M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
   {
     id: "zabul",
     name: "Zabul",
     areasCleared: "8.8M m²",
     dafaWork: true,
+    currentProject: "—",
+    currentDonor: "—",
+    projectFocus: "Mine Action",
+    projectStatus: "Active",
   },
 ];
 
@@ -292,7 +428,6 @@ const provinceAliases = {
   jowzjan: "jowzjan",
   jawzjan: "jowzjan",
   jozjan: "jowzjan",
-  jawzjan: "jowzjan",
 
   kabul: "kabul",
 
@@ -393,10 +528,6 @@ export const getProvinceFromGeoJSON = (name = "") => {
   const normalized = normalizeProvinceName(name);
   const compact = compactProvinceName(name);
 
-  // -----------------------------
-  // HERAT
-  // -----------------------------
-
   if (
     compact === "herat" ||
     compact === "hirat" ||
@@ -405,10 +536,6 @@ export const getProvinceFromGeoJSON = (name = "") => {
   ) {
     return getProvinceById("herat");
   }
-
-  // -----------------------------
-  // SAR-E-PUL
-  // -----------------------------
 
   if (
     compact === "sarepol" ||
@@ -425,10 +552,6 @@ export const getProvinceFromGeoJSON = (name = "") => {
     return getProvinceById("sar-e-pol");
   }
 
-  // -----------------------------
-  // WARDAK
-  // -----------------------------
-
   if (
     compact === "wardak" ||
     compact === "maidanwardak" ||
@@ -437,19 +560,11 @@ export const getProvinceFromGeoJSON = (name = "") => {
     return getProvinceById("wardak");
   }
 
-  // -----------------------------
-  // ALIAS MATCH
-  // -----------------------------
-
   const alias = provinceAliases[normalized] || provinceAliases[compact];
 
   if (alias) {
     return getProvinceById(alias);
   }
-
-  // -----------------------------
-  // ID MATCH
-  // -----------------------------
 
   const idMatch = provinces.find(
     (province) => normalizeProvinceName(province.id) === normalized,
@@ -458,10 +573,6 @@ export const getProvinceFromGeoJSON = (name = "") => {
   if (idMatch) {
     return idMatch;
   }
-
-  // -----------------------------
-  // DISPLAY NAME MATCH
-  // -----------------------------
 
   const nameMatch = provinces.find(
     (province) => normalizeProvinceName(province.name) === normalized,
@@ -481,3 +592,9 @@ export const getProvinceFromGeoJSON = (name = "") => {
 export const coveredProvinces = provinces.filter(
   (province) => province.dafaWork,
 ).length;
+
+// =========================================================
+// TOTAL PROVINCES
+// =========================================================
+
+export const totalProvinces = provinces.length;
