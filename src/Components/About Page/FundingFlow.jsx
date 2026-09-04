@@ -1,11 +1,19 @@
+// src/Components/About-Page/FundingFlow.jsx
+
 import React, { useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import { FaChartLine } from "react-icons/fa";
+import { motion, useReducedMotion } from "framer-motion";
+import { FaChartLine, FaArrowRight } from "react-icons/fa";
 
 import { fundingData } from "../../Components/Data File/About Page Data/FundingData";
 
 export default function FundingFlow() {
+  const shouldReduceMotion = useReducedMotion();
+
   const [selectedYear, setSelectedYear] = useState(2026);
+
+  // =====================================================
+  // SELECTED DATA
+  // =====================================================
 
   const selectedData = useMemo(
     () =>
@@ -14,11 +22,15 @@ export default function FundingFlow() {
     [selectedYear],
   );
 
+  // =====================================================
+  // CHART SETTINGS
+  // =====================================================
+
   const chartWidth = 1400;
-  const chartHeight = 440;
+  const chartHeight = 430;
 
   const padding = {
-    top: 45,
+    top: 55,
     right: 45,
     bottom: 65,
     left: 85,
@@ -73,13 +85,13 @@ export default function FundingFlow() {
     points[points.length - 1];
 
   // =====================================================
-  // KEY YEARS ONLY
+  // KEY YEARS
   // =====================================================
 
   const keyYears = [1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025, 2026];
 
   // =====================================================
-  // FORMAT MONEY
+  // MONEY FORMAT
   // =====================================================
 
   const formatMoney = (amount) => {
@@ -91,84 +103,101 @@ export default function FundingFlow() {
       return `$${(amount / 1000).toFixed(0)}K`;
     }
 
-    return `$${amount.toLocaleString()}`;
+    return `$${amount.toLocaleString("en-US")}`;
+  };
+
+  // =====================================================
+  // ANIMATION
+  // =====================================================
+
+  const fadeUp = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 20,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+    },
   };
 
   return (
-    <section className="relative overflow-hidden bg-slate-50 py-20 sm:py-24 lg:py-28">
-      {/* =====================================================
-          BACKGROUND
-      ====================================================== */}
-
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-[#087B5A]/5 blur-3xl" />
-
-        <div className="absolute -right-40 bottom-10 h-96 w-96 rounded-full bg-[#F97316]/5 blur-3xl" />
-      </div>
-
-      {/* =====================================================
-          CONTAINER
-      ====================================================== */}
-
-      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+    <section
+      aria-labelledby="funding-flow-heading"
+      className="relative overflow-hidden bg-[#F8FAFC] py-20 sm:py-24 lg:py-28"
+    >
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         {/* =====================================================
             HEADER
         ====================================================== */}
 
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        <motion.header
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
+          variants={fadeUp}
           transition={{
             duration: 0.7,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mx-auto mb-12 max-w-3xl text-center"
+          className="mx-auto mb-12 max-w-3xl text-center sm:mb-14 lg:mb-16"
         >
           <div className="mb-5 inline-flex items-center gap-3">
-            <span className="h-[2px] w-8 rounded-full bg-[#F97316]" />
+            <span
+              aria-hidden="true"
+              className="h-px w-9 bg-[#F97316] sm:w-11"
+            />
 
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#087B5A] sm:text-sm">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#0A5A42] sm:text-sm">
               Funding Flow
             </span>
 
-            <span className="h-[2px] w-8 rounded-full bg-[#F97316]" />
+            <span
+              aria-hidden="true"
+              className="h-px w-9 bg-[#F97316] sm:w-11"
+            />
           </div>
 
-          <h2 className="text-3xl font-black leading-tight tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
+          <h2
+            id="funding-flow-heading"
+            className="text-3xl font-black leading-[1.08] tracking-tight text-[#0B3D2E] sm:text-4xl md:text-5xl"
+          >
             Funding Over the <span className="text-[#087B5A]">Years</span>
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base sm:leading-8">
-            Explore DAFA's funding history from 1990 to 2026. Select any point
-            on the chart to view the annual funding amount and its share of
-            total funding.
+            Explore DAFA's funding history from 1990 to 2026. Select a year to
+            view its annual funding amount and share of total funding.
           </p>
-        </motion.div>
+        </motion.header>
 
         {/* =====================================================
-            CHART CARD
+            MAIN CHART
         ====================================================== */}
 
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
+          variants={fadeUp}
           transition={{
             duration: 0.8,
+            delay: 0.05,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
+          className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_12px_45px_rgba(15,23,42,0.06)]"
         >
-          {/* =================================================
-              CHART HEADER
-          ================================================== */}
+          {/* ===================================================
+              CHART TOP BAR
+          ==================================================== */}
 
-          <div className="flex flex-col gap-5 border-b border-slate-100 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-            <div>
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#087B5A]/10 text-[#087B5A]">
-                  <FaChartLine size={17} />
+          <div className="border-b border-slate-100 p-6 sm:p-8">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              {/* Chart Title */}
+
+              <div className="flex items-start gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0B3D2E] text-white">
+                  <FaChartLine size={16} aria-hidden="true" />
                 </div>
 
                 <div>
@@ -176,291 +205,366 @@ export default function FundingFlow() {
                     Historical Overview
                   </p>
 
-                  <h3 className="mt-1 text-lg font-bold text-[#0F172A] sm:text-xl">
+                  <h3 className="mt-1 text-lg font-black tracking-tight text-[#0B3D2E] sm:text-xl">
                     Annual Funding Flow
                   </h3>
+
+                  <p className="mt-1 text-xs text-slate-400">1990 — 2026</p>
                 </div>
               </div>
+
+              {/* =================================================
+                  SELECTED YEAR
+              ================================================== */}
+
+              <motion.div
+                key={selectedData.year}
+                initial={
+                  shouldReduceMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        y: 8,
+                      }
+                }
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{ duration: 0.25 }}
+                className="grid grid-cols-2 overflow-hidden rounded-2xl border border-slate-200 bg-[#F8FAFC] sm:min-w-[350px]"
+              >
+                <div className="border-r border-slate-200 px-5 py-4">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">
+                    Selected Year
+                  </p>
+
+                  <p className="mt-1 text-2xl font-black text-[#0B3D2E]">
+                    {selectedData.year}
+                  </p>
+                </div>
+
+                <div className="px-5 py-4">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">
+                    Annual Funding
+                  </p>
+
+                  <p className="mt-1 text-xl font-black text-[#087B5A]">
+                    {selectedData.formattedAmount ||
+                      formatMoney(selectedData.amount)}
+                  </p>
+
+                  <p className="mt-0.5 text-[10px] font-semibold text-slate-400">
+                    {selectedData.percentage}% of total
+                  </p>
+                </div>
+              </motion.div>
             </div>
-
-            {/* Current Selection */}
-
-            <motion.div
-              key={selectedData.year}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.25 }}
-              className="flex items-center gap-4 rounded-2xl bg-slate-50 px-5 py-3"
-            >
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
-                  {selectedData.year}
-                </p>
-
-                <p className="mt-0.5 text-lg font-black text-[#0F172A]">
-                  {selectedData.formattedAmount ||
-                    formatMoney(selectedData.amount)}
-                </p>
-              </div>
-
-              <div className="h-8 w-px bg-slate-200" />
-
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
-                  Share
-                </p>
-
-                <p className="mt-0.5 text-lg font-black text-[#087B5A]">
-                  {selectedData.percentage}%
-                </p>
-              </div>
-            </motion.div>
           </div>
 
-          {/* =================================================
-              CHART
-          ================================================== */}
+          {/* ===================================================
+              CHART AREA
+          ==================================================== */}
 
-          <div className="overflow-x-auto px-4 pb-6 pt-8 sm:px-8">
-            <div className="min-w-[850px]">
-              <svg
-                viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-                className="h-auto w-full overflow-visible"
-              >
-                {/* =================================================
-                    GRID
-                ================================================== */}
+          <div className="px-4 pb-4 pt-8 sm:px-8 sm:pb-6 sm:pt-10">
+            <div
+              className="overflow-x-auto pb-2"
+              role="region"
+              aria-label="DAFA annual funding chart"
+              tabIndex={0}
+            >
+              <div className="min-w-[800px]">
+                <svg
+                  viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+                  className="h-auto w-full overflow-visible"
+                  role="img"
+                  aria-labelledby="funding-chart-title funding-chart-description"
+                >
+                  <title id="funding-chart-title">
+                    DAFA Annual Funding from 1990 to 2026
+                  </title>
 
-                {[0, 0.25, 0.5, 0.75, 1].map((value) => {
-                  const y = padding.top + innerHeight - value * innerHeight;
+                  <desc id="funding-chart-description">
+                    Interactive line chart showing annual funding amounts.
+                    Select a data point to view the funding for that year.
+                  </desc>
 
-                  return (
-                    <g key={value}>
-                      <line
-                        x1={padding.left}
-                        x2={chartWidth - padding.right}
-                        y1={y}
-                        y2={y}
-                        stroke="#E2E8F0"
-                        strokeDasharray="5 7"
-                      />
+                  {/* =========================================
+                      GRID
+                  ========================================== */}
 
-                      <text
-                        x={padding.left - 15}
-                        y={y + 4}
-                        textAnchor="end"
-                        fontSize="12"
-                        fontWeight="600"
-                        fill="#94A3B8"
-                      >
-                        {formatMoney(maxFunding * value)}
-                      </text>
-                    </g>
-                  );
-                })}
+                  {[0, 0.25, 0.5, 0.75, 1].map((value) => {
+                    const y = padding.top + innerHeight - value * innerHeight;
 
-                {/* =================================================
-                    AREA
-                ================================================== */}
+                    return (
+                      <g key={value}>
+                        <line
+                          x1={padding.left}
+                          x2={chartWidth - padding.right}
+                          y1={y}
+                          y2={y}
+                          stroke="#E2E8F0"
+                          strokeWidth="1"
+                          strokeDasharray="4 7"
+                        />
 
-                <motion.polygon
-                  points={areaPoints}
-                  fill="rgba(8,123,90,0.07)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 1 }}
-                />
+                        <text
+                          x={padding.left - 14}
+                          y={y + 4}
+                          textAnchor="end"
+                          fontSize="11"
+                          fontWeight="600"
+                          fill="#94A3B8"
+                        >
+                          {formatMoney(maxFunding * value)}
+                        </text>
+                      </g>
+                    );
+                  })}
 
-                {/* =================================================
-                    LINE
-                ================================================== */}
+                  {/* =========================================
+                      AREA
+                  ========================================== */}
 
-                <motion.polyline
-                  points={linePoints}
-                  fill="none"
-                  stroke="#087B5A"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  vectorEffect="non-scaling-stroke"
-                  initial={{
-                    pathLength: 0,
-                  }}
-                  animate={{
-                    pathLength: 1,
-                  }}
-                  transition={{
-                    duration: 1.6,
-                    ease: "easeInOut",
-                  }}
-                />
+                  <motion.polygon
+                    points={areaPoints}
+                    fill="rgba(8,123,90,0.055)"
+                    initial={{
+                      opacity: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                    }}
+                    transition={{
+                      duration: 0.9,
+                    }}
+                  />
 
-                {/* =================================================
-                    X AXIS
-                ================================================== */}
+                  {/* =========================================
+                      MAIN LINE
+                  ========================================== */}
 
-                {keyYears.map((year) => {
-                  const point = points.find((item) => item.year === year);
+                  <motion.polyline
+                    points={linePoints}
+                    fill="none"
+                    stroke="#087B5A"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    vectorEffect="non-scaling-stroke"
+                    initial={
+                      shouldReduceMotion
+                        ? false
+                        : {
+                            pathLength: 0,
+                          }
+                    }
+                    animate={{
+                      pathLength: 1,
+                    }}
+                    transition={{
+                      duration: shouldReduceMotion ? 0 : 1.4,
+                      ease: "easeInOut",
+                    }}
+                  />
 
-                  if (!point) return null;
+                  {/* =========================================
+                      X AXIS YEARS
+                  ========================================== */}
 
-                  return (
-                    <g key={year}>
-                      <line
-                        x1={point.x}
-                        x2={point.x}
-                        y1={padding.top + innerHeight}
-                        y2={padding.top + innerHeight + 7}
-                        stroke="#CBD5E1"
-                      />
+                  {keyYears.map((year) => {
+                    const point = points.find((item) => item.year === year);
 
-                      <text
-                        x={point.x}
-                        y={chartHeight - 20}
-                        textAnchor="middle"
-                        fontSize="12"
-                        fontWeight="700"
-                        fill={selectedYear === year ? "#F97316" : "#94A3B8"}
-                      >
-                        {year}
-                      </text>
-                    </g>
-                  );
-                })}
+                    if (!point) return null;
 
-                {/* =================================================
-                    DATA POINTS
-                ================================================== */}
+                    const isSelected = selectedYear === year;
 
-                {points.map((point) => {
-                  const isSelected = point.year === selectedYear;
+                    return (
+                      <g key={year}>
+                        <line
+                          x1={point.x}
+                          x2={point.x}
+                          y1={padding.top + innerHeight}
+                          y2={padding.top + innerHeight + 7}
+                          stroke="#CBD5E1"
+                        />
 
-                  return (
-                    <g key={point.year}>
-                      {/* Invisible large click area */}
+                        <text
+                          x={point.x}
+                          y={chartHeight - 20}
+                          textAnchor="middle"
+                          fontSize="12"
+                          fontWeight="700"
+                          fill={isSelected ? "#F97316" : "#94A3B8"}
+                        >
+                          {year}
+                        </text>
+                      </g>
+                    );
+                  })}
 
-                      <circle
-                        cx={point.x}
-                        cy={point.y}
-                        r="15"
-                        fill="transparent"
-                        className="cursor-pointer"
-                        onClick={() => setSelectedYear(point.year)}
-                      />
+                  {/* =========================================
+                      DATA POINTS
+                  ========================================== */}
 
-                      {/* Selected Ring */}
+                  {points.map((point) => {
+                    const isSelected = point.year === selectedYear;
 
-                      {isSelected && (
-                        <motion.circle
+                    return (
+                      <g key={point.year}>
+                        {/* Accessible interaction area */}
+
+                        <circle
                           cx={point.x}
                           cy={point.y}
-                          r="11"
-                          fill="none"
-                          stroke="#F97316"
-                          strokeWidth="3"
-                          initial={{
-                            opacity: 0,
-                            scale: 0.7,
-                          }}
-                          animate={{
-                            opacity: 1,
-                            scale: 1,
+                          r="14"
+                          fill="transparent"
+                          className="cursor-pointer"
+                          tabIndex={0}
+                          role="button"
+                          aria-label={`${point.year}: ${
+                            point.formattedAmount || formatMoney(point.amount)
+                          }`}
+                          onClick={() => setSelectedYear(point.year)}
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter" || event.key === " ") {
+                              event.preventDefault();
+                              setSelectedYear(point.year);
+                            }
                           }}
                         />
-                      )}
 
-                      {/* Point */}
+                        {/* Selected Ring */}
 
-                      <circle
-                        cx={point.x}
-                        cy={point.y}
-                        r={isSelected ? 6 : 3}
-                        fill={isSelected ? "#F97316" : "#087B5A"}
-                        stroke="white"
-                        strokeWidth="2"
-                        className="cursor-pointer transition-all"
-                        onClick={() => setSelectedYear(point.year)}
-                      />
+                        {isSelected && (
+                          <motion.circle
+                            cx={point.x}
+                            cy={point.y}
+                            r="10"
+                            fill="none"
+                            stroke="#F97316"
+                            strokeWidth="3"
+                            initial={{
+                              opacity: 0,
+                              scale: 0.7,
+                            }}
+                            animate={{
+                              opacity: 1,
+                              scale: 1,
+                            }}
+                            transition={{
+                              duration: 0.25,
+                            }}
+                          />
+                        )}
+
+                        {/* Point */}
+
+                        <circle
+                          cx={point.x}
+                          cy={point.y}
+                          r={isSelected ? 5.5 : 3}
+                          fill={isSelected ? "#F97316" : "#087B5A"}
+                          stroke="white"
+                          strokeWidth="2"
+                          className="pointer-events-none"
+                        />
+                      </g>
+                    );
+                  })}
+
+                  {/* =========================================
+                      SELECTED TOOLTIP
+                  ========================================== */}
+
+                  {selectedPoint && (
+                    <g
+                      pointerEvents="none"
+                      transform={`translate(${Math.min(
+                        Math.max(selectedPoint.x - 95, 10),
+                        chartWidth - 205,
+                      )},${Math.max(selectedPoint.y - 105, 10)})`}
+                    >
+                      <rect width="190" height="82" rx="14" fill="#0B3D2E" />
+
+                      <text
+                        x="18"
+                        y="24"
+                        fontSize="10"
+                        fontWeight="700"
+                        fill="#A7DCC9"
+                      >
+                        {selectedData.year}
+                      </text>
+
+                      <text
+                        x="18"
+                        y="47"
+                        fontSize="17"
+                        fontWeight="800"
+                        fill="white"
+                      >
+                        {selectedData.formattedAmount ||
+                          formatMoney(selectedData.amount)}
+                      </text>
+
+                      <text
+                        x="18"
+                        y="67"
+                        fontSize="10"
+                        fontWeight="600"
+                        fill="#CBD5E1"
+                      >
+                        {selectedData.percentage}% of total funding
+                      </text>
                     </g>
-                  );
-                })}
-
-                {/* =================================================
-                    SELECTED TOOLTIP
-                ================================================== */}
-
-                {selectedPoint && (
-                  <g
-                    pointerEvents="none"
-                    transform={`translate(${Math.min(
-                      Math.max(selectedPoint.x - 95, 10),
-                      chartWidth - 205,
-                    )},${Math.max(selectedPoint.y - 105, 10)})`}
-                  >
-                    <rect width="190" height="82" rx="14" fill="#0F172A" />
-
-                    <text
-                      x="18"
-                      y="24"
-                      fontSize="11"
-                      fontWeight="700"
-                      fill="#A7F3D0"
-                    >
-                      {selectedData.year}
-                    </text>
-
-                    <text
-                      x="18"
-                      y="47"
-                      fontSize="17"
-                      fontWeight="800"
-                      fill="white"
-                    >
-                      {selectedData.formattedAmount ||
-                        formatMoney(selectedData.amount)}
-                    </text>
-
-                    <text
-                      x="18"
-                      y="67"
-                      fontSize="11"
-                      fontWeight="600"
-                      fill="#CBD5E1"
-                    >
-                      {selectedData.percentage}% of total funding
-                    </text>
-                  </g>
-                )}
-              </svg>
+                  )}
+                </svg>
+              </div>
             </div>
           </div>
 
-          {/* =================================================
-              FOOTER
-          ================================================== */}
+          {/* ===================================================
+              CHART FOOTER
+          ==================================================== */}
 
-          <div className="flex flex-col gap-2 border-t border-slate-100 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-            <p className="text-xs text-slate-400">
-              Click any point to explore annual funding.
-            </p>
+          <div className="border-t border-slate-100 px-6 py-5 sm:px-8">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <span
+                  aria-hidden="true"
+                  className="h-2.5 w-2.5 rounded-full bg-[#087B5A]"
+                />
 
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-[#087B5A]" />
+                <p className="text-xs text-slate-500">
+                  Select any point to explore annual funding.
+                </p>
+              </div>
 
-              <span className="text-xs font-semibold text-slate-500">
-                1990 — 2026
-              </span>
+              <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
+                <span>{selectedData.year}</span>
+
+                <FaArrowRight
+                  size={9}
+                  className="text-[#F97316]"
+                  aria-hidden="true"
+                />
+
+                <span>
+                  {selectedData.formattedAmount ||
+                    formatMoney(selectedData.amount)}
+                </span>
+              </div>
             </div>
           </div>
         </motion.div>
 
         {/* =====================================================
-            DATA NOTE
+            MOBILE / ACCESSIBILITY NOTE
         ====================================================== */}
 
-        <p className="mx-auto mt-6 max-w-3xl text-center text-[11px] leading-6 text-slate-400">
-          Funding figures are illustrative placeholders and should be replaced
-          with verified DAFA financial records before publication.
+        <p className="mt-5 text-center text-[11px] leading-5 text-slate-400">
+          The chart can be horizontally scrolled on smaller screens.
         </p>
       </div>
     </section>

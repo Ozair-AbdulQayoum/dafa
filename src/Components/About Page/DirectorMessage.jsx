@@ -1,10 +1,47 @@
+// src/Components/About-Page/DirectorMessage.jsx
+
 import React from "react";
-import { motion } from "framer-motion";
-import { FaQuoteLeft, FaShieldAlt, FaArrowRight } from "react-icons/fa";
+import { motion, useReducedMotion } from "framer-motion";
+import { FaQuoteLeft, FaArrowRight } from "react-icons/fa";
 
 import { directorMessageData } from "../Data File/About Page Data/DirectorMessageData";
 
 export default function DirectorMessage() {
+  const shouldReduceMotion = useReducedMotion();
+
+  const revealUp = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 22,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+    },
+  };
+
+  const revealLeft = {
+    hidden: {
+      opacity: 0,
+      x: shouldReduceMotion ? 0 : -24,
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+    },
+  };
+
+  const revealRight = {
+    hidden: {
+      opacity: 0,
+      x: shouldReduceMotion ? 0 : 24,
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+    },
+  };
+
   const {
     director,
     eyebrow,
@@ -16,202 +53,223 @@ export default function DirectorMessage() {
   } = directorMessageData;
 
   return (
-    <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
-      {/* =====================================================
-          BACKGROUND
-      ====================================================== */}
+    <section
+      aria-labelledby="director-message-heading"
+      className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28"
+    >
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        {/* =====================================================
+            SECTION HEADER
+        ====================================================== */}
 
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-40 top-20 h-96 w-96 rounded-full bg-[#087B5A]/5 blur-3xl" />
-
-        <div className="absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-[#F97316]/5 blur-3xl" />
-      </div>
-
-      {/* =====================================================
-          CONTAINER
-      ====================================================== */}
-
-      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* =================================================
-            HEADER
-        ================================================== */}
-
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        <motion.header
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
+          variants={revealUp}
           transition={{
             duration: 0.7,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mb-14 max-w-3xl"
+          className="mb-12 max-w-3xl sm:mb-14 lg:mb-16"
         >
-          {/* Eyebrow */}
-
           <div className="mb-5 flex items-center gap-3">
-            <span className="h-[2px] w-9 rounded-full bg-[#F97316]" />
+            <span aria-hidden="true" className="h-px w-10 bg-[#F97316]" />
 
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#087B5A] sm:text-sm">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#0A5A42] sm:text-sm">
               {eyebrow}
             </span>
           </div>
 
-          {/* Heading */}
-
-          <h2 className="text-3xl font-black leading-tight tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl">
+          <h2
+            id="director-message-heading"
+            className="max-w-3xl text-3xl font-black leading-[1.08] tracking-tight text-[#0B3D2E] sm:text-4xl md:text-5xl lg:text-[3.4rem]"
+          >
             {title}
           </h2>
+        </motion.header>
 
-          {/* Accent */}
+        {/* =====================================================
+            MAIN EDITORIAL COMPOSITION
+        ====================================================== */}
 
-          <div className="mt-5 h-1 w-16 rounded-full bg-[#F97316]" />
-        </motion.div>
-
-        {/* =================================================
-            MAIN CONTENT
-        ================================================== */}
-
-        <div className="grid items-start gap-12 lg:grid-cols-[0.8fr_1.4fr] lg:gap-16">
-          {/* =================================================
+        <div className="grid items-start gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16 xl:gap-20">
+          {/* ===================================================
               DIRECTOR PROFILE
-          ================================================== */}
+          ==================================================== */}
 
           <motion.aside
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
+            variants={revealLeft}
             transition={{
               duration: 0.75,
               ease: [0.22, 1, 0.36, 1],
             }}
             className="lg:sticky lg:top-28"
           >
-            {/* =================================================
-                DIRECTOR IMAGE
-            ================================================== */}
-
             <div className="relative mx-auto max-w-sm lg:mx-0">
-              {/* Top Corner */}
+              {/* Orange Editorial Corner */}
 
-              <div className="absolute -left-3 -top-3 h-20 w-20 rounded-tl-2xl border-l-2 border-t-2 border-[#F97316]" />
+              <div
+                aria-hidden="true"
+                className="
+                  absolute
+                  -left-3
+                  -top-3
+                  h-20
+                  w-20
+                  rounded-tl-2xl
+                  border-l-2
+                  border-t-2
+                  border-[#F97316]
+                "
+              />
 
-              {/* Image Container */}
+              {/* Portrait */}
 
-              <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl">
-                {director.image ? (
-                  <img
-                    src={director.image}
-                    alt={`${director.name} - ${director.position}`}
-                    className="aspect-[4/5] w-full object-cover"
-                  />
-                ) : (
-                  /*
-                    =================================================
-                    IMAGE PLACEHOLDER
+              <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
+                <img
+                  src={director.image}
+                  alt={`${director.name}, ${director.position} at ${director.organization}`}
+                  className="
+                    aspect-[4/5]
+                    w-full
+                    object-cover
+                    object-center
+                  "
+                  loading="lazy"
+                />
 
-                    Add the director image later in:
+                {/* Subtle image treatment */}
 
-                    DirectorMessageData.js
+                <div
+                  aria-hidden="true"
+                  className="
+                    absolute
+                    inset-x-0
+                    bottom-0
+                    h-24
+                    bg-gradient-to-t
+                    from-[#0B3D2E]/55
+                    to-transparent
+                  "
+                />
 
-                    image:
-                    "/src/assets/director/abdul-wahid-noori.jpg"
+                {/* Organization */}
 
-                    =================================================
-                  */
-
-                  <div className="flex aspect-[4/5] items-center justify-center bg-gradient-to-br from-[#0B3D2E] to-[#087B5A]">
-                    <div className="px-8 text-center">
-                      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white">
-                        <FaShieldAlt size={30} />
-                      </div>
-
-                      <p className="mt-5 text-sm font-semibold uppercase tracking-[0.15em] text-[#A7F3D0]">
-                        Director's Portrait
-                      </p>
-
-                      <p className="mt-2 text-xs text-white/50">
-                        Official photograph coming soon
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {/* Image Overlay */}
-
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-6 pb-6 pt-16">
-                  <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#A7F3D0]">
+                <div className="absolute bottom-5 left-5 right-5">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#A7DCC9]">
                     {director.organization}
                   </p>
                 </div>
               </div>
 
-              {/* Bottom Corner */}
+              {/* Green Editorial Corner */}
 
-              <div className="absolute -bottom-3 -right-3 h-16 w-16 rounded-br-2xl border-b-2 border-r-2 border-[#087B5A]" />
-            </div>
+              <div
+                aria-hidden="true"
+                className="
+                  absolute
+                  -bottom-3
+                  -right-3
+                  h-16
+                  w-16
+                  rounded-br-2xl
+                  border-b-2
+                  border-r-2
+                  border-[#0A5A42]
+                "
+              />
 
-            {/* =================================================
-                DIRECTOR INFORMATION
-            ================================================== */}
+              {/* Director Identity */}
 
-            <div className="mt-7">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#087B5A]">
-                {director.position}
-              </p>
+              <div className="mt-7 border-t border-slate-200 pt-6">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#F97316]">
+                  {director.position}
+                </p>
 
-              <h3 className="mt-2 text-2xl font-black tracking-tight text-[#0F172A] sm:text-3xl">
-                {director.name}
-              </h3>
+                <h3 className="mt-2 text-2xl font-black tracking-tight text-[#0B3D2E] sm:text-3xl">
+                  {director.name}
+                </h3>
 
-              <p className="mt-2 text-sm leading-6 text-slate-500">
-                {director.organization}
-              </p>
+                <p className="mt-2 text-sm leading-6 text-slate-500">
+                  {director.organization}
+                </p>
+              </div>
             </div>
           </motion.aside>
 
-          {/* =================================================
+          {/* ===================================================
               DIRECTOR MESSAGE
-          ================================================== */}
+          ==================================================== */}
 
           <motion.article
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
+            variants={revealRight}
             transition={{
               duration: 0.75,
-              delay: 0.1,
+              delay: 0.08,
               ease: [0.22, 1, 0.36, 1],
             }}
             className="relative"
           >
-            {/* Decorative Quote */}
+            {/* =================================================
+                QUOTATION MARK
+            ================================================== */}
 
-            <FaQuoteLeft className="pointer-events-none absolute -right-2 -top-8 text-7xl text-[#087B5A]/5 sm:text-8xl" />
+            <div
+              aria-hidden="true"
+              className="
+                mb-6
+                flex
+                h-12
+                w-12
+                items-center
+                justify-center
+                rounded-xl
+                bg-[#0B3D2E]
+                text-white
+              "
+            >
+              <FaQuoteLeft size={18} />
+            </div>
 
             {/* =================================================
                 INTRODUCTION
             ================================================== */}
 
-            <p className="relative max-w-3xl text-lg font-semibold leading-8 text-[#0F172A] sm:text-xl sm:leading-9">
+            <p className="max-w-3xl text-xl font-bold leading-8 tracking-tight text-[#0B3D2E] sm:text-2xl sm:leading-9">
               {introduction}
             </p>
 
             {/* =================================================
-                MESSAGE PARAGRAPHS
+                MESSAGE
             ================================================== */}
 
-            <div className="mt-8 space-y-6">
+            <div className="mt-8 max-w-3xl space-y-6">
               {paragraphs.map((paragraph, index) => (
                 <motion.p
                   key={index}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.25 }}
+                  variants={revealUp}
                   transition={{
-                    duration: 0.6,
-                    delay: index * 0.08,
+                    duration: 0.55,
+                    delay: index * 0.06,
+                    ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="text-[15px] leading-8 text-slate-600 sm:text-base"
+                  className="
+                    text-[15px]
+                    leading-8
+                    text-slate-600
+                    sm:text-base
+                    sm:leading-[1.9]
+                  "
                 >
                   {paragraph}
                 </motion.p>
@@ -222,8 +280,8 @@ export default function DirectorMessage() {
                 CLOSING
             ================================================== */}
 
-            <div className="mt-9 border-l-4 border-[#F97316] bg-slate-50 px-5 py-4 sm:px-6">
-              <p className="text-sm font-medium leading-7 text-slate-600 sm:text-base">
+            <div className="mt-9 border-l-2 border-[#F97316] pl-5 sm:pl-6">
+              <p className="text-sm font-semibold leading-7 text-[#0B3D2E] sm:text-base">
                 {closing}
               </p>
             </div>
@@ -231,36 +289,54 @@ export default function DirectorMessage() {
         </div>
 
         {/* =====================================================
-            COMMITMENT PANEL
+            COMMITMENT
         ====================================================== */}
 
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={revealUp}
           transition={{
             duration: 0.7,
-            delay: 0.15,
+            delay: 0.08,
+            ease: [0.22, 1, 0.36, 1],
           }}
-          className="mt-16 overflow-hidden rounded-2xl bg-[#0B3D2E] shadow-lg sm:mt-20"
+          className="
+            mt-14
+            border-t
+            border-slate-200
+            pt-8
+            sm:mt-16
+            sm:pt-9
+          "
         >
-          <div className="flex flex-col gap-6 px-6 py-7 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-10 lg:py-8">
-            {/* Text */}
-
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#A7F3D0]">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="max-w-3xl">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#F97316] sm:text-xs">
                 {principle.label}
               </p>
 
-              <p className="mt-2 text-lg font-bold text-white sm:text-xl">
+              <p className="mt-2 text-lg font-bold leading-7 text-[#0B3D2E] sm:text-xl">
                 {principle.text}
               </p>
             </div>
 
-            {/* Icon */}
-
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F97316] text-white">
-              <FaArrowRight size={14} />
+            <div
+              aria-hidden="true"
+              className="
+                flex
+                h-11
+                w-11
+                shrink-0
+                items-center
+                justify-center
+                rounded-full
+                bg-[#0B3D2E]
+                text-white
+              "
+            >
+              <FaArrowRight size={13} />
             </div>
           </div>
         </motion.div>

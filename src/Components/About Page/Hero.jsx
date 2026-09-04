@@ -1,120 +1,81 @@
+// src/Components/Home-Page/Hero.jsx
+
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { FaArrowRight, FaChevronRight, FaShieldAlt } from "react-icons/fa";
 
 import { aboutHeroData } from "../../Components/Data File/About Page Data/HeroData";
 
 export default function Hero() {
+  const shouldReduceMotion = useReducedMotion();
+
+  const fadeUp = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 24,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+    },
+  };
+
   return (
     <section
-      className="
-        relative
-        overflow-hidden
-        bg-[#0B3D2E]
-      "
+      aria-labelledby="about-hero-heading"
+      className="relative overflow-hidden bg-[#F7FAF8]"
     >
       {/* =====================================================
-          DECORATIVE BACKGROUND
+          BACKGROUND DETAILS
       ====================================================== */}
 
-      {/* Top Right Glow */}
-
-      <motion.div
-        className="
-          pointer-events-none
-          absolute
-          -right-32
-          -top-32
-          h-80
-          w-80
-          rounded-full
-          bg-[#A7F3D0]/10
-          blur-3xl
-        "
-        animate={{
-          x: [0, 20, 0],
-          y: [0, 15, 0],
-          scale: [1, 1.08, 1],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-
-      {/* Bottom Left Glow */}
-
-      <motion.div
-        className="
-          pointer-events-none
-          absolute
-          -bottom-40
-          -left-32
-          h-96
-          w-96
-          rounded-full
-          bg-[#0284C7]/10
-          blur-3xl
-        "
-        animate={{
-          x: [0, -20, 0],
-          y: [0, -15, 0],
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-
-      {/* =====================================================
-          SUBTLE GRID
-      ====================================================== */}
-
-      <div className="pointer-events-none absolute inset-0 opacity-[0.025]">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
         <div
-          className="h-full w-full"
-          style={{
-            backgroundImage:
-              "linear-gradient(#A7F3D0 1px, transparent 1px), linear-gradient(90deg, #A7F3D0 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
+          className="
+            absolute
+            -right-40
+            -top-40
+            h-[420px]
+            w-[420px]
+            rounded-full
+            bg-[#0B3D2E]/[0.045]
+            blur-[100px]
+          "
+        />
+
+        <div
+          className="
+            absolute
+            -bottom-32
+            left-[40%]
+            h-64
+            w-64
+            rounded-full
+            bg-[#F97316]/[0.05]
+            blur-[90px]
+          "
+        />
+
+        <div
+          className="
+            absolute
+            bottom-0
+            left-0
+            top-0
+            hidden
+            w-px
+            bg-[#0B3D2E]/10
+            lg:block
+          "
         />
       </div>
 
       {/* =====================================================
-          LEFT ACCENT LINE
-      ====================================================== */}
-
-      <motion.div
-        className="
-          pointer-events-none
-          absolute
-          left-0
-          top-0
-          h-full
-          w-px
-          origin-top
-          bg-gradient-to-b
-          from-transparent
-          via-[#A7F3D0]/25
-          to-transparent
-        "
-        initial={{
-          scaleY: 0,
-        }}
-        animate={{
-          scaleY: 1,
-        }}
-        transition={{
-          duration: 1.2,
-          ease: "easeOut",
-        }}
-      />
-
-      {/* =====================================================
-          CONTENT
+          MAIN CONTAINER
       ====================================================== */}
 
       <div
@@ -122,178 +83,459 @@ export default function Hero() {
           relative
           z-10
           mx-auto
-          flex
-          min-h-[520px]
-          w-full
           max-w-7xl
-          items-center
           px-5
-          py-20
-          sm:min-h-[540px]
+          pb-16
+          pt-6
           sm:px-8
-          sm:py-24
-          lg:min-h-[580px]
+          sm:pb-20
+          sm:pt-8
           lg:px-10
-          lg:py-28
+          lg:pb-24
         "
       >
-        <div className="max-w-3xl">
+        {/* ===================================================
+            BREADCRUMB
+        ==================================================== */}
+
+        <motion.nav
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          transition={{
+            duration: 0.5,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          aria-label="Breadcrumb"
+          className="mb-12 sm:mb-14 lg:mb-16"
+        >
+          <ol className="flex items-center gap-2 text-xs sm:text-sm">
+            <li>
+              <Link
+                to="/"
+                className="
+                  font-medium
+                  text-slate-500
+                  transition-colors
+                  duration-200
+                  hover:text-[#0B3D2E]
+                  focus:outline-none
+                  focus-visible:rounded
+                  focus-visible:ring-2
+                  focus-visible:ring-[#F97316]
+                "
+              >
+                {aboutHeroData.breadcrumb?.[0]?.label || "Home"}
+              </Link>
+            </li>
+
+            <li aria-hidden="true">
+              <FaChevronRight size={8} className="text-slate-400" />
+            </li>
+
+            <li aria-current="page" className="font-semibold text-[#0B3D2E]">
+              {aboutHeroData.breadcrumb?.[1]?.label || "About DAFA"}
+            </li>
+          </ol>
+        </motion.nav>
+
+        {/* ===================================================
+            HERO GRID
+        ==================================================== */}
+
+        <div
+          className="
+            grid
+            items-center
+            gap-12
+            lg:grid-cols-[1fr_0.9fr]
+            lg:gap-16
+            xl:gap-20
+          "
+        >
           {/* =================================================
-              EYEBROW
+              LEFT — CONTENT
+          ================================================== */}
+
+          <div>
+            {/* EYEBROW */}
+
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              transition={{
+                duration: 0.55,
+                delay: 0.05,
+              }}
+              className="mb-5 flex items-center gap-3"
+            >
+              <span
+                aria-hidden="true"
+                className="h-px w-9 bg-[#F97316] sm:w-11"
+              />
+
+              <span
+                className="
+                  text-xs
+                  font-bold
+                  uppercase
+                  tracking-[0.2em]
+                  text-[#F97316]
+                  sm:text-sm
+                "
+              >
+                {aboutHeroData.eyebrow}
+              </span>
+            </motion.div>
+
+            {/* HEADING */}
+
+            <motion.h1
+              id="about-hero-heading"
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              transition={{
+                duration: 0.7,
+                delay: 0.12,
+              }}
+              className="
+                max-w-3xl
+                text-4xl
+                font-black
+                leading-[1.05]
+                tracking-[-0.035em]
+                text-[#0B3D2E]
+                sm:text-5xl
+                md:text-6xl
+                lg:text-[4rem]
+                xl:text-[4.5rem]
+              "
+            >
+              {aboutHeroData.title.normal}{" "}
+              <span className="text-[#087B5A]">
+                {aboutHeroData.title.highlight}
+              </span>{" "}
+              {aboutHeroData.title.ending}
+            </motion.h1>
+
+            {/* DESCRIPTION */}
+
+            <motion.p
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              transition={{
+                duration: 0.7,
+                delay: 0.24,
+              }}
+              className="
+                mt-7
+                max-w-2xl
+                text-base
+                leading-7
+                text-slate-600
+                sm:text-lg
+                sm:leading-8
+              "
+            >
+              {aboutHeroData.description}
+            </motion.p>
+
+            {/* SUPPORTING LINE */}
+
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              transition={{
+                duration: 0.65,
+                delay: 0.36,
+              }}
+              className="
+                mt-8
+                flex
+                items-center
+                gap-3
+                border-l-2
+                border-[#F97316]
+                pl-4
+              "
+            >
+              <FaShieldAlt
+                aria-hidden="true"
+                className="shrink-0 text-[#0B3D2E]"
+                size={15}
+              />
+
+              <span
+                className="
+                  text-xs
+                  font-semibold
+                  tracking-wide
+                  text-[#0B3D2E]
+                  sm:text-sm
+                "
+              >
+                {aboutHeroData.supportText}
+              </span>
+            </motion.div>
+
+            {/* CONTEXT */}
+
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              transition={{
+                duration: 0.6,
+                delay: 0.45,
+              }}
+              className="
+                mt-8
+                flex
+                items-center
+                gap-3
+                text-xs
+                font-medium
+                text-slate-500
+                sm:text-sm
+              "
+            >
+              <span
+                aria-hidden="true"
+                className="h-1.5 w-1.5 rounded-full bg-[#F97316]"
+              />
+
+              <span>Who we are • What we stand for • How we operate</span>
+            </motion.div>
+          </div>
+
+          {/* =================================================
+              RIGHT — IMAGE
           ================================================== */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              x: -20,
-            }}
+            initial={
+              shouldReduceMotion
+                ? false
+                : {
+                    opacity: 0,
+                    x: 35,
+                  }
+            }
             animate={{
               opacity: 1,
               x: 0,
             }}
             transition={{
-              duration: 0.6,
+              duration: 0.8,
+              delay: 0.2,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="mb-5 flex items-center gap-3"
+            className="relative"
           >
-            <span className="h-px w-8 bg-[#A7F3D0] sm:w-10" />
+            {/* Orange decorative corner */}
 
-            <span
+            <div
+              aria-hidden="true"
               className="
-                text-xs
-                font-bold
-                uppercase
-                tracking-[0.18em]
-                text-[#A7F3D0]
-                sm:text-sm
-                sm:tracking-[0.2em]
+                absolute
+                -bottom-4
+                -left-4
+                z-0
+                h-24
+                w-24
+                rounded-2xl
+                bg-[#F97316]/10
+              "
+            />
+
+            {/* Main image card */}
+
+            <div
+              className="
+                relative
+                z-10
+                overflow-hidden
+                rounded-[28px]
+                border
+                border-white
+                bg-white
+                shadow-[0_25px_70px_rgba(11,61,46,0.15)]
               "
             >
-              {aboutHeroData.eyebrow}
-            </span>
-          </motion.div>
+              {/* Image */}
 
-          {/* =================================================
-              MAIN HEADING
-          ================================================== */}
+              <div className="relative aspect-[4/4.5] overflow-hidden sm:aspect-[4/4.2] lg:aspect-[4/4.5]">
+                <img
+                  src={aboutHeroData.image}
+                  alt={aboutHeroData.imageAlt}
+                  className="
+                    absolute
+                    inset-0
+                    h-full
+                    w-full
+                    object-cover
+                    transition-transform
+                    duration-700
+                    hover:scale-[1.03]
+                  "
+                  loading="eager"
+                />
 
-          <motion.h1
-            initial={{
-              opacity: 0,
-              y: 30,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.8,
-              delay: 0.1,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="
-              text-3xl
-              font-extrabold
-              leading-[1.08]
-              tracking-tight
-              text-white
-              sm:text-4xl
-              md:text-5xl
-              lg:text-[3.5rem]
-              xl:text-[4rem]
-            "
-          >
-            {aboutHeroData.title.normal}{" "}
-            <span className="text-[#A7F3D0]">
-              {aboutHeroData.title.highlight}
-            </span>{" "}
-            {aboutHeroData.title.ending}
-          </motion.h1>
+                {/* Image overlay */}
 
-          {/* =================================================
-              DESCRIPTION
-          ================================================== */}
+                <div
+                  aria-hidden="true"
+                  className="
+                    absolute
+                    inset-0
+                    bg-gradient-to-t
+                    from-[#0B3D2E]/80
+                    via-[#0B3D2E]/10
+                    to-transparent
+                  "
+                />
 
-          <motion.p
-            initial={{
-              opacity: 0,
-              y: 25,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.8,
-              delay: 0.25,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="
-              mt-6
-              max-w-2xl
-              text-sm
-              leading-7
-              text-green-50/85
-              sm:text-base
-              sm:leading-7
-              md:text-lg
-              md:leading-8
-            "
-          >
-            {aboutHeroData.description}
-          </motion.p>
+                {/* Image label */}
 
-          {/* =================================================
-              SUPPORTING LINE
-          ================================================== */}
+                <div className="absolute left-5 top-5 sm:left-7 sm:top-7">
+                  <span
+                    className="
+                      inline-flex
+                      rounded-full
+                      border
+                      border-white/20
+                      bg-[#0B3D2E]/70
+                      px-3.5
+                      py-1.5
+                      text-[10px]
+                      font-bold
+                      uppercase
+                      tracking-[0.18em]
+                      text-white
+                      backdrop-blur-md
+                    "
+                  >
+                    {aboutHeroData.visualLabel}
+                  </span>
+                </div>
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 15,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.7,
-              delay: 0.4,
-            }}
-            className="mt-7 flex items-center gap-3"
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#F97316]" />
+                {/* Bottom content over image */}
 
-            <span
+                <div
+                  className="
+                    absolute
+                    bottom-0
+                    left-0
+                    right-0
+                    p-6
+                    sm:p-7
+                    lg:p-8
+                  "
+                >
+                  <p
+                    className="
+                      max-w-md
+                      text-xl
+                      font-bold
+                      leading-tight
+                      text-white
+                      sm:text-2xl
+                    "
+                  >
+                    {aboutHeroData.visualTitle}
+                  </p>
+
+                  <div className="mt-5 flex items-end justify-between gap-5">
+                    <div>
+                      <p
+                        className="
+                          text-[9px]
+                          font-bold
+                          uppercase
+                          tracking-[0.18em]
+                          text-white/55
+                        "
+                      >
+                        {aboutHeroData.organizationLabel}
+                      </p>
+
+                      <p className="mt-1 text-sm font-semibold text-white/90">
+                        {aboutHeroData.organizationName}
+                      </p>
+                    </div>
+
+                    <Link
+                      to={aboutHeroData.visualLink.path}
+                      aria-label={aboutHeroData.visualLink.label}
+                      className="
+                        flex
+                        h-10
+                        w-10
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-full
+                        bg-[#F97316]
+                        text-white
+                        transition-all
+                        duration-300
+                        hover:scale-105
+                        hover:bg-[#EA580C]
+                        focus:outline-none
+                        focus-visible:ring-2
+                        focus-visible:ring-white
+                        focus-visible:ring-offset-2
+                        focus-visible:ring-offset-[#0B3D2E]
+                      "
+                    >
+                      <FaArrowRight size={12} aria-hidden="true" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Top-right accent */}
+
+            <div
+              aria-hidden="true"
               className="
-                text-xs
-                font-medium
-                tracking-wide
-                text-white/60
-                sm:text-sm
+                absolute
+                -right-3
+                -top-3
+                z-20
+                h-16
+                w-16
+                rounded-2xl
+                border
+                border-[#0B3D2E]/10
+                bg-white/80
+                backdrop-blur-md
+                sm:-right-4
+                sm:-top-4
+                sm:h-20
+                sm:w-20
               "
-            >
-              {aboutHeroData.supportText}
-            </span>
+            />
           </motion.div>
         </div>
       </div>
 
-      {/* =====================================================
-          BOTTOM FADE
-      ====================================================== */}
+      {/* Bottom divider */}
 
       <div
+        aria-hidden="true"
         className="
-          pointer-events-none
           absolute
-          inset-x-0
           bottom-0
-          h-24
-          bg-gradient-to-t
-          from-[#0B3D2E]
-          to-transparent
+          left-0
+          right-0
+          h-px
+          bg-[#0B3D2E]/10
         "
       />
     </section>

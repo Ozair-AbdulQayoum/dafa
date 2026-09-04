@@ -9,18 +9,14 @@ export const directorMessageData = {
 
   director: {
     name: "Abdul Wahid Noori",
+
     position: "Director",
+
     organization: "Demining Agency for Afghanistan (DAFA)",
 
-    /*
-      DIRECTOR IMAGE
-
-      Add your image later by changing null to:
-
-      image: "/src/assets/director/abdul-wahid-noori.jpg",
-    */
-
-    image: null,
+    // Temporary online image
+    image:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1000&q=85",
   },
 
   // ===================================================
@@ -57,6 +53,9 @@ export const directorMessageData = {
 
   principle: {
     label: "Our Commitment",
+
     text: "Removing hazards. Saving lives. Investing in safer futures.",
   },
 };
+
+export default directorMessageData;
