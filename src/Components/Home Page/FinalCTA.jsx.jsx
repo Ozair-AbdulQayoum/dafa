@@ -13,11 +13,18 @@ export default function FinalCTA() {
       aria-labelledby="final-cta-heading"
       className="
         relative
+        -mt-6
         overflow-hidden
         bg-[#F6FAF8]
-        py-20
-        sm:py-24
-        lg:py-28
+        px-5
+        pt-0
+        pb-16
+        sm:-mt-8
+        sm:px-8
+        sm:pb-20
+        lg:-mt-10
+        lg:px-10
+        lg:pb-24
       "
     >
       {/* =====================================================
@@ -29,6 +36,7 @@ export default function FinalCTA() {
         className="pointer-events-none absolute inset-0 overflow-hidden"
       >
         {/* Green ambient glow */}
+
         <div
           className="
             absolute
@@ -43,6 +51,7 @@ export default function FinalCTA() {
         />
 
         {/* Orange ambient glow */}
+
         <div
           className="
             absolute
@@ -57,6 +66,7 @@ export default function FinalCTA() {
         />
 
         {/* Soft center glow */}
+
         <div
           className="
             absolute
@@ -73,6 +83,7 @@ export default function FinalCTA() {
         />
 
         {/* Decorative glass shapes */}
+
         <div
           className="
             absolute
@@ -106,7 +117,14 @@ export default function FinalCTA() {
           GLASS CONTAINER
       ===================================================== */}
 
-      <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-6xl
+        "
+      >
         <motion.div
           initial={
             shouldReduceMotion
@@ -146,6 +164,7 @@ export default function FinalCTA() {
           "
         >
           {/* Glass highlight */}
+
           <div
             aria-hidden="true"
             className="
@@ -159,6 +178,7 @@ export default function FinalCTA() {
           />
 
           {/* Green glass accent */}
+
           <div
             aria-hidden="true"
             className="
@@ -175,6 +195,7 @@ export default function FinalCTA() {
           />
 
           {/* Orange glass accent */}
+
           <div
             aria-hidden="true"
             className="
@@ -317,7 +338,7 @@ export default function FinalCTA() {
                 />
               </Link>
 
-              {/* SECONDARY GLASS CTA */}
+              {/* SECONDARY CTA */}
 
               <Link
                 to="/what-we-do"

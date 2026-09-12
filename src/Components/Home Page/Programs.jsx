@@ -3,484 +3,270 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 
-import { programs } from "../../Components/Data File/Main Page Data/ProgramsData";
+import whatWeDoData from "../../Components/Data File/What We Do Data/ActivitiesData.js";
 
 export default function Programs() {
   const shouldReduceMotion = useReducedMotion();
 
+  // Show only the first 3 programs on the Home Page
+  const featuredPrograms = Array.isArray(whatWeDoData)
+    ? whatWeDoData.slice(0, 3)
+    : [];
+
   return (
     <section
       aria-labelledby="programs-section-title"
-      className="
-        relative
-        overflow-hidden
-        bg-[#F7FBF8]
-        py-12
-        sm:py-14
-        lg:py-16
-      "
+      className="relative overflow-hidden bg-[#F7FBF8] py-5 sm:py-7 lg:py-9"
     >
-      <div
-        className="
-          mx-auto
-          w-full
-          max-w-7xl
-          px-5
-          sm:px-8
-          lg:px-10
-        "
-      >
-        {/* =====================================================
-            SECTION HEADER
-        ====================================================== */}
-
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* ================= HEADER ================= */}
         <motion.div
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.25,
-          }}
-          transition={{
-            duration: shouldReduceMotion ? 0 : 0.55,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="
-            mx-auto
-            mb-9
-            max-w-3xl
-            text-center
-            sm:mb-11
-            lg:mb-12
-          "
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5 }}
+          className="mx-auto mb-8 max-w-3xl text-center sm:mb-10"
         >
-          {/* Eyebrow */}
-
-          <div
-            className="
-              mb-4
-              flex
-              items-center
-              justify-center
-              gap-3
-            "
-          >
-            <span
-              aria-hidden="true"
-              className="
-                h-[2px]
-                w-8
-                rounded-full
-                bg-[#F97316]
-                sm:w-10
-              "
-            />
-
-            <span
-              className="
-                text-[11px]
-                font-extrabold
-                uppercase
-                tracking-[0.18em]
-                text-[#0B3D2E]
-                sm:text-sm
-                sm:tracking-[0.2em]
-              "
-            >
-              Our Programs
-            </span>
-
-            <span
-              aria-hidden="true"
-              className="
-                h-[2px]
-                w-8
-                rounded-full
-                bg-[#F97316]
-                sm:w-10
-              "
-            />
-          </div>
-
-          {/* Heading */}
+          <span className="mb-2 inline-block text-xs font-bold uppercase tracking-[0.18em] text-[#0B3D2E]">
+            Our Programs
+          </span>
 
           <h2
             id="programs-section-title"
-            className="
-              text-[1.9rem]
-              font-extrabold
-              leading-[1.08]
-              tracking-[-0.035em]
-              text-[#0F172A]
-              sm:text-4xl
-              lg:text-[2.8rem]
-              xl:text-5xl
-            "
+            className="text-2xl font-black leading-tight text-[#0F172A] sm:text-3xl lg:text-4xl"
           >
-            Protecting Communities Through{" "}
-            <span className="text-[#0B3D2E]">Humanitarian Mine Action</span>
+            Protecting Communities Through Humanitarian Mine Action
           </h2>
-
-          {/* Description */}
-
-          <p
-            className="
-              mx-auto
-              mt-4
-              max-w-2xl
-              text-sm
-              leading-6
-              text-slate-600
-              sm:mt-5
-              sm:text-base
-              sm:leading-7
-            "
-          >
-            DAFA delivers professional mine-action services to reduce explosive
-            hazards, protect communities, and help create safer environments
-            across Afghanistan.
-          </p>
         </motion.div>
 
-        {/* =====================================================
-            PROGRAM GRID
-        ====================================================== */}
+        {/* ================= PROGRAM CARDS ================= */}
+        <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+          {featuredPrograms.map((program, index) => {
+            const image = program?.images?.[0] || program?.image || "";
 
-        <div
-          className="
-            grid
-            gap-5
-            md:grid-cols-2
-            lg:grid-cols-3
-          "
-        >
-          {programs.map((program, index) => {
-            const Icon = program.icon;
+            const title =
+              program?.title || program?.shortTitle || "DAFA Program";
 
             return (
               <motion.article
-                key={program.slug}
-                initial={
-                  shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }
-                }
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                  amount: 0.15,
-                }}
+                key={program?.slug || index}
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 35 }}
+                whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
-                  duration: shouldReduceMotion ? 0 : 0.5,
-                  delay: shouldReduceMotion ? 0 : index * 0.08,
-                  ease: [0.22, 1, 0.36, 1],
+                  duration: 0.6,
+                  delay: shouldReduceMotion ? 0 : index * 0.12,
                 }}
                 className="
                   group
-                  flex
-                  h-full
-                  flex-col
+                  relative
+                  h-[500px]
                   overflow-hidden
-                  rounded-2xl
-                  border
-                  border-[#0B3D2E]/10
-                  bg-white
-                  shadow-[0_8px_25px_rgba(15,23,42,0.05)]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:border-[#0B3D2E]/25
-                  hover:shadow-[0_16px_35px_rgba(11,61,46,0.10)]
-                  focus-within:border-[#0B3D2E]/30
+                  rounded-[26px]
+                  bg-[#0B3D2E]
+                  shadow-[0_15px_45px_rgba(15,23,42,0.12)]
                 "
               >
-                {/* =================================================
-                    IMAGE
-                ================================================== */}
-
-                <div
-                  className="
-                    relative
-                    h-[210px]
-                    overflow-hidden
-                    sm:h-[230px]
-                  "
-                >
-                  {program.image ? (
-                    <img
-                      src={program.image}
-                      alt={program.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="
-                        h-full
-                        w-full
-                        object-cover
-                        object-center
-                        transition-transform
-                        duration-500
-                        ease-out
-                        group-hover:scale-[1.035]
-                      "
-                    />
-                  ) : (
-                    <div
-                      className="
-                        flex
-                        h-full
-                        w-full
-                        items-center
-                        justify-center
-                        bg-[#0B3D2E]
-                      "
-                    >
-                      <Icon
-                        size={48}
-                        className="text-white"
-                        aria-hidden="true"
-                      />
-                    </div>
-                  )}
-
-                  {/* Image overlay */}
-
-                  <div
-                    aria-hidden="true"
+                {/* ================= FULL IMAGE ================= */}
+                {image ? (
+                  <img
+                    src={image}
+                    alt={title}
                     className="
-                      pointer-events-none
                       absolute
                       inset-0
-                      bg-gradient-to-t
-                      from-[#0B3D2E]/55
-                      via-transparent
-                      to-transparent
+                      h-full
+                      w-full
+                      object-cover
+                      transition-transform
+                      duration-700
+                      ease-out
+                      group-hover:scale-110
                     "
                   />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-[#0B3D2E]">
+                    <span className="px-6 text-center text-sm font-semibold text-white">
+                      DAFA Humanitarian Mine Action
+                    </span>
+                  </div>
+                )}
 
-                  {/* Program number */}
-
-                  <span
-                    className="
-                      absolute
-                      left-4
-                      top-4
-                      flex
-                      h-9
-                      min-w-9
-                      items-center
-                      justify-center
-                      rounded-lg
-                      bg-[#0B3D2E]/90
-                      px-2
-                      text-[11px]
-                      font-bold
-                      tracking-[0.08em]
-                      text-white
-                      backdrop-blur-sm
-                    "
-                  >
-                    {program.number}
-                  </span>
-
-                  {/* Category */}
-
-                  <span
-                    className="
-                      absolute
-                      bottom-4
-                      left-4
-                      rounded-md
-                      border
-                      border-white/20
-                      bg-white/95
-                      px-2.5
-                      py-1.5
-                      text-[10px]
-                      font-bold
-                      uppercase
-                      tracking-[0.08em]
-                      text-[#0B3D2E]
-                    "
-                  >
-                    {program.category}
-                  </span>
-                </div>
-
-                {/* =================================================
-                    CARD CONTENT
-                ================================================== */}
-
+                {/* ================= IMAGE OVERLAY ================= */}
                 <div
                   className="
-                    flex
-                    flex-1
-                    flex-col
-                    p-5
-                    sm:p-6
+                    absolute
+                    inset-0
+                    bg-gradient-to-b
+                    from-black/10
+                    via-transparent
+                    to-black/60
+                  "
+                />
+
+                {/* ================= PROGRAM NUMBER ================= */}
+                <div className="absolute left-5 top-5">
+                  <div
+                    className="
+                      flex
+                      h-12
+                      w-12
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-white/30
+                      bg-black/20
+                      text-sm
+                      font-bold
+                      text-white
+                      backdrop-blur-md
+                    "
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+                </div>
+
+                {/* ================= ABBREVIATION ================= */}
+                {program?.abbreviation && (
+                  <div className="absolute right-5 top-5">
+                    <span
+                      className="
+                        rounded-full
+                        border
+                        border-white/30
+                        bg-black/20
+                        px-3
+                        py-1.5
+                        text-xs
+                        font-bold
+                        tracking-wide
+                        text-white
+                        backdrop-blur-md
+                      "
+                    >
+                      {program.abbreviation}
+                    </span>
+                  </div>
+                )}
+
+                {/* ================= GLASS CONTENT PANEL ================= */}
+                <div
+                  className="
+                    absolute
+                    bottom-4
+                    left-4
+                    right-4
+                    rounded-[22px]
+                    border
+                    border-white/70
+                    bg-white/80
+                    p-6
+                    shadow-2xl
+                    backdrop-blur-xl
+                    transition-all
+                    duration-500
+                    ease-out
+                    group-hover:bottom-5
+                    group-hover:bg-white/90
+                    sm:p-7
                   "
                 >
-                  {/* Icon */}
-
+                  {/* Orange Accent */}
                   <div
                     className="
                       mb-4
-                      flex
-                      h-11
-                      w-11
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-xl
-                      bg-[#0B3D2E]/[0.07]
-                      text-[#0B3D2E]
+                      h-1
+                      w-10
+                      rounded-full
+                      bg-[#F97316]
                       transition-all
-                      duration-300
-                      group-hover:translate-y-[-2px]
-                      group-hover:bg-[#0B3D2E]
-                      group-hover:text-white
+                      duration-500
+                      group-hover:w-16
                     "
-                  >
-                    <Icon size={19} aria-hidden="true" />
-                  </div>
+                  />
 
-                  {/* Title */}
-
+                  {/* Program Title */}
                   <h3
                     className="
-                      text-lg
-                      font-extrabold
-                      leading-6
-                      tracking-[-0.02em]
-                      text-[#0F172A]
-                      sm:text-xl
+                      text-xl
+                      font-black
+                      leading-tight
+                      text-[#0B3D2E]
+                      sm:text-2xl
                     "
                   >
-                    {program.title}
+                    {title}
                   </h3>
 
-                  {/* Description */}
-
-                  <p
-                    className="
-                      mt-2.5
-                      line-clamp-3
-                      min-h-[66px]
-                      text-sm
-                      leading-5.5
-                      text-slate-600
-                    "
-                  >
-                    {program.description}
-                  </p>
-
-                  {/* Learn More */}
-
-                  <Link
-                    to={`/what-we-do/${program.slug}`}
-                    aria-label={`Learn more about ${program.title}`}
-                    className="
-                      group/link
-                      mt-auto
-                      inline-flex
-                      w-fit
-                      items-center
-                      gap-2
-                      pt-5
-                      text-sm
-                      font-bold
-                      text-[#0B3D2E]
-                      transition-colors
-                      duration-300
-                      hover:text-[#0A5A42]
-                      focus:outline-none
-                      focus-visible:rounded-md
-                      focus-visible:ring-2
-                      focus-visible:ring-[#F97316]
-                      focus-visible:ring-offset-2
-                    "
-                  >
-                    <span>Learn More</span>
-
-                    <FaArrowRight
-                      size={10}
-                      aria-hidden="true"
+                  {/* Explore Button */}
+                  <div className="mt-5">
+                    <Link
+                      to={`/what-we-do/${program?.slug || ""}`}
                       className="
-                        transition-transform
+                        group/link
+                        inline-flex
+                        items-center
+                        gap-2
+                        text-sm
+                        font-extrabold
+                        text-[#0B3D2E]
+                        transition-all
                         duration-300
-                        group-hover/link:translate-x-1
+                        hover:gap-3
+                        hover:text-[#F97316]
                       "
-                    />
-                  </Link>
+                    >
+                      Explore Program
+                      <FaArrowRight
+                        className="
+                          text-xs
+                          transition-transform
+                          duration-300
+                          group-hover/link:translate-x-1
+                        "
+                      />
+                    </Link>
+                  </div>
                 </div>
               </motion.article>
             );
           })}
         </div>
 
-        {/* =====================================================
-            VIEW ALL PROGRAMS
-        ====================================================== */}
-
+        {/* ================= VIEW ALL ================= */}
         <motion.div
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
-          transition={{
-            duration: shouldReduceMotion ? 0 : 0.45,
-            delay: shouldReduceMotion ? 0 : 0.15,
-          }}
-          className="
-            mt-9
-            flex
-            justify-center
-            sm:mt-10
-          "
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.25 }}
+          className="mt-10 flex justify-center sm:mt-12"
         >
           <Link
             to="/what-we-do"
             className="
               group
               inline-flex
-              min-h-[46px]
               items-center
-              justify-center
-              gap-2.5
+              gap-3
               rounded-xl
-              border
-              border-[#0B3D2E]
               bg-[#0B3D2E]
-              px-5
+              px-7
+              py-3.5
               text-sm
               font-bold
               text-white
-              shadow-[0_8px_20px_rgba(11,61,46,0.12)]
+              shadow-lg
               transition-all
               duration-300
-              hover:-translate-y-0.5
               hover:bg-[#0A5A42]
-              hover:shadow-[0_12px_25px_rgba(11,61,46,0.16)]
-              focus:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[#F97316]
-              focus-visible:ring-offset-2
+              hover:shadow-xl
             "
           >
-            <span>View All Programs</span>
-
+            View All Programs
             <FaArrowRight
-              size={10}
-              aria-hidden="true"
               className="
+                text-xs
                 transition-transform
                 duration-300
                 group-hover:translate-x-1

@@ -1,7 +1,7 @@
 // src/Components/Home-Page/About.jsx
 
-import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FaArrowRight, FaShieldAlt } from "react-icons/fa";
 
 import { aboutDAFAData } from "../../Components/Data File/About Page Data/AboutData";
@@ -9,11 +9,34 @@ import { aboutDAFAData } from "../../Components/Data File/About Page Data/AboutD
 export default function About() {
   const shouldReduceMotion = useReducedMotion();
 
+  const [currentImage, setCurrentImage] = useState(0);
+
+  const images = aboutDAFAData.images || [];
+
+  // =====================================================
+  // AUTO IMAGE SLIDER
+  // =====================================================
+
+  useEffect(() => {
+    if (shouldReduceMotion || images.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % images.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [images.length, shouldReduceMotion]);
+
+  // =====================================================
+  // FADE UP ANIMATION
+  // =====================================================
+
   const fadeUp = {
     hidden: {
       opacity: 0,
-      y: shouldReduceMotion ? 0 : 24,
+      y: shouldReduceMotion ? 0 : 20,
     },
+
     visible: {
       opacity: 1,
       y: 0,
@@ -26,28 +49,28 @@ export default function About() {
       className="
         relative
         overflow-hidden
-        bg-white
-        py-20
-        sm:py-24
-        lg:py-28
+        bg-[#F8FBF9]
+        py-16
+        sm:py-20
+        lg:py-24
       "
     >
       {/* =====================================================
-          SUBTLE BACKGROUND
-      ====================================================== */}
+          BACKGROUND DECORATION
+      ===================================================== */}
 
       <div
         aria-hidden="true"
         className="
           pointer-events-none
           absolute
-          right-[-180px]
-          top-20
-          h-[420px]
-          w-[420px]
+          -right-40
+          top-10
+          h-80
+          w-80
           rounded-full
           bg-[#0B3D2E]/[0.035]
-          blur-[100px]
+          blur-[90px]
         "
       />
 
@@ -56,19 +79,15 @@ export default function About() {
         className="
           pointer-events-none
           absolute
-          bottom-[-180px]
-          left-[-160px]
-          h-[380px]
-          w-[380px]
+          -bottom-40
+          -left-40
+          h-80
+          w-80
           rounded-full
-          bg-[#F97316]/[0.035]
-          blur-[100px]
+          bg-[#F97316]/[0.03]
+          blur-[90px]
         "
       />
-
-      {/* =====================================================
-          CONTAINER
-      ====================================================== */}
 
       <div
         className="
@@ -81,9 +100,9 @@ export default function About() {
           lg:px-10
         "
       >
-        {/* ===================================================
+        {/* =====================================================
             SECTION HEADER
-        ==================================================== */}
+        ===================================================== */}
 
         <motion.div
           initial="hidden"
@@ -98,18 +117,23 @@ export default function About() {
             ease: [0.22, 1, 0.36, 1],
           }}
           className="
-            mb-12
-            max-w-3xl
-            sm:mb-14
-            lg:mb-16
+            mx-auto
+            mb-10
+            max-w-4xl
+            text-center
+            sm:mb-12
+            lg:mb-14
           "
         >
-          {/* Eyebrow */}
-
-          <div className="mb-5 flex items-center gap-3">
+          <div className="mb-4 flex items-center justify-center gap-3">
             <span
               aria-hidden="true"
-              className="h-px w-9 bg-[#F97316] sm:w-11"
+              className="
+                h-px
+                w-10
+                bg-[#F97316]
+                sm:w-14
+              "
             />
 
             <span
@@ -117,21 +141,28 @@ export default function About() {
                 text-xs
                 font-bold
                 uppercase
-                tracking-[0.2em]
+                tracking-[0.22em]
                 text-[#0A5A42]
                 sm:text-sm
               "
             >
               {aboutDAFAData.eyebrow}
             </span>
-          </div>
 
-          {/* Heading */}
+            <span
+              aria-hidden="true"
+              className="
+                h-px
+                w-10
+                bg-[#F97316]
+                sm:w-14
+              "
+            />
+          </div>
 
           <h2
             id="who-we-are-heading"
             className="
-              max-w-3xl
               text-3xl
               font-black
               leading-[1.08]
@@ -139,18 +170,17 @@ export default function About() {
               text-[#0B3D2E]
               sm:text-4xl
               md:text-5xl
-              lg:text-[3.4rem]
+              lg:text-[3.2rem]
             "
           >
             {aboutDAFAData.title}
           </h2>
 
-          {/* Description */}
-
           <p
             className="
+              mx-auto
               mt-5
-              max-w-2xl
+              max-w-3xl
               text-base
               leading-7
               text-slate-600
@@ -162,23 +192,23 @@ export default function About() {
           </p>
         </motion.div>
 
-        {/* ===================================================
-            EDITORIAL CONTENT
-        ==================================================== */}
+        {/* =====================================================
+            IMAGE + CONTENT
+        ===================================================== */}
 
         <div
           className="
             grid
-            items-start
-            gap-12
-            lg:grid-cols-[0.9fr_1.1fr]
-            lg:gap-16
-            xl:gap-20
+            items-stretch
+            gap-8
+            lg:grid-cols-2
+            lg:gap-12
+            xl:gap-16
           "
         >
-          {/* =================================================
-              IMAGE / VISUAL
-          ================================================== */}
+          {/* =====================================================
+              IMAGE
+          ===================================================== */}
 
           <motion.div
             initial={
@@ -198,12 +228,12 @@ export default function About() {
               amount: 0.2,
             }}
             transition={{
-              duration: 0.75,
+              duration: 0.8,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="relative"
+            className="relative flex"
           >
-            {/* Decorative orange corner */}
+            {/* Orange Corner */}
 
             <div
               aria-hidden="true"
@@ -211,8 +241,9 @@ export default function About() {
                 absolute
                 -left-3
                 -top-3
-                h-20
-                w-20
+                z-0
+                h-16
+                w-16
                 rounded-tl-2xl
                 border-l-2
                 border-t-2
@@ -220,155 +251,126 @@ export default function About() {
               "
             />
 
-            {/* Visual */}
+            {/* Image Container */}
 
             <div
               className="
                 relative
+                z-10
+                flex
+                min-h-[520px]
+                w-full
                 overflow-hidden
                 rounded-[24px]
-                border
-                border-slate-200
                 bg-[#0B3D2E]
-                shadow-[0_18px_50px_rgba(11,61,46,0.10)]
+                shadow-[0_20px_50px_rgba(11,61,46,0.12)]
+                sm:min-h-[560px]
+                lg:min-h-full
               "
             >
-              {aboutDAFAData.image?.src ? (
-                <div className="relative aspect-[4/3]">
-                  <img
-                    src={aboutDAFAData.image.src}
-                    alt={aboutDAFAData.image.alt}
-                    className="
-                      h-full
-                      w-full
-                      object-cover
-                      transition-transform
-                      duration-700
-                      hover:scale-[1.03]
-                    "
-                    loading="lazy"
-                  />
+              {/* =====================================================
+                  AUTO SLIDING IMAGES
+              ===================================================== */}
 
-                  <div
-                    aria-hidden="true"
+              <AnimatePresence mode="sync">
+                {images.length > 0 && (
+                  <motion.img
+                    key={currentImage}
+                    src={images[currentImage].src}
+                    alt={images[currentImage].alt}
+                    initial={{
+                      opacity: 0,
+                      scale: shouldReduceMotion ? 1 : 1.05,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: shouldReduceMotion ? 1 : 1.02,
+                    }}
+                    transition={{
+                      opacity: {
+                        duration: 1,
+                        ease: "easeInOut",
+                      },
+                      scale: {
+                        duration: 1.4,
+                        ease: [0.22, 1, 0.36, 1],
+                      },
+                    }}
                     className="
                       absolute
                       inset-0
-                      bg-gradient-to-t
-                      from-[#0B3D2E]/70
-                      via-transparent
-                      to-transparent
+                      h-full
+                      min-h-[520px]
+                      w-full
+                      object-cover
+                      sm:min-h-[560px]
                     "
                   />
+                )}
+              </AnimatePresence>
 
-                  <VisualBadge />
-                </div>
-              ) : (
+              {/* Image Overlay */}
+
+              <div
+                aria-hidden="true"
+                className="
+                  absolute
+                  inset-0
+                  z-10
+                  bg-gradient-to-t
+                  from-[#0B3D2E]/80
+                  via-[#0B3D2E]/10
+                  to-transparent
+                "
+              />
+
+              {/* =====================================================
+                  SLIDE INDICATORS
+              ===================================================== */}
+
+              {images.length > 1 && (
                 <div
                   className="
-                    relative
+                    absolute
+                    bottom-5
+                    right-5
+                    z-20
                     flex
-                    aspect-[4/3]
-                    items-end
-                    overflow-hidden
-                    bg-[#0B3D2E]
-                    p-6
-                    sm:p-8
+                    items-center
+                    gap-2
                   "
                 >
-                  {/* Minimal visual pattern */}
-
-                  <div
-                    aria-hidden="true"
-                    className="
-                      absolute
-                      right-[-80px]
-                      top-[-80px]
-                      h-64
-                      w-64
-                      rounded-full
-                      border
-                      border-white/10
-                    "
-                  />
-
-                  <div
-                    aria-hidden="true"
-                    className="
-                      absolute
-                      right-[-40px]
-                      top-[-40px]
-                      h-44
-                      w-44
-                      rounded-full
-                      border
-                      border-white/10
-                    "
-                  />
-
-                  <div
-                    aria-hidden="true"
-                    className="
-                      absolute
-                      bottom-8
-                      right-8
-                      h-20
-                      w-20
-                      rounded-2xl
-                      border
-                      border-[#F97316]/30
-                      rotate-12
-                    "
-                  />
-
-                  <div className="relative z-10">
-                    <div
-                      className="
-                        mb-5
-                        flex
-                        h-12
-                        w-12
-                        items-center
-                        justify-center
-                        rounded-xl
-                        bg-[#F97316]
-                        text-white
-                      "
-                    >
-                      <FaShieldAlt size={18} aria-hidden="true" />
-                    </div>
-
-                    <p
-                      className="
-                        text-xs
-                        font-bold
-                        uppercase
-                        tracking-[0.18em]
-                        text-[#A7DCC9]
-                      "
-                    >
-                      Humanitarian Mine Action
-                    </p>
-
-                    <p
-                      className="
-                        mt-3
-                        max-w-sm
-                        text-2xl
-                        font-bold
-                        leading-tight
-                        text-white
-                        sm:text-3xl
-                      "
-                    >
-                      {aboutDAFAData.statement.text}
-                    </p>
-                  </div>
+                  {images.map((_, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => setCurrentImage(index)}
+                      aria-label={`Show image ${index + 1}`}
+                      aria-current={currentImage === index ? "true" : undefined}
+                      className={`
+                        h-1.5
+                        rounded-full
+                        transition-all
+                        duration-300
+                        ${
+                          currentImage === index
+                            ? "w-8 bg-[#F97316]"
+                            : "w-2 bg-white/60 hover:bg-white"
+                        }
+                      `}
+                    />
+                  ))}
                 </div>
               )}
+
+              <VisualBadge />
             </div>
 
-            {/* Bottom accent */}
+            {/* Green Corner */}
 
             <div
               aria-hidden="true"
@@ -376,6 +378,7 @@ export default function About() {
                 absolute
                 -bottom-3
                 -right-3
+                z-0
                 h-16
                 w-16
                 rounded-br-2xl
@@ -386,9 +389,9 @@ export default function About() {
             />
           </motion.div>
 
-          {/* =================================================
-              ORGANIZATION STORY
-          ================================================== */}
+          {/* =====================================================
+              CONTENT
+          ===================================================== */}
 
           <motion.div
             initial={
@@ -408,17 +411,30 @@ export default function About() {
               amount: 0.2,
             }}
             transition={{
-              duration: 0.75,
+              duration: 0.8,
               delay: 0.08,
               ease: [0.22, 1, 0.36, 1],
             }}
+            className="
+              flex
+              min-h-[520px]
+              flex-col
+              justify-center
+              sm:min-h-[560px]
+              lg:min-h-full
+            "
           >
-            {/* Story label */}
+            {/* Small Label */}
 
-            <div className="mb-7 flex items-center gap-3">
+            <div className="mb-5 flex items-center gap-3">
               <span
                 aria-hidden="true"
-                className="h-8 w-1 rounded-full bg-[#F97316]"
+                className="
+                  h-8
+                  w-1
+                  rounded-full
+                  bg-[#F97316]
+                "
               />
 
               <span
@@ -436,7 +452,7 @@ export default function About() {
 
             {/* Paragraphs */}
 
-            <div className="space-y-5">
+            <div className="space-y-4">
               {aboutDAFAData.paragraphs.map((paragraph, index) => (
                 <motion.p
                   key={index}
@@ -449,13 +465,14 @@ export default function About() {
                   variants={fadeUp}
                   transition={{
                     duration: 0.6,
-                    delay: index * 0.08,
+                    delay: shouldReduceMotion ? 0 : index * 0.08,
                   }}
                   className="
                       text-[15px]
-                      leading-8
+                      leading-7
                       text-slate-600
                       sm:text-base
+                      sm:leading-7
                     "
                 >
                   {paragraph}
@@ -463,15 +480,20 @@ export default function About() {
               ))}
             </div>
 
-            {/* =================================================
-                KEY INFORMATION
-            ================================================== */}
+            {/* Highlights */}
 
-            <div className="mt-9 border-t border-slate-200 pt-7">
+            <div
+              className="
+                mt-7
+                border-t
+                border-slate-200
+                pt-6
+              "
+            >
               <div
                 className="
                   grid
-                  gap-0
+                  grid-cols-1
                   divide-y
                   divide-slate-200
                   sm:grid-cols-3
@@ -491,16 +513,16 @@ export default function About() {
                     variants={fadeUp}
                     transition={{
                       duration: 0.5,
-                      delay: index * 0.08,
+                      delay: shouldReduceMotion ? 0 : index * 0.08,
                     }}
                     className="
-                        py-5
-                        sm:px-5
+                        py-3
+                        sm:px-4
                         sm:first:pl-0
                         sm:last:pr-0
                       "
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       <span
                         className="
                             text-xs
@@ -512,15 +534,19 @@ export default function About() {
                         {item.number}
                       </span>
 
-                      <div
+                      <span
                         aria-hidden="true"
-                        className="h-px w-5 bg-slate-300"
+                        className="
+                            h-px
+                            w-5
+                            bg-slate-300
+                          "
                       />
                     </div>
 
                     <h3
                       className="
-                          mt-3
+                          mt-2
                           text-sm
                           font-bold
                           text-[#0B3D2E]
@@ -531,9 +557,9 @@ export default function About() {
 
                     <p
                       className="
-                          mt-2
+                          mt-1.5
                           text-xs
-                          leading-6
+                          leading-5
                           text-slate-500
                         "
                     >
@@ -546,9 +572,9 @@ export default function About() {
           </motion.div>
         </div>
 
-        {/* ===================================================
-            PURPOSE STATEMENT
-        ==================================================== */}
+        {/* =====================================================
+            PURPOSE
+        ===================================================== */}
 
         <motion.div
           initial="hidden"
@@ -563,22 +589,20 @@ export default function About() {
             delay: 0.1,
           }}
           className="
-            mt-14
+            mt-10
             border-t
             border-slate-200
-            pt-8
-            sm:mt-16
-            sm:pt-9
+            pt-6
+            sm:mt-12
+            sm:pt-7
           "
         >
           <div
             className="
               flex
-              flex-col
-              gap-5
-              sm:flex-row
-              sm:items-center
-              sm:justify-between
+              items-center
+              justify-between
+              gap-6
             "
           >
             <div className="max-w-4xl">
@@ -612,17 +636,16 @@ export default function About() {
             <div
               aria-hidden="true"
               className="
-                flex
+                hidden
                 h-11
                 w-11
                 shrink-0
                 items-center
                 justify-center
                 rounded-full
-                border
-                border-[#0B3D2E]/10
                 bg-[#0B3D2E]
                 text-white
+                sm:flex
               "
             >
               <FaArrowRight size={13} />
@@ -634,9 +657,9 @@ export default function About() {
   );
 }
 
-/* =========================================================
+/* =====================================================
    IMAGE BADGE
-========================================================= */
+===================================================== */
 
 function VisualBadge() {
   return (
@@ -646,17 +669,18 @@ function VisualBadge() {
         bottom-5
         left-5
         right-5
+        z-20
         flex
         items-center
         gap-3
         rounded-xl
         border
         border-white/15
-        bg-[#0B3D2E]/70
+        bg-[#0B3D2E]/80
         p-3
         backdrop-blur-md
-        sm:bottom-7
-        sm:left-7
+        sm:bottom-6
+        sm:left-6
         sm:right-auto
         sm:max-w-xs
       "

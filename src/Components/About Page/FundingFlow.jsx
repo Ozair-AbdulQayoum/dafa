@@ -37,7 +37,6 @@ export default function FundingFlow() {
   };
 
   const innerWidth = chartWidth - padding.left - padding.right;
-
   const innerHeight = chartHeight - padding.top - padding.bottom;
 
   const maxFunding = Math.max(...fundingData.map((item) => item.amount)) || 1;
@@ -61,20 +60,25 @@ export default function FundingFlow() {
   });
 
   // =====================================================
-  // LINE
+  // LINE PATH
   // =====================================================
 
-  const linePoints = points.map((point) => `${point.x},${point.y}`).join(" ");
+  const linePath = points
+    .map((point, index) => {
+      return `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`;
+    })
+    .join(" ");
 
   // =====================================================
-  // AREA
+  // AREA PATH
   // =====================================================
 
-  const areaPoints = [
-    `${padding.left},${padding.top + innerHeight}`,
-    ...points.map((point) => `${point.x},${point.y}`),
-    `${padding.left + innerWidth},${padding.top + innerHeight}`,
-  ].join(" ");
+  const areaPath = `
+    M ${padding.left} ${padding.top + innerHeight}
+    ${points.map((point) => `L ${point.x} ${point.y}`).join(" ")}
+    L ${padding.left + innerWidth} ${padding.top + innerHeight}
+    Z
+  `;
 
   // =====================================================
   // SELECTED POINT
@@ -124,11 +128,11 @@ export default function FundingFlow() {
   return (
     <section
       aria-labelledby="funding-flow-heading"
-      className="relative overflow-hidden bg-[#F8FAFC] py-20 sm:py-24 lg:py-28"
+      className="relative overflow-hidden bg-[#F8FAFC] pt-0 pb-14 sm:pt-2 sm:pb-16 lg:pt-4 lg:pb-20"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         {/* =====================================================
-            HEADER
+            SECTION HEADER
         ====================================================== */}
 
         <motion.header
@@ -140,7 +144,7 @@ export default function FundingFlow() {
             duration: 0.7,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mx-auto mb-12 max-w-3xl text-center sm:mb-14 lg:mb-16"
+          className="mx-auto mb-10 max-w-3xl text-center sm:mb-12 lg:mb-14"
         >
           <div className="mb-5 inline-flex items-center gap-3">
             <span
@@ -172,7 +176,7 @@ export default function FundingFlow() {
         </motion.header>
 
         {/* =====================================================
-            MAIN CHART
+            MAIN FUNDING CARD
         ====================================================== */}
 
         <motion.div
@@ -185,18 +189,18 @@ export default function FundingFlow() {
             delay: 0.05,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_12px_45px_rgba(15,23,42,0.06)]"
+          className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_15px_50px_rgba(15,23,42,0.06)]"
         >
           {/* ===================================================
-              CHART TOP BAR
+              TOP INFORMATION BAR
           ==================================================== */}
 
-          <div className="border-b border-slate-100 p-6 sm:p-8">
+          <div className="border-b border-slate-100 p-5 sm:p-7 lg:p-8">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-              {/* Chart Title */}
+              {/* Chart Identity */}
 
               <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0B3D2E] text-white">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0B3D2E] text-white shadow-sm">
                   <FaChartLine size={16} aria-hidden="true" />
                 </div>
 
@@ -209,13 +213,13 @@ export default function FundingFlow() {
                     Annual Funding Flow
                   </h3>
 
-                  <p className="mt-1 text-xs text-slate-400">1990 — 2026</p>
+                  <p className="mt-1 text-xs font-medium text-slate-400">
+                    1990 — 2026
+                  </p>
                 </div>
               </div>
 
-              {/* =================================================
-                  SELECTED YEAR
-              ================================================== */}
+              {/* Selected Data */}
 
               <motion.div
                 key={selectedData.year}
@@ -231,10 +235,12 @@ export default function FundingFlow() {
                   opacity: 1,
                   y: 0,
                 }}
-                transition={{ duration: 0.25 }}
-                className="grid grid-cols-2 overflow-hidden rounded-2xl border border-slate-200 bg-[#F8FAFC] sm:min-w-[350px]"
+                transition={{
+                  duration: 0.25,
+                }}
+                className="grid overflow-hidden rounded-2xl border border-slate-200 bg-[#F8FAFC] sm:min-w-[370px] sm:grid-cols-2"
               >
-                <div className="border-r border-slate-200 px-5 py-4">
+                <div className="border-b border-slate-200 px-5 py-4 sm:border-b-0 sm:border-r">
                   <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">
                     Selected Year
                   </p>
@@ -263,10 +269,10 @@ export default function FundingFlow() {
           </div>
 
           {/* ===================================================
-              CHART AREA
+              CHART
           ==================================================== */}
 
-          <div className="px-4 pb-4 pt-8 sm:px-8 sm:pb-6 sm:pt-10">
+          <div className="px-3 pb-3 pt-7 sm:px-7 sm:pb-6 sm:pt-9">
             <div
               className="overflow-x-auto pb-2"
               role="region"
@@ -285,12 +291,12 @@ export default function FundingFlow() {
                   </title>
 
                   <desc id="funding-chart-description">
-                    Interactive line chart showing annual funding amounts.
-                    Select a data point to view the funding for that year.
+                    Interactive line chart showing annual DAFA funding. Select a
+                    data point to view the funding for that year.
                   </desc>
 
                   {/* =========================================
-                      GRID
+                      GRID LINES
                   ========================================== */}
 
                   {[0, 0.25, 0.5, 0.75, 1].map((value) => {
@@ -326,8 +332,8 @@ export default function FundingFlow() {
                       AREA
                   ========================================== */}
 
-                  <motion.polygon
-                    points={areaPoints}
+                  <motion.path
+                    d={areaPath}
                     fill="rgba(8,123,90,0.055)"
                     initial={{
                       opacity: 0,
@@ -341,11 +347,11 @@ export default function FundingFlow() {
                   />
 
                   {/* =========================================
-                      MAIN LINE
+                      FUNDING LINE
                   ========================================== */}
 
-                  <motion.polyline
-                    points={linePoints}
+                  <motion.path
+                    d={linePath}
                     fill="none"
                     stroke="#087B5A"
                     strokeWidth="3.5"
@@ -369,7 +375,7 @@ export default function FundingFlow() {
                   />
 
                   {/* =========================================
-                      X AXIS YEARS
+                      KEY YEARS
                   ========================================== */}
 
                   {keyYears.map((year) => {
@@ -412,7 +418,7 @@ export default function FundingFlow() {
 
                     return (
                       <g key={point.year}>
-                        {/* Accessible interaction area */}
+                        {/* Invisible Interaction Area */}
 
                         <circle
                           cx={point.x}
@@ -525,10 +531,10 @@ export default function FundingFlow() {
           </div>
 
           {/* ===================================================
-              CHART FOOTER
+              FOOTER
           ==================================================== */}
 
-          <div className="border-t border-slate-100 px-6 py-5 sm:px-8">
+          <div className="border-t border-slate-100 px-5 py-5 sm:px-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
                 <span
@@ -560,11 +566,11 @@ export default function FundingFlow() {
         </motion.div>
 
         {/* =====================================================
-            MOBILE / ACCESSIBILITY NOTE
+            MOBILE NOTE
         ====================================================== */}
 
-        <p className="mt-5 text-center text-[11px] leading-5 text-slate-400">
-          The chart can be horizontally scrolled on smaller screens.
+        <p className="mt-4 text-center text-[11px] leading-5 text-slate-400">
+          Scroll horizontally on smaller screens to explore the chart.
         </p>
       </div>
     </section>

@@ -12,11 +12,9 @@ import {
 } from "../../Components/Data File/News Update Data/LatestNews";
 
 export default function News() {
-  /*
-   * =========================================================
-   * HOMEPAGE NEWS SELECTION
-   * =========================================================
-   */
+  /* =========================================================
+     HOMEPAGE NEWS SELECTION
+  ========================================================= */
 
   const featuredNews = latestNews || newsUpdates?.[0];
 
@@ -29,13 +27,21 @@ export default function News() {
   return (
     <section
       id="news-media"
+      aria-labelledby="news-media-heading"
       className="
         relative
+        -mt-6
         overflow-hidden
         bg-white
-        py-16
-        sm:py-20
-        lg:py-24
+        px-5
+        pt-0
+        pb-16
+        sm:-mt-8
+        sm:px-8
+        sm:pb-20
+        lg:-mt-10
+        lg:px-10
+        lg:pb-24
       "
     >
       {/* =====================================================
@@ -78,9 +84,6 @@ export default function News() {
           z-10
           mx-auto
           max-w-7xl
-          px-5
-          sm:px-8
-          lg:px-10
         "
       >
         {/* =====================================================
@@ -140,6 +143,7 @@ export default function News() {
           {/* Heading */}
 
           <h2
+            id="news-media-heading"
             className="
               text-3xl
               font-bold
@@ -252,7 +256,7 @@ export default function News() {
                 loading="lazy"
               />
 
-              {/* Subtle image gradient */}
+              {/* Image Gradient */}
 
               <div
                 className="
@@ -268,7 +272,7 @@ export default function News() {
                 aria-hidden="true"
               />
 
-              {/* Featured label */}
+              {/* Featured Label */}
 
               <span
                 className="
@@ -392,12 +396,7 @@ export default function News() {
                   FEATURED FOOTER
               ================================================= */}
 
-              <div
-                className="
-                  mt-auto
-                  pt-6
-                "
-              >
+              <div className="mt-auto pt-6">
                 <div
                   className="
                     mb-5
@@ -631,7 +630,7 @@ export default function News() {
                     {article.title}
                   </h3>
 
-                  {/* Short excerpt */}
+                  {/* Short Excerpt */}
 
                   {article.description && (
                     <p
@@ -654,12 +653,12 @@ export default function News() {
                     className="
                       group/link
                       mt-auto
-                      pt-4
                       inline-flex
                       min-h-[42px]
                       w-fit
                       items-center
                       gap-2
+                      pt-4
                       text-sm
                       font-bold
                       text-[#0B3D2E]

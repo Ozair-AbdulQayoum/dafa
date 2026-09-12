@@ -12,11 +12,31 @@ export const aboutDAFAData = {
   description:
     "The Demining Agency for Afghanistan (DAFA) is a humanitarian organization dedicated to reducing the impact of landmines and explosive remnants of war on communities across Afghanistan.",
 
-  // Online image for the Who We Are section
-  image: {
-    src: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1400&q=85",
-    alt: "Humanitarian team supporting communities through field activities",
-  },
+  // =====================================================
+  // ABOUT IMAGES — AUTO SLIDER
+  // =====================================================
+
+  images: [
+    {
+      src: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1400&q=85",
+      alt: "Humanitarian team supporting communities through field activities",
+    },
+
+    {
+      src: "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1400&q=85",
+      alt: "Humanitarian workers supporting local communities",
+    },
+
+    {
+      src: "https://images.unsplash.com/photo-1489493585363-d69421e0edd3?auto=format&fit=crop&w=1400&q=85",
+      alt: "Community development and humanitarian support",
+    },
+
+    {
+      src: "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1400&q=85",
+      alt: "Humanitarian community assistance and field work",
+    },
+  ],
 
   paragraphs: [
     "DAFA works to protect lives and support communities affected by landmines and other explosive hazards. Through humanitarian mine action, we help make contaminated areas safer and enable people to access land, essential services, livelihoods, and opportunities for development.",

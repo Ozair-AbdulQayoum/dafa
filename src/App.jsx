@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Navbar & Footer
+// Global
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 
@@ -42,60 +42,82 @@ import Certificates from "./Components/Resources/Certificate/Certificates";
 import Contact from "./Components/Contact";
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const handleLoad = () => {
+      setIsLoading(false);
+    };
+
+    // Wait until the browser finishes loading resources
+    if (document.readyState === "complete") {
+      setIsLoading(false);
+    } else {
+      window.addEventListener("load", handleLoad);
+    }
+
+    return () => {
+      window.removeEventListener("load", handleLoad);
+    };
+  }, []);
+
   return (
-    <BrowserRouter>
-      <Navbar />
+    <>
+      <BrowserRouter>
+        {/* Global Navbar */}
+        <Navbar />
 
-      <Routes>
-        {/* HOME */}
-        <Route path="/" element={<Mainpage />} />
+        <Routes>
+          {/* HOME */}
+          <Route path="/" element={<Mainpage />} />
 
-        {/* ABOUT */}
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/organization-chart" element={<OrganizationChart />} />
+          {/* ABOUT */}
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/organization-chart" element={<OrganizationChart />} />
 
-        {/* WHAT WE DO */}
-        <Route path="/what-we-do" element={<WhatWeDo />} />
-        <Route path="/what-we-do/:slug" element={<ActivityDetails />} />
+          {/* WHAT WE DO */}
+          <Route path="/what-we-do" element={<WhatWeDo />} />
+          <Route path="/what-we-do/:slug" element={<ActivityDetails />} />
 
-        {/* HUMANITARIAN SUPPORT */}
-        <Route path="/beyond-demining" element={<BeyondDemining />} />
-        <Route
-          path="/beyond-demining/:slug"
-          element={<BeyondDeminingDetails />}
-        />
+          {/* HUMANITARIAN SUPPORT */}
+          <Route path="/beyond-demining" element={<BeyondDemining />} />
+          <Route
+            path="/beyond-demining/:slug"
+            element={<BeyondDeminingDetails />}
+          />
 
-        {/* MEMBERS */}
-        <Route path="/members" element={<Members />} />
-        <Route path="/members/:slug" element={<MemberProfile />} />
+          {/* MEMBERS */}
+          <Route path="/members" element={<Members />} />
+          <Route path="/members/:slug" element={<MemberProfile />} />
 
-        {/* PROJECTS */}
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/projects/:slug" element={<ProjectDetails />} />
+          {/* PROJECTS */}
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:slug" element={<ProjectDetails />} />
 
-        {/* ACHIEVEMENTS */}
-        <Route path="/achievements" element={<Achievements />} />
+          {/* ACHIEVEMENTS */}
+          <Route path="/achievements" element={<Achievements />} />
 
-        {/* RESOURCES */}
+          {/* RESOURCES */}
+          <Route path="/resources/stories" element={<Stories />} />
 
-        <Route path="/resources/stories" element={<Stories />} />
+          <Route path="/resources/stories/:slug" element={<StoriesDetails />} />
 
-        <Route path="/resources/stories/:slug" element={<StoriesDetails />} />
+          <Route path="/resources/news-updates" element={<NewsUpdate />} />
 
-        <Route path="/resources/news-updates" element={<NewsUpdate />} />
+          <Route
+            path="/resources/news-updates/:slug"
+            element={<NewsUpdateDetails />}
+          />
 
-        <Route
-          path="/resources/news-updates/:slug"
-          element={<NewsUpdateDetails />}
-        />
+          <Route path="/resources/certificates" element={<Certificates />} />
 
-        <Route path="/resources/certificates" element={<Certificates />} />
+          {/* CONTACT */}
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
 
-        {/* CONTACT */}
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-
-      <Footer />
-    </BrowserRouter>
+        {/* Global Footer */}
+        <Footer />
+      </BrowserRouter>
+    </>
   );
 }

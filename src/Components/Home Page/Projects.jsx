@@ -20,9 +20,12 @@ export default function Projects() {
         relative
         overflow-hidden
         bg-[#F6FAF8]
-        py-16
-        sm:py-20
-        lg:py-24
+        pt-2
+        pb-16
+        sm:pt-4
+        sm:pb-20
+        lg:pt-6
+        lg:pb-24
       "
     >
       {/* =====================================================
@@ -84,7 +87,10 @@ export default function Projects() {
 
         <motion.header
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
           viewport={{
             once: true,
             amount: 0.2,
@@ -93,9 +99,7 @@ export default function Projects() {
             duration: shouldReduceMotion ? 0 : 0.65,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="
-            max-w-3xl
-          "
+          className="max-w-3xl"
         >
           {/* EYEBROW */}
 
@@ -168,10 +172,10 @@ export default function Projects() {
         {homeProjects.length > 0 ? (
           <div
             className="
-              mt-10
+              mt-8
               grid
               gap-6
-              lg:mt-12
+              lg:mt-10
               lg:grid-cols-[1.35fr_0.85fr]
             "
           >
@@ -208,7 +212,7 @@ export default function Projects() {
 
           <div
             className="
-              mt-10
+              mt-8
               rounded-2xl
               border
               border-[#0B3D2E]/10
@@ -219,23 +223,11 @@ export default function Projects() {
               shadow-[0_10px_35px_rgba(11,61,46,0.06)]
             "
           >
-            <h3
-              className="
-                text-xl
-                font-bold
-                text-[#0B3D2E]
-              "
-            >
+            <h3 className="text-xl font-bold text-[#0B3D2E]">
               No Ongoing Projects
             </h3>
 
-            <p
-              className="
-                mt-2
-                text-sm
-                text-slate-500
-              "
-            >
+            <p className="mt-2 text-sm text-slate-500">
               There are currently no ongoing projects.
             </p>
           </div>
@@ -260,10 +252,10 @@ export default function Projects() {
             delay: shouldReduceMotion ? 0 : 0.15,
           }}
           className="
-            mt-10
+            mt-9
             flex
             justify-center
-            lg:mt-12
+            lg:mt-10
           "
         >
           <Link
@@ -359,6 +351,9 @@ function FeaturedProjectCard({ project, shouldReduceMotion }) {
       }
       className="
         group
+        relative
+        h-full
+        min-h-[500px]
         overflow-hidden
         rounded-2xl
         border
@@ -368,19 +363,15 @@ function FeaturedProjectCard({ project, shouldReduceMotion }) {
         transition-shadow
         duration-300
         hover:shadow-[0_18px_45px_rgba(15,23,42,0.10)]
+        sm:min-h-[560px]
+        lg:min-h-[620px]
       "
     >
-      {/* IMAGE */}
+      {/* =====================================================
+          FULL CARD IMAGE
+      ====================================================== */}
 
-      <div
-        className="
-          relative
-          h-[300px]
-          overflow-hidden
-          sm:h-[380px]
-          lg:h-[500px]
-        "
-      >
+      <div className="absolute inset-0 h-full w-full overflow-hidden">
         {images.length > 0 ? (
           images.map((image, imageIndex) => (
             <motion.img
@@ -418,138 +409,150 @@ function FeaturedProjectCard({ project, shouldReduceMotion }) {
         ) : (
           <ProjectImageFallback />
         )}
+      </div>
 
-        {/* SUBTLE IMAGE OVERLAY */}
+      {/* =====================================================
+          FULL IMAGE OVERLAY
+      ====================================================== */}
 
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          bg-gradient-to-t
+          from-black/75
+          via-black/25
+          to-black/5
+        "
+      />
+
+      {/* =====================================================
+          FEATURED LABEL
+      ====================================================== */}
+
+      <div
+        className="
+          absolute
+          left-5
+          top-5
+          z-10
+          rounded-full
+          bg-[#0B3D2E]
+          px-3.5
+          py-1.5
+          text-[11px]
+          font-bold
+          uppercase
+          tracking-[0.12em]
+          text-white
+          shadow-lg
+          sm:left-6
+          sm:top-6
+        "
+      >
+        Featured Project
+      </div>
+
+      {/* =====================================================
+          IMAGE INDICATORS
+      ====================================================== */}
+
+      {images.length > 1 && (
         <div
+          className="
+            absolute
+            right-5
+            top-6
+            z-10
+            flex
+            items-center
+            gap-1.5
+          "
           aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            inset-0
-            bg-gradient-to-t
-            from-black/65
-            via-black/10
-            to-transparent
-          "
-        />
+        >
+          {images.map((_, imageIndex) => (
+            <span
+              key={imageIndex}
+              className={`
+                h-1.5
+                rounded-full
+                transition-all
+                duration-300
+                ${
+                  currentImage === imageIndex
+                    ? "w-5 bg-white"
+                    : "w-1.5 bg-white/60"
+                }
+              `}
+            />
+          ))}
+        </div>
+      )}
 
-        {/* FEATURED LABEL */}
+      {/* =====================================================
+          CONTENT
+      ====================================================== */}
 
+      <div
+        className="
+          absolute
+          inset-x-0
+          bottom-0
+          z-10
+          p-5
+          sm:p-7
+          lg:p-8
+        "
+      >
         <div
           className="
-            absolute
-            left-5
-            top-5
-            rounded-full
-            bg-[#0B3D2E]
-            px-3.5
-            py-1.5
-            text-[11px]
-            font-bold
-            uppercase
-            tracking-[0.12em]
+            flex
+            flex-wrap
+            items-center
+            gap-x-4
+            gap-y-2
+            text-sm
+            text-white/90
+          "
+        >
+          <ProjectLocation location={project.location} />
+
+          {project.year && <ProjectYear year={project.year} />}
+        </div>
+
+        <h3
+          className="
+            mt-3
+            max-w-2xl
+            text-2xl
+            font-extrabold
+            leading-tight
+            tracking-[-0.02em]
             text-white
-            shadow-lg
-            sm:left-6
-            sm:top-6
+            sm:text-3xl
+            lg:text-4xl
           "
         >
-          Featured Project
-        </div>
+          {project.title}
+        </h3>
 
-        {/* IMAGE INDICATORS */}
-
-        {images.length > 1 && (
-          <div
-            className="
-              absolute
-              right-5
-              top-6
-              flex
-              items-center
-              gap-1.5
-            "
-            aria-hidden="true"
-          >
-            {images.map((_, imageIndex) => (
-              <span
-                key={imageIndex}
-                className={`
-                  h-1.5
-                  rounded-full
-                  transition-all
-                  duration-300
-                  ${
-                    currentImage === imageIndex
-                      ? "w-5 bg-white"
-                      : "w-1.5 bg-white/60"
-                  }
-                `}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* CONTENT */}
-
-        <div
+        <p
           className="
-            absolute
-            inset-x-0
-            bottom-0
-            p-5
-            sm:p-7
-            lg:p-8
+            mt-3
+            max-w-2xl
+            text-sm
+            leading-6
+            text-white/85
+            sm:text-base
+            sm:leading-7
           "
         >
-          <div
-            className="
-              flex
-              flex-wrap
-              items-center
-              gap-x-4
-              gap-y-2
-              text-sm
-              text-white/90
-            "
-          >
-            <ProjectLocation location={project.location} />
+          {project.description}
+        </p>
 
-            {project.year && <ProjectYear year={project.year} />}
-          </div>
-
-          <h3
-            className="
-              mt-3
-              max-w-2xl
-              text-2xl
-              font-extrabold
-              leading-tight
-              tracking-[-0.02em]
-              text-white
-              sm:text-3xl
-            "
-          >
-            {project.title}
-          </h3>
-
-          <p
-            className="
-              mt-3
-              max-w-2xl
-              text-sm
-              leading-6
-              text-white/85
-              sm:text-base
-              sm:leading-7
-            "
-          >
-            {project.description}
-          </p>
-
-          <ProjectLink project={project} light />
-        </div>
+        <ProjectLink project={project} light />
       </div>
     </motion.article>
   );
@@ -620,7 +623,7 @@ function SecondaryProjectCard({ project, index, shouldReduceMotion }) {
           grid
           min-h-[250px]
           sm:grid-cols-[0.9fr_1.1fr]
-          lg:min-h-[240px]
+          lg:min-h-[280px]
         "
       >
         {/* IMAGE */}

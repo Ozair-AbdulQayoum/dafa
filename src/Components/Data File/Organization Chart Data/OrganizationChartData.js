@@ -8,7 +8,6 @@ import {
   FaCalculator,
   FaTruck,
   FaTools,
-  FaClipboardCheck,
   FaDatabase,
 } from "react-icons/fa";
 
@@ -173,34 +172,36 @@ export const departments = [
   },
 
   // ===================================================
-  // OPERATIONS
+  // OPERATIONS & QUALITY ASSURANCE
   // ===================================================
 
   {
-    id: "operations",
+    id: "operations-quality",
 
-    name: "Operations",
+    name: "Operations & Quality Assurance",
 
-    label: "Field Operations",
+    label: "Field Operations & Quality Management",
 
     icon: FaTools,
 
     accent: "green",
 
     description:
-      "Leads field operations, operational planning, implementation, coordination, and supervision of humanitarian mine-action activities.",
+      "Leads humanitarian field operations while ensuring activities meet operational, technical, safety, and quality requirements through effective supervision, monitoring, and inspection.",
 
     responsibilities: [
-      "Operational planning and coordination",
-      "Field activities and implementation",
-      "Field team supervision",
-      "Operational monitoring",
+      "Operational planning and field coordination",
+      "Field team supervision and implementation",
+      "Quality assurance and monitoring",
+      "Field inspections and operational compliance",
+      "Quality control and reporting",
     ],
 
     hierarchy: {
       title: "Head of Operations",
 
       children: [
+        // LEFT — OPERATIONS
         {
           title: "Operations Manager",
 
@@ -210,47 +211,22 @@ export const departments = [
             },
           ],
         },
-      ],
-    },
-  },
 
-  // ===================================================
-  // QUALITY ASSURANCE
-  // ===================================================
-
-  {
-    id: "quality-assurance",
-
-    name: "Quality Assurance",
-
-    label: "Quality Control & Monitoring",
-
-    icon: FaClipboardCheck,
-
-    accent: "orange",
-
-    description:
-      "Ensures field activities meet operational, technical, safety, and quality requirements through systematic monitoring and inspection.",
-
-    responsibilities: [
-      "Quality assurance and monitoring",
-      "Field inspections",
-      "Operational compliance",
-      "Quality control reporting",
-    ],
-
-    hierarchy: {
-      title: "QA Manager",
-
-      children: [
+        // RIGHT — QUALITY ASSURANCE
         {
-          title: "QA Officer",
-        },
-        {
-          title: "QA Inspector",
-        },
-        {
-          title: "QA Assistant",
+          title: "QA Manager",
+
+          children: [
+            {
+              title: "QA Officer",
+            },
+            {
+              title: "QA Inspector",
+            },
+            {
+              title: "QA Assistant",
+            },
+          ],
         },
       ],
     },

@@ -1,224 +1,411 @@
-// src/Components/Home-Page/PartnersDonors.jsx
-
-import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
+import {
+  motion,
+  useAnimationFrame,
+  useMotionValue,
+  useReducedMotion,
+} from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
-
 import partnerGroups from "../../Components/Data File/Main Page Data/PartnersDonorsData";
 
-export default function PartnersDonors() {
+/* =========================================================
+   Marquee Row
+   ========================================================= */
+
+const MarqueeRow = ({ group, groupIndex }) => {
   const shouldReduceMotion = useReducedMotion();
 
-  const reveal = shouldReduceMotion
-    ? {
-        hidden: { opacity: 1, y: 0 },
-        visible: { opacity: 1, y: 0 },
+  const trackRef = useRef(null);
+  const isPaused = useRef(false);
+
+  const x = useMotionValue(0);
+
+  // Row 1 = left
+  // Row 2 = right
+  // Row 3 = left
+  const direction = groupIndex % 2 === 0 ? -1 : 1;
+
+  const speed = 45;
+
+  // Duplicate logos for seamless marquee
+  const logos = [...group.logos, ...group.logos];
+
+  const normalizePosition = () => {
+    const track = trackRef.current;
+
+    if (!track) return;
+
+    const halfWidth = track.scrollWidth / 2;
+
+    if (!halfWidth) return;
+
+    let currentX = x.get();
+
+    if (direction === -1) {
+      if (currentX <= -halfWidth) {
+        currentX += halfWidth;
       }
-    : {
-        hidden: { opacity: 0, y: 24 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.65,
-            ease: "easeOut",
-          },
-        },
-      };
+    } else {
+      if (currentX >= 0) {
+        currentX -= halfWidth;
+      }
+    }
+
+    x.set(currentX);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      normalizePosition();
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Smooth continuous animation
+  useAnimationFrame((_, delta) => {
+    if (shouldReduceMotion || isPaused.current) {
+      return;
+    }
+
+    const track = trackRef.current;
+
+    if (!track) return;
+
+    const halfWidth = track.scrollWidth / 2;
+
+    if (!halfWidth) return;
+
+    const movement = (speed * delta) / 1000;
+
+    let newX = x.get() + direction * movement;
+
+    if (direction === -1 && newX <= -halfWidth) {
+      newX += halfWidth;
+    }
+
+    if (direction === 1 && newX >= 0) {
+      newX -= halfWidth;
+    }
+
+    x.set(newX);
+  });
 
   return (
-    <section
-      aria-labelledby="partners-donors-heading"
-      className="relative overflow-hidden bg-[#F8FBF9] py-20 sm:py-24 lg:py-28"
+    <div
+      className="relative overflow-hidden"
+      onMouseEnter={() => {
+        if (!shouldReduceMotion) {
+          isPaused.current = true;
+        }
+      }}
+      onMouseLeave={() => {
+        if (!shouldReduceMotion) {
+          isPaused.current = false;
+        }
+      }}
+      onFocus={() => {
+        if (!shouldReduceMotion) {
+          isPaused.current = true;
+        }
+      }}
+      onBlur={() => {
+        if (!shouldReduceMotion) {
+          isPaused.current = false;
+        }
+      }}
     >
-      {/* Subtle Background Details */}
+      <motion.div
+        ref={trackRef}
+        style={{ x }}
+        className="
+          flex
+          w-max
+          gap-4
+          py-2
+          will-change-transform
+        "
+      >
+        {logos.map((partner, index) => (
+          <div
+            key={`${group.id}-${partner.name}-${index}`}
+            className="
+              flex
+              h-[135px]
+              w-[180px]
+              shrink-0
+              flex-col
+              items-center
+              justify-center
+              rounded-xl
+              border
+              border-slate-200/90
+              bg-white
+              px-5
+              py-4
+              shadow-sm
+              transition-all
+              duration-300
+              hover:-translate-y-1
+              hover:shadow-md
+              sm:h-[145px]
+              sm:w-[200px]
+            "
+          >
+            {/* Logo */}
+            <div className="flex h-16 w-full items-center justify-center">
+              <img
+                src={partner.image}
+                alt={`${partner.name} logo`}
+                className={`
+                  max-h-14
+                  max-w-[145px]
+                  object-contain
+                  sm:max-w-[160px]
+                  ${
+                    partner.bordered
+                      ? "rounded-md border-2 border-slate-300 p-1"
+                      : ""
+                  }
+                `}
+                loading="lazy"
+              />
+            </div>
+
+            {/* Organization Name */}
+            <p className="mt-3 text-center text-xs font-semibold text-slate-600 sm:text-sm">
+              {partner.shortName || partner.name}
+            </p>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+};
+
+/* =========================================================
+   Partners & Donors
+   ========================================================= */
+
+const PartnersDonors = () => {
+  return (
+    <section
+      id="partners-donors"
+      aria-labelledby="partners-donors-heading"
+      className="
+        relative
+        -mt-6
+        overflow-hidden
+        bg-[#F8FBF9]
+        px-5
+        pt-0
+        pb-16
+        sm:-mt-8
+        sm:px-8
+        sm:pb-20
+        lg:-mt-10
+        lg:px-10
+        lg:pb-24
+      "
+    >
+      {/* Background Decorations */}
+
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-32 top-10 h-72 w-72 rounded-full bg-[#0B3D2E]/5 blur-3xl"
+        className="
+          pointer-events-none
+          absolute
+          -right-24
+          top-20
+          h-72
+          w-72
+          rounded-full
+          bg-[#0B3D2E]/5
+          blur-3xl
+        "
       />
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-32 bottom-0 h-72 w-72 rounded-full bg-[#F97316]/5 blur-3xl"
+        className="
+          pointer-events-none
+          absolute
+          -left-24
+          bottom-10
+          h-72
+          w-72
+          rounded-full
+          bg-orange-500/5
+          blur-3xl
+        "
       />
 
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* ================= HEADER ================= */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={reveal}
-          className="mx-auto mb-16 max-w-3xl text-center"
-        >
-          <span className="mb-4 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.18em] text-[#0B3D2E]">
-            <span className="h-px w-7 bg-[#F97316]" />
+      <div className="relative mx-auto max-w-7xl">
+        {/* Section Header */}
+
+        <div className="mx-auto max-w-3xl text-center">
+          <span
+            className="
+              mb-3
+              inline-block
+              text-sm
+              font-semibold
+              uppercase
+              tracking-[0.18em]
+              text-[#0B3D2E]
+            "
+          >
             Partners & Donors
-            <span className="h-px w-7 bg-[#F97316]" />
           </span>
 
           <h2
             id="partners-donors-heading"
-            className="text-3xl font-bold tracking-tight text-[#0F172A] sm:text-4xl lg:text-5xl"
+            className="
+              text-3xl
+              font-bold
+              tracking-tight
+              text-[#0F172A]
+              sm:text-4xl
+              lg:text-5xl
+            "
           >
             Working Together for Safer Communities
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+          <p
+            className="
+              mx-auto
+              mt-5
+              max-w-2xl
+              text-base
+              leading-7
+              text-slate-600
+              sm:text-lg
+            "
+          >
             DAFA works with partners and donors to support humanitarian mine
             action and help create safer communities across Afghanistan.
           </p>
-        </motion.div>
+        </div>
 
-        {/* ================= PARTNER GROUPS ================= */}
-        <div className="space-y-16 lg:space-y-20">
+        {/* Partner Groups */}
+
+        <div
+          className="
+            mt-12
+            space-y-14
+            lg:mt-16
+            lg:space-y-16
+          "
+        >
           {partnerGroups.map((group, groupIndex) => (
-            <motion.div
-              key={group.id}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.12 }}
-              variants={reveal}
-              transition={{
-                delay: shouldReduceMotion ? 0 : groupIndex * 0.08,
-              }}
-              className={
-                groupIndex !== partnerGroups.length - 1
-                  ? "border-b border-slate-200 pb-16 lg:pb-20"
-                  : ""
-              }
-            >
-              {/* Group Heading */}
-              <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-                <div className="flex items-start gap-4">
+            <div key={group.id}>
+              {/* Group Title */}
+
+              <div className="mb-6 flex justify-center">
+                <div className="flex items-center gap-4">
                   <span
                     aria-hidden="true"
-                    className="mt-1 h-12 w-1 shrink-0 rounded-full"
-                    style={{ backgroundColor: group.accent }}
+                    className="h-1 w-8 rounded-full"
+                    style={{
+                      backgroundColor: group.accent,
+                    }}
                   />
 
-                  <div>
-                    <h3 className="text-2xl font-bold text-[#0F172A] sm:text-3xl">
-                      {group.title}
-                    </h3>
+                  <h3
+                    className="
+                      text-center
+                      text-2xl
+                      font-bold
+                      tracking-tight
+                      text-[#0F172A]
+                      sm:text-3xl
+                    "
+                  >
+                    {group.title}
+                  </h3>
 
-                    <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
-                      {group.description}
-                    </p>
-                  </div>
+                  <span
+                    aria-hidden="true"
+                    className="h-1 w-8 rounded-full"
+                    style={{
+                      backgroundColor: group.accent,
+                    }}
+                  />
                 </div>
-
-                <span className="shrink-0 text-sm font-semibold text-slate-500">
-                  {group.logos.length}{" "}
-                  {group.logos.length === 1 ? "Organization" : "Organizations"}
-                </span>
               </div>
 
-              {/* Logos Grid */}
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
-                {group.logos.map((logo, logoIndex) => {
-                  const logoContent = (
-                    <div
-                      className="
-                        group
-                        flex
-                        min-h-[145px]
-                        flex-col
-                        items-center
-                        justify-center
-                        rounded-xl
-                        border
-                        border-slate-200
-                        bg-white
-                        px-4
-                        py-6
-                        transition-all
-                        duration-300
-                        hover:-translate-y-1
-                        hover:border-slate-300
-                        hover:shadow-md
-                      "
-                    >
-                      {/* Logo */}
-                      <div className="flex h-20 w-full items-center justify-center">
-                        <img
-                          src={logo.image}
-                          alt={logo.name}
-                          loading="lazy"
-                          className="
-                            max-h-16
-                            w-auto
-                            max-w-[150px]
-                            object-contain
-                            transition-transform
-                            duration-300
-                            group-hover:scale-105
-                          "
-                        />
-                      </div>
+              {/* Alternating Marquee */}
 
-                      {/* Organization Name */}
-                      <p className="mt-4 text-center text-xs font-semibold leading-5 text-slate-600 sm:text-sm">
-                        {logo.shortName}
-                      </p>
-                    </div>
-                  );
+              <MarqueeRow group={group} groupIndex={groupIndex} />
 
-                  return (
-                    <motion.div
-                      key={`${group.id}-${logo.name}`}
-                      initial={
-                        shouldReduceMotion
-                          ? { opacity: 1, y: 0 }
-                          : { opacity: 0, y: 12 }
-                      }
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.2 }}
-                      transition={{
-                        duration: shouldReduceMotion ? 0 : 0.45,
-                        delay: shouldReduceMotion ? 0 : logoIndex * 0.04,
-                      }}
-                    >
-                      {logo.url ? (
-                        <a
-                          href={logo.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`Visit ${logo.name}`}
-                        >
-                          {logoContent}
-                        </a>
-                      ) : (
-                        logoContent
-                      )}
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </motion.div>
+              {/* Divider */}
+
+              {groupIndex < partnerGroups.length - 1 && (
+                <div
+                  className="
+                    mx-auto
+                    mt-10
+                    h-px
+                    max-w-5xl
+                    bg-slate-200
+                  "
+                />
+              )}
+            </div>
           ))}
         </div>
 
-        {/* ================= FOOTER MESSAGE ================= */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={reveal}
-          className="mt-16 border-t border-slate-200 pt-8 text-center"
+        {/* Bottom Message */}
+
+        <div
+          className="
+            mt-14
+            border-t
+            border-slate-200
+            pt-8
+            text-center
+            lg:mt-16
+          "
         >
-          <p className="mx-auto max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
+          <p
+            className="
+              mx-auto
+              max-w-2xl
+              text-sm
+              leading-6
+              text-slate-600
+              sm:text-base
+            "
+          >
             Through continued collaboration, DAFA and its partners work together
             to strengthen humanitarian mine action and support safer, more
             resilient communities.
           </p>
 
-          <div className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#0B3D2E]">
+          <div
+            className="
+              mt-5
+              inline-flex
+              items-center
+              gap-2
+              text-sm
+              font-bold
+              text-[#0B3D2E]
+            "
+          >
             <span>Stronger Together</span>
-            <FaArrowRight className="text-xs text-[#F97316]" />
+
+            <FaArrowRight className="text-orange-500" />
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export default PartnersDonors;

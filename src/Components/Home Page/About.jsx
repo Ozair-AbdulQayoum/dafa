@@ -26,9 +26,12 @@ export default function About() {
         relative
         overflow-hidden
         bg-[#F7FBF8]
-        py-8
-        sm:py-10
-        lg:py-12
+        pt-8
+        pb-8
+        sm:pt-10
+        sm:pb-10
+        lg:pt-12
+        lg:pb-12
       "
     >
       <div
@@ -42,6 +45,7 @@ export default function About() {
         "
       >
         {/* Section Label */}
+
         <motion.div
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
           whileInView={{
@@ -56,15 +60,12 @@ export default function About() {
             duration: shouldReduceMotion ? 0 : 0.45,
           }}
           className="
-            -mt-5
             mb-6
             flex
             items-center
             justify-center
             gap-3
-            sm:-mt-7
             sm:mb-7
-            lg:-mt-10
             lg:mb-8
           "
         >
@@ -105,18 +106,24 @@ export default function About() {
           />
         </motion.div>
 
-        {/* Main Content */}
+        {/* =====================================================
+            MAIN CONTENT
+        ===================================================== */}
+
         <div
           className="
             grid
             items-center
             gap-8
-            lg:grid-cols-[0.98fr_1.02fr]
+            lg:grid-cols-2
             lg:gap-12
             xl:gap-16
           "
         >
-          {/* Image */}
+          {/* =================================================
+              IMAGE
+          ================================================= */}
+
           <motion.div
             initial={
               shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -20 }
@@ -172,6 +179,7 @@ export default function About() {
               />
 
               {/* Image Overlay */}
+
               <div
                 aria-hidden="true"
                 className="
@@ -186,6 +194,7 @@ export default function About() {
               />
 
               {/* Image Label */}
+
               <div
                 className="
                   absolute
@@ -219,6 +228,7 @@ export default function About() {
             </div>
 
             {/* Decorative Element */}
+
             <div
               aria-hidden="true"
               className="
@@ -241,7 +251,10 @@ export default function About() {
             />
           </motion.div>
 
-          {/* Content */}
+          {/* =================================================
+              CONTENT
+          ================================================= */}
+
           <motion.div
             initial={
               shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 20 }
@@ -261,11 +274,11 @@ export default function About() {
             }}
             className="
               order-2
-              lg:-mt-5
-              xl:-mt-7
+              w-full
             "
           >
             {/* Heading */}
+
             <h2
               id="about-section-title"
               className="
@@ -285,6 +298,7 @@ export default function About() {
             </h2>
 
             {/* Description */}
+
             <p
               className="
                 mt-4
@@ -302,6 +316,7 @@ export default function About() {
             </p>
 
             {/* Highlights */}
+
             <div
               className="
                 mt-6
@@ -396,6 +411,7 @@ export default function About() {
             </div>
 
             {/* CTA */}
+
             <motion.div
               initial={
                 shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 8 }

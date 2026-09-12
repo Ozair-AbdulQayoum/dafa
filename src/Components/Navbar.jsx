@@ -9,8 +9,29 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [desktopDropdown, setDesktopDropdown] = useState(null);
   const [mobileDropdown, setMobileDropdown] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const desktopNavRef = useRef(null);
+
+  /* =========================================================
+     SCROLL DETECTION
+  ========================================================= */
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   /* =========================================================
      CLOSE ALL MENUS
@@ -151,30 +172,31 @@ export default function Navbar() {
       ====================================================== */}
 
       <header
-        className="
+        className={`
           fixed
           left-0
           right-0
           top-0
           z-[100]
           w-full
-          bg-transparent
           px-3
           pt-3
           font-[Poppins]
+          transition-all
+          duration-500
           sm:px-5
           lg:px-7
-        "
+          ${isScrolled ? "pt-2" : "pt-3"}
+        `}
       >
         {/* ===================================================
             NAVBAR GLASS CONTAINER
         ==================================================== */}
 
         <div
-          className="
+          className={`
             mx-auto
             flex
-            h-[70px]
             w-full
             max-w-7xl
             items-center
@@ -182,16 +204,31 @@ export default function Navbar() {
             gap-4
             rounded-2xl
             border
-            border-white/15
-            bg-[#087B5A]/40
             px-4
             backdrop-blur-xl
             backdrop-saturate-150
-            shadow-[0_8px_30px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.08)]
+            transition-all
+            duration-500
             sm:px-6
             lg:px-7
             xl:gap-6
-          "
+
+            ${
+              isScrolled
+                ? `
+                  h-[64px]
+                  border-white/15
+                  bg-[#087B5A]/95
+                  shadow-[0_10px_35px_rgba(6,63,48,0.30),inset_0_1px_0_rgba(255,255,255,0.10)]
+                `
+                : `
+                  h-[70px]
+                  border-white/15
+                  bg-[#087B5A]/40
+                  shadow-[0_8px_30px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.08)]
+                `
+            }
+          `}
         >
           {/* =================================================
               LOGO + BRAND
@@ -307,9 +344,7 @@ export default function Navbar() {
                 2xl:gap-1.5
               "
             >
-              {/* =================================================
-                  HOME
-              ================================================== */}
+              {/* HOME */}
 
               <li>
                 <NavLink
@@ -340,9 +375,7 @@ export default function Navbar() {
                 </NavLink>
               </li>
 
-              {/* =================================================
-                  NAV ITEMS
-              ================================================== */}
+              {/* NAV ITEMS */}
 
               {navItems.map((item) => (
                 <li key={item.title} className="relative">
@@ -429,9 +462,7 @@ export default function Navbar() {
                         />
                       </button>
 
-                      {/* =================================================
-                          DESKTOP DROPDOWN
-                      ================================================== */}
+                      {/* DESKTOP DROPDOWN */}
 
                       <div
                         className={`
@@ -446,7 +477,7 @@ export default function Navbar() {
                           rounded-2xl
                           border
                           border-white/15
-                          bg-[#087B5A]/90
+                          bg-[#087B5A]/95
                           p-2
                           backdrop-blur-2xl
                           shadow-[0_20px_50px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.08)]
@@ -517,13 +548,13 @@ export default function Navbar() {
                               size={9}
                               aria-hidden="true"
                               className="
-                                text-[#F97316]
-                                opacity-0
-                                transition-all
-                                duration-200
-                                group-hover/item:translate-x-1
-                                group-hover/item:opacity-100
-                              "
+                                  text-[#F97316]
+                                  opacity-0
+                                  transition-all
+                                  duration-200
+                                  group-hover/item:translate-x-1
+                                  group-hover/item:opacity-100
+                                "
                             />
                           </NavLink>
                         ))}
@@ -687,22 +718,20 @@ export default function Navbar() {
             "
           />
 
-          {/* =================================================
-              MOBILE PANEL
-          ================================================== */}
+          {/* MOBILE PANEL */}
 
           <div
             className="
               absolute
               left-3
               right-3
-              top-[88px]
-              max-h-[calc(100vh-105px)]
+              top-[82px]
+              max-h-[calc(100vh-100px)]
               overflow-y-auto
               rounded-2xl
               border
               border-white/15
-              bg-[#087B5A]/80
+              bg-[#087B5A]/95
               p-2
               backdrop-blur-2xl
               shadow-[0_20px_50px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.08)]
@@ -831,33 +860,33 @@ export default function Navbar() {
                                 onClick={handleMobileLinkClick}
                                 className={({ isActive }) =>
                                   `
-                                    group/item
-                                    flex
-                                    min-h-[50px]
-                                    items-center
-                                    justify-between
-                                    rounded-lg
-                                    px-4
-                                    py-3
-                                    text-[14px]
-                                    transition-all
-                                    duration-200
+                                      group/item
+                                      flex
+                                      min-h-[50px]
+                                      items-center
+                                      justify-between
+                                      rounded-lg
+                                      px-4
+                                      py-3
+                                      text-[14px]
+                                      transition-all
+                                      duration-200
 
-                                    ${
-                                      isActive
-                                        ? `
-                                          bg-white/10
-                                          font-bold
-                                          text-white
-                                        `
-                                        : `
-                                          font-medium
-                                          text-white/80
-                                          hover:bg-white/10
-                                          hover:text-white
-                                        `
-                                    }
-                                  `
+                                      ${
+                                        isActive
+                                          ? `
+                                            bg-white/10
+                                            font-bold
+                                            text-white
+                                          `
+                                          : `
+                                            font-medium
+                                            text-white/80
+                                            hover:bg-white/10
+                                            hover:text-white
+                                          `
+                                      }
+                                    `
                                 }
                               >
                                 <span>{subItem.title}</span>
@@ -866,11 +895,11 @@ export default function Navbar() {
                                   size={9}
                                   aria-hidden="true"
                                   className="
-                                    text-[#F97316]
-                                    transition-transform
-                                    duration-200
-                                    group-hover/item:translate-x-1
-                                  "
+                                      text-[#F97316]
+                                      transition-transform
+                                      duration-200
+                                      group-hover/item:translate-x-1
+                                    "
                                 />
                               </NavLink>
                             ))}

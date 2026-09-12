@@ -1,214 +1,266 @@
-// src/Components/About-Page/MissionVisionValues.jsx
+// src/Components/About Page/MissionVisionValues.jsx
 
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { FaCheck, FaArrowRight } from "react-icons/fa";
 
-import { missionVisionData } from "../../Components/Data File/About Page Data/MissionVisionValuesData";
+import missionVisionData from "../../Components/Data File/About Page Data/MissionVisionValuesData";
 
-export default function MissionVisionValues() {
+// =====================================================
+// PREMIUM PHILOSOPHY CARD
+// =====================================================
+
+function PremiumPhilosophyCard({
+  data,
+  number,
+  label,
+  accent,
+  shouldReduceMotion,
+}) {
+  const Icon = data.icon;
+
+  return (
+    <motion.article
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 25 }}
+      whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      whileHover={shouldReduceMotion ? undefined : { y: -6 }}
+      className="group relative overflow-hidden rounded-[24px] border border-[#0B3D2E]/10 bg-white p-1 shadow-[0_12px_40px_rgba(11,61,46,0.07)] transition-shadow duration-500 hover:shadow-[0_22px_55px_rgba(11,61,46,0.13)]"
+    >
+      {/* Top Accent */}
+      <div
+        className="absolute left-0 right-0 top-0 h-[3px]"
+        style={{ backgroundColor: accent }}
+      />
+
+      <div className="relative overflow-hidden rounded-[20px] bg-white p-7 sm:p-8 lg:p-9">
+        {/* Background Number */}
+        <span className="pointer-events-none absolute -right-2 -top-8 select-none text-[130px] font-black leading-none text-[#0B3D2E]/[0.035]">
+          {number}
+        </span>
+
+        {/* Header */}
+        <div className="relative flex items-start justify-between gap-5">
+          <div className="flex items-center gap-4">
+            <div
+              className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-white shadow-lg"
+              style={{ backgroundColor: accent }}
+            >
+              <Icon className="text-xl" />
+            </div>
+
+            <div>
+              <span className="mb-1 block text-xs font-bold uppercase tracking-[0.18em] text-[#F97316]">
+                {label}
+              </span>
+
+              <h3 className="text-2xl font-bold tracking-tight text-[#0B3D2E] sm:text-[28px]">
+                {data.title}
+              </h3>
+            </div>
+          </div>
+
+          <span className="hidden text-sm font-bold text-[#0B3D2E]/20 sm:block">
+            {number}
+          </span>
+        </div>
+
+        {/* Divider */}
+        <div className="my-7 h-px bg-[#0B3D2E]/10" />
+
+        {/* Statement */}
+        <p className="relative text-lg font-semibold leading-relaxed text-[#0B3D2E] sm:text-xl">
+          {data.statement}
+        </p>
+
+        {/* Description */}
+        <p className="mt-5 text-[15px] leading-7 text-slate-600">
+          {data.description}
+        </p>
+
+        {/* Bottom Meta */}
+        <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-[#0B3D2E]/10 pt-5 text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
+          <span>DAFA</span>
+
+          <span className="h-1 w-1 rounded-full bg-[#F97316]" />
+
+          <span>Humanitarian Action</span>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+// =====================================================
+// MISSION • VISION • VALUES
+// =====================================================
+
+const MissionVisionValues = () => {
   const shouldReduceMotion = useReducedMotion();
-
-  const reveal = {
-    hidden: {
-      opacity: 0,
-      y: shouldReduceMotion ? 0 : 24,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-  };
-
-  const {
-    sectionLabel,
-    heading,
-    headingHighlight,
-    description,
-    vision,
-    mission,
-    values,
-    callToAction,
-  } = missionVisionData;
 
   return (
     <section
-      aria-labelledby="mission-vision-values-heading"
-      className="relative overflow-hidden bg-[#F8FAFC] py-20 sm:py-24 lg:py-28"
+      id="mission-vision-values"
+      className="relative overflow-hidden bg-[#F8FBF9] pt-0 pb-14 sm:pt-2 sm:pb-16 lg:pt-4 lg:pb-20"
     >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* =====================================================
+      {/* Decorative Background */}
+      <div className="pointer-events-none absolute -left-32 top-10 h-72 w-72 rounded-full bg-[#0B3D2E]/[0.025] blur-3xl" />
+
+      <div className="pointer-events-none absolute -right-32 bottom-10 h-80 w-80 rounded-full bg-[#F97316]/[0.035] blur-3xl" />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        {/* =================================================
             SECTION INTRO
-        ====================================================== */}
+        ================================================= */}
 
-        <motion.header
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={reveal}
-          transition={{
-            duration: 0.7,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="max-w-3xl"
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7 }}
+          className="mx-auto mb-8 max-w-3xl text-center sm:mb-9"
         >
-          <div className="mb-5 flex items-center gap-3">
-            <span aria-hidden="true" className="h-px w-10 bg-[#F97316]" />
+          {/* Label */}
+          <div className="mb-4 flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-[#F97316]" />
 
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#0A5A42] sm:text-sm">
-              {sectionLabel}
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#F97316]">
+              {missionVisionData.sectionLabel}
             </span>
+
+            <span className="h-px w-8 bg-[#F97316]" />
           </div>
 
-          <h2
-            id="mission-vision-values-heading"
-            className="text-3xl font-black leading-[1.08] tracking-tight text-[#0B3D2E] sm:text-4xl md:text-5xl lg:text-[3.5rem]"
-          >
-            {heading} <span className="text-[#087B5A]">{headingHighlight}</span>
+          {/* Heading */}
+          <h2 className="text-3xl font-bold leading-tight tracking-tight text-[#0B3D2E] sm:text-4xl lg:text-5xl">
+            {missionVisionData.heading}{" "}
+            <span className="text-[#F97316]">
+              {missionVisionData.headingHighlight}
+            </span>
           </h2>
 
-          <p className="mt-6 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
-            {description}
+          {/* Description */}
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+            {missionVisionData.description}
           </p>
-        </motion.header>
+        </motion.div>
 
-        {/* =====================================================
+        {/* =================================================
             MISSION + VISION
-        ====================================================== */}
+        ================================================= */}
 
-        <div className="mt-14 grid gap-0 border-y border-slate-200 lg:grid-cols-2 lg:mt-16">
-          {/* ===================================================
-              MISSION
-          ==================================================== */}
-
-          <PhilosophyBlock
-            data={mission}
+        <div className="grid gap-6 lg:grid-cols-2">
+          <PremiumPhilosophyCard
+            data={missionVisionData.mission}
             number="01"
-            label="Mission"
-            accent="bg-[#0B3D2E]"
+            label="Our Purpose"
+            accent="#0B3D2E"
             shouldReduceMotion={shouldReduceMotion}
-            reveal={reveal}
-            borderClass="lg:border-r border-slate-200"
           />
 
-          {/* ===================================================
-              VISION
-          ==================================================== */}
-
-          <PhilosophyBlock
-            data={vision}
+          <PremiumPhilosophyCard
+            data={missionVisionData.vision}
             number="02"
-            label="Vision"
-            accent="bg-[#0A5A42]"
+            label="Our Future"
+            accent="#0A5A42"
             shouldReduceMotion={shouldReduceMotion}
-            reveal={reveal}
           />
         </div>
 
-        {/* =====================================================
+        {/* =================================================
             VALUES
-        ====================================================== */}
+        ================================================= */}
 
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={reveal}
-          transition={{
-            duration: 0.7,
-            delay: 0.05,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="mt-14 border-b border-slate-200 pb-14 sm:mt-16 sm:pb-16"
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 25 }}
+          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8 }}
+          className="mt-6 overflow-hidden rounded-[24px] border border-[#0B3D2E]/10 bg-white shadow-[0_15px_45px_rgba(11,61,46,0.07)]"
         >
-          <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16">
-            {/* Values Introduction */}
+          <div className="grid lg:grid-cols-[0.85fr_1.15fr]">
+            {/* Values Intro */}
+            <div className="relative overflow-hidden bg-[#0B3D2E] p-8 text-white sm:p-10 lg:p-12">
+              {/* Decorative Circles */}
+              <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full border border-white/10" />
 
-            <div>
-              <div className="flex items-center gap-3">
-                <span
-                  aria-hidden="true"
-                  className="h-8 w-1 rounded-full bg-[#F97316]"
-                />
+              <div className="pointer-events-none absolute -bottom-24 -left-20 h-56 w-56 rounded-full border border-white/10" />
 
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#0A5A42]">
-                    03
-                  </p>
-
-                  <h3 className="mt-1 text-2xl font-black tracking-tight text-[#0B3D2E] sm:text-3xl">
-                    {values.title}
-                  </h3>
+              <div className="relative">
+                {/* Icon */}
+                <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10">
+                  <missionVisionData.values.icon className="text-xl text-[#F97316]" />
                 </div>
-              </div>
 
-              <p className="mt-7 max-w-md text-base font-semibold leading-7 text-[#087B5A] sm:text-lg sm:leading-8">
-                {values.statement}
-              </p>
+                {/* Number */}
+                <span className="mb-3 block text-xs font-bold tracking-[0.2em] text-white/40">
+                  03
+                </span>
+
+                <h3 className="text-3xl font-bold sm:text-4xl">
+                  {missionVisionData.values.title}
+                </h3>
+
+                <p className="mt-6 text-lg font-medium leading-8 text-white/90">
+                  {missionVisionData.values.statement}
+                </p>
+              </div>
             </div>
 
             {/* Values Content */}
-
-            <div>
-              <p className="max-w-3xl text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
-                {values.description}
+            <div className="p-8 sm:p-10 lg:p-12">
+              <p className="text-[15px] leading-7 text-slate-600 sm:text-base">
+                {missionVisionData.values.description}
               </p>
 
               {/* Principles */}
-
-              <div className="mt-8 grid border-t border-slate-200 sm:grid-cols-2 lg:grid-cols-4">
-                {values.principles?.map((principle, index) => {
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                {missionVisionData.values.principles.map((principle, index) => {
                   const PrincipleIcon = principle.icon;
 
                   return (
-                    <div
+                    <motion.div
                       key={principle.title}
-                      className={`
-                        group
-                        flex
-                        items-center
-                        gap-3
-                        border-b
-                        border-slate-200
-                        py-5
-                        sm:px-5
-                        lg:border-b-0
-                        lg:border-r
-                        lg:first:pl-0
-                        lg:last:border-r-0
-                        lg:last:pr-0
-                      `}
+                      initial={
+                        shouldReduceMotion
+                          ? false
+                          : {
+                              opacity: 0,
+                              x: 15,
+                            }
+                      }
+                      whileInView={
+                        shouldReduceMotion
+                          ? undefined
+                          : {
+                              opacity: 1,
+                              x: 0,
+                            }
+                      }
+                      viewport={{
+                        once: true,
+                        amount: 0.5,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        delay: index * 0.08,
+                      }}
+                      className="group flex items-center gap-4 rounded-2xl border border-[#0B3D2E]/10 bg-[#F8FBF9] p-4 transition-all duration-300 hover:border-[#F97316]/30 hover:bg-white hover:shadow-md"
                     >
-                      <span
-                        className="
-                          flex
-                          h-9
-                          w-9
-                          shrink-0
-                          items-center
-                          justify-center
-                          rounded-lg
-                          bg-[#0B3D2E]/5
-                          text-[#0A5A42]
-                          transition-colors
-                          duration-200
-                          group-hover:bg-[#0B3D2E]
-                          group-hover:text-white
-                        "
-                      >
-                        <PrincipleIcon size={14} aria-hidden="true" />
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0B3D2E]/10 text-[#0B3D2E] transition-colors duration-300 group-hover:bg-[#F97316] group-hover:text-white">
+                        <PrincipleIcon className="text-sm" />
+                      </div>
+
+                      <span className="font-semibold text-[#0B3D2E]">
+                        {principle.title}
                       </span>
 
-                      <div>
-                        <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
-                          0{index + 1}
-                        </span>
-
-                        <span className="mt-0.5 block text-sm font-bold text-[#0B3D2E]">
-                          {principle.title}
-                        </span>
-                      </div>
-                    </div>
+                      <FaCheck className="ml-auto text-xs text-[#F97316]" />
+                    </motion.div>
                   );
                 })}
               </div>
@@ -216,172 +268,61 @@ export default function MissionVisionValues() {
           </div>
         </motion.div>
 
-        {/* =====================================================
-            SUPPORTING CTA
-        ====================================================== */}
+        {/* =================================================
+            CALL TO ACTION
+        ================================================= */}
 
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={reveal}
-          transition={{
-            duration: 0.7,
-            delay: 0.05,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="mt-12 sm:mt-14"
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 25 }}
+          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.7 }}
+          className="relative mt-6 overflow-hidden rounded-[24px] bg-[#0B3D2E] px-7 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-14"
         >
-          <div className="grid overflow-hidden rounded-2xl border border-[#0B3D2E]/10 bg-white lg:grid-cols-[1fr_auto]">
-            <div className="px-6 py-8 sm:px-8 sm:py-10 lg:px-10">
-              <div className="flex items-center gap-3">
-                <span aria-hidden="true" className="h-px w-8 bg-[#F97316]" />
+          {/* Decorative Shapes */}
+          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/10" />
 
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#0A5A42]">
-                  {callToAction.eyebrow}
-                </span>
-              </div>
+          <div className="pointer-events-none absolute -bottom-32 -left-20 h-72 w-72 rounded-full border border-white/10" />
 
-              <h3 className="mt-4 max-w-2xl text-2xl font-black tracking-tight text-[#0B3D2E] sm:text-3xl">
-                {callToAction.title}
+          <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-4xl">
+              <span className="mb-3 block text-xs font-bold uppercase tracking-[0.2em] text-[#F97316]">
+                {missionVisionData.callToAction.eyebrow}
+              </span>
+
+              <h3 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                {missionVisionData.callToAction.title}
               </h3>
 
-              <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
-                {callToAction.description}
+              <p className="mt-5 max-w-3xl text-base leading-7 text-white/70 sm:text-lg">
+                {missionVisionData.callToAction.description}
               </p>
             </div>
 
-            {/* Visual CTA marker */}
-
-            <div className="flex min-h-[100px] items-center justify-center bg-[#0B3D2E] px-8 lg:min-w-[150px]">
-              <div
-                aria-hidden="true"
-                className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 text-white"
-              >
-                <FaArrowRight size={14} />
-              </div>
-            </div>
+            {/* Arrow */}
+            <motion.div
+              whileHover={
+                shouldReduceMotion ? undefined : { scale: 1.08, x: 4 }
+              }
+              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#F97316] text-white shadow-lg"
+            >
+              <FaArrowRight />
+            </motion.div>
           </div>
         </motion.div>
 
-        {/* =====================================================
-            HUMANITARIAN PRINCIPLES FOOTNOTE
-        ====================================================== */}
+        {/* =================================================
+            HUMANITARIAN PRINCIPLES
+        ================================================= */}
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-3 text-xs font-semibold uppercase tracking-[0.12em] text-slate-400"
-          aria-label="Humanitarian principles"
-        >
-          {values.principles?.map((principle, index) => (
-            <React.Fragment key={principle.title}>
-              <span className="inline-flex items-center gap-2">
-                <FaCheck
-                  size={9}
-                  className="text-[#087B5A]"
-                  aria-hidden="true"
-                />
-
-                {principle.title}
-              </span>
-
-              {index < values.principles.length - 1 && (
-                <span
-                  aria-hidden="true"
-                  className="hidden h-1 w-1 rounded-full bg-slate-300 sm:block"
-                />
-              )}
-            </React.Fragment>
-          ))}
-        </motion.div>
+        <p className="mt-8 text-center text-xs leading-6 text-slate-400">
+          Guided by internationally recognized humanitarian principles, DAFA
+          remains committed to serving communities with dignity, responsibility,
+          and respect.
+        </p>
       </div>
     </section>
   );
-}
+};
 
-/* ============================================================
-   PHILOSOPHY BLOCK
-============================================================ */
-
-function PhilosophyBlock({
-  data,
-  number,
-  label,
-  accent,
-  shouldReduceMotion,
-  reveal,
-  borderClass = "",
-}) {
-  const Icon = data.icon;
-
-  return (
-    <motion.article
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
-      variants={reveal}
-      transition={{
-        duration: 0.7,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className={`
-        relative
-        px-0
-        py-10
-        sm:py-12
-        lg:px-10
-        lg:py-14
-        ${borderClass}
-      `}
-    >
-      <div className="grid gap-7 sm:grid-cols-[auto_1fr] sm:gap-8">
-        {/* Number + Icon */}
-
-        <div className="flex items-start gap-4 sm:block">
-          <div
-            className={`
-              flex
-              h-12
-              w-12
-              shrink-0
-              items-center
-              justify-center
-              rounded-xl
-              ${accent}
-              text-white
-            `}
-          >
-            <Icon size={19} aria-hidden="true" />
-          </div>
-
-          <span className="mt-1 text-4xl font-black tracking-tight text-slate-200 sm:mt-5 sm:block sm:text-5xl">
-            {number}
-          </span>
-        </div>
-
-        {/* Content */}
-
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#F97316]">
-            {label}
-          </p>
-
-          <h3 className="mt-2 text-2xl font-black tracking-tight text-[#0B3D2E] sm:text-3xl">
-            {data.title}
-          </h3>
-
-          <p className="mt-5 max-w-xl text-base font-bold leading-7 text-[#087B5A] sm:text-lg sm:leading-8">
-            {data.statement}
-          </p>
-
-          <p className="mt-5 max-w-xl text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
-            {data.description}
-          </p>
-        </div>
-      </div>
-    </motion.article>
-  );
-}
+export default MissionVisionValues;

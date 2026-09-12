@@ -38,15 +38,23 @@ export const aboutHeroData = {
   ],
 
   // ---------------------------------------------------
-  // HERO VISUAL
-  // Temporary online image — replace later with
-  // the official DAFA image from your assets.
+  // HERO SLIDER IMAGES
   // ---------------------------------------------------
 
-  image:
-    "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1400&q=85",
-
-  imageAlt: "Humanitarian community support and field activity",
+  images: [
+    {
+      src: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1400&q=85",
+      alt: "Humanitarian community support and field activity",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=1400&q=85",
+      alt: "Humanitarian field activity and community support",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1489493585363-d69421e0edd3?auto=format&fit=crop&w=1400&q=85",
+      alt: "Community development and humanitarian support",
+    },
+  ],
 
   // ---------------------------------------------------
   // VISUAL CONTENT

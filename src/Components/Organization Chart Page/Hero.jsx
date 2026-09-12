@@ -4,6 +4,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+
 import {
   FaSitemap,
   FaChevronDown,
@@ -30,7 +31,6 @@ const fadeUp = {
   visible: {
     opacity: 1,
     y: 0,
-
     transition: {
       duration: 0.65,
       ease: [0.22, 1, 0.36, 1],
@@ -39,29 +39,23 @@ const fadeUp = {
 };
 
 // =====================================================
-// COLOR SYSTEM
+// ACCENT STYLES
 // =====================================================
 
 const accentStyles = {
   green: {
     icon: "bg-[#087B5A]/10 text-[#087B5A]",
     border: "border-[#087B5A]/20",
-    line: "bg-[#087B5A]/30",
-    dot: "bg-[#087B5A]",
   },
 
   blue: {
     icon: "bg-[#2563EB]/10 text-[#2563EB]",
     border: "border-[#2563EB]/20",
-    line: "bg-[#2563EB]/25",
-    dot: "bg-[#2563EB]",
   },
 
   orange: {
     icon: "bg-[#F97316]/10 text-[#F97316]",
     border: "border-[#F97316]/20",
-    line: "bg-[#F97316]/25",
-    dot: "bg-[#F97316]",
   },
 };
 
@@ -70,7 +64,7 @@ const accentStyles = {
 // =====================================================
 
 function PositionNode({ title, accent = "green", primary = false }) {
-  const styles = accentStyles[accent];
+  const styles = accentStyles[accent] || accentStyles.green;
 
   return (
     <motion.div
@@ -81,7 +75,7 @@ function PositionNode({ title, accent = "green", primary = false }) {
         duration: 0.25,
       }}
       className={`
-        relative z-10 rounded-2xl border
+        relative z-10 w-full rounded-2xl border
         px-4 py-4 text-center
         backdrop-blur-xl
         transition-all duration-300
@@ -89,7 +83,7 @@ function PositionNode({ title, accent = "green", primary = false }) {
         ${
           primary
             ? "bg-[#0B3D2E] text-white shadow-[0_12px_30px_rgba(11,61,46,0.15)]"
-            : "bg-white/80 text-[#0F172A] shadow-sm"
+            : "bg-white/90 text-[#0F172A] shadow-sm"
         }
       `}
     >
@@ -98,9 +92,11 @@ function PositionNode({ title, accent = "green", primary = false }) {
       )}
 
       <p
-        className={`text-[11px] font-black uppercase leading-5 tracking-[0.05em] ${
-          primary ? "text-white" : "text-[#0F172A]"
-        }`}
+        className={`
+          text-[11px] font-black uppercase
+          leading-5 tracking-[0.05em]
+          ${primary ? "text-white" : "text-[#0F172A]"}
+        `}
       >
         {title}
       </p>
@@ -119,13 +115,17 @@ function PositionTree({ node, accent, level = 0 }) {
 
   return (
     <div className="relative flex flex-col items-center">
-      {/* Connector from parent */}
+      {/* Parent connector */}
 
       {level > 0 && (
         <div className="absolute -top-6 left-1/2 h-6 w-px bg-slate-300" />
       )}
 
+      {/* Position */}
+
       <PositionNode title={node.title} accent={accent} primary={level === 0} />
+
+      {/* Children */}
 
       {hasChildren && (
         <>
@@ -133,24 +133,22 @@ function PositionTree({ node, accent, level = 0 }) {
 
           <div className="h-7 w-px bg-slate-300" />
 
-          {/* Children */}
-
           <div className="relative w-full">
-            {/* Horizontal connector */}
+            {/* Horizontal connector for multiple branches */}
 
             {node.children.length > 1 && (
-              <div className="absolute left-[15%] right-[15%] top-0 hidden h-px bg-slate-300 md:block" />
+              <div className="absolute left-[12%] right-[12%] top-0 hidden h-px bg-slate-300 md:block" />
             )}
 
             <div
               className={`
-                grid gap-4 pt-6
+                grid pt-6
                 ${
                   node.children.length === 1
-                    ? "grid-cols-1"
+                    ? "grid-cols-1 gap-6"
                     : node.children.length === 2
-                      ? "grid-cols-1 sm:grid-cols-2"
-                      : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                      ? "grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-16 lg:gap-x-24"
+                      : "grid-cols-1 gap-6"
                 }
               `}
             >
@@ -159,7 +157,7 @@ function PositionTree({ node, accent, level = 0 }) {
                   key={`${child.title}-${index}`}
                   className="relative flex justify-center"
                 >
-                  {/* Child vertical connector */}
+                  {/* Child connector */}
 
                   <div className="absolute -top-6 left-1/2 hidden h-6 w-px bg-slate-300 md:block" />
 
@@ -186,7 +184,6 @@ function PositionTree({ node, accent, level = 0 }) {
 
 function DepartmentTree({ department, index }) {
   const Icon = department.icon;
-  const styles = accentStyles[department.accent] || accentStyles.green;
 
   return (
     <motion.article
@@ -202,11 +199,9 @@ function DepartmentTree({ department, index }) {
       }}
       className="relative"
     >
-      {/* =================================================
-          DEPARTMENT HEADER
-      ================================================= */}
+      {/* Department Header */}
 
-      <div className="relative mx-auto w-full max-w-[330px]">
+      <div className="relative mx-auto w-full max-w-[390px]">
         <div className="absolute -inset-1 rounded-[24px] bg-gradient-to-r from-[#087B5A]/10 via-[#2563EB]/10 to-[#F97316]/10 blur-lg" />
 
         <div className="relative rounded-[22px] bg-gradient-to-br from-[#0B3D2E] to-[#087B5A] p-[1px] shadow-[0_18px_40px_rgba(11,61,46,0.15)]">
@@ -230,9 +225,7 @@ function DepartmentTree({ department, index }) {
         </div>
       </div>
 
-      {/* =================================================
-          DEPARTMENT → MANAGEMENT
-      ================================================= */}
+      {/* Department → Management */}
 
       <div className="mt-7">
         <div className="mx-auto h-7 w-px bg-slate-300" />
@@ -249,6 +242,7 @@ function DepartmentTree({ department, index }) {
 
 function DepartmentDetail({ department, index }) {
   const Icon = department.icon;
+
   const styles = accentStyles[department.accent] || accentStyles.green;
 
   return (
@@ -277,7 +271,12 @@ function DepartmentDetail({ department, index }) {
 
         <div className="flex items-center gap-4">
           <div
-            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${styles.icon}`}
+            className={`
+              flex h-12 w-12 shrink-0
+              items-center justify-center
+              rounded-xl
+              ${styles.icon}
+            `}
           >
             <Icon size={20} />
           </div>
@@ -441,9 +440,7 @@ export default function OrganizationChart() {
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[#F97316]/5 blur-3xl" />
 
         <div className="relative mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10">
-          {/* =================================================
-              HEADER
-          ================================================= */}
+          {/* Header */}
 
           <motion.div
             variants={fadeUp}
@@ -473,9 +470,7 @@ export default function OrganizationChart() {
             </p>
           </motion.div>
 
-          {/* =================================================
-              DIRECTOR
-          ================================================= */}
+          {/* Director */}
 
           <div className="mt-16 flex flex-col items-center">
             <motion.div
@@ -529,9 +524,7 @@ export default function OrganizationChart() {
             </div>
           </div>
 
-          {/* =================================================
-              DEPARTMENT CONNECTION LINE
-          ================================================= */}
+          {/* Department connection line */}
 
           <div className="relative hidden lg:block">
             <div className="absolute left-[8%] right-[8%] top-0 h-[2px] rounded-full bg-gradient-to-r from-transparent via-[#087B5A]/35 to-transparent" />
@@ -554,9 +547,7 @@ export default function OrganizationChart() {
             })}
           </div>
 
-          {/* =================================================
-              DEPARTMENT TREES
-          ================================================= */}
+          {/* Department trees */}
 
           <div className="mt-8 grid gap-16 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-20">
             {departments.map((department, index) => (
@@ -576,6 +567,8 @@ export default function OrganizationChart() {
 
       <section className="relative bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+          {/* Header */}
+
           <motion.div
             variants={fadeUp}
             initial="hidden"

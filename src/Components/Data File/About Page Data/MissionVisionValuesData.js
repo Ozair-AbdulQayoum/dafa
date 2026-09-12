@@ -1,3 +1,5 @@
+// src/Components/Data File/About Page Data/MissionVisionValuesData.js
+
 import {
   FaBullseye,
   FaEye,
@@ -5,6 +7,10 @@ import {
   FaBalanceScale,
   FaHandshake,
 } from "react-icons/fa";
+
+// =====================================================
+// MISSION • VISION • VALUES DATA
+// =====================================================
 
 export const missionVisionData = {
   sectionLabel: "What Guides Us",
@@ -14,6 +20,10 @@ export const missionVisionData = {
 
   description:
     "Our work is guided by humanitarian principles, a commitment to safety, and a responsibility to the communities we serve.",
+
+  // =====================================================
+  // VISION
+  // =====================================================
 
   vision: {
     icon: FaEye,
@@ -26,6 +36,10 @@ export const missionVisionData = {
       "As a member signatory of the National Mine Action Strategy of Afghanistan (NMAS), DAFA is committed in achieving this vision. The path to a landmine- and explosive remnants-free Afghanistan hinges on addressing the highest-priority areas. With our deep ties to local communities, effective liaison and strong presence in high-risk regions, DAFA is dedicated to confronting these challenges head-on. By adapting our approach to each regional specific needs, we ensure the safety and security of affected communities while empowering them to reclaim their future.",
   },
 
+  // =====================================================
+  // MISSION
+  // =====================================================
+
   mission: {
     icon: FaBullseye,
     title: "Our Mission",
@@ -35,6 +49,10 @@ export const missionVisionData = {
     description:
       "At DAFA, our mission is to identify and eliminate life-threatening landmine and explosive hazards, creating safer environments for communities countrywide. Through quick response, innovative approach and priority-based planning, we are dedicated to saving lives and limbs, reducing risks and empowering every member of Afghan communities to thrive in safety and dignity.",
   },
+
+  // =====================================================
+  // VALUES
+  // =====================================================
 
   values: {
     icon: FaHeart,
@@ -65,6 +83,10 @@ export const missionVisionData = {
     ],
   },
 
+  // =====================================================
+  // CALL TO ACTION
+  // =====================================================
+
   callToAction: {
     eyebrow: "Join Our Humanitarian Mission",
 
@@ -74,3 +96,5 @@ export const missionVisionData = {
       "Join our humanitarian mission to save lives and restore hope in the people of Afghanistan. You may support us through advocacy, collaborative partnership and funding high priority call for mine action in reducing human sufferings. Together, we can transform unsafe lands into safe, shaping a future that ensures safety, dignity and well-being of millions of Afghans, and generations to come.",
   },
 };
+
+export default missionVisionData;

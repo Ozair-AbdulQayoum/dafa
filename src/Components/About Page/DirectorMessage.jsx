@@ -55,7 +55,7 @@ export default function DirectorMessage() {
   return (
     <section
       aria-labelledby="director-message-heading"
-      className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28"
+      className="relative overflow-hidden bg-white pt-0 pb-14 sm:pt-2 sm:pb-16 lg:pt-4 lg:pb-20"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         {/* =====================================================
@@ -71,7 +71,7 @@ export default function DirectorMessage() {
             duration: 0.7,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mb-12 max-w-3xl sm:mb-14 lg:mb-16"
+          className="mb-10 max-w-3xl sm:mb-12 lg:mb-14"
         >
           <div className="mb-5 flex items-center gap-3">
             <span aria-hidden="true" className="h-px w-10 bg-[#F97316]" />
@@ -90,12 +90,12 @@ export default function DirectorMessage() {
         </motion.header>
 
         {/* =====================================================
-            MAIN EDITORIAL COMPOSITION
+            MAIN CONTENT
         ====================================================== */}
 
-        <div className="grid items-start gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16 xl:gap-20">
+        <div className="grid items-stretch gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14 xl:gap-16">
           {/* ===================================================
-              DIRECTOR PROFILE
+              DIRECTOR IMAGE
           ==================================================== */}
 
           <motion.aside
@@ -107,85 +107,44 @@ export default function DirectorMessage() {
               duration: 0.75,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="lg:sticky lg:top-28"
+            className="flex h-full"
           >
-            <div className="relative mx-auto max-w-sm lg:mx-0">
-              {/* Orange Editorial Corner */}
+            <div className="relative flex h-full w-full max-w-sm flex-col lg:max-w-none">
+              {/* Orange Corner */}
 
               <div
                 aria-hidden="true"
-                className="
-                  absolute
-                  -left-3
-                  -top-3
-                  h-20
-                  w-20
-                  rounded-tl-2xl
-                  border-l-2
-                  border-t-2
-                  border-[#F97316]
-                "
+                className="absolute -left-3 -top-3 z-10 h-20 w-20 rounded-tl-2xl border-l-2 border-t-2 border-[#F97316]"
               />
 
-              {/* Portrait */}
+              {/* Image */}
 
-              <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
+              <div className="relative min-h-[520px] flex-1 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 sm:min-h-[580px] lg:min-h-0">
                 <img
                   src={director.image}
-                  alt={`${director.name}, ${director.position} at ${director.organization}`}
-                  className="
-                    aspect-[4/5]
-                    w-full
-                    object-cover
-                    object-center
-                  "
+                  alt={`${director.name}, ${director.position}`}
+                  className="absolute inset-0 h-full w-full object-cover object-center"
                   loading="lazy"
                 />
 
-                {/* Subtle image treatment */}
+                {/* Image Overlay */}
 
                 <div
                   aria-hidden="true"
-                  className="
-                    absolute
-                    inset-x-0
-                    bottom-0
-                    h-24
-                    bg-gradient-to-t
-                    from-[#0B3D2E]/55
-                    to-transparent
-                  "
+                  className="absolute inset-0 bg-gradient-to-t from-[#0B3D2E]/75 via-transparent to-transparent"
                 />
-
-                {/* Organization */}
-
-                <div className="absolute bottom-5 left-5 right-5">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#A7DCC9]">
-                    {director.organization}
-                  </p>
-                </div>
               </div>
 
-              {/* Green Editorial Corner */}
+              {/* Green Corner */}
 
               <div
                 aria-hidden="true"
-                className="
-                  absolute
-                  -bottom-3
-                  -right-3
-                  h-16
-                  w-16
-                  rounded-br-2xl
-                  border-b-2
-                  border-r-2
-                  border-[#0A5A42]
-                "
+                className="absolute -bottom-3 -right-3 h-16 w-16 rounded-br-2xl border-b-2 border-r-2 border-[#0A5A42]"
               />
 
-              {/* Director Identity */}
+              {/* Director Information */}
 
-              <div className="mt-7 border-t border-slate-200 pt-6">
+              <div className="mt-6 border-t border-slate-200 pt-5">
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#F97316]">
                   {director.position}
                 </p>
@@ -193,10 +152,6 @@ export default function DirectorMessage() {
                 <h3 className="mt-2 text-2xl font-black tracking-tight text-[#0B3D2E] sm:text-3xl">
                   {director.name}
                 </h3>
-
-                <p className="mt-2 text-sm leading-6 text-slate-500">
-                  {director.organization}
-                </p>
               </div>
             </div>
           </motion.aside>
@@ -215,42 +170,26 @@ export default function DirectorMessage() {
               delay: 0.08,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="relative"
+            className="flex h-full flex-col"
           >
-            {/* =================================================
-                QUOTATION MARK
-            ================================================== */}
+            {/* Quote Icon */}
 
             <div
               aria-hidden="true"
-              className="
-                mb-6
-                flex
-                h-12
-                w-12
-                items-center
-                justify-center
-                rounded-xl
-                bg-[#0B3D2E]
-                text-white
-              "
+              className="mb-6 flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#0B3D2E] text-white"
             >
               <FaQuoteLeft size={18} />
             </div>
 
-            {/* =================================================
-                INTRODUCTION
-            ================================================== */}
+            {/* Introduction */}
 
             <p className="max-w-3xl text-xl font-bold leading-8 tracking-tight text-[#0B3D2E] sm:text-2xl sm:leading-9">
               {introduction}
             </p>
 
-            {/* =================================================
-                MESSAGE
-            ================================================== */}
+            {/* Message Paragraphs */}
 
-            <div className="mt-8 max-w-3xl space-y-6">
+            <div className="mt-7 max-w-3xl space-y-5">
               {paragraphs.map((paragraph, index) => (
                 <motion.p
                   key={index}
@@ -263,33 +202,27 @@ export default function DirectorMessage() {
                     delay: index * 0.06,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="
-                    text-[15px]
-                    leading-8
-                    text-slate-600
-                    sm:text-base
-                    sm:leading-[1.9]
-                  "
+                  className="text-[15px] leading-8 text-slate-600 sm:text-base sm:leading-[1.85]"
                 >
                   {paragraph}
                 </motion.p>
               ))}
             </div>
 
-            {/* =================================================
-                CLOSING
-            ================================================== */}
+            {/* Closing Message */}
 
-            <div className="mt-9 border-l-2 border-[#F97316] pl-5 sm:pl-6">
+            <div className="mt-7 border-l-2 border-[#F97316] pl-5 sm:pl-6">
               <p className="text-sm font-semibold leading-7 text-[#0B3D2E] sm:text-base">
                 {closing}
               </p>
             </div>
+
+            <div className="flex-1" />
           </motion.article>
         </div>
 
         {/* =====================================================
-            COMMITMENT
+            OUR COMMITMENT
         ====================================================== */}
 
         <motion.div
@@ -302,14 +235,7 @@ export default function DirectorMessage() {
             delay: 0.08,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="
-            mt-14
-            border-t
-            border-slate-200
-            pt-8
-            sm:mt-16
-            sm:pt-9
-          "
+          className="mt-12 border-t border-slate-200 pt-7 sm:mt-14 sm:pt-8"
         >
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="max-w-3xl">
@@ -324,17 +250,7 @@ export default function DirectorMessage() {
 
             <div
               aria-hidden="true"
-              className="
-                flex
-                h-11
-                w-11
-                shrink-0
-                items-center
-                justify-center
-                rounded-full
-                bg-[#0B3D2E]
-                text-white
-              "
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#0B3D2E] text-white"
             >
               <FaArrowRight size={13} />
             </div>

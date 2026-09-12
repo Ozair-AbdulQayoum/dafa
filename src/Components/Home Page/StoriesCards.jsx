@@ -91,14 +91,18 @@ export default function StoriesCards() {
       aria-labelledby="success-stories-heading"
       className="
         relative
+        -mt-6
         overflow-hidden
         bg-white
         px-5
-        py-16
+        pt-0
+        pb-16
+        sm:-mt-8
         sm:px-8
-        sm:py-20
+        sm:pb-20
+        lg:-mt-10
         lg:px-10
-        lg:py-24
+        lg:pb-24
       "
     >
       {/* =====================================================
@@ -369,7 +373,7 @@ export default function StoriesCards() {
                 )}
               </AnimatePresence>
 
-              {/* Small image count */}
+              {/* Image count */}
 
               {images.length > 1 && (
                 <div
@@ -517,9 +521,7 @@ export default function StoriesCards() {
                 {story.description}
               </p>
 
-              {/* =================================================
-                  METADATA
-              ================================================== */}
+              {/* Metadata */}
 
               <div
                 className="
@@ -626,9 +628,7 @@ export default function StoriesCards() {
                 </div>
               </div>
 
-              {/* =================================================
-                  READ STORY
-              ================================================== */}
+              {/* Read Story */}
 
               <div className="mt-7">
                 <Link
