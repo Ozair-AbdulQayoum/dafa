@@ -1,120 +1,299 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 import heroData from "../../Components/Data File/Project Data/HeroData";
 
 export default function Hero() {
+  const shouldReduceMotion = useReducedMotion();
   const EyebrowIcon = heroData.eyebrowIcon;
 
+  const images = heroData.images || [];
+
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  /* =====================================================
+     AUTO SLIDER — EVERY 6 SECONDS
+  ===================================================== */
+
+  useEffect(() => {
+    if (shouldReduceMotion || isPaused || images.length <= 1) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % images.length);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [shouldReduceMotion, isPaused, images.length]);
+
+  /* =====================================================
+     PREVIOUS IMAGE
+  ===================================================== */
+
+  const goToPrevious = () => {
+    if (!images.length) return;
+
+    setCurrentImage((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  /* =====================================================
+     NEXT IMAGE
+  ===================================================== */
+
+  const goToNext = () => {
+    if (!images.length) return;
+
+    setCurrentImage((prev) => (prev + 1) % images.length);
+  };
+
   return (
-    <section className="relative min-h-[620px] overflow-hidden bg-[#06281E]">
+    <section
+      aria-labelledby="projects-hero-title"
+      className="
+        relative
+        min-h-[620px]
+        overflow-hidden
+        bg-[#06281E]
+        sm:min-h-[660px]
+        lg:min-h-[700px]
+      "
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocus={() => setIsPaused(true)}
+      onBlur={() => setIsPaused(false)}
+    >
       {/* =====================================================
-          BACKGROUND
+          BACKGROUND IMAGE SLIDER
       ===================================================== */}
 
-      {/* Green Glow */}
-      <motion.div
-        animate={{
-          scale: [1, 1.08, 1],
-          opacity: [0.2, 0.35, 0.2],
-        }}
-        transition={{
-          duration: 9,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#087B5A]/30 blur-3xl"
-      />
-
-      {/* Blue Glow */}
-      <motion.div
-        animate={{
-          scale: [1, 1.1, 1],
-          opacity: [0.12, 0.22, 0.12],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="pointer-events-none absolute -bottom-48 -left-40 h-[500px] w-[500px] rounded-full bg-[#2563EB]/20 blur-3xl"
-      />
-
-      {/* =====================================================
-          SUBTLE GRID
-      ===================================================== */}
-
-      <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
-        <div
-          className="h-full w-full"
-          style={{
-            backgroundImage:
-              "linear-gradient(#A7F3D0 1px, transparent 1px), linear-gradient(90deg, #A7F3D0 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
+      <div className="absolute inset-0">
+        <AnimatePresence initial={false} mode="sync">
+          {images.length > 0 && (
+            <motion.img
+              key={currentImage}
+              src={images[currentImage]}
+              alt=""
+              aria-hidden="true"
+              initial={
+                shouldReduceMotion
+                  ? {
+                      opacity: 1,
+                      scale: 1,
+                    }
+                  : {
+                      opacity: 0,
+                      scale: 1.06,
+                    }
+              }
+              animate={{
+                opacity: 1,
+                scale: shouldReduceMotion ? 1 : 1,
+              }}
+              exit={
+                shouldReduceMotion
+                  ? {
+                      opacity: 0,
+                    }
+                  : {
+                      opacity: 0,
+                      scale: 1.02,
+                    }
+              }
+              transition={{
+                opacity: {
+                  duration: shouldReduceMotion ? 0 : 1.1,
+                  ease: "easeInOut",
+                },
+                scale: {
+                  duration: shouldReduceMotion ? 0 : 6,
+                  ease: "easeOut",
+                },
+              }}
+              className="
+                absolute
+                inset-0
+                h-full
+                w-full
+                object-cover
+              "
+            />
+          )}
+        </AnimatePresence>
       </div>
 
       {/* =====================================================
-          DECORATIVE CIRCLE
+          LIGHT DARK GREEN OVERLAY
+          Around 30%
       ===================================================== */}
 
-      <motion.div
-        animate={{
-          rotate: 360,
-        }}
-        transition={{
-          duration: 35,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="pointer-events-none absolute -right-20 top-1/2 hidden h-72 w-72 rounded-full border border-dashed border-[#A7F3D0]/10 lg:block"
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          inset-0
+          bg-[#06281E]/30
+        "
+      />
+
+      {/* =====================================================
+          LEFT TEXT READABILITY
+          Kept stronger only where text sits
+      ===================================================== */}
+
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          inset-0
+          bg-gradient-to-r
+          from-[#031F18]/65
+          via-[#06281E]/35
+          to-transparent
+        "
+      />
+
+      {/* =====================================================
+          BOTTOM DEPTH
+      ===================================================== */}
+
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          inset-x-0
+          bottom-0
+          h-1/2
+          bg-gradient-to-t
+          from-[#031F18]/65
+          via-[#031F18]/20
+          to-transparent
+        "
+      />
+
+      {/* =====================================================
+          MOBILE READABILITY
+      ===================================================== */}
+
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          inset-0
+          bg-gradient-to-b
+          from-transparent
+          via-transparent
+          to-[#031F18]/55
+          lg:hidden
+        "
       />
 
       {/* =====================================================
           HERO CONTENT
       ===================================================== */}
 
-      <div className="relative z-10 mx-auto flex min-h-[620px] max-w-7xl items-center justify-center px-5 py-20 text-center sm:px-8 lg:px-10">
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          flex
+          min-h-[620px]
+          max-w-7xl
+          items-center
+          px-5
+          py-24
+          sm:min-h-[660px]
+          sm:px-8
+          sm:py-28
+          lg:min-h-[700px]
+          lg:px-10
+          lg:py-32
+          xl:px-12
+        "
+      >
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 35,
-          }}
+          initial={
+            shouldReduceMotion
+              ? {
+                  opacity: 1,
+                  y: 0,
+                }
+              : {
+                  opacity: 0,
+                  y: 25,
+                }
+          }
           animate={{
             opacity: 1,
             y: 0,
           }}
           transition={{
-            duration: 0.8,
+            duration: shouldReduceMotion ? 0 : 0.75,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mx-auto flex max-w-4xl flex-col items-center"
+          className="
+            max-w-4xl
+            pt-8
+            text-left
+            sm:pt-10
+          "
         >
           {/* =================================================
               EYEBROW
           ================================================= */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 15,
-            }}
+            initial={
+              shouldReduceMotion
+                ? {
+                    opacity: 1,
+                    x: 0,
+                  }
+                : {
+                    opacity: 0,
+                    x: -15,
+                  }
+            }
             animate={{
               opacity: 1,
-              y: 0,
+              x: 0,
             }}
             transition={{
-              duration: 0.6,
-              delay: 0.1,
+              duration: shouldReduceMotion ? 0 : 0.55,
+              delay: shouldReduceMotion ? 0 : 0.1,
             }}
-            className="mb-7 flex items-center justify-center gap-3"
+            className="
+              mb-5
+              flex
+              items-center
+              gap-3
+              sm:mb-6
+            "
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#A7F3D0]/10 text-[#A7F3D0]">
-              <EyebrowIcon size={16} />
-            </span>
+            <span
+              aria-hidden="true"
+              className="
+                h-[2px]
+                w-8
+                rounded-full
+                bg-[#F97316]
+                sm:w-10
+              "
+            />
 
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#A7F3D0] sm:text-sm">
+            <span
+              className="
+                text-[10px]
+                font-extrabold
+                uppercase
+                tracking-[0.2em]
+                text-white/90
+                sm:text-xs
+              "
+            >
               {heroData.eyebrow}
             </span>
           </motion.div>
@@ -124,19 +303,38 @@ export default function Hero() {
           ================================================= */}
 
           <motion.h1
-            initial={{
-              opacity: 0,
-              y: 25,
-            }}
+            id="projects-hero-title"
+            initial={
+              shouldReduceMotion
+                ? {
+                    opacity: 1,
+                    y: 0,
+                  }
+                : {
+                    opacity: 0,
+                    y: 20,
+                  }
+            }
             animate={{
               opacity: 1,
               y: 0,
             }}
             transition={{
-              duration: 0.75,
-              delay: 0.15,
+              duration: shouldReduceMotion ? 0 : 0.7,
+              delay: shouldReduceMotion ? 0 : 0.15,
+              ease: [0.22, 1, 0.36, 1],
             }}
-            className="text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
+            className="
+              max-w-4xl
+              text-4xl
+              font-extrabold
+              leading-[1.03]
+              tracking-[-0.045em]
+              text-white
+              sm:text-5xl
+              md:text-6xl
+              lg:text-[4.5rem]
+            "
           >
             {heroData.title}
 
@@ -150,19 +348,36 @@ export default function Hero() {
           ================================================= */}
 
           <motion.p
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
+            initial={
+              shouldReduceMotion
+                ? {
+                    opacity: 1,
+                    y: 0,
+                  }
+                : {
+                    opacity: 0,
+                    y: 15,
+                  }
+            }
             animate={{
               opacity: 1,
               y: 0,
             }}
             transition={{
-              duration: 0.7,
-              delay: 0.25,
+              duration: shouldReduceMotion ? 0 : 0.6,
+              delay: shouldReduceMotion ? 0 : 0.25,
             }}
-            className="mt-6 text-lg font-semibold leading-7 text-white sm:text-xl"
+            className="
+              mt-5
+              max-w-2xl
+              text-base
+              font-semibold
+              leading-7
+              text-white
+              sm:mt-6
+              sm:text-lg
+              sm:leading-8
+            "
           >
             {heroData.subtitle}
           </motion.p>
@@ -172,24 +387,221 @@ export default function Hero() {
           ================================================= */}
 
           <motion.p
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
+            initial={
+              shouldReduceMotion
+                ? {
+                    opacity: 1,
+                    y: 0,
+                  }
+                : {
+                    opacity: 0,
+                    y: 15,
+                  }
+            }
             animate={{
               opacity: 1,
               y: 0,
             }}
             transition={{
-              duration: 0.7,
-              delay: 0.35,
+              duration: shouldReduceMotion ? 0 : 0.6,
+              delay: shouldReduceMotion ? 0 : 0.35,
             }}
-            className="mx-auto mt-5 max-w-3xl text-base leading-8 text-green-50/70 sm:text-lg"
+            className="
+              mt-4
+              max-w-2xl
+              text-sm
+              leading-7
+              text-white/80
+              sm:text-base
+              sm:leading-7
+            "
           >
             {heroData.description}
           </motion.p>
         </motion.div>
       </div>
+
+      {/* =====================================================
+          SLIDER NAVIGATION
+      ===================================================== */}
+
+      {images.length > 1 && (
+        <div
+          className="
+            absolute
+            bottom-7
+            left-5
+            right-5
+            z-20
+            flex
+            items-center
+            justify-between
+            sm:bottom-9
+            sm:left-8
+            sm:right-8
+            lg:left-10
+            lg:right-10
+            xl:left-12
+            xl:right-12
+          "
+        >
+          {/* Counter */}
+
+          <div className="flex items-center gap-3">
+            <span
+              className="
+                text-xs
+                font-bold
+                tracking-[0.12em]
+                text-white
+              "
+            >
+              {String(currentImage + 1).padStart(2, "0")}
+            </span>
+
+            <span
+              aria-hidden="true"
+              className="
+                h-px
+                w-8
+                bg-white/40
+              "
+            />
+
+            <span
+              className="
+                text-[10px]
+                font-semibold
+                tracking-[0.12em]
+                text-white/60
+              "
+            >
+              {String(images.length).padStart(2, "0")}
+            </span>
+          </div>
+
+          {/* Previous / Next */}
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={goToPrevious}
+              aria-label="Previous project image"
+              className="
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-white/25
+                bg-[#06281E]/30
+                text-white
+                backdrop-blur-sm
+                transition-all
+                duration-300
+                hover:border-[#F97316]
+                hover:bg-[#F97316]
+                focus:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-[#F97316]
+                focus-visible:ring-offset-2
+                focus-visible:ring-offset-[#06281E]
+              "
+            >
+              <FaChevronLeft aria-hidden="true" className="text-[10px]" />
+            </button>
+
+            <button
+              type="button"
+              onClick={goToNext}
+              aria-label="Next project image"
+              className="
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-white/25
+                bg-[#06281E]/30
+                text-white
+                backdrop-blur-sm
+                transition-all
+                duration-300
+                hover:border-[#F97316]
+                hover:bg-[#F97316]
+                focus:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-[#F97316]
+                focus-visible:ring-offset-2
+                focus-visible:ring-offset-[#06281E]
+              "
+            >
+              <FaChevronRight aria-hidden="true" className="text-[10px]" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* =====================================================
+          SLIDE INDICATORS
+      ===================================================== */}
+
+      {images.length > 1 && (
+        <div
+          className="
+            absolute
+            bottom-10
+            left-1/2
+            z-20
+            hidden
+            -translate-x-1/2
+            items-center
+            gap-2
+            md:flex
+          "
+          role="tablist"
+          aria-label="Project hero slides"
+        >
+          {images.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => setCurrentImage(index)}
+              role="tab"
+              aria-label={`Show project image ${index + 1}`}
+              aria-selected={currentImage === index}
+              className="
+                group
+                flex
+                h-6
+                items-center
+                justify-center
+                focus:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-[#F97316]
+              "
+            >
+              <span
+                className={`
+                  h-[2px]
+                  rounded-full
+                  transition-all
+                  duration-300
+                  ${
+                    currentImage === index
+                      ? "w-8 bg-[#F97316]"
+                      : "w-4 bg-white/40 group-hover:bg-white/80"
+                  }
+                `}
+              />
+            </button>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -26,12 +25,9 @@ export default function About() {
         relative
         overflow-hidden
         bg-[#F7FBF8]
-        pt-8
-        pb-8
-        sm:pt-10
-        sm:pb-10
-        lg:pt-12
-        lg:pb-12
+        py-10
+        sm:py-12
+        lg:py-14
       "
     >
       <div
@@ -42,6 +38,7 @@ export default function About() {
           px-5
           sm:px-8
           lg:px-10
+          xl:px-12
         "
       >
         {/* Section Label */}
@@ -60,13 +57,13 @@ export default function About() {
             duration: shouldReduceMotion ? 0 : 0.45,
           }}
           className="
-            mb-6
+            mb-7
             flex
             items-center
             justify-center
             gap-3
-            sm:mb-7
-            lg:mb-8
+            sm:mb-8
+            lg:mb-9
           "
         >
           <span
@@ -76,19 +73,19 @@ export default function About() {
               w-8
               rounded-full
               bg-[#F97316]
-              sm:w-10
+              sm:w-11
             "
           />
 
           <span
             className="
-              text-[11px]
+              text-[10px]
               font-extrabold
               uppercase
-              tracking-[0.18em]
+              tracking-[0.2em]
               text-[#0B3D2E]
-              sm:text-sm
-              sm:tracking-[0.2em]
+              sm:text-xs
+              sm:tracking-[0.22em]
             "
           >
             {aboutData.label}
@@ -101,28 +98,24 @@ export default function About() {
               w-8
               rounded-full
               bg-[#F97316]
-              sm:w-10
+              sm:w-11
             "
           />
         </motion.div>
 
-        {/* =====================================================
-            MAIN CONTENT
-        ===================================================== */}
+        {/* Main Content */}
 
         <div
           className="
             grid
             items-center
-            gap-8
+            gap-9
             lg:grid-cols-2
-            lg:gap-12
-            xl:gap-16
+            lg:gap-14
+            xl:gap-18
           "
         >
-          {/* =================================================
-              IMAGE
-          ================================================= */}
+          {/* Image */}
 
           <motion.div
             initial={
@@ -140,11 +133,7 @@ export default function About() {
               duration: shouldReduceMotion ? 0 : 0.65,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="
-              order-1
-              relative
-              w-full
-            "
+            className="order-1 relative w-full"
           >
             <div
               className="
@@ -152,8 +141,10 @@ export default function About() {
                 relative
                 overflow-hidden
                 rounded-2xl
+                border
+                border-[#0B3D2E]/10
                 bg-[#0B3D2E]
-                shadow-[0_18px_45px_rgba(15,23,42,0.11)]
+                shadow-[0_18px_45px_rgba(15,23,42,0.10)]
                 sm:rounded-3xl
               "
             >
@@ -163,18 +154,19 @@ export default function About() {
                 loading="lazy"
                 decoding="async"
                 className="
-                  h-[280px]
+                  h-[285px]
                   w-full
                   object-cover
                   object-center
                   transition-transform
                   duration-700
                   ease-out
-                  group-hover:scale-[1.02]
+                  group-hover:scale-[1.025]
+
                   sm:h-[350px]
                   md:h-[400px]
                   lg:h-[440px]
-                  xl:h-[460px]
+                  xl:h-[465px]
                 "
               />
 
@@ -187,7 +179,7 @@ export default function About() {
                   absolute
                   inset-0
                   bg-gradient-to-t
-                  from-[#0B3D2E]/40
+                  from-[#031F18]/55
                   via-transparent
                   to-transparent
                 "
@@ -203,13 +195,15 @@ export default function About() {
                   rounded-lg
                   border
                   border-white/20
-                  bg-[#0B3D2E]/90
-                  px-3
-                  py-2
+                  bg-[#031F18]/85
+                  px-3.5
+                  py-2.5
+                  backdrop-blur-sm
+
                   sm:bottom-5
                   sm:left-5
                   sm:px-4
-                  sm:py-2.5
+                  sm:py-3
                 "
               >
                 <p
@@ -217,14 +211,31 @@ export default function About() {
                     text-[9px]
                     font-bold
                     uppercase
-                    tracking-[0.15em]
-                    text-white
+                    tracking-[0.16em]
+                    text-white/95
+
                     sm:text-[10px]
                   "
                 >
                   {aboutData.image.label}
                 </p>
               </div>
+
+              {/* Subtle Image Accent */}
+
+              <div
+                aria-hidden="true"
+                className="
+                  pointer-events-none
+                  absolute
+                  left-0
+                  top-0
+                  h-1
+                  w-20
+                  bg-[#F97316]
+                  sm:w-24
+                "
+              />
             </div>
 
             {/* Decorative Element */}
@@ -243,6 +254,7 @@ export default function About() {
                 border
                 border-[#F97316]/20
                 bg-[#F97316]/5
+
                 sm:-bottom-4
                 sm:-right-4
                 sm:h-20
@@ -251,9 +263,7 @@ export default function About() {
             />
           </motion.div>
 
-          {/* =================================================
-              CONTENT
-          ================================================= */}
+          {/* Content */}
 
           <motion.div
             initial={
@@ -272,10 +282,7 @@ export default function About() {
               delay: shouldReduceMotion ? 0 : 0.08,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="
-              order-2
-              w-full
-            "
+            className="order-2 w-full"
           >
             {/* Heading */}
 
@@ -283,14 +290,15 @@ export default function About() {
               id="about-section-title"
               className="
                 max-w-2xl
-                text-[1.9rem]
+                text-[1.95rem]
                 font-extrabold
                 leading-[1.08]
-                tracking-[-0.035em]
+                tracking-[-0.04em]
                 text-[#0F172A]
+
                 sm:text-4xl
                 md:text-[2.5rem]
-                lg:text-[2.7rem]
+                lg:text-[2.75rem]
                 xl:text-[3rem]
               "
             >
@@ -301,14 +309,16 @@ export default function About() {
 
             <p
               className="
-                mt-4
+                mt-5
                 max-w-xl
                 text-[14px]
                 leading-6
                 text-slate-600
-                sm:mt-5
+
+                sm:mt-6
                 sm:text-base
                 sm:leading-7
+
                 lg:text-[16px]
               "
             >
@@ -319,10 +329,11 @@ export default function About() {
 
             <div
               className="
-                mt-6
+                mt-7
                 grid
                 gap-3
-                sm:mt-7
+
+                sm:mt-8
                 sm:grid-cols-3
               "
             >
@@ -354,19 +365,23 @@ export default function About() {
                       border-[#0B3D2E]/10
                       bg-white
                       p-3.5
+                      shadow-[0_3px_12px_rgba(15,23,42,0.025)]
                       transition-all
                       duration-300
-                      hover:-translate-y-0.5
+
+                      hover:-translate-y-1
                       hover:border-[#0B3D2E]/20
-                      hover:shadow-[0_8px_22px_rgba(15,23,42,0.06)]
+                      hover:shadow-[0_10px_24px_rgba(15,23,42,0.07)]
                     "
                   >
+                    {/* Icon */}
+
                     <div
                       className="
-                        mb-2.5
+                        mb-3
                         flex
-                        h-8
-                        w-8
+                        h-9
+                        w-9
                         items-center
                         justify-center
                         rounded-lg
@@ -374,12 +389,15 @@ export default function About() {
                         text-[#0B3D2E]
                         transition-all
                         duration-300
+
                         group-hover:bg-[#0B3D2E]
                         group-hover:text-white
                       "
                     >
-                      <Icon size={14} aria-hidden="true" />
+                      {Icon ? <Icon size={14} aria-hidden="true" /> : null}
                     </div>
+
+                    {/* Title */}
 
                     <h3
                       className="
@@ -387,19 +405,23 @@ export default function About() {
                         font-bold
                         leading-5
                         text-[#0F172A]
+
                         sm:text-[13px]
                       "
                     >
                       {item.title}
                     </h3>
 
+                    {/* Description */}
+
                     <p
                       className="
                         mt-1
-                        text-[10px]
-                        leading-4
+                        text-[11px]
+                        leading-5
                         text-slate-500
-                        sm:text-[11px]
+
+                        sm:text-[12px]
                         sm:leading-5
                       "
                     >
@@ -428,14 +450,14 @@ export default function About() {
                 duration: shouldReduceMotion ? 0 : 0.45,
                 delay: shouldReduceMotion ? 0 : 0.28,
               }}
-              className="mt-6 sm:mt-7"
+              className="mt-7 sm:mt-8"
             >
               <Link
                 to={aboutData.button.path}
                 className="
                   group
                   inline-flex
-                  min-h-[48px]
+                  min-h-[50px]
                   w-full
                   items-center
                   justify-center
@@ -449,13 +471,18 @@ export default function About() {
                   shadow-[0_8px_22px_rgba(11,61,46,0.13)]
                   transition-all
                   duration-300
+
                   hover:-translate-y-0.5
                   hover:bg-[#0A5A42]
-                  hover:shadow-[0_12px_28px_rgba(11,61,46,0.17)]
+                  hover:shadow-[0_12px_28px_rgba(11,61,46,0.18)]
+
+                  active:translate-y-0
+
                   focus:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-[#F97316]
                   focus-visible:ring-offset-2
+
                   sm:w-auto
                 "
               >

@@ -3,7 +3,7 @@ import heroImage2 from "../../../assets/hero2.png";
 import heroImage3 from "../../../assets/hero3.png";
 
 // =====================================================
-// COMMON HERO BUTTONS
+// HERO BUTTONS
 // =====================================================
 
 export const heroButtons = {
@@ -25,6 +25,9 @@ export const heroImages = [
     number: "36+",
     title: "Years of Humanitarian Mine Action",
 
+    description:
+      "Working to protect communities and create safer futures across Afghanistan.",
+
     alt: "DAFA humanitarian mine action team working in Afghanistan",
   },
 
@@ -38,6 +41,9 @@ export const heroImages = [
     title: "Protecting Communities.",
     highlight: "Creating Safer Futures.",
 
+    description:
+      "Delivering humanitarian mine action to communities affected by explosive hazards.",
+
     alt: "DAFA humanitarian mine action operations in Afghanistan",
   },
 
@@ -50,6 +56,9 @@ export const heroImages = [
     number: "",
     title: "Together We Can",
     highlight: "Make Afghanistan Safer.",
+
+    description:
+      "Together with communities and partners, we work toward a safer Afghanistan.",
 
     alt: "DAFA humanitarian work in Afghanistan",
   },

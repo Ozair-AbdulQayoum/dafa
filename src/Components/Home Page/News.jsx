@@ -1,10 +1,10 @@
 // src/Components/Home-Page/News.jsx
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 
-import { FaArrowRight, FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 import {
   newsUpdates,
@@ -12,17 +12,30 @@ import {
 } from "../../Components/Data File/News Update Data/LatestNews";
 
 export default function News() {
+  const shouldReduceMotion = useReducedMotion();
+
   /* =========================================================
      HOMEPAGE NEWS SELECTION
-  ========================================================= */
+  ========================================================== */
 
   const featuredNews = latestNews || newsUpdates?.[0];
 
-  const secondaryNews = newsUpdates
-    ?.filter((article) => article.id !== featuredNews?.id)
-    .slice(0, 2);
+  const newsItems = [
+    featuredNews,
+    ...(newsUpdates || []).filter(
+      (article) => article?.id !== featuredNews?.id,
+    ),
+  ]
+    .filter(Boolean)
+    .slice(0, 3);
 
-  if (!featuredNews) return null;
+  /* =========================================================
+     EMPTY STATE
+  ========================================================== */
+
+  if (!newsItems.length) {
+    return null;
+  }
 
   return (
     <section
@@ -30,114 +43,78 @@ export default function News() {
       aria-labelledby="news-media-heading"
       className="
         relative
-        -mt-6
         overflow-hidden
-        bg-white
-        px-5
-        pt-0
-        pb-16
-        sm:-mt-8
-        sm:px-8
-        sm:pb-20
-        lg:-mt-10
-        lg:px-10
-        lg:pb-24
+        bg-[#F7FBF8]
+        py-8
+        sm:py-10
+        lg:py-12
       "
     >
-      {/* =====================================================
-          SUBTLE BACKGROUND
-      ===================================================== */}
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          right-0
-          top-0
-          h-72
-          w-72
-          rounded-full
-          bg-[#0B3D2E]/[0.035]
-          blur-3xl
-        "
-        aria-hidden="true"
-      />
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          bottom-0
-          left-0
-          h-64
-          w-64
-          rounded-full
-          bg-[#F97316]/[0.025]
-          blur-3xl
-        "
-        aria-hidden="true"
-      />
-
-      <div
-        className="
-          relative
-          z-10
-          mx-auto
-          max-w-7xl
-        "
-      >
-        {/* =====================================================
+      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
+        {/* ===================================================
             SECTION HEADER
-        ===================================================== */}
+        ==================================================== */}
 
-        <motion.header
-          initial={{
-            opacity: 0,
-            y: 24,
-          }}
+        <motion.div
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
           whileInView={{
             opacity: 1,
             y: 0,
           }}
-          transition={{
-            duration: 0.65,
-            ease: "easeOut",
-          }}
           viewport={{
             once: true,
-            margin: "-100px",
+            amount: 0.2,
+          }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.55,
+            ease: [0.22, 1, 0.36, 1],
           }}
           className="
-            mb-10
+            mx-auto
+            mb-7
             max-w-3xl
-            sm:mb-12
+            text-center
+            sm:mb-9
+            lg:mb-10
           "
         >
-          {/* Eyebrow */}
+          {/* Section Label */}
 
-          <div className="mb-4 flex items-center gap-3">
+          <div className="mb-3 flex items-center justify-center gap-3">
             <span
+              aria-hidden="true"
               className="
                 h-[2px]
-                w-9
+                w-7
                 rounded-full
                 bg-[#F97316]
+                sm:w-9
               "
-              aria-hidden="true"
             />
 
-            <p
+            <span
               className="
-                text-xs
-                font-bold
+                text-[10px]
+                font-extrabold
                 uppercase
-                tracking-[0.22em]
-                text-[#0A5A42]
-                sm:text-sm
+                tracking-[0.2em]
+                text-[#0B3D2E]
+                sm:text-xs
               "
             >
-              News &amp; Media
-            </p>
+              News & Media
+            </span>
+
+            <span
+              aria-hidden="true"
+              className="
+                h-[2px]
+                w-7
+                rounded-full
+                bg-[#F97316]
+                sm:w-9
+              "
+            />
           </div>
 
           {/* Heading */}
@@ -145,574 +122,413 @@ export default function News() {
           <h2
             id="news-media-heading"
             className="
-              text-3xl
-              font-bold
-              leading-tight
-              tracking-tight
+              text-2xl
+              font-extrabold
+              leading-[1.12]
+              tracking-[-0.03em]
               text-[#0F172A]
-              sm:text-4xl
-              lg:text-5xl
+              sm:text-3xl
+              lg:text-[2.7rem]
             "
           >
-            Latest Updates From <span className="text-[#0B3D2E]">DAFA</span>
+            Latest Updates From the Field
           </h2>
 
           {/* Description */}
 
           <p
             className="
+              mx-auto
               mt-4
               max-w-2xl
-              text-base
-              leading-7
-              text-slate-600
-              sm:text-lg
+              text-sm
+              leading-6
+              text-slate-500
+              sm:text-base
+              sm:leading-7
             "
           >
-            Stay informed about DAFA&apos;s latest activities, field updates,
-            meetings, training, and humanitarian initiatives across Afghanistan.
+            Follow DAFA&apos;s latest activities, field operations,
+            partnerships, training, and humanitarian initiatives across
+            Afghanistan.
           </p>
-        </motion.header>
+        </motion.div>
 
-        {/* =====================================================
+        {/* ===================================================
             NEWS GRID
-        ===================================================== */}
+        ==================================================== */}
 
         <div
           className="
             grid
-            items-stretch
-            gap-6
-            lg:grid-cols-[1.25fr_0.75fr]
+            gap-4
+            md:grid-cols-2
+            lg:grid-cols-3
+            lg:gap-5
           "
         >
-          {/* ===================================================
-              FEATURED ARTICLE
-          =================================================== */}
+          {newsItems.map((article, index) => {
+            const title = article?.title || "DAFA News Update";
 
-          <motion.article
-            initial={{
-              opacity: 0,
-              y: 28,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.7,
-              ease: "easeOut",
-            }}
-            viewport={{
-              once: true,
-              margin: "-80px",
-            }}
-            className="
-              group
-              flex
-              h-full
-              flex-col
-              overflow-hidden
-              rounded-2xl
-              border
-              border-slate-200
-              bg-white
-              transition-all
-              duration-300
-              hover:-translate-y-1
-              hover:border-[#0B3D2E]/20
-              hover:shadow-[0_18px_45px_rgba(15,23,42,0.09)]
-            "
-          >
-            {/* =================================================
-                FEATURED IMAGE
-            ================================================= */}
+            const image = article?.image || article?.images?.[0] || "";
 
-            <Link
-              to={`/resources/news-updates/${featuredNews.slug}`}
-              aria-label={`Read ${featuredNews.title}`}
-              className="
-                relative
-                block
-                h-[270px]
-                shrink-0
-                overflow-hidden
-                sm:h-[320px]
-                lg:h-[335px]
-              "
-            >
-              <img
-                src={featuredNews.image}
-                alt={featuredNews.title}
-                className="
-                  h-full
-                  w-full
-                  object-cover
-                  transition-transform
-                  duration-700
-                  ease-out
-                  group-hover:scale-[1.03]
-                "
-                loading="lazy"
-              />
-
-              {/* Image Gradient */}
-
-              <div
-                className="
-                  pointer-events-none
-                  absolute
-                  inset-x-0
-                  bottom-0
-                  h-24
-                  bg-gradient-to-t
-                  from-black/35
-                  to-transparent
-                "
-                aria-hidden="true"
-              />
-
-              {/* Featured Label */}
-
-              <span
-                className="
-                  absolute
-                  left-5
-                  top-5
-                  rounded-md
-                  bg-[#0B3D2E]
-                  px-3
-                  py-1.5
-                  text-[10px]
-                  font-bold
-                  uppercase
-                  tracking-[0.16em]
-                  text-white
-                  sm:left-6
-                  sm:top-6
-                "
-              >
-                Featured
-              </span>
-            </Link>
-
-            {/* =================================================
-                FEATURED CONTENT
-            ================================================= */}
-
-            <div
-              className="
-                flex
-                flex-1
-                flex-col
-                p-6
-                sm:p-7
-                lg:p-8
-              "
-            >
-              {/* Category + Date */}
-
-              <div
-                className="
-                  flex
-                  flex-wrap
-                  items-center
-                  gap-x-4
-                  gap-y-2
-                  text-xs
-                  font-semibold
-                  uppercase
-                  tracking-[0.08em]
-                "
-              >
-                <span className="text-[#0A5A42]">{featuredNews.category}</span>
-
-                <span
-                  className="
-                    h-1
-                    w-1
-                    rounded-full
-                    bg-[#F97316]
-                  "
-                  aria-hidden="true"
-                />
-
-                <span
-                  className="
-                    inline-flex
-                    items-center
-                    gap-2
-                    text-slate-400
-                  "
-                >
-                  <FaCalendarAlt
-                    className="text-[#F97316]"
-                    aria-hidden="true"
-                  />
-
-                  {featuredNews.date}
-                </span>
-              </div>
-
-              {/* Title */}
-
-              <h3
-                className="
-                  mt-4
-                  max-w-3xl
-                  text-2xl
-                  font-bold
-                  leading-tight
-                  tracking-tight
-                  text-[#0F172A]
-                  transition-colors
-                  duration-300
-                  group-hover:text-[#0B3D2E]
-                  sm:text-3xl
-                  lg:text-[1.9rem]
-                "
-              >
-                {featuredNews.title}
-              </h3>
-
-              {/* Description */}
-
-              {featuredNews.description && (
-                <p
-                  className="
-                    mt-4
-                    max-w-2xl
-                    text-sm
-                    leading-7
-                    text-slate-600
-                    sm:text-base
-                  "
-                >
-                  {featuredNews.description}
-                </p>
-              )}
-
-              {/* =================================================
-                  FEATURED FOOTER
-              ================================================= */}
-
-              <div className="mt-auto pt-6">
-                <div
-                  className="
-                    mb-5
-                    h-px
-                    w-full
-                    bg-slate-200
-                  "
-                />
-
-                <div
-                  className="
-                    flex
-                    flex-col
-                    gap-4
-                    sm:flex-row
-                    sm:items-center
-                    sm:justify-between
-                  "
-                >
-                  {/* Location */}
-
-                  {featuredNews.location && (
-                    <div
-                      className="
-                        flex
-                        items-center
-                        gap-2
-                        text-xs
-                        font-medium
-                        text-slate-500
-                      "
-                    >
-                      <FaMapMarkerAlt
-                        className="text-[#0A5A42]"
-                        aria-hidden="true"
-                      />
-
-                      <span>{featuredNews.location}</span>
-                    </div>
-                  )}
-
-                  {/* Read Article */}
-
-                  <Link
-                    to={`/resources/news-updates/${featuredNews.slug}`}
-                    className="
-                      group/link
-                      inline-flex
-                      min-h-[44px]
-                      w-fit
-                      items-center
-                      gap-2.5
-                      rounded-lg
-                      bg-[#0B3D2E]
-                      px-5
-                      py-3
-                      text-sm
-                      font-bold
-                      text-white
-                      transition-all
-                      duration-300
-                      hover:bg-[#0A5A42]
-                      focus:outline-none
-                      focus:ring-2
-                      focus:ring-[#F97316]
-                      focus:ring-offset-2
-                    "
-                  >
-                    <span>Read Article</span>
-
-                    <FaArrowRight
-                      size={11}
-                      className="
-                        transition-transform
-                        duration-300
-                        group-hover/link:translate-x-1
-                      "
-                      aria-hidden="true"
-                    />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </motion.article>
-
-          {/* ===================================================
-              SECONDARY ARTICLES
-          =================================================== */}
-
-          <div
-            className="
-              grid
-              gap-6
-              sm:grid-cols-2
-              lg:grid-cols-1
-            "
-          >
-            {secondaryNews?.map((article, index) => (
+            return (
               <motion.article
-                key={article.id}
-                initial={{
-                  opacity: 0,
-                  y: 28,
-                }}
+                key={article?.id || article?.slug || `news-${index}`}
+                initial={
+                  shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 25 }
+                }
                 whileInView={{
                   opacity: 1,
                   y: 0,
                 }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.1,
-                  ease: "easeOut",
-                }}
                 viewport={{
                   once: true,
-                  margin: "-80px",
+                  amount: 0.15,
+                }}
+                transition={{
+                  duration: shouldReduceMotion ? 0 : 0.55,
+                  delay: shouldReduceMotion ? 0 : index * 0.1,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
                 className="
                   group
-                  flex
-                  h-full
-                  flex-col
+                  relative
+                  h-[470px]
                   overflow-hidden
                   rounded-2xl
-                  border
-                  border-slate-200
-                  bg-white
+                  bg-[#0B3D2E]
+                  shadow-[0_14px_35px_rgba(15,23,42,0.10)]
                   transition-all
-                  duration-300
+                  duration-500
                   hover:-translate-y-1
-                  hover:border-[#0B3D2E]/20
-                  hover:shadow-[0_16px_38px_rgba(15,23,42,0.08)]
-                  sm:flex-row
-                  lg:flex-col
+                  hover:shadow-[0_22px_50px_rgba(15,23,42,0.16)]
+                  sm:h-[500px]
                 "
               >
-                {/* Image */}
+                {/* =================================================
+                    IMAGE
+                ================================================== */}
 
-                <Link
-                  to={`/resources/news-updates/${article.slug}`}
-                  aria-label={`Read ${article.title}`}
-                  className="
-                    relative
-                    block
-                    h-[205px]
-                    shrink-0
-                    overflow-hidden
-                    sm:h-auto
-                    sm:w-[42%]
-                    lg:h-[170px]
-                    lg:w-full
-                  "
-                >
+                {image ? (
                   <img
-                    src={article.image}
-                    alt={article.title}
+                    src={image}
+                    alt={title}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    decoding="async"
                     className="
+                      absolute
+                      inset-0
                       h-full
                       w-full
                       object-cover
                       transition-transform
-                      duration-700
+                      duration-[900ms]
                       ease-out
-                      group-hover:scale-[1.04]
+                      group-hover:scale-[1.06]
                     "
-                    loading="lazy"
                   />
-                </Link>
+                ) : (
+                  <div
+                    className="
+                      absolute
+                      inset-0
+                      flex
+                      items-center
+                      justify-center
+                      bg-[#0B3D2E]
+                    "
+                  >
+                    <span
+                      className="
+                        px-6
+                        text-center
+                        text-sm
+                        font-semibold
+                        text-white/70
+                      "
+                    >
+                      DAFA News & Media
+                    </span>
+                  </div>
+                )}
 
-                {/* Content */}
+                {/* =================================================
+                    OVERLAY
+                ================================================== */}
+
+                <div
+                  aria-hidden="true"
+                  className="
+                    absolute
+                    inset-0
+                    bg-gradient-to-t
+                    from-[#031F18]
+                    via-[#0B3D2E]/25
+                    to-black/5
+                    opacity-95
+                  "
+                />
+
+                <div
+                  aria-hidden="true"
+                  className="
+                    absolute
+                    inset-x-0
+                    bottom-0
+                    h-2/3
+                    bg-gradient-to-t
+                    from-[#031F18]
+                    to-transparent
+                  "
+                />
+
+                {/* =================================================
+                    TOP META
+                ================================================== */}
 
                 <div
                   className="
+                    absolute
+                    left-5
+                    right-5
+                    top-5
                     flex
-                    min-w-0
-                    flex-1
-                    flex-col
-                    p-5
-                    sm:p-6
-                    lg:p-5
+                    items-start
+                    justify-between
+                    sm:left-6
+                    sm:right-6
+                    sm:top-6
                   "
                 >
-                  {/* Category + Date */}
+                  {/* Number */}
 
                   <div
                     className="
+                      text-3xl
+                      font-light
+                      leading-none
+                      tracking-[-0.05em]
+                      text-white/90
+                      sm:text-4xl
+                    "
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+
+                  {/* Category */}
+
+                  {article?.category && (
+                    <span
+                      className="
+                        rounded-full
+                        border
+                        border-white/25
+                        bg-black/15
+                        px-3
+                        py-1.5
+                        text-[9px]
+                        font-bold
+                        uppercase
+                        tracking-[0.16em]
+                        text-white
+                        backdrop-blur-md
+                      "
+                    >
+                      {article.category}
+                    </span>
+                  )}
+                </div>
+
+                {/* =================================================
+                    CONTENT
+                ================================================== */}
+
+                <div
+                  className="
+                    absolute
+                    bottom-0
+                    left-0
+                    right-0
+                    p-5
+                    sm:p-6
+                    lg:p-7
+                  "
+                >
+                  {/* Orange Accent */}
+
+                  <div
+                    aria-hidden="true"
+                    className="
+                      mb-4
+                      h-[3px]
+                      w-8
+                      rounded-full
+                      bg-[#F97316]
+                      transition-all
+                      duration-500
+                      group-hover:w-14
+                    "
+                  />
+
+                  {/* Date / Location */}
+
+                  <div
+                    className="
+                      mb-3
                       flex
                       flex-wrap
                       items-center
-                      gap-x-3
-                      gap-y-1.5
+                      gap-x-4
+                      gap-y-1
                       text-[10px]
-                      font-bold
+                      font-semibold
                       uppercase
-                      tracking-[0.1em]
+                      tracking-[0.12em]
+                      text-white/60
                     "
                   >
-                    <span className="text-[#0A5A42]">{article.category}</span>
+                    {article?.date && <span>{article.date}</span>}
 
-                    <span
-                      className="
-                        h-1
-                        w-1
-                        rounded-full
-                        bg-[#F97316]
-                      "
-                      aria-hidden="true"
-                    />
+                    {article?.location && (
+                      <>
+                        {article?.date && (
+                          <span aria-hidden="true" className="text-white/30">
+                            /
+                          </span>
+                        )}
 
-                    <span className="text-slate-400">{article.date}</span>
+                        <span>{article.location}</span>
+                      </>
+                    )}
                   </div>
 
                   {/* Title */}
 
                   <h3
                     className="
-                      mt-3
-                      line-clamp-2
-                      text-lg
-                      font-bold
-                      leading-snug
-                      tracking-tight
-                      text-[#0F172A]
-                      transition-colors
-                      duration-300
-                      group-hover:text-[#0B3D2E]
-                      sm:text-xl
-                      lg:text-lg
+                      max-w-[92%]
+                      text-xl
+                      font-extrabold
+                      leading-[1.15]
+                      tracking-[-0.025em]
+                      text-white
+                      sm:text-2xl
                     "
                   >
-                    {article.title}
+                    {title}
                   </h3>
 
-                  {/* Short Excerpt */}
+                  {/* Description */}
 
-                  {article.description && (
+                  {article?.description && (
                     <p
                       className="
                         mt-3
-                        line-clamp-2
-                        text-sm
-                        leading-6
-                        text-slate-500
+                        line-clamp-3
+                        max-w-[95%]
+                        text-xs
+                        leading-5
+                        text-white/70
+                        sm:text-sm
+                        sm:leading-6
                       "
                     >
                       {article.description}
                     </p>
                   )}
 
-                  {/* CTA */}
+                  {/* Read Article */}
 
-                  <Link
-                    to={`/resources/news-updates/${article.slug}`}
-                    className="
-                      group/link
-                      mt-auto
-                      inline-flex
-                      min-h-[42px]
-                      w-fit
-                      items-center
-                      gap-2
-                      pt-4
-                      text-sm
-                      font-bold
-                      text-[#0B3D2E]
-                      transition-colors
-                      duration-300
-                      hover:text-[#F97316]
-                      focus:outline-none
-                      focus-visible:underline
-                    "
-                  >
-                    <span>Read Article</span>
-
-                    <FaArrowRight
-                      size={10}
+                  {article?.slug && (
+                    <Link
+                      to={`/resources/news-updates/${article.slug}`}
+                      aria-label={`Read ${title}`}
                       className="
-                        transition-transform
+                        mt-5
+                        inline-flex
+                        min-h-10
+                        items-center
+                        gap-3
+                        border-b
+                        border-white/30
+                        pb-1
+                        text-xs
+                        font-bold
+                        text-white
+                        transition-all
                         duration-300
-                        group-hover/link:translate-x-1
+                        hover:gap-4
+                        hover:border-[#F97316]
+                        hover:text-[#F97316]
+                        focus:outline-none
+                        focus-visible:ring-2
+                        focus-visible:ring-[#F97316]
+                        focus-visible:ring-offset-2
+                        focus-visible:ring-offset-[#0B3D2E]
                       "
-                      aria-hidden="true"
-                    />
-                  </Link>
+                    >
+                      <span>Read Article</span>
+
+                      <FaArrowRight
+                        aria-hidden="true"
+                        className="
+                          text-[10px]
+                          transition-transform
+                          duration-300
+                          group-hover:translate-x-1
+                        "
+                      />
+                    </Link>
+                  )}
                 </div>
+
+                {/* =================================================
+                    HOVER BORDER
+                ================================================== */}
+
+                <div
+                  aria-hidden="true"
+                  className="
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    rounded-2xl
+                    border
+                    border-white/0
+                    transition-colors
+                    duration-500
+                    group-hover:border-white/20
+                  "
+                />
               </motion.article>
-            ))}
-          </div>
+            );
+          })}
         </div>
 
-        {/* =====================================================
+        {/* ===================================================
             VIEW ALL NEWS
-        ===================================================== */}
+        ==================================================== */}
 
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 18,
-          }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
           whileInView={{
             opacity: 1,
             y: 0,
           }}
-          transition={{
-            duration: 0.6,
-            delay: 0.1,
-            ease: "easeOut",
-          }}
           viewport={{
             once: true,
+            amount: 0.2,
+          }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.5,
+            delay: shouldReduceMotion ? 0 : 0.15,
           }}
           className="
-            mt-10
+            mt-8
             flex
             justify-center
-            sm:mt-12
+            sm:mt-10
           "
         >
           <Link
@@ -722,36 +538,36 @@ export default function News() {
               inline-flex
               min-h-[48px]
               items-center
+              justify-center
               gap-3
-              rounded-lg
-              border
-              border-[#0B3D2E]
-              bg-white
-              px-7
-              py-3.5
+              rounded-xl
+              bg-[#0B3D2E]
+              px-6
               text-sm
               font-bold
-              text-[#0B3D2E]
+              text-white
+              shadow-[0_8px_22px_rgba(11,61,46,0.13)]
               transition-all
               duration-300
-              hover:bg-[#0B3D2E]
-              hover:text-white
+              hover:-translate-y-0.5
+              hover:bg-[#0A5A42]
+              hover:shadow-[0_12px_28px_rgba(11,61,46,0.18)]
               focus:outline-none
-              focus:ring-2
-              focus:ring-[#F97316]
-              focus:ring-offset-2
+              focus-visible:ring-2
+              focus-visible:ring-[#F97316]
+              focus-visible:ring-offset-2
             "
           >
             <span>View All News</span>
 
             <FaArrowRight
-              size={11}
+              aria-hidden="true"
               className="
+                text-xs
                 transition-transform
                 duration-300
                 group-hover:translate-x-1
               "
-              aria-hidden="true"
             />
           </Link>
         </motion.div>

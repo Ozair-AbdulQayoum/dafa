@@ -1,5 +1,3 @@
-// src/Components/News/LatestNews.jsx
-
 import React, { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -36,7 +34,11 @@ export default function LatestNews() {
   // =========================================================
 
   const latestGallery =
-    latestNews?.gallery?.length > 0 ? latestNews.gallery : [latestNews.image];
+    latestNews?.gallery?.length > 0
+      ? latestNews.gallery
+      : latestNews?.image
+        ? [latestNews.image]
+        : [];
 
   // =========================================================
   // AUTO IMAGE SLIDER
@@ -61,10 +63,10 @@ export default function LatestNews() {
 
     return newsUpdates.filter((item) => {
       const matchesSearch =
-        item.title.toLowerCase().includes(searchText) ||
-        item.description.toLowerCase().includes(searchText) ||
-        item.category.toLowerCase().includes(searchText) ||
-        item.location.toLowerCase().includes(searchText);
+        item.title?.toLowerCase().includes(searchText) ||
+        item.description?.toLowerCase().includes(searchText) ||
+        item.category?.toLowerCase().includes(searchText) ||
+        item.location?.toLowerCase().includes(searchText);
 
       const matchesCategory =
         category === "All Updates" || item.category === category;
@@ -74,21 +76,37 @@ export default function LatestNews() {
   }, [search, category]);
 
   // =========================================================
-  // OTHER NEWS
+  // ARCHIVE NEWS
   // =========================================================
 
-  const archiveNews = filteredNews.filter(
-    (item) => item.slug !== latestNews.slug,
-  );
+  const archiveNews = latestNews
+    ? filteredNews.filter((item) => item.slug !== latestNews.slug)
+    : filteredNews;
+
+  // =========================================================
+  // EMPTY STATE
+  // =========================================================
 
   if (!latestNews) {
-    return null;
+    return (
+      <section className="bg-[#F7FBF8] px-5 py-24">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-2xl font-extrabold text-[#0F172A]">
+            No news updates available
+          </h2>
+
+          <p className="mt-3 text-sm text-slate-500">
+            Please check back later for the latest DAFA updates.
+          </p>
+        </div>
+      </section>
+    );
   }
 
   return (
     <section
       id="news"
-      className="relative overflow-hidden bg-[#F8FAFC] py-24 sm:py-28 lg:py-32"
+      className="relative overflow-hidden bg-[#F7FBF8] py-24 sm:py-28 lg:py-32"
     >
       {/* =====================================================
           BACKGROUND
@@ -160,12 +178,10 @@ export default function LatestNews() {
               duration: 0.8,
               delay: 0.1,
             }}
-            className="group relative mt-14 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm transition-all duration-500 hover:shadow-2xl"
+            className="group relative mt-14 overflow-hidden rounded-[2rem] border border-[#0B3D2E]/10 bg-[#0B3D2E] shadow-[0_18px_45px_rgba(15,23,42,0.10)]"
           >
             <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
-              {/* =================================================
-                  FEATURED IMAGE SLIDER
-              ================================================= */}
+              {/* FEATURED IMAGE */}
 
               <div className="relative min-h-[360px] overflow-hidden bg-[#0B3D2E] sm:min-h-[430px] lg:min-h-[520px]">
                 <AnimatePresence mode="wait">
@@ -191,19 +207,15 @@ export default function LatestNews() {
                   />
                 </AnimatePresence>
 
-                {/* Image Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#031F18]/90 via-[#0B3D2E]/20 to-transparent" />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#052E23]/85 via-black/10 to-transparent" />
-
-                {/* Location */}
+                {/* FEATURED LOCATION */}
 
                 <div className="absolute bottom-6 left-6 flex items-center gap-2 text-sm font-semibold text-white">
                   <FaMapMarkerAlt size={12} className="text-[#F97316]" />
 
                   {latestNews.location}
                 </div>
-
-                {/* Slider */}
 
                 {latestGallery.length > 1 && (
                   <>
@@ -216,7 +228,7 @@ export default function LatestNews() {
                             latestGallery.length,
                         )
                       }
-                      className="absolute left-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-2xl text-white backdrop-blur-sm transition hover:bg-black/50"
+                      className="absolute left-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl text-white backdrop-blur-md transition-all duration-300 hover:bg-[#0B3D2E]/80"
                     >
                       ‹
                     </button>
@@ -229,7 +241,7 @@ export default function LatestNews() {
                           (currentImage + 1) % latestGallery.length,
                         )
                       }
-                      className="absolute right-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-2xl text-white backdrop-blur-sm transition hover:bg-black/50"
+                      className="absolute right-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl text-white backdrop-blur-md transition-all duration-300 hover:bg-[#0B3D2E]/80"
                     >
                       ›
                     </button>
@@ -253,40 +265,31 @@ export default function LatestNews() {
                 )}
               </div>
 
-              {/* =================================================
-                  FEATURED CONTENT
-              ================================================= */}
+              {/* FEATURED CONTENT */}
 
-              <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
-                {/* Date Only */}
+              <div className="flex flex-col justify-center bg-[#0B3D2E] p-7 sm:p-10 lg:p-12">
+                <div className="mb-4 h-[3px] w-10 rounded-full bg-[#F97316]" />
 
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
                   <FaCalendarAlt size={10} />
-
                   {latestNews.date}
                 </div>
 
-                {/* Title */}
-
-                <h3 className="mt-6 text-2xl font-extrabold leading-[1.2] tracking-tight text-[#0F172A] sm:text-3xl lg:text-4xl">
+                <h3 className="mt-6 text-2xl font-extrabold leading-[1.2] tracking-tight text-white sm:text-3xl lg:text-4xl">
                   {latestNews.title}
                 </h3>
 
-                {/* Description */}
-
-                <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
+                <p className="mt-5 text-sm leading-7 text-white/65 sm:text-base sm:leading-8">
                   {latestNews.description}
                 </p>
 
-                {/* Read Story */}
-
                 <Link
                   to={`/resources/news-updates/${latestNews.slug}`}
-                  className="group/cta mt-8 inline-flex w-fit items-center gap-3 rounded-xl bg-[#087B5A] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#087B5A]/15 transition-all duration-300 hover:-translate-y-1 hover:bg-[#0B3D2E]"
+                  className="group/cta mt-8 inline-flex w-fit items-center gap-3 border-b border-white/30 pb-1 text-xs font-bold text-white transition-all duration-300 hover:gap-4 hover:border-[#F97316] hover:text-[#F97316]"
                 >
                   Read Full Story
                   <FaArrowRight
-                    size={11}
+                    size={10}
                     className="transition-transform duration-300 group-hover/cta:translate-x-1"
                   />
                 </Link>
@@ -316,8 +319,8 @@ export default function LatestNews() {
           }}
           className="mt-12"
         >
-          <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:flex-row">
-            {/* Search */}
+          <div className="flex flex-col gap-3 rounded-2xl border border-[#0B3D2E]/10 bg-white p-3 shadow-sm sm:flex-row">
+            {/* SEARCH */}
 
             <div className="relative flex-1">
               <FaSearch
@@ -330,16 +333,16 @@ export default function LatestNews() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search news..."
-                className="h-11 w-full rounded-xl bg-[#F8FAFC] pl-10 pr-4 text-sm font-medium text-[#0F172A] outline-none transition focus:bg-white focus:ring-2 focus:ring-[#087B5A]/10"
+                className="h-11 w-full rounded-xl bg-[#F7FBF8] pl-10 pr-4 text-sm font-medium text-[#0F172A] outline-none transition-all duration-300 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-[#087B5A]/10"
               />
             </div>
 
-            {/* Category Filter */}
+            {/* CATEGORY */}
 
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="h-11 rounded-xl border border-slate-200 bg-[#F8FAFC] px-4 text-sm font-semibold text-[#0F172A] outline-none transition focus:border-[#087B5A]"
+              className="h-11 rounded-xl border border-slate-200 bg-[#F7FBF8] px-4 text-sm font-semibold text-[#0F172A] outline-none transition-all duration-300 focus:border-[#087B5A]"
             >
               {newsCategories.map((item) => (
                 <option key={item} value={item}>
@@ -348,8 +351,6 @@ export default function LatestNews() {
               ))}
             </select>
           </div>
-
-          {/* Result Count */}
 
           {(search || category !== "All Updates") && (
             <p className="mt-3 text-xs font-medium text-slate-400">
@@ -366,13 +367,17 @@ export default function LatestNews() {
             NEWS ARCHIVE
         ===================================================== */}
 
-        <div className="mt-14">
+        <div className="mt-16">
           <div className="mb-8">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#087B5A]">
-              DAFA News Archive
-            </p>
+            <div className="mb-4 flex items-center gap-3">
+              <span className="h-[2px] w-8 rounded-full bg-[#F97316]" />
 
-            <h3 className="mt-2 text-2xl font-extrabold tracking-tight text-[#0F172A] sm:text-3xl">
+              <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#087B5A]">
+                DAFA News Archive
+              </p>
+            </div>
+
+            <h3 className="text-2xl font-extrabold tracking-tight text-[#0F172A] sm:text-3xl">
               More Updates
             </h3>
           </div>
@@ -392,74 +397,197 @@ export default function LatestNews() {
                   }}
                   viewport={{
                     once: true,
+                    margin: "-60px",
                   }}
                   transition={{
                     duration: 0.55,
                     delay: index * 0.07,
                   }}
-                  whileHover={{
-                    y: -7,
-                  }}
-                  className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:border-[#087B5A]/20 hover:shadow-xl"
+                  className="
+                    group relative h-[450px] overflow-hidden
+                    rounded-2xl border border-[#0B3D2E]/10
+                    bg-[#0B3D2E]
+                    shadow-[0_14px_35px_rgba(15,23,42,0.09)]
+                    transition-all duration-500
+                    hover:-translate-y-1
+                    hover:shadow-[0_22px_50px_rgba(15,23,42,0.15)]
+                    sm:h-[480px] sm:rounded-3xl
+                  "
                 >
-                  {/* Card Image */}
+                  {/* =================================================
+                      IMAGE
+                  ================================================= */}
 
-                  <div className="relative h-52 overflow-hidden bg-[#0B3D2E]">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    loading="lazy"
+                    className="
+                      absolute inset-0 h-full w-full object-cover
+                      transition-transform duration-700 ease-out
+                      group-hover:scale-[1.055]
+                    "
+                  />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#052E23]/80 via-transparent to-transparent" />
+                  {/* =================================================
+                      OVERLAY
+                  ================================================= */}
 
-                    {/* Location Only */}
+                  <div
+                    className="
+                      absolute inset-0
+                      bg-gradient-to-t
+                      from-[#031F18]
+                      via-[#0B3D2E]/35
+                      to-black/5
+                      opacity-95
+                    "
+                  />
 
-                    <div className="absolute bottom-4 left-4 flex items-center gap-2 text-xs font-semibold text-white">
-                      <FaMapMarkerAlt size={10} className="text-[#F97316]" />
+                  <div
+                    className="
+                      absolute inset-x-0 bottom-0 h-3/4
+                      bg-gradient-to-t
+                      from-[#031F18]
+                      via-[#031F18]/80
+                      to-transparent
+                    "
+                  />
 
-                      {item.location}
-                    </div>
+                  {/* =================================================
+                      TOP META
+                  ================================================= */}
+
+                  <div className="absolute inset-x-0 top-0 flex items-start justify-between p-5 sm:p-6">
+                    <span
+                      className="
+                        text-3xl font-light leading-none
+                        tracking-[-0.05em]
+                        text-white/90
+                        sm:text-4xl
+                      "
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <span
+                      className="
+                        max-w-[55%]
+                        rounded-full
+                        border border-white/20
+                        bg-[#031F18]/45
+                        px-3 py-1.5
+                        text-[9px] font-extrabold
+                        uppercase tracking-[0.16em]
+                        text-white
+                        backdrop-blur-md
+                      "
+                    >
+                      {item.category}
+                    </span>
                   </div>
 
-                  {/* Card Content */}
+                  {/* =================================================
+                      BOTTOM CONTENT
+                  ================================================= */}
 
-                  <div className="p-6">
-                    {/* Date */}
+                  <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                    {/* ORANGE ACCENT */}
 
-                    <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-400">
-                      <FaCalendarAlt size={9} className="text-[#087B5A]" />
+                    <div
+                      className="
+                        mb-4 h-[3px] w-8 rounded-full
+                        bg-[#F97316]
+                        transition-all duration-500
+                        group-hover:w-14
+                      "
+                    />
+
+                    {/* LOCATION */}
+
+                    <div
+                      className="
+                        mb-2 flex items-center gap-2
+                        text-[11px] font-semibold
+                        text-white/80
+                      "
+                    >
+                      <FaMapMarkerAlt
+                        size={10}
+                        className="shrink-0 text-[#F97316]"
+                      />
+
+                      <span className="truncate">{item.location}</span>
+                    </div>
+
+                    {/* DATE */}
+
+                    <div
+                      className="
+                        mb-3 flex items-center gap-2
+                        text-[10px] font-bold uppercase
+                        tracking-[0.1em]
+                        text-white/50
+                      "
+                    >
+                      <FaCalendarAlt size={9} className="text-[#F97316]" />
 
                       {item.date}
                     </div>
 
-                    {/* Title */}
+                    {/* TITLE */}
 
-                    <h3 className="mt-4 text-lg font-extrabold leading-[1.35] tracking-tight text-[#0F172A] transition-colors duration-300 group-hover:text-[#087B5A]">
+                    <h3
+                      className="
+                        text-xl font-extrabold
+                        leading-[1.25]
+                        tracking-tight
+                        text-white
+                        sm:text-[1.35rem]
+                      "
+                    >
                       {item.title}
                     </h3>
 
-                    {/* Description */}
+                    {/* DESCRIPTION */}
 
-                    <p className="mt-3 line-clamp-3 text-sm leading-7 text-slate-500">
+                    <p
+                      className="
+                        mt-3 line-clamp-2
+                        text-sm leading-6
+                        text-white/70
+                      "
+                    >
                       {item.description}
                     </p>
 
-                    {/* Read More */}
+                    {/* CTA */}
 
                     <Link
                       to={`/resources/news-updates/${item.slug}`}
-                      className="mt-6 inline-flex items-center gap-2 border-t border-slate-100 pt-5 text-xs font-bold text-[#087B5A] transition-all duration-300 group-hover:gap-3"
+                      className="
+                        mt-5 inline-flex min-h-10
+                        items-center gap-3
+                        border-b border-white/30
+                        pb-1
+                        text-xs font-bold
+                        text-white
+                        transition-all duration-300
+                        hover:gap-4
+                        hover:border-[#F97316]
+                        hover:text-[#F97316]
+                      "
                     >
                       Read More
-                      <FaArrowRight size={9} />
+                      <FaArrowRight
+                        size={9}
+                        className="
+                          transition-transform duration-300
+                          group-hover:translate-x-1
+                        "
+                      />
                     </Link>
                   </div>
-
-                  {/* Bottom Accent */}
-
-                  <div className="h-1 w-0 bg-[#F97316] transition-all duration-500 group-hover:w-full" />
                 </motion.article>
               ))}
             </div>
@@ -483,7 +611,13 @@ export default function LatestNews() {
                   setSearch("");
                   setCategory("All Updates");
                 }}
-                className="mt-5 text-xs font-bold text-[#087B5A] hover:underline"
+                className="
+                  mt-5 text-xs font-bold
+                  text-[#087B5A]
+                  transition-colors
+                  hover:text-[#0B3D2E]
+                  hover:underline
+                "
               >
                 Clear Filters
               </button>

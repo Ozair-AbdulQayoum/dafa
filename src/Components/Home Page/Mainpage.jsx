@@ -7,7 +7,6 @@ import Projects from "./Projects";
 import StoriesCards from "./StoriesCards";
 import News from "./News";
 import PartnersDonors from "./PartnersDonors";
-import FinalCTA from "./FinalCTA.jsx";
 
 export default function Mainpage() {
   return (
@@ -21,7 +20,6 @@ export default function Mainpage() {
       <StoriesCards />
       <News />
       <PartnersDonors />
-      <FinalCTA />
     </>
   );
 }

@@ -25,30 +25,42 @@ export default function Footer() {
 
   return (
     <footer
-      className="relative overflow-hidden bg-[#0B3D2E] text-white"
+      className="
+        relative
+        overflow-hidden
+        bg-[#0B3D2E]
+        text-white
+      "
       aria-labelledby="footer-heading"
     >
       {/* =====================================================
-          SUBTLE TOP ACCENT
+          TOP ACCENT
       ===================================================== */}
+
       <div aria-hidden="true" className="h-1 w-full bg-[#F97316]" />
 
       {/* =====================================================
           SUBTLE BACKGROUND DETAILS
       ===================================================== */}
+
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 overflow-hidden"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          overflow-hidden
+        "
       >
         <div
           className="
             absolute
-            -left-40
-            -top-40
-            h-80
-            w-80
+            -left-48
+            -top-48
+            h-96
+            w-96
             rounded-full
-            bg-[#0A5A42]/50
+            bg-[#0A5A42]/35
             blur-3xl
           "
         />
@@ -57,28 +69,41 @@ export default function Footer() {
           className="
             absolute
             -bottom-48
-            -right-32
-            h-80
-            w-80
+            -right-40
+            h-96
+            w-96
             rounded-full
-            bg-[#F97316]/5
+            bg-[#F97316]/[0.035]
             blur-3xl
           "
         />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-7xl
+          px-5
+          sm:px-8
+          lg:px-10
+        "
+      >
         {/* =====================================================
             MAIN FOOTER CONTENT
         ===================================================== */}
+
         <div
           className="
             grid
             gap-12
             border-b
-            border-white/10
+            border-white/[0.09]
             py-14
+
             sm:py-16
+
             lg:grid-cols-[1.5fr_1fr_1fr_1fr]
             lg:gap-10
             lg:py-20
@@ -87,6 +112,7 @@ export default function Footer() {
           {/* =================================================
               BRAND AREA
           ================================================= */}
+
           <div className="max-w-sm">
             <h2
               id="footer-heading"
@@ -94,28 +120,42 @@ export default function Footer() {
                 text-xl
                 font-bold
                 leading-tight
+                tracking-[-0.01em]
                 text-white
+
                 sm:text-2xl
               "
             >
               {footerContent.organizationName}
             </h2>
 
-            <div className="mt-4 h-1 w-10 rounded-full bg-[#F97316]" />
+            <div
+              aria-hidden="true"
+              className="
+                mt-4
+                h-[3px]
+                w-10
+                rounded-full
+                bg-[#F97316]
+              "
+            />
 
             <p
               className="
                 mt-5
                 text-sm
                 leading-7
-                text-white/65
-                sm:text-base
+                text-white/60
+
+                sm:text-[15px]
+                sm:leading-7
               "
             >
               {footerContent.description}
             </p>
 
             {/* Social Media */}
+
             {socialLinks.length > 0 && (
               <div className="mt-7">
                 <p
@@ -136,9 +176,8 @@ export default function Footer() {
 
                     /*
                       Do not render fake "#" URLs.
-                      If a real URL is added later, it becomes
-                      an accessible external social link.
                     */
+
                     if (!social.href || social.href === "#") {
                       return (
                         <span
@@ -153,9 +192,9 @@ export default function Footer() {
                             justify-center
                             rounded-lg
                             border
-                            border-white/10
-                            bg-white/[0.04]
-                            text-white/35
+                            border-white/[0.08]
+                            bg-white/[0.035]
+                            text-white/25
                           "
                         >
                           <Icon size={14} aria-hidden="true" />
@@ -179,15 +218,17 @@ export default function Footer() {
                           justify-center
                           rounded-lg
                           border
-                          border-white/10
-                          bg-white/[0.04]
-                          text-white/65
+                          border-white/[0.10]
+                          bg-white/[0.035]
+                          text-white/60
                           transition-all
                           duration-200
+
                           hover:-translate-y-0.5
                           hover:border-[#F97316]
                           hover:bg-[#F97316]
                           hover:text-white
+
                           focus:outline-none
                           focus-visible:ring-2
                           focus-visible:ring-[#F97316]
@@ -198,7 +239,11 @@ export default function Footer() {
                         <Icon
                           size={14}
                           aria-hidden="true"
-                          className="transition-transform duration-200 group-hover:scale-110"
+                          className="
+                            transition-transform
+                            duration-200
+                            group-hover:scale-110
+                          "
                         />
                       </a>
                     );
@@ -211,31 +256,37 @@ export default function Footer() {
           {/* =================================================
               QUICK LINKS
           ================================================= */}
+
           <FooterColumn title="Quick Links" items={quickLinks} />
 
           {/* =================================================
               OUR WORK
           ================================================= */}
+
           <FooterColumn title="Our Work" items={programs} />
 
           {/* =================================================
               RESOURCES
           ================================================= */}
+
           <FooterColumn title="Resources" items={resources} />
         </div>
 
         {/* =====================================================
             CONTACT INFORMATION
         ===================================================== */}
+
         <div
           className="
             grid
             gap-4
             border-b
-            border-white/10
+            border-white/[0.09]
             py-10
+
             sm:grid-cols-3
             sm:gap-5
+
             lg:py-12
           "
         >
@@ -252,23 +303,26 @@ export default function Footer() {
         {/* =====================================================
             LOWER FOOTER
         ===================================================== */}
+
         <div
           className="
             flex
             flex-col
             gap-6
             py-7
+
             lg:flex-row
             lg:items-center
             lg:justify-between
           "
         >
           {/* Copyright */}
+
           <p
             className="
               text-xs
               leading-6
-              text-white/45
+              text-white/40
               lg:text-left
             "
           >
@@ -277,10 +331,17 @@ export default function Footer() {
           </p>
 
           {/* Legal Links */}
+
           {legalLinks.length > 0 && (
             <nav
               aria-label="Legal and accessibility links"
-              className="flex flex-wrap items-center gap-x-5 gap-y-2"
+              className="
+                flex
+                flex-wrap
+                items-center
+                gap-x-5
+                gap-y-2
+              "
             >
               {legalLinks.map((item) => (
                 <Link
@@ -288,10 +349,11 @@ export default function Footer() {
                   to={item.path}
                   className="
                     text-xs
-                    text-white/45
+                    text-white/40
                     transition-colors
                     duration-200
                     hover:text-white
+
                     focus:outline-none
                     focus-visible:rounded
                     focus-visible:ring-2
@@ -320,7 +382,7 @@ function FooterColumn({ title, items }) {
     <nav aria-label={title}>
       <h3
         className="
-          text-xs
+          text-[11px]
           font-bold
           uppercase
           tracking-[0.18em]
@@ -332,7 +394,13 @@ function FooterColumn({ title, items }) {
 
       <div
         aria-hidden="true"
-        className="mt-4 h-0.5 w-8 rounded-full bg-[#F97316]"
+        className="
+          mt-4
+          h-[2px]
+          w-8
+          rounded-full
+          bg-[#F97316]
+        "
       />
 
       <ul className="mt-5 space-y-3">
@@ -347,9 +415,12 @@ function FooterColumn({ title, items }) {
                 gap-2
                 text-sm
                 text-white/55
-                transition-colors
+                transition-all
                 duration-200
+
+                hover:translate-x-0.5
                 hover:text-white
+
                 focus:outline-none
                 focus-visible:rounded
                 focus-visible:ring-2
@@ -367,6 +438,7 @@ function FooterColumn({ title, items }) {
                   opacity-0
                   transition-all
                   duration-200
+
                   group-hover:translate-x-0.5
                   group-hover:opacity-100
                 "
@@ -421,8 +493,12 @@ function ContactItem({ type, title, value }) {
           items-center
           justify-center
           rounded-lg
+          border
+          border-white/[0.06]
           bg-[#0A5A42]
           text-[#A7DCC9]
+          transition-colors
+          duration-200
         "
       >
         <Icon size={14} aria-hidden="true" />
@@ -447,6 +523,7 @@ function ContactItem({ type, title, value }) {
             break-words
             text-sm
             font-medium
+            leading-6
             text-white/70
           "
         >
@@ -468,13 +545,15 @@ function ContactItem({ type, title, value }) {
           gap-4
           rounded-xl
           border
-          border-white/10
-          bg-white/[0.035]
+          border-white/[0.08]
+          bg-white/[0.025]
           p-4
           transition-all
           duration-200
-          hover:border-white/20
-          hover:bg-white/[0.06]
+
+          hover:border-white/[0.16]
+          hover:bg-white/[0.05]
+
           focus:outline-none
           focus-visible:ring-2
           focus-visible:ring-[#F97316]
@@ -496,8 +575,8 @@ function ContactItem({ type, title, value }) {
         gap-4
         rounded-xl
         border
-        border-white/10
-        bg-white/[0.035]
+        border-white/[0.08]
+        bg-white/[0.025]
         p-4
       "
     >

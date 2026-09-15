@@ -19,7 +19,7 @@ export default function StoriesCards() {
   // =========================================================
 
   const otherStories = storiesCardsData
-    .filter((story) => story.id !== latestStory.id)
+    .filter((story) => story.id !== latestStory?.id)
     .slice(0, 4);
 
   // =========================================================
@@ -28,11 +28,12 @@ export default function StoriesCards() {
 
   const [currentImage, setCurrentImage] = useState(0);
 
-  // Latest story gallery
   const gallery =
     latestStory?.gallery?.length > 0
       ? latestStory.gallery
-      : [latestStory.image];
+      : latestStory?.image
+        ? [latestStory.image]
+        : [];
 
   // =========================================================
   // AUTO SLIDER
@@ -43,7 +44,7 @@ export default function StoriesCards() {
 
     const interval = setInterval(() => {
       setCurrentImage((previous) => (previous + 1) % gallery.length);
-    }, 4000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [gallery.length]);
@@ -59,38 +60,56 @@ export default function StoriesCards() {
   return (
     <section
       id="success-stories"
-      className="bg-white px-6 py-20 lg:px-8 lg:py-28"
+      className="bg-[#F7FBF8] px-5 py-20 sm:px-8 lg:px-10 lg:py-28 xl:px-12"
     >
       <div className="mx-auto max-w-7xl">
         {/* =====================================================
             SECTION HEADER
-        ===================================================== */}
+        ====================================================== */}
 
-        <div className="mb-12 max-w-2xl">
-          <span className="text-sm font-bold uppercase tracking-[0.18em] text-[#0F8A63]">
-            Voices of Impact
-          </span>
+        <div className="mb-12 max-w-3xl">
+          <div className="mb-4 flex items-center gap-3">
+            <span className="h-[2px] w-8 rounded-full bg-[#F97316]" />
 
-          <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#0F8A63] sm:text-xs">
+              Voices of Impact
+            </span>
+
+            <span className="h-[2px] w-8 rounded-full bg-[#F97316]" />
+          </div>
+
+          <h2 className="text-3xl font-extrabold tracking-[-0.035em] text-[#0F172A] sm:text-4xl lg:text-5xl">
             Stories That Make a Difference
           </h2>
 
-          <p className="mt-4 text-base leading-7 text-slate-600">
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
             Discover the real stories of people and communities whose lives have
             been touched by DAFA's humanitarian mine action work.
           </p>
         </div>
 
         {/* =====================================================
-            LATEST / FEATURED STORY
-        ===================================================== */}
+            FEATURED / LATEST STORY
+        ====================================================== */}
 
-        <article className="grid overflow-hidden rounded-3xl bg-[#F8FAFC] shadow-sm lg:grid-cols-2">
+        <article
+          className="
+            group relative h-[500px] overflow-hidden
+            rounded-2xl border border-[#0B3D2E]/10
+            bg-[#0B3D2E]
+            shadow-[0_14px_35px_rgba(15,23,42,0.09)]
+            transition-all duration-500
+            hover:-translate-y-1
+            hover:shadow-[0_22px_50px_rgba(15,23,42,0.15)]
+            sm:h-[560px]
+            sm:rounded-3xl
+          "
+        >
           {/* =================================================
               IMAGE SLIDER
           ================================================= */}
 
-          <div className="relative h-[350px] overflow-hidden sm:h-[450px] lg:h-[520px]">
+          <div className="absolute inset-0 overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.img
                 key={gallery[currentImage]}
@@ -98,7 +117,7 @@ export default function StoriesCards() {
                 alt={latestStory.title}
                 initial={{
                   opacity: 0,
-                  scale: 1.05,
+                  scale: 1.06,
                 }}
                 animate={{
                   opacity: 1,
@@ -108,21 +127,102 @@ export default function StoriesCards() {
                   opacity: 0,
                 }}
                 transition={{
-                  duration: 0.8,
+                  opacity: {
+                    duration: 0.8,
+                    ease: "easeInOut",
+                  },
+                  scale: {
+                    duration: 1,
+                    ease: "easeOut",
+                  },
                 }}
-                className="absolute inset-0 h-full w-full object-cover"
+                className="
+                  absolute inset-0
+                  h-full w-full
+                  object-cover
+                  transition-transform duration-700
+                  group-hover:scale-[1.055]
+                "
               />
             </AnimatePresence>
+          </div>
 
-            {/* Image Overlay */}
+          {/* =================================================
+              IMAGE OVERLAYS
+          ================================================= */}
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          <div
+            aria-hidden="true"
+            className="
+              absolute inset-0
+              bg-gradient-to-t
+              from-[#031F18]
+              via-[#0B3D2E]/45
+              to-black/5
+              opacity-95
+            "
+          />
 
-            {/* =================================================
-                PREVIOUS BUTTON
-            ================================================= */}
+          <div
+            aria-hidden="true"
+            className="
+              absolute inset-x-0 bottom-0
+              h-2/3
+              bg-gradient-to-t
+              from-[#031F18]
+              via-[#031F18]/80
+              to-transparent
+            "
+          />
 
-            {gallery.length > 1 && (
+          {/* =================================================
+              TOP META
+          ================================================= */}
+
+          <div className="absolute left-6 right-6 top-6 flex items-start justify-between gap-4 sm:left-8 sm:right-8 sm:top-8">
+            {/* Latest */}
+            <span
+              className="
+                rounded-full
+                border border-white/20
+                bg-[#031F18]/45
+                px-3 py-1.5
+                text-[9px]
+                font-extrabold
+                uppercase
+                tracking-[0.16em]
+                text-white
+                backdrop-blur-md
+              "
+            >
+              Latest Story
+            </span>
+
+            {/* Category */}
+            <span
+              className="
+                rounded-full
+                border border-white/20
+                bg-white/10
+                px-3 py-1.5
+                text-[9px]
+                font-extrabold
+                uppercase
+                tracking-[0.14em]
+                text-white
+                backdrop-blur-md
+              "
+            >
+              {latestStory.category}
+            </span>
+          </div>
+
+          {/* =================================================
+              SLIDER CONTROLS
+          ================================================= */}
+
+          {gallery.length > 1 && (
+            <>
               <button
                 type="button"
                 onClick={() =>
@@ -130,195 +230,417 @@ export default function StoriesCards() {
                     (currentImage - 1 + gallery.length) % gallery.length,
                   )
                 }
-                aria-label="Previous image"
-                className="absolute left-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-xl text-white backdrop-blur-sm transition hover:bg-black/50"
+                aria-label="Previous story image"
+                className="
+                  absolute left-5 top-1/2 z-20
+                  flex h-10 w-10
+                  -translate-y-1/2
+                  items-center justify-center
+                  rounded-full
+                  border border-white/20
+                  bg-[#031F18]/40
+                  text-lg text-white
+                  backdrop-blur-md
+                  transition-all duration-300
+                  hover:border-[#F97316]
+                  hover:bg-[#031F18]/70
+                  hover:text-[#F97316]
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-[#F97316]
+                "
               >
                 ‹
               </button>
-            )}
 
-            {/* =================================================
-                NEXT BUTTON
-            ================================================= */}
-
-            {gallery.length > 1 && (
               <button
                 type="button"
                 onClick={() =>
                   setCurrentImage((currentImage + 1) % gallery.length)
                 }
-                aria-label="Next image"
-                className="absolute right-5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/30 text-xl text-white backdrop-blur-sm transition hover:bg-black/50"
+                aria-label="Next story image"
+                className="
+                  absolute right-5 top-1/2 z-20
+                  flex h-10 w-10
+                  -translate-y-1/2
+                  items-center justify-center
+                  rounded-full
+                  border border-white/20
+                  bg-[#031F18]/40
+                  text-lg text-white
+                  backdrop-blur-md
+                  transition-all duration-300
+                  hover:border-[#F97316]
+                  hover:bg-[#031F18]/70
+                  hover:text-[#F97316]
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-[#F97316]
+                "
               >
                 ›
               </button>
-            )}
-
-            {/* =================================================
-                SLIDER INDICATORS
-            ================================================= */}
-
-            {gallery.length > 1 && (
-              <div className="absolute bottom-6 left-6 flex gap-2">
-                {gallery.map((image, index) => (
-                  <button
-                    key={image}
-                    type="button"
-                    onClick={() => setCurrentImage(index)}
-                    aria-label={`Show image ${index + 1}`}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      currentImage === index
-                        ? "w-8 bg-white"
-                        : "w-2 bg-white/50"
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
+            </>
+          )}
 
           {/* =================================================
-              LATEST STORY CONTENT
+              SLIDER INDICATORS
           ================================================= */}
 
-          <div className="flex flex-col justify-center p-8 sm:p-10 lg:p-16">
-            {/* Category */}
+          {gallery.length > 1 && (
+            <div className="absolute bottom-7 right-7 z-20 flex items-center gap-2">
+              {gallery.map((image, index) => (
+                <button
+                  key={image}
+                  type="button"
+                  onClick={() => setCurrentImage(index)}
+                  aria-label={`Show image ${index + 1}`}
+                  aria-current={currentImage === index ? "true" : undefined}
+                  className="
+                    flex h-6 items-center
+                    focus:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-[#F97316]
+                  "
+                >
+                  <span
+                    className={`
+                      h-[3px] rounded-full
+                      transition-all duration-500
+                      ${
+                        currentImage === index
+                          ? "w-8 bg-[#F97316]"
+                          : "w-4 bg-white/45"
+                      }
+                    `}
+                  />
+                </button>
+              ))}
+            </div>
+          )}
 
-            <span className="text-sm font-bold uppercase tracking-[0.15em] text-[#0F8A63]">
-              {latestStory.category}
-            </span>
+          {/* =================================================
+              FEATURED CONTENT
+          ================================================= */}
+
+          <div
+            className="
+              absolute inset-x-0 bottom-0
+              z-10 p-6
+              sm:p-8
+              lg:p-10
+            "
+          >
+            {/* Orange Accent */}
+            <div
+              className="
+                mb-4 h-[3px] w-8
+                rounded-full
+                bg-[#F97316]
+                transition-all duration-500
+                group-hover:w-14
+              "
+            />
+
+            {/* Metadata */}
+            <div className="mb-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] font-bold uppercase tracking-[0.13em] text-white/65">
+              <span className="inline-flex items-center gap-2">
+                <FaMapMarkerAlt className="text-[#F97316]" />
+                {latestStory.location}
+              </span>
+
+              <span className="inline-flex items-center gap-2">
+                <FaCalendarAlt className="text-[#F97316]" />
+                {latestStory.date}
+              </span>
+            </div>
 
             {/* Title */}
-
-            <h3 className="mt-4 text-3xl font-extrabold leading-tight text-[#0F172A] sm:text-4xl">
+            <h3
+              className="
+                max-w-3xl
+                text-2xl font-extrabold
+                leading-tight
+                tracking-[-0.025em]
+                text-white
+                sm:text-3xl
+                lg:text-4xl
+              "
+            >
               {latestStory.title}
             </h3>
 
             {/* Description */}
-
-            <p className="mt-5 text-base leading-8 text-slate-600">
+            <p
+              className="
+                mt-3 max-w-2xl
+                line-clamp-2
+                text-sm leading-6
+                text-white/75
+                sm:text-base
+                sm:leading-7
+              "
+            >
               {latestStory.description}
             </p>
 
-            {/* Location */}
-
-            <div className="mt-6 flex items-center gap-2 text-sm font-medium text-slate-500">
-              <FaMapMarkerAlt className="text-[#F97316]" />
-
-              {latestStory.location}
-            </div>
-
-            {/* Date */}
-
-            <div className="mt-3 flex items-center gap-2 text-sm text-slate-400">
-              <FaCalendarAlt className="text-[#F97316]" />
-
-              {latestStory.date}
-            </div>
-
-            {/* Read Story */}
-
-            <div className="mt-8">
-              <Link
-                to={`/resources/stories/${latestStory.slug}`}
-                className="group inline-flex items-center gap-3 rounded-xl bg-[#0B3D2E] px-6 py-3.5 font-semibold text-white transition-all duration-300 hover:bg-[#0F8A63]"
-              >
-                Read Full Story
-                <FaArrowRight className="text-sm transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            </div>
+            {/* CTA */}
+            <Link
+              to={`/resources/stories/${latestStory.slug}`}
+              className="
+                group/link
+                mt-5 inline-flex
+                min-h-10 items-center gap-3
+                border-b border-white/30
+                pb-1
+                text-xs font-bold
+                text-white
+                transition-all duration-300
+                hover:gap-4
+                hover:border-[#F97316]
+                hover:text-[#F97316]
+              "
+            >
+              Read Full Story
+              <FaArrowRight
+                className="
+                  text-[10px]
+                  transition-transform duration-300
+                  group-hover/link:translate-x-1
+                "
+              />
+            </Link>
           </div>
         </article>
 
         {/* =====================================================
-            OTHER 4 STORIES
-        ===================================================== */}
+            OTHER STORIES
+        ====================================================== */}
 
         <div className="mt-16">
           {/* Heading */}
-
           <div className="mb-8">
-            <span className="text-sm font-bold uppercase tracking-[0.18em] text-[#0F8A63]">
-              More Stories
-            </span>
+            <div className="mb-3 flex items-center gap-3">
+              <span className="h-[2px] w-7 rounded-full bg-[#F97316]" />
 
-            <h3 className="mt-2 text-2xl font-extrabold text-[#0F172A] sm:text-3xl">
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-[#0F8A63] sm:text-xs">
+                More Stories
+              </span>
+            </div>
+
+            <h3 className="text-2xl font-extrabold tracking-[-0.025em] text-[#0F172A] sm:text-3xl">
               Voices From Our Communities
             </h3>
           </div>
 
           {/* =================================================
-              FOUR STORY CARDS
+              STORY CARDS
           ================================================= */}
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {otherStories.map((story) => (
+            {otherStories.map((story, index) => (
               <motion.article
                 key={story.id}
-                whileHover={{
-                  y: -6,
+                initial={{
+                  opacity: 0,
+                  y: 20,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                  amount: 0.15,
                 }}
                 transition={{
-                  duration: 0.25,
+                  duration: 0.5,
+                  delay: index * 0.06,
                 }}
-                className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+                className="
+                  group relative
+                  h-[430px]
+                  overflow-hidden
+                  rounded-2xl
+                  border border-[#0B3D2E]/10
+                  bg-[#0B3D2E]
+                  shadow-[0_14px_35px_rgba(15,23,42,0.09)]
+                  transition-all duration-500
+                  hover:-translate-y-1
+                  hover:shadow-[0_22px_50px_rgba(15,23,42,0.15)]
+                  sm:rounded-3xl
+                "
               >
                 {/* Image */}
-
-                <div className="relative h-56 overflow-hidden">
+                <div className="absolute inset-0 overflow-hidden">
                   <img
                     src={story.image}
                     alt={story.title}
                     loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="
+                      h-full w-full
+                      object-cover
+                      transition-transform
+                      duration-700
+                      group-hover:scale-[1.055]
+                    "
                   />
                 </div>
 
+                {/* Dark Overlay */}
+                <div
+                  aria-hidden="true"
+                  className="
+                    absolute inset-0
+                    bg-gradient-to-t
+                    from-[#031F18]
+                    via-[#0B3D2E]/40
+                    to-black/5
+                    opacity-95
+                  "
+                />
+
+                <div
+                  aria-hidden="true"
+                  className="
+                    absolute inset-x-0 bottom-0
+                    h-2/3
+                    bg-gradient-to-t
+                    from-[#031F18]
+                    via-[#031F18]/75
+                    to-transparent
+                  "
+                />
+
+                {/* Number */}
+                <div
+                  className="
+                    absolute left-5 top-5
+                    text-3xl font-light
+                    leading-none
+                    tracking-[-0.05em]
+                    text-white/90
+                  "
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+
+                {/* Category */}
+                <span
+                  className="
+                    absolute right-5 top-5
+                    rounded-full
+                    border border-white/20
+                    bg-[#031F18]/45
+                    px-3 py-1.5
+                    text-[9px]
+                    font-extrabold
+                    uppercase
+                    tracking-[0.14em]
+                    text-white
+                    backdrop-blur-md
+                  "
+                >
+                  {story.category}
+                </span>
+
                 {/* Content */}
+                <div
+                  className="
+                    absolute inset-x-0 bottom-0
+                    z-10 p-5
+                    sm:p-6
+                  "
+                >
+                  {/* Accent */}
+                  <div
+                    className="
+                      mb-4 h-[3px] w-8
+                      rounded-full
+                      bg-[#F97316]
+                      transition-all duration-500
+                      group-hover:w-14
+                    "
+                  />
 
-                <div className="p-5">
-                  {/* Category */}
+                  {/* Metadata */}
+                  <div
+                    className="
+                      mb-3
+                      flex flex-col gap-1.5
+                      text-[9px]
+                      font-bold
+                      uppercase
+                      tracking-[0.1em]
+                      text-white/60
+                    "
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      <FaMapMarkerAlt className="text-[#F97316]" />
+                      {story.location}
+                    </span>
 
-                  <span className="text-xs font-bold uppercase tracking-wide text-[#0F8A63]">
-                    {story.category}
-                  </span>
+                    <span className="inline-flex items-center gap-2">
+                      <FaCalendarAlt className="text-[#F97316]" />
+                      {story.date}
+                    </span>
+                  </div>
 
                   {/* Title */}
-
-                  <h4 className="mt-2 line-clamp-2 text-lg font-bold leading-snug text-[#0F172A]">
+                  <h4
+                    className="
+                      line-clamp-2
+                      text-lg
+                      font-extrabold
+                      leading-snug
+                      text-white
+                    "
+                  >
                     {story.title}
                   </h4>
 
                   {/* Description */}
-
-                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-500">
+                  <p
+                    className="
+                      mt-3
+                      line-clamp-2
+                      text-sm
+                      leading-6
+                      text-white/70
+                    "
+                  >
                     {story.description}
                   </p>
 
-                  {/* Location */}
-
-                  <div className="mt-4 flex items-center gap-2 text-xs text-slate-400">
-                    <FaMapMarkerAlt className="text-[#F97316]" />
-
-                    {story.location}
-                  </div>
-
-                  {/* Date */}
-
-                  <div className="mt-2 flex items-center gap-2 text-xs text-slate-400">
-                    <FaCalendarAlt className="text-[#F97316]" />
-
-                    {story.date}
-                  </div>
-
-                  {/* Read Story */}
-
+                  {/* CTA */}
                   <Link
                     to={`/resources/stories/${story.slug}`}
-                    className="group/link mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#0B3D2E]"
+                    className="
+                      group/link
+                      mt-5 inline-flex
+                      min-h-9 items-center
+                      gap-3
+                      border-b
+                      border-white/30
+                      pb-1
+                      text-xs
+                      font-bold
+                      text-white
+                      transition-all duration-300
+                      hover:gap-4
+                      hover:border-[#F97316]
+                      hover:text-[#F97316]
+                    "
                   >
                     Read Story
-                    <FaArrowRight className="text-xs transition-transform duration-300 group-hover/link:translate-x-1" />
+                    <FaArrowRight
+                      className="
+                        text-[10px]
+                        transition-transform
+                        duration-300
+                        group-hover/link:translate-x-1
+                      "
+                    />
                   </Link>
                 </div>
               </motion.article>

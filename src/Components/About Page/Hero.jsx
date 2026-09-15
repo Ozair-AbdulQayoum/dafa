@@ -24,12 +24,12 @@ export default function Hero() {
       aria-labelledby="about-hero-heading"
       className="
         relative
-        min-h-[720px]
+        min-h-[680px]
         w-full
         overflow-hidden
         bg-[#0B3D2E]
-        sm:min-h-[760px]
-        lg:min-h-[800px]
+        sm:min-h-[710px]
+        lg:min-h-[740px]
       "
     >
       {/* BACKGROUND IMAGE SLIDER */}
@@ -43,7 +43,7 @@ export default function Hero() {
               aria-hidden="true"
               initial={{
                 opacity: 0,
-                scale: shouldReduceMotion ? 1 : 1.05,
+                scale: shouldReduceMotion ? 1 : 1.04,
               }}
               animate={{
                 opacity: 1,
@@ -51,7 +51,7 @@ export default function Hero() {
               }}
               exit={{
                 opacity: 0,
-                scale: shouldReduceMotion ? 1 : 1.02,
+                scale: shouldReduceMotion ? 1 : 1.015,
               }}
               transition={{
                 duration: 1.2,
@@ -69,26 +69,26 @@ export default function Hero() {
         </AnimatePresence>
       </div>
 
-      {/* GREEN COLOR OVERLAY - 70% */}
-      <div
-        aria-hidden="true"
-        className="
-          absolute
-          inset-0
-          bg-[#0B3D2E]/70
-        "
-      />
-
-      {/* SOFT GRADIENT */}
+      {/* INSTITUTIONAL GREEN OVERLAY */}
       <div
         aria-hidden="true"
         className="
           absolute
           inset-0
           bg-gradient-to-b
-          from-black/10
-          via-transparent
-          to-[#0B3D2E]/50
+          from-[#082F24]/65
+          via-[#0B3D2E]/72
+          to-[#082F24]/90
+        "
+      />
+
+      {/* SUBTLE IMAGE DEPTH */}
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          inset-0
+          bg-[radial-gradient(circle_at_center,transparent_0%,rgba(8,47,36,0.22)_55%,rgba(8,47,36,0.5)_100%)]
         "
       />
 
@@ -98,22 +98,22 @@ export default function Hero() {
           relative
           z-10
           flex
-          min-h-[720px]
+          min-h-[680px]
           w-full
           items-start
           justify-center
           px-5
-          pt-36
           pb-24
+          pt-32
           text-center
-          sm:min-h-[760px]
+          sm:min-h-[710px]
           sm:px-8
-          sm:pt-40
           sm:pb-28
-          lg:min-h-[800px]
+          sm:pt-36
+          lg:min-h-[740px]
           lg:px-10
-          lg:pt-44
           lg:pb-32
+          lg:pt-40
         "
       >
         <div className="mx-auto w-full max-w-5xl">
@@ -121,7 +121,7 @@ export default function Hero() {
           <motion.div
             initial={{
               opacity: 0,
-              y: shouldReduceMotion ? 0 : 20,
+              y: shouldReduceMotion ? 0 : 16,
             }}
             animate={{
               opacity: 1,
@@ -136,25 +136,46 @@ export default function Hero() {
               flex
               items-center
               justify-center
-              gap-4
+              gap-3
+              sm:gap-4
             "
           >
-            <span className="h-px w-10 bg-[#F97316] sm:w-16" />
+            <span
+              aria-hidden="true"
+              className="
+                h-px
+                w-8
+                bg-[#F97316]
+                sm:w-14
+                lg:w-16
+              "
+            />
 
             <span
               className="
-                text-xs
+                text-[11px]
                 font-bold
                 uppercase
-                tracking-[0.22em]
+                tracking-[0.2em]
                 text-[#C5E8DB]
-                sm:text-sm
+                sm:text-xs
+                sm:tracking-[0.22em]
+                lg:text-sm
               "
             >
               {aboutHeroData.eyebrow}
             </span>
 
-            <span className="h-px w-10 bg-[#F97316] sm:w-16" />
+            <span
+              aria-hidden="true"
+              className="
+                h-px
+                w-8
+                bg-[#F97316]
+                sm:w-14
+                lg:w-16
+              "
+            />
           </motion.div>
 
           {/* HEADING */}
@@ -162,7 +183,7 @@ export default function Hero() {
             id="about-hero-heading"
             initial={{
               opacity: 0,
-              y: shouldReduceMotion ? 0 : 30,
+              y: shouldReduceMotion ? 0 : 26,
             }}
             animate={{
               opacity: 1,
@@ -175,15 +196,15 @@ export default function Hero() {
             }}
             className="
               mx-auto
-              max-w-5xl
-              text-4xl
+              max-w-4xl
+              text-[2.65rem]
               font-black
-              leading-[1.05]
-              tracking-tight
+              leading-[1.04]
+              tracking-[-0.035em]
               text-white
               sm:text-5xl
-              md:text-6xl
-              lg:text-[4.5rem]
+              md:text-[3.5rem]
+              lg:text-[4rem]
             "
           >
             {aboutHeroData.title.normal}{" "}
@@ -197,7 +218,7 @@ export default function Hero() {
           <motion.p
             initial={{
               opacity: 0,
-              y: shouldReduceMotion ? 0 : 20,
+              y: shouldReduceMotion ? 0 : 18,
             }}
             animate={{
               opacity: 1,
@@ -211,8 +232,8 @@ export default function Hero() {
             className="
               mx-auto
               mt-6
-              max-w-3xl
-              text-base
+              max-w-2xl
+              text-[15px]
               leading-7
               text-white/85
               sm:mt-7
@@ -227,7 +248,7 @@ export default function Hero() {
           <motion.p
             initial={{
               opacity: 0,
-              y: shouldReduceMotion ? 0 : 15,
+              y: shouldReduceMotion ? 0 : 12,
             }}
             animate={{
               opacity: 1,
@@ -236,13 +257,16 @@ export default function Hero() {
             transition={{
               duration: 0.6,
               delay: 0.35,
+              ease: [0.22, 1, 0.36, 1],
             }}
             className="
               mt-5
-              text-sm
+              text-xs
               font-semibold
-              tracking-wide
+              tracking-[0.08em]
               text-[#C5E8DB]
+              sm:text-sm
+              sm:tracking-wide
             "
           >
             {aboutHeroData.supportText}
@@ -263,14 +287,16 @@ export default function Hero() {
               delay: 0.45,
               ease: [0.22, 1, 0.36, 1],
             }}
+            aria-hidden="true"
             className="
               mx-auto
               mt-7
               h-1
-              w-16
+              w-14
               origin-center
               rounded-full
               bg-[#F97316]
+              sm:w-16
             "
           />
         </div>
@@ -281,13 +307,21 @@ export default function Hero() {
         <div
           className="
             absolute
-            bottom-8
+            bottom-7
             left-1/2
             z-20
             flex
             -translate-x-1/2
             items-center
             gap-2
+            rounded-full
+            border
+            border-white/10
+            bg-black/15
+            px-3
+            py-2
+            backdrop-blur-sm
+            sm:bottom-8
           "
         >
           {images.map((_, index) => (
@@ -298,14 +332,19 @@ export default function Hero() {
               aria-label={`Show slide ${index + 1}`}
               aria-current={currentImage === index ? "true" : undefined}
               className={`
-                h-2
+                h-1.5
                 rounded-full
                 transition-all
                 duration-300
+                focus:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-[#F97316]
+                focus-visible:ring-offset-2
+                focus-visible:ring-offset-[#0B3D2E]
                 ${
                   currentImage === index
-                    ? "w-9 bg-[#F97316]"
-                    : "w-2 bg-white/50 hover:bg-white"
+                    ? "w-8 bg-[#F97316]"
+                    : "w-1.5 bg-white/45 hover:bg-white/80"
                 }
               `}
             />

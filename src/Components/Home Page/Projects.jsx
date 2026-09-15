@@ -1,241 +1,41 @@
-import React, { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { FaArrowRight, FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 import projects from "../../Components/Data File/Project Data/ProjectsData";
 
 export default function Projects() {
   const shouldReduceMotion = useReducedMotion();
 
-  // Show only 3 ongoing projects on homepage
-  const homeProjects = projects
-    .filter((project) => project.status === "Ongoing")
-    .slice(0, 3);
+  // Show only the first 3 ongoing projects on the Home Page
+  const featuredProjects = Array.isArray(projects)
+    ? projects.filter((project) => project?.status === "Ongoing").slice(0, 3)
+    : [];
 
   return (
     <section
-      aria-labelledby="featured-projects-heading"
+      aria-labelledby="projects-section-title"
       className="
         relative
         overflow-hidden
-        bg-[#F6FAF8]
-        pt-2
-        pb-16
-        sm:pt-4
-        sm:pb-20
-        lg:pt-6
-        lg:pb-24
+        bg-[#F7FBF8]
+        py-10
+        sm:py-12
+        lg:py-14
       "
     >
-      {/* =====================================================
-          SUBTLE BACKGROUND DETAIL
-      ====================================================== */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          left-0
-          top-0
-          h-72
-          w-72
-          -translate-x-1/2
-          -translate-y-1/2
-          rounded-full
-          bg-[#0B3D2E]/[0.035]
-          blur-3xl
-        "
-      />
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          bottom-0
-          right-0
-          h-80
-          w-80
-          translate-x-1/3
-          translate-y-1/3
-          rounded-full
-          bg-[#F97316]/[0.025]
-          blur-3xl
-        "
-      />
-
-      {/* =====================================================
-          CONTAINER
-      ====================================================== */}
-
       <div
         className="
-          relative
-          z-10
           mx-auto
+          w-full
           max-w-7xl
           px-5
           sm:px-8
           lg:px-10
+          xl:px-12
         "
       >
-        {/* =====================================================
-            HEADER
-        ====================================================== */}
-
-        <motion.header
-          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
-          transition={{
-            duration: shouldReduceMotion ? 0 : 0.65,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="max-w-3xl"
-        >
-          {/* EYEBROW */}
-
-          <div className="flex items-center gap-3">
-            <span
-              aria-hidden="true"
-              className="
-                h-px
-                w-9
-                bg-[#F97316]
-              "
-            />
-
-            <span
-              className="
-                text-xs
-                font-bold
-                uppercase
-                tracking-[0.2em]
-                text-[#0A5A42]
-                sm:text-sm
-              "
-            >
-              Featured Projects
-            </span>
-          </div>
-
-          {/* HEADING */}
-
-          <h2
-            id="featured-projects-heading"
-            className="
-              mt-5
-              max-w-2xl
-              text-3xl
-              font-extrabold
-              leading-[1.08]
-              tracking-[-0.035em]
-              text-[#0F172A]
-              sm:text-4xl
-              lg:text-5xl
-            "
-          >
-            Turning Humanitarian Action Into{" "}
-            <span className="text-[#0B3D2E]">Real Impact</span>
-          </h2>
-
-          {/* DESCRIPTION */}
-
-          <p
-            className="
-              mt-5
-              max-w-2xl
-              text-base
-              leading-7
-              text-slate-600
-              sm:text-lg
-              sm:leading-8
-            "
-          >
-            DAFA projects help reduce explosive hazards and support safer
-            communities across Afghanistan.
-          </p>
-        </motion.header>
-
-        {/* =====================================================
-            PROJECT AREA
-        ====================================================== */}
-
-        {homeProjects.length > 0 ? (
-          <div
-            className="
-              mt-8
-              grid
-              gap-6
-              lg:mt-10
-              lg:grid-cols-[1.35fr_0.85fr]
-            "
-          >
-            {/* =================================================
-                FEATURED PROJECT
-            ================================================== */}
-
-            {homeProjects[0] && (
-              <FeaturedProjectCard
-                project={homeProjects[0]}
-                shouldReduceMotion={shouldReduceMotion}
-              />
-            )}
-
-            {/* =================================================
-                SECONDARY PROJECTS
-            ================================================== */}
-
-            <div className="grid gap-6">
-              {homeProjects.slice(1, 3).map((project, index) => (
-                <SecondaryProjectCard
-                  key={project.slug}
-                  project={project}
-                  index={index}
-                  shouldReduceMotion={shouldReduceMotion}
-                />
-              ))}
-            </div>
-          </div>
-        ) : (
-          /* =====================================================
-             EMPTY STATE
-          ====================================================== */
-
-          <div
-            className="
-              mt-8
-              rounded-2xl
-              border
-              border-[#0B3D2E]/10
-              bg-white
-              px-6
-              py-16
-              text-center
-              shadow-[0_10px_35px_rgba(11,61,46,0.06)]
-            "
-          >
-            <h3 className="text-xl font-bold text-[#0B3D2E]">
-              No Ongoing Projects
-            </h3>
-
-            <p className="mt-2 text-sm text-slate-500">
-              There are currently no ongoing projects.
-            </p>
-          </div>
-        )}
-
-        {/* =====================================================
-            VIEW ALL PROJECTS
-        ====================================================== */}
+        {/* ================= HEADER ================= */}
 
         <motion.div
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
@@ -248,14 +48,463 @@ export default function Projects() {
             amount: 0.2,
           }}
           transition={{
-            duration: shouldReduceMotion ? 0 : 0.6,
+            duration: shouldReduceMotion ? 0 : 0.55,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="
+            mx-auto
+            mb-8
+            max-w-3xl
+            text-center
+            sm:mb-9
+            lg:mb-10
+          "
+        >
+          {/* Section Label */}
+
+          <div className="mb-3 flex items-center justify-center gap-3">
+            <span
+              aria-hidden="true"
+              className="
+                h-[2px]
+                w-8
+                rounded-full
+                bg-[#F97316]
+                sm:w-10
+              "
+            />
+
+            <span
+              className="
+                text-[10px]
+                font-extrabold
+                uppercase
+                tracking-[0.2em]
+                text-[#0B3D2E]
+                sm:text-xs
+              "
+            >
+              Our Projects
+            </span>
+
+            <span
+              aria-hidden="true"
+              className="
+                h-[2px]
+                w-8
+                rounded-full
+                bg-[#F97316]
+                sm:w-10
+              "
+            />
+          </div>
+
+          {/* Heading */}
+
+          <h2
+            id="projects-section-title"
+            className="
+              text-2xl
+              font-extrabold
+              leading-[1.08]
+              tracking-[-0.04em]
+              text-[#0F172A]
+              sm:text-3xl
+              lg:text-[2.7rem]
+            "
+          >
+            Turning Humanitarian Action Into
+            <span className="block text-[#0B3D2E]">Measurable Impact</span>
+          </h2>
+
+          {/* Description */}
+
+          <p
+            className="
+              mx-auto
+              mt-4
+              max-w-2xl
+              text-sm
+              leading-6
+              text-slate-500
+              sm:text-base
+              sm:leading-7
+            "
+          >
+            Explore DAFA projects helping reduce explosive hazards, protect
+            communities, and create safer futures across Afghanistan.
+          </p>
+        </motion.div>
+
+        {/* ================= PROJECTS ================= */}
+
+        {featuredProjects.length > 0 ? (
+          <div
+            className="
+              grid
+              gap-4
+              md:grid-cols-2
+              lg:grid-cols-3
+              lg:gap-5
+            "
+          >
+            {featuredProjects.map((project, index) => {
+              const image = project?.images?.[0] || project?.image || "";
+
+              const title =
+                project?.title || project?.shortTitle || "DAFA Project";
+
+              const slug = project?.slug || "";
+
+              return (
+                <motion.article
+                  key={project?.slug || `project-${index}`}
+                  initial={
+                    shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 25 }
+                  }
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  viewport={{
+                    once: true,
+                    amount: 0.15,
+                  }}
+                  transition={{
+                    duration: shouldReduceMotion ? 0 : 0.55,
+                    delay: shouldReduceMotion ? 0 : index * 0.1,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="
+                    group
+                    relative
+                    h-[470px]
+                    overflow-hidden
+                    rounded-2xl
+                    border
+                    border-[#0B3D2E]/10
+                    bg-[#0B3D2E]
+                    shadow-[0_14px_35px_rgba(15,23,42,0.09)]
+                    transition-all
+                    duration-500
+                    hover:-translate-y-1
+                    hover:shadow-[0_22px_50px_rgba(15,23,42,0.15)]
+                    sm:h-[500px]
+                    sm:rounded-3xl
+                  "
+                >
+                  {/* ================= IMAGE ================= */}
+
+                  {image ? (
+                    <img
+                      src={image}
+                      alt={title}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                      className="
+                        absolute
+                        inset-0
+                        h-full
+                        w-full
+                        object-cover
+                        transition-transform
+                        duration-[900ms]
+                        ease-out
+                        group-hover:scale-[1.055]
+                      "
+                    />
+                  ) : (
+                    <div
+                      className="
+                        absolute
+                        inset-0
+                        flex
+                        items-center
+                        justify-center
+                        bg-[#0B3D2E]
+                      "
+                    >
+                      <span
+                        className="
+                          px-6
+                          text-center
+                          text-sm
+                          font-semibold
+                          text-white/80
+                        "
+                      >
+                        DAFA Humanitarian Mine Action
+                      </span>
+                    </div>
+                  )}
+
+                  {/* ================= OVERLAY ================= */}
+
+                  <div
+                    aria-hidden="true"
+                    className="
+                      absolute
+                      inset-0
+                      bg-gradient-to-t
+                      from-[#031F18]
+                      via-[#0B3D2E]/30
+                      to-black/5
+                      opacity-95
+                    "
+                  />
+
+                  <div
+                    aria-hidden="true"
+                    className="
+                      absolute
+                      inset-x-0
+                      bottom-0
+                      h-2/3
+                      bg-gradient-to-t
+                      from-[#031F18]
+                      via-[#031F18]/80
+                      to-transparent
+                    "
+                  />
+
+                  {/* ================= TOP META ================= */}
+
+                  <div
+                    className="
+                      absolute
+                      left-5
+                      right-5
+                      top-5
+                      flex
+                      items-start
+                      justify-between
+                      sm:left-6
+                      sm:right-6
+                      sm:top-6
+                    "
+                  >
+                    {/* Number */}
+
+                    <div
+                      className="
+                        text-3xl
+                        font-light
+                        leading-none
+                        tracking-[-0.05em]
+                        text-white/90
+                        sm:text-4xl
+                      "
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </div>
+
+                    {/* Status */}
+
+                    <span
+                      className="
+                        rounded-full
+                        border
+                        border-white/20
+                        bg-[#031F18]/45
+                        px-3
+                        py-1.5
+                        text-[9px]
+                        font-extrabold
+                        uppercase
+                        tracking-[0.16em]
+                        text-white
+                        backdrop-blur-md
+                      "
+                    >
+                      {project?.status || "Ongoing"}
+                    </span>
+                  </div>
+
+                  {/* ================= CONTENT ================= */}
+
+                  <div
+                    className="
+                      absolute
+                      bottom-0
+                      left-0
+                      right-0
+                      p-5
+                      sm:p-6
+                      lg:p-7
+                    "
+                  >
+                    {/* Accent */}
+
+                    <div
+                      aria-hidden="true"
+                      className="
+                        mb-4
+                        h-[3px]
+                        w-8
+                        rounded-full
+                        bg-[#F97316]
+                        transition-all
+                        duration-500
+                        group-hover:w-14
+                      "
+                    />
+
+                    {/* Location / Year */}
+
+                    <div
+                      className="
+                        mb-3
+                        flex
+                        flex-wrap
+                        items-center
+                        gap-x-4
+                        gap-y-1
+                        text-[10px]
+                        font-bold
+                        uppercase
+                        tracking-[0.12em]
+                        text-white/60
+                      "
+                    >
+                      {project?.location && <span>{project.location}</span>}
+
+                      {project?.year && (
+                        <>
+                          {project?.location && (
+                            <span aria-hidden="true" className="text-white/25">
+                              /
+                            </span>
+                          )}
+
+                          <span>{project.year}</span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Title */}
+
+                    <h3
+                      className="
+                        max-w-[92%]
+                        text-xl
+                        font-extrabold
+                        leading-[1.15]
+                        tracking-[-0.025em]
+                        text-white
+                        sm:text-2xl
+                      "
+                    >
+                      {title}
+                    </h3>
+
+                    {/* Description */}
+
+                    {project?.description && (
+                      <p
+                        className="
+                          mt-3
+                          line-clamp-3
+                          max-w-[95%]
+                          text-xs
+                          leading-5
+                          text-white/70
+                          sm:text-sm
+                          sm:leading-6
+                        "
+                      >
+                        {project.description}
+                      </p>
+                    )}
+
+                    {/* Explore */}
+
+                    <Link
+                      to={`/projects/${slug}`}
+                      aria-label={`Explore ${title}`}
+                      className="
+                        mt-5
+                        inline-flex
+                        min-h-10
+                        items-center
+                        gap-3
+                        border-b
+                        border-white/30
+                        pb-1
+                        text-xs
+                        font-bold
+                        text-white
+                        transition-all
+                        duration-300
+                        hover:gap-4
+                        hover:border-[#F97316]
+                        hover:text-[#F97316]
+                        focus:outline-none
+                        focus-visible:ring-2
+                        focus-visible:ring-[#F97316]
+                        focus-visible:ring-offset-2
+                        focus-visible:ring-offset-[#0B3D2E]
+                      "
+                    >
+                      <span>Explore Project</span>
+
+                      <FaArrowRight
+                        aria-hidden="true"
+                        className="
+                          text-[10px]
+                          transition-transform
+                          duration-300
+                          group-hover:translate-x-1
+                        "
+                      />
+                    </Link>
+                  </div>
+
+                  {/* ================= HOVER BORDER ================= */}
+
+                  <div
+                    aria-hidden="true"
+                    className="
+                      pointer-events-none
+                      absolute
+                      inset-0
+                      rounded-2xl
+                      border
+                      border-white/0
+                      transition-colors
+                      duration-500
+                      group-hover:border-white/20
+                      sm:rounded-3xl
+                    "
+                  />
+                </motion.article>
+              );
+            })}
+          </div>
+        ) : (
+          <EmptyProjects />
+        )}
+
+        {/* ================= VIEW ALL ================= */}
+
+        <motion.div
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 0.5,
             delay: shouldReduceMotion ? 0 : 0.15,
           }}
           className="
-            mt-9
+            mt-8
             flex
             justify-center
-            lg:mt-10
+            sm:mt-10
           "
         >
           <Link
@@ -263,22 +512,22 @@ export default function Projects() {
             className="
               group
               inline-flex
-              min-h-12
+              min-h-[50px]
               items-center
+              justify-center
               gap-3
               rounded-xl
               bg-[#0B3D2E]
               px-6
-              py-3
               text-sm
               font-bold
               text-white
-              shadow-[0_10px_25px_rgba(11,61,46,0.16)]
+              shadow-[0_8px_22px_rgba(11,61,46,0.13)]
               transition-all
               duration-300
               hover:-translate-y-0.5
               hover:bg-[#0A5A42]
-              hover:shadow-[0_14px_30px_rgba(11,61,46,0.20)]
+              hover:shadow-[0_12px_28px_rgba(11,61,46,0.18)]
               focus:outline-none
               focus-visible:ring-2
               focus-visible:ring-[#F97316]
@@ -288,9 +537,9 @@ export default function Projects() {
             <span>View All Projects</span>
 
             <FaArrowRight
-              size={12}
               aria-hidden="true"
               className="
+                text-xs
                 transition-transform
                 duration-300
                 group-hover:translate-x-1
@@ -304,617 +553,47 @@ export default function Projects() {
 }
 
 /* ============================================================
-   FEATURED PROJECT CARD
+   EMPTY STATE
 ============================================================ */
 
-function FeaturedProjectCard({ project, shouldReduceMotion }) {
-  const images =
-    project.images?.length > 0
-      ? project.images
-      : project.image
-        ? [project.image]
-        : [];
-
-  const [currentImage, setCurrentImage] = useState(0);
-
-  useEffect(() => {
-    if (images.length <= 1 || shouldReduceMotion) return;
-
-    const interval = setInterval(() => {
-      setCurrentImage((previous) => (previous + 1) % images.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [images.length, shouldReduceMotion]);
-
-  return (
-    <motion.article
-      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 28 }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
-      viewport={{
-        once: true,
-        amount: 0.15,
-      }}
-      transition={{
-        duration: shouldReduceMotion ? 0 : 0.65,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      whileHover={
-        shouldReduceMotion
-          ? {}
-          : {
-              y: -5,
-            }
-      }
-      className="
-        group
-        relative
-        h-full
-        min-h-[500px]
-        overflow-hidden
-        rounded-2xl
-        border
-        border-slate-200/90
-        bg-white
-        shadow-[0_12px_35px_rgba(15,23,42,0.07)]
-        transition-shadow
-        duration-300
-        hover:shadow-[0_18px_45px_rgba(15,23,42,0.10)]
-        sm:min-h-[560px]
-        lg:min-h-[620px]
-      "
-    >
-      {/* =====================================================
-          FULL CARD IMAGE
-      ====================================================== */}
-
-      <div className="absolute inset-0 h-full w-full overflow-hidden">
-        {images.length > 0 ? (
-          images.map((image, imageIndex) => (
-            <motion.img
-              key={`${image}-${imageIndex}`}
-              src={image}
-              alt={`${project.title} project`}
-              loading={imageIndex === 0 ? "eager" : "lazy"}
-              decoding="async"
-              initial={false}
-              animate={{
-                opacity: currentImage === imageIndex ? 1 : 0,
-                scale: currentImage === imageIndex ? 1 : 1.025,
-              }}
-              transition={{
-                opacity: {
-                  duration: 0.8,
-                },
-                scale: {
-                  duration: 1,
-                },
-              }}
-              className="
-                absolute
-                inset-0
-                h-full
-                w-full
-                object-cover
-                object-center
-                transition-transform
-                duration-700
-                group-hover:scale-[1.025]
-              "
-            />
-          ))
-        ) : (
-          <ProjectImageFallback />
-        )}
-      </div>
-
-      {/* =====================================================
-          FULL IMAGE OVERLAY
-      ====================================================== */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          bg-gradient-to-t
-          from-black/75
-          via-black/25
-          to-black/5
-        "
-      />
-
-      {/* =====================================================
-          FEATURED LABEL
-      ====================================================== */}
-
-      <div
-        className="
-          absolute
-          left-5
-          top-5
-          z-10
-          rounded-full
-          bg-[#0B3D2E]
-          px-3.5
-          py-1.5
-          text-[11px]
-          font-bold
-          uppercase
-          tracking-[0.12em]
-          text-white
-          shadow-lg
-          sm:left-6
-          sm:top-6
-        "
-      >
-        Featured Project
-      </div>
-
-      {/* =====================================================
-          IMAGE INDICATORS
-      ====================================================== */}
-
-      {images.length > 1 && (
-        <div
-          className="
-            absolute
-            right-5
-            top-6
-            z-10
-            flex
-            items-center
-            gap-1.5
-          "
-          aria-hidden="true"
-        >
-          {images.map((_, imageIndex) => (
-            <span
-              key={imageIndex}
-              className={`
-                h-1.5
-                rounded-full
-                transition-all
-                duration-300
-                ${
-                  currentImage === imageIndex
-                    ? "w-5 bg-white"
-                    : "w-1.5 bg-white/60"
-                }
-              `}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* =====================================================
-          CONTENT
-      ====================================================== */}
-
-      <div
-        className="
-          absolute
-          inset-x-0
-          bottom-0
-          z-10
-          p-5
-          sm:p-7
-          lg:p-8
-        "
-      >
-        <div
-          className="
-            flex
-            flex-wrap
-            items-center
-            gap-x-4
-            gap-y-2
-            text-sm
-            text-white/90
-          "
-        >
-          <ProjectLocation location={project.location} />
-
-          {project.year && <ProjectYear year={project.year} />}
-        </div>
-
-        <h3
-          className="
-            mt-3
-            max-w-2xl
-            text-2xl
-            font-extrabold
-            leading-tight
-            tracking-[-0.02em]
-            text-white
-            sm:text-3xl
-            lg:text-4xl
-          "
-        >
-          {project.title}
-        </h3>
-
-        <p
-          className="
-            mt-3
-            max-w-2xl
-            text-sm
-            leading-6
-            text-white/85
-            sm:text-base
-            sm:leading-7
-          "
-        >
-          {project.description}
-        </p>
-
-        <ProjectLink project={project} light />
-      </div>
-    </motion.article>
-  );
-}
-
-/* ============================================================
-   SECONDARY PROJECT CARD
-============================================================ */
-
-function SecondaryProjectCard({ project, index, shouldReduceMotion }) {
-  const images =
-    project.images?.length > 0
-      ? project.images
-      : project.image
-        ? [project.image]
-        : [];
-
-  const [currentImage, setCurrentImage] = useState(0);
-
-  useEffect(() => {
-    if (images.length <= 1 || shouldReduceMotion) return;
-
-    const interval = setInterval(() => {
-      setCurrentImage((previous) => (previous + 1) % images.length);
-    }, 5500);
-
-    return () => clearInterval(interval);
-  }, [images.length, shouldReduceMotion]);
-
-  return (
-    <motion.article
-      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 28 }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
-      viewport={{
-        once: true,
-        amount: 0.15,
-      }}
-      transition={{
-        duration: shouldReduceMotion ? 0 : 0.6,
-        delay: shouldReduceMotion ? 0 : index * 0.08,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      whileHover={
-        shouldReduceMotion
-          ? {}
-          : {
-              y: -5,
-            }
-      }
-      className="
-        group
-        overflow-hidden
-        rounded-2xl
-        border
-        border-slate-200/90
-        bg-white
-        shadow-[0_10px_30px_rgba(15,23,42,0.055)]
-        transition-shadow
-        duration-300
-        hover:shadow-[0_16px_38px_rgba(15,23,42,0.09)]
-      "
-    >
-      <div
-        className="
-          grid
-          min-h-[250px]
-          sm:grid-cols-[0.9fr_1.1fr]
-          lg:min-h-[280px]
-        "
-      >
-        {/* IMAGE */}
-
-        <div
-          className="
-            relative
-            h-[220px]
-            overflow-hidden
-            sm:h-full
-            sm:min-h-[250px]
-          "
-        >
-          {images.length > 0 ? (
-            images.map((image, imageIndex) => (
-              <motion.img
-                key={`${image}-${imageIndex}`}
-                src={image}
-                alt={`${project.title} project`}
-                loading="lazy"
-                decoding="async"
-                initial={false}
-                animate={{
-                  opacity: currentImage === imageIndex ? 1 : 0,
-                  scale: currentImage === imageIndex ? 1 : 1.025,
-                }}
-                transition={{
-                  opacity: {
-                    duration: 0.8,
-                  },
-                  scale: {
-                    duration: 1,
-                  },
-                }}
-                className="
-                  absolute
-                  inset-0
-                  h-full
-                  w-full
-                  object-cover
-                  object-center
-                  transition-transform
-                  duration-700
-                  group-hover:scale-[1.035]
-                "
-              />
-            ))
-          ) : (
-            <ProjectImageFallback />
-          )}
-
-          <div
-            aria-hidden="true"
-            className="
-              pointer-events-none
-              absolute
-              inset-0
-              bg-gradient-to-t
-              from-black/35
-              to-transparent
-              sm:bg-gradient-to-r
-              sm:from-black/10
-              sm:to-transparent
-            "
-          />
-
-          {images.length > 1 && (
-            <div
-              className="
-                absolute
-                bottom-4
-                left-4
-                flex
-                gap-1.5
-              "
-              aria-hidden="true"
-            >
-              {images.map((_, imageIndex) => (
-                <span
-                  key={imageIndex}
-                  className={`
-                    h-1.5
-                    rounded-full
-                    transition-all
-                    duration-300
-                    ${
-                      currentImage === imageIndex
-                        ? "w-5 bg-white"
-                        : "w-1.5 bg-white/60"
-                    }
-                  `}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* CONTENT */}
-
-        <div
-          className="
-            flex
-            flex-col
-            justify-center
-            p-5
-            sm:p-6
-          "
-        >
-          <div
-            className="
-              flex
-              flex-wrap
-              items-center
-              gap-x-4
-              gap-y-2
-            "
-          >
-            <ProjectLocation location={project.location} dark />
-
-            {project.year && <ProjectYear year={project.year} dark />}
-          </div>
-
-          <h3
-            className="
-              mt-3
-              text-xl
-              font-extrabold
-              leading-tight
-              tracking-[-0.02em]
-              text-[#0F172A]
-            "
-          >
-            {project.title}
-          </h3>
-
-          <p
-            className="
-              mt-2.5
-              line-clamp-3
-              text-sm
-              leading-6
-              text-slate-600
-            "
-          >
-            {project.description}
-          </p>
-
-          <ProjectLink project={project} />
-        </div>
-      </div>
-    </motion.article>
-  );
-}
-
-/* ============================================================
-   LOCATION
-============================================================ */
-
-function ProjectLocation({ location, dark = false }) {
-  if (!location) return null;
-
-  return (
-    <span
-      className={`
-        inline-flex
-        items-center
-        gap-2
-        text-xs
-        font-semibold
-        ${dark ? "text-[#0A5A42]" : "text-white/90"}
-      `}
-    >
-      <FaMapMarkerAlt
-        size={11}
-        className={dark ? "text-[#F97316]" : "text-[#FDBA74]"}
-        aria-hidden="true"
-      />
-
-      <span>{location}</span>
-    </span>
-  );
-}
-
-/* ============================================================
-   YEAR
-============================================================ */
-
-function ProjectYear({ year, dark = false }) {
-  return (
-    <span
-      className={`
-        inline-flex
-        items-center
-        gap-2
-        text-xs
-        font-semibold
-        ${dark ? "text-slate-500" : "text-white/80"}
-      `}
-    >
-      <FaCalendarAlt size={10} aria-hidden="true" />
-
-      <span>{year}</span>
-    </span>
-  );
-}
-
-/* ============================================================
-   PROJECT LINK
-============================================================ */
-
-function ProjectLink({ project, light = false }) {
-  return (
-    <Link
-      to={`/projects/${project.slug}`}
-      aria-label={`View ${project.title}`}
-      className={`
-        group/link
-        mt-4
-        inline-flex
-        min-h-10
-        w-fit
-        items-center
-        gap-2
-        rounded-lg
-        px-3.5
-        py-2
-        text-sm
-        font-bold
-        transition-all
-        duration-300
-        focus:outline-none
-        focus-visible:ring-2
-        focus-visible:ring-[#F97316]
-        focus-visible:ring-offset-2
-        ${
-          light
-            ? `
-              bg-white/10
-              text-white
-              hover:bg-white/20
-              focus-visible:ring-offset-[#0B3D2E]
-            `
-            : `
-              bg-[#0B3D2E]/[0.06]
-              text-[#0B3D2E]
-              hover:bg-[#0B3D2E]
-              hover:text-white
-            `
-        }
-      `}
-    >
-      <span>View Project</span>
-
-      <FaArrowRight
-        size={10}
-        aria-hidden="true"
-        className="
-          transition-transform
-          duration-300
-          group-hover/link:translate-x-1
-        "
-      />
-    </Link>
-  );
-}
-
-/* ============================================================
-   IMAGE FALLBACK
-============================================================ */
-
-function ProjectImageFallback() {
+function EmptyProjects() {
   return (
     <div
       className="
-        flex
-        h-full
-        w-full
-        items-center
-        justify-center
-        bg-[#0B3D2E]
+        mx-auto
+        max-w-xl
+        rounded-2xl
+        border
+        border-slate-200
+        bg-white
+        px-6
+        py-16
+        text-center
+        shadow-[0_10px_30px_rgba(15,23,42,0.04)]
+        sm:rounded-3xl
       "
     >
-      <span
+      <h3
         className="
-          text-sm
-          font-semibold
-          text-[#A7F3D0]
+          text-xl
+          font-bold
+          tracking-tight
+          text-[#0B3D2E]
         "
       >
-        DAFA Project
-      </span>
+        No Ongoing Projects
+      </h3>
+
+      <p
+        className="
+          mt-2
+          text-sm
+          leading-6
+          text-slate-500
+        "
+      >
+        There are currently no ongoing projects.
+      </p>
     </div>
   );
 }

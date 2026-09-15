@@ -1,87 +1,59 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
-import {
-  FaArrowLeft,
-  FaArrowRight,
-  FaCalendarAlt,
-  FaMapMarkerAlt,
-} from "react-icons/fa";
+import { useEffect, useMemo, useState } from "react";
+import { FaArrowRight } from "react-icons/fa";
 
 import { storiesCardsData } from "../../Components/Data File/Stories Data/StoriesCards";
 
 export default function StoriesCards() {
   const shouldReduceMotion = useReducedMotion();
 
-  const stories = useMemo(() => storiesCardsData || [], []);
+  const stories = useMemo(
+    () => (Array.isArray(storiesCardsData) ? storiesCardsData.slice(0, 3) : []),
+    [],
+  );
 
-  const [currentStory, setCurrentStory] = useState(0);
-  const [currentImage, setCurrentImage] = useState(0);
+  const [activeImages, setActiveImages] = useState({});
 
-  const story = stories[currentStory];
-
-  const images =
-    story?.gallery?.length > 0
-      ? story.gallery
-      : story?.image
-        ? [story.image]
-        : [];
-
-  // =========================================================
-  // CHANGE STORY
-  // =========================================================
-
-  const goToStory = (index) => {
-    if (!stories.length) return;
-
-    const nextIndex = (index + stories.length) % stories.length;
-
-    setCurrentStory(nextIndex);
-    setCurrentImage(0);
-  };
-
-  const goToNextStory = () => {
-    goToStory(currentStory + 1);
-  };
-
-  const goToPreviousStory = () => {
-    goToStory(currentStory - 1);
-  };
-
-  // =========================================================
-  // AUTOMATIC STORY ROTATION
-  // =========================================================
+  /* =========================================================
+     AUTOMATIC IMAGE ROTATION
+  ========================================================== */
 
   useEffect(() => {
-    if (stories.length <= 1 || shouldReduceMotion) return;
+    if (shouldReduceMotion || stories.length === 0) return;
 
     const interval = setInterval(() => {
-      setCurrentStory((previous) => (previous + 1) % stories.length);
-      setCurrentImage(0);
-    }, 8000);
+      setActiveImages((previous) => {
+        const next = { ...previous };
 
-    return () => clearInterval(interval);
-  }, [stories.length, shouldReduceMotion]);
+        stories.forEach((story) => {
+          const images =
+            Array.isArray(story?.gallery) && story.gallery.length > 0
+              ? story.gallery
+              : story?.image
+                ? [story.image]
+                : [];
 
-  // =========================================================
-  // AUTOMATIC IMAGE ROTATION
-  // =========================================================
+          if (images.length > 1) {
+            const currentIndex = previous[story.id] || 0;
 
-  useEffect(() => {
-    if (images.length <= 1 || shouldReduceMotion) return;
+            next[story.id] =
+              currentIndex + 1 >= images.length ? 0 : currentIndex + 1;
+          }
+        });
 
-    const interval = setInterval(() => {
-      setCurrentImage((previous) => (previous + 1) % images.length);
+        return next;
+      });
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [images.length, shouldReduceMotion, currentStory]);
+  }, [stories, shouldReduceMotion]);
 
-  // =========================================================
-  // EMPTY STATE
-  // =========================================================
+  /* =========================================================
+     EMPTY STATE
+  ========================================================== */
 
-  if (!story) {
+  if (!stories.length) {
     return null;
   }
 
@@ -91,80 +63,20 @@ export default function StoriesCards() {
       aria-labelledby="success-stories-heading"
       className="
         relative
-        -mt-6
         overflow-hidden
-        bg-white
-        px-5
-        pt-0
-        pb-16
-        sm:-mt-8
-        sm:px-8
-        sm:pb-20
-        lg:-mt-10
-        lg:px-10
-        lg:pb-24
+        bg-[#F7FBF8]
+        py-10
+        sm:py-12
+        lg:py-14
       "
     >
-      {/* =====================================================
-          SUBTLE BACKGROUND
-      ====================================================== */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          overflow-hidden
-        "
-      >
-        <div
-          className="
-            absolute
-            -left-32
-            top-20
-            h-72
-            w-72
-            rounded-full
-            bg-[#0B3D2E]/[0.035]
-            blur-3xl
-          "
-        />
-
-        <div
-          className="
-            absolute
-            -right-32
-            bottom-10
-            h-80
-            w-80
-            rounded-full
-            bg-[#F97316]/[0.035]
-            blur-3xl
-          "
-        />
-      </div>
-
-      {/* =====================================================
-          MAIN CONTAINER
-      ====================================================== */}
-
-      <div
-        className="
-          relative
-          z-10
-          mx-auto
-          max-w-7xl
-        "
-      >
+      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10 xl:px-12">
         {/* ===================================================
-            SECTION HEADER
+            HEADER
         ==================================================== */}
 
-        <motion.header
-          initial={
-            shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-          }
+        <motion.div
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
           whileInView={{
             opacity: 1,
             y: 0,
@@ -174,33 +86,27 @@ export default function StoriesCards() {
             amount: 0.2,
           }}
           transition={{
-            duration: shouldReduceMotion ? 0 : 0.65,
+            duration: shouldReduceMotion ? 0 : 0.55,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="
             mx-auto
-            mb-12
+            mb-8
             max-w-3xl
             text-center
-            lg:mb-14
+            sm:mb-9
+            lg:mb-10
           "
         >
-          {/* Eyebrow */}
+          {/* Section Label */}
 
-          <div
-            className="
-              mb-5
-              flex
-              items-center
-              justify-center
-              gap-3
-            "
-          >
+          <div className="mb-3 flex items-center justify-center gap-3">
             <span
               aria-hidden="true"
               className="
-                h-px
+                h-[2px]
                 w-8
+                rounded-full
                 bg-[#F97316]
                 sm:w-10
               "
@@ -208,22 +114,23 @@ export default function StoriesCards() {
 
             <span
               className="
-                text-xs
-                font-bold
+                text-[10px]
+                font-extrabold
                 uppercase
-                tracking-[0.22em]
-                text-[#0A5A42]
-                sm:text-sm
+                tracking-[0.2em]
+                text-[#0B3D2E]
+                sm:text-xs
               "
             >
-              Success Stories
+              Human Stories
             </span>
 
             <span
               aria-hidden="true"
               className="
-                h-px
+                h-[2px]
                 w-8
+                rounded-full
                 bg-[#F97316]
                 sm:w-10
               "
@@ -235,17 +142,16 @@ export default function StoriesCards() {
           <h2
             id="success-stories-heading"
             className="
-              text-3xl
+              text-2xl
               font-extrabold
               leading-[1.08]
-              tracking-tight
+              tracking-[-0.04em]
               text-[#0F172A]
-              sm:text-4xl
-              lg:text-5xl
+              sm:text-3xl
+              lg:text-[2.7rem]
             "
           >
-            Real People.
-            <span className="block text-[#0B3D2E]">Safer Communities.</span>
+            Real People. Safer Communities.
           </h2>
 
           {/* Description */}
@@ -253,74 +159,104 @@ export default function StoriesCards() {
           <p
             className="
               mx-auto
-              mt-5
+              mt-4
               max-w-2xl
-              text-base
-              leading-7
-              text-slate-600
-              sm:text-lg
-              sm:leading-8
+              text-sm
+              leading-6
+              text-slate-500
+              sm:text-base
+              sm:leading-7
             "
           >
-            DAFA&apos;s work creates meaningful change for individuals,
-            families, and communities by helping make everyday life safer.
+            Behind every cleared area is a person, a family, and a community
+            with the opportunity to move forward safely.
           </p>
-        </motion.header>
+        </motion.div>
 
         {/* ===================================================
-            FEATURED STORY
+            STORIES
         ==================================================== */}
 
-        <AnimatePresence mode="wait">
-          <motion.article
-            key={story.id}
-            initial={
-              shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }
-            }
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            exit={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: -12 }}
-            transition={{
-              duration: shouldReduceMotion ? 0 : 0.45,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="
-              overflow-hidden
-              rounded-[24px]
-              border
-              border-slate-200
-              bg-white
-              shadow-[0_20px_60px_rgba(15,23,42,0.08)]
-              lg:grid
-              lg:grid-cols-[1.08fr_0.92fr]
-            "
-          >
-            {/* =================================================
-                IMAGE
-            ================================================== */}
+        <div
+          className="
+            grid
+            gap-4
+            md:grid-cols-2
+            lg:grid-cols-3
+            lg:gap-5
+          "
+        >
+          {stories.map((story, index) => {
+            const images =
+              Array.isArray(story?.gallery) && story.gallery.length > 0
+                ? story.gallery
+                : story?.image
+                  ? [story.image]
+                  : [];
 
-            <div
-              className="
-                relative
-                h-[340px]
-                overflow-hidden
-                sm:h-[430px]
-                lg:h-[520px]
-              "
-            >
-              <AnimatePresence mode="wait">
-                {images.length > 0 ? (
+            const currentIndex = activeImages[story.id] || 0;
+
+            const activeImage = images[currentIndex] || images[0];
+
+            const title = story?.title || "DAFA Humanitarian Story";
+
+            return (
+              <motion.article
+                key={story?.id || story?.slug || `story-${index}`}
+                initial={
+                  shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 25 }
+                }
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                  amount: 0.15,
+                }}
+                transition={{
+                  duration: shouldReduceMotion ? 0 : 0.55,
+                  delay: shouldReduceMotion ? 0 : index * 0.1,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="
+                  group
+                  relative
+                  h-[470px]
+                  overflow-hidden
+                  rounded-2xl
+                  border
+                  border-slate-200/70
+                  bg-[#0B3D2E]
+                  shadow-[0_12px_32px_rgba(15,23,42,0.08)]
+                  transition-all
+                  duration-500
+                  hover:-translate-y-1
+                  hover:border-[#0B3D2E]/20
+                  hover:shadow-[0_20px_45px_rgba(15,23,42,0.14)]
+                  sm:h-[500px]
+                  sm:rounded-3xl
+                "
+              >
+                {/* =================================================
+                    IMAGE
+                ================================================== */}
+
+                {activeImage ? (
                   <motion.img
-                    key={`${story.id}-${currentImage}`}
-                    src={images[currentImage]}
-                    alt={`${story.title} — ${story.location}`}
-                    loading="eager"
+                    key={`${story.id}-${currentIndex}`}
+                    src={activeImage}
+                    alt={`${title}${
+                      story?.location ? ` — ${story.location}` : ""
+                    }`}
+                    loading={index === 0 ? "eager" : "lazy"}
                     decoding="async"
                     initial={
                       shouldReduceMotion
-                        ? { opacity: 1 }
+                        ? {
+                            opacity: 1,
+                            scale: 1,
+                          }
                         : {
                             opacity: 0,
                             scale: 1.025,
@@ -330,15 +266,8 @@ export default function StoriesCards() {
                       opacity: 1,
                       scale: 1,
                     }}
-                    exit={
-                      shouldReduceMotion
-                        ? { opacity: 1 }
-                        : {
-                            opacity: 0,
-                          }
-                    }
                     transition={{
-                      duration: shouldReduceMotion ? 0 : 0.55,
+                      duration: shouldReduceMotion ? 0 : 0.7,
                       ease: "easeOut",
                     }}
                     className="
@@ -347,14 +276,18 @@ export default function StoriesCards() {
                       h-full
                       w-full
                       object-cover
-                      object-center
+                      transition-transform
+                      duration-[900ms]
+                      ease-out
+                      group-hover:scale-[1.055]
                     "
                   />
                 ) : (
                   <div
                     className="
+                      absolute
+                      inset-0
                       flex
-                      h-full
                       items-center
                       justify-center
                       bg-[#0B3D2E]
@@ -362,480 +295,313 @@ export default function StoriesCards() {
                   >
                     <span
                       className="
+                        px-6
+                        text-center
                         text-sm
                         font-semibold
                         text-white/70
                       "
                     >
-                      DAFA Story
+                      DAFA Humanitarian Story
                     </span>
                   </div>
                 )}
-              </AnimatePresence>
 
-              {/* Image count */}
+                {/* =================================================
+                    OVERLAY
+                ================================================== */}
 
-              {images.length > 1 && (
+                <div
+                  aria-hidden="true"
+                  className="
+                    absolute
+                    inset-0
+                    bg-gradient-to-t
+                    from-[#031F18]
+                    via-[#0B3D2E]/20
+                    to-black/5
+                    opacity-90
+                  "
+                />
+
+                <div
+                  aria-hidden="true"
+                  className="
+                    absolute
+                    inset-x-0
+                    bottom-0
+                    h-[68%]
+                    bg-gradient-to-t
+                    from-[#031F18]
+                    via-[#031F18]/75
+                    to-transparent
+                  "
+                />
+
+                {/* =================================================
+                    TOP META
+                ================================================== */}
+
                 <div
                   className="
                     absolute
-                    bottom-5
                     left-5
-                    z-20
-                    rounded-full
-                    bg-[#0B3D2E]/80
-                    px-3
-                    py-1.5
-                    text-[11px]
-                    font-semibold
-                    text-white
-                    backdrop-blur-sm
+                    right-5
+                    top-5
+                    flex
+                    items-start
+                    justify-between
+                    sm:left-6
+                    sm:right-6
+                    sm:top-6
                   "
-                  aria-label={`${images.length} images in this story`}
                 >
-                  {currentImage + 1} / {images.length}
+                  {/* Number */}
+
+                  <div
+                    className="
+                      text-3xl
+                      font-light
+                      leading-none
+                      tracking-[-0.05em]
+                      text-white/90
+                      sm:text-4xl
+                    "
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+
+                  {/* Category */}
+
+                  {story?.category && (
+                    <span
+                      className="
+                        rounded-full
+                        border
+                        border-white/20
+                        bg-[#0B3D2E]/40
+                        px-3
+                        py-1.5
+                        text-[9px]
+                        font-bold
+                        uppercase
+                        tracking-[0.16em]
+                        text-white
+                        backdrop-blur-md
+                      "
+                    >
+                      {story.category}
+                    </span>
+                  )}
                 </div>
-              )}
 
-              {/* Image navigation */}
+                {/* =================================================
+                    IMAGE INDICATORS
+                ================================================== */}
 
-              {images.length > 1 && (
+                {images.length > 1 && (
+                  <div
+                    className="
+                      absolute
+                      right-5
+                      top-[72px]
+                      z-10
+                      flex
+                      items-center
+                      gap-1.5
+                      sm:right-6
+                    "
+                    aria-hidden="true"
+                  >
+                    {images.map((_, imageIndex) => (
+                      <span
+                        key={imageIndex}
+                        className={`
+                          h-1
+                          rounded-full
+                          transition-all
+                          duration-300
+                          ${
+                            currentIndex === imageIndex
+                              ? "w-6 bg-white"
+                              : "w-2 bg-white/40"
+                          }
+                        `}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* =================================================
+                    CONTENT
+                ================================================== */}
+
                 <div
                   className="
                     absolute
-                    bottom-5
-                    right-5
-                    z-20
-                    flex
-                    items-center
-                    gap-1.5
+                    bottom-0
+                    left-0
+                    right-0
+                    p-5
+                    sm:p-6
+                    lg:p-7
                   "
                 >
-                  {images.map((_, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      onClick={() => setCurrentImage(index)}
-                      aria-label={`Show story image ${index + 1}`}
-                      aria-current={currentImage === index ? "true" : undefined}
-                      className={`
-                        h-1.5
-                        rounded-full
+                  {/* Accent */}
+
+                  <div
+                    aria-hidden="true"
+                    className="
+                      mb-4
+                      h-[3px]
+                      w-8
+                      rounded-full
+                      bg-[#F97316]
+                      transition-all
+                      duration-500
+                      group-hover:w-14
+                    "
+                  />
+
+                  {/* Location / Date */}
+
+                  <div
+                    className="
+                      mb-3
+                      flex
+                      flex-wrap
+                      items-center
+                      gap-x-4
+                      gap-y-1
+                      text-[10px]
+                      font-semibold
+                      uppercase
+                      tracking-[0.12em]
+                      text-white/60
+                    "
+                  >
+                    {story?.location && <span>{story.location}</span>}
+
+                    {story?.date && (
+                      <>
+                        {story?.location && (
+                          <span aria-hidden="true" className="text-white/30">
+                            /
+                          </span>
+                        )}
+
+                        <span>{story.date}</span>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Title */}
+
+                  <h3
+                    className="
+                      max-w-[92%]
+                      text-xl
+                      font-extrabold
+                      leading-[1.15]
+                      tracking-[-0.025em]
+                      text-white
+                      sm:text-2xl
+                    "
+                  >
+                    {title}
+                  </h3>
+
+                  {/* Description */}
+
+                  {story?.description && (
+                    <p
+                      className="
+                        mt-3
+                        line-clamp-3
+                        max-w-[95%]
+                        text-xs
+                        leading-5
+                        text-white/70
+                        sm:text-sm
+                        sm:leading-6
+                      "
+                    >
+                      {story.description}
+                    </p>
+                  )}
+
+                  {/* Read Story */}
+
+                  {story?.slug && (
+                    <Link
+                      to={`/resources/stories/${story.slug}`}
+                      aria-label={`Read ${title}`}
+                      className="
+                        mt-5
+                        inline-flex
+                        min-h-10
+                        items-center
+                        gap-3
+                        border-b
+                        border-white/30
+                        pb-1
+                        text-xs
+                        font-bold
+                        text-white
                         transition-all
                         duration-300
+                        hover:gap-4
+                        hover:border-[#F97316]
+                        hover:text-[#F97316]
                         focus:outline-none
                         focus-visible:ring-2
-                        focus-visible:ring-white
+                        focus-visible:ring-[#F97316]
                         focus-visible:ring-offset-2
                         focus-visible:ring-offset-[#0B3D2E]
-                        ${
-                          currentImage === index
-                            ? "w-7 bg-white"
-                            : "w-2 bg-white/55 hover:bg-white/80"
-                        }
-                      `}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* =================================================
-                STORY CONTENT
-            ================================================== */}
-
-            <div
-              className="
-                flex
-                flex-col
-                justify-center
-                px-6
-                py-8
-                sm:px-9
-                sm:py-10
-                lg:px-12
-                lg:py-12
-                xl:px-14
-              "
-            >
-              {/* Category */}
-
-              <span
-                className="
-                  text-xs
-                  font-bold
-                  uppercase
-                  tracking-[0.18em]
-                  text-[#0A5A42]
-                  sm:text-sm
-                "
-              >
-                {story.category}
-              </span>
-
-              {/* Orange divider */}
-
-              <div
-                aria-hidden="true"
-                className="
-                  mt-4
-                  h-1
-                  w-12
-                  rounded-full
-                  bg-[#F97316]
-                "
-              />
-
-              {/* Title */}
-
-              <h3
-                className="
-                  mt-5
-                  max-w-xl
-                  text-2xl
-                  font-extrabold
-                  leading-[1.15]
-                  tracking-tight
-                  text-[#0F172A]
-                  sm:text-3xl
-                  lg:text-[2.15rem]
-                  lg:leading-[1.15]
-                "
-              >
-                {story.title}
-              </h3>
-
-              {/* Story */}
-
-              <p
-                className="
-                  mt-5
-                  max-w-xl
-                  text-base
-                  leading-7
-                  text-slate-600
-                  sm:text-lg
-                  sm:leading-8
-                "
-              >
-                {story.description}
-              </p>
-
-              {/* Metadata */}
-
-              <div
-                className="
-                  mt-7
-                  grid
-                  gap-4
-                  border-y
-                  border-slate-200
-                  py-5
-                  sm:grid-cols-2
-                  sm:gap-6
-                "
-              >
-                {/* Location */}
-
-                <div className="flex items-start gap-3">
-                  <span
-                    className="
-                      mt-0.5
-                      flex
-                      h-9
-                      w-9
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-[#0B3D2E]/[0.07]
-                      text-[#0B3D2E]
-                    "
-                  >
-                    <FaMapMarkerAlt size={13} aria-hidden="true" />
-                  </span>
-
-                  <div>
-                    <p
-                      className="
-                        text-[11px]
-                        font-bold
-                        uppercase
-                        tracking-[0.12em]
-                        text-slate-400
                       "
                     >
-                      Location
-                    </p>
+                      <span>Read the Story</span>
 
-                    <p
-                      className="
-                        mt-1
-                        text-sm
-                        font-semibold
-                        text-[#0F172A]
-                      "
-                    >
-                      {story.location}
-                    </p>
-                  </div>
+                      <FaArrowRight
+                        aria-hidden="true"
+                        className="
+                          text-[10px]
+                          transition-transform
+                          duration-300
+                          group-hover:translate-x-1
+                        "
+                      />
+                    </Link>
+                  )}
                 </div>
 
-                {/* Date */}
+                {/* =================================================
+                    HOVER BORDER
+                ================================================== */}
 
-                <div className="flex items-start gap-3">
-                  <span
-                    className="
-                      mt-0.5
-                      flex
-                      h-9
-                      w-9
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-[#0B3D2E]/[0.07]
-                      text-[#0B3D2E]
-                    "
-                  >
-                    <FaCalendarAlt size={13} aria-hidden="true" />
-                  </span>
-
-                  <div>
-                    <p
-                      className="
-                        text-[11px]
-                        font-bold
-                        uppercase
-                        tracking-[0.12em]
-                        text-slate-400
-                      "
-                    >
-                      Published
-                    </p>
-
-                    <p
-                      className="
-                        mt-1
-                        text-sm
-                        font-semibold
-                        text-[#0F172A]
-                      "
-                    >
-                      {story.date}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Read Story */}
-
-              <div className="mt-7">
-                <Link
-                  to={`/resources/stories/${story.slug}`}
-                  aria-label={`Read ${story.title}`}
+                <div
+                  aria-hidden="true"
                   className="
-                    group/link
-                    inline-flex
-                    min-h-11
-                    items-center
-                    gap-3
-                    rounded-full
-                    bg-[#0B3D2E]
-                    px-5
-                    py-3
-                    text-sm
-                    font-bold
-                    text-white
-                    shadow-[0_8px_24px_rgba(11,61,46,0.16)]
-                    transition-all
-                    duration-300
-                    hover:-translate-y-0.5
-                    hover:bg-[#0A5A42]
-                    hover:shadow-[0_12px_30px_rgba(11,61,46,0.22)]
-                    focus:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-[#0B3D2E]/40
-                    focus-visible:ring-offset-2
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    rounded-2xl
+                    border
+                    border-white/0
+                    transition-colors
+                    duration-500
+                    group-hover:border-white/20
+                    sm:rounded-3xl
                   "
-                >
-                  <span>Read Story</span>
-
-                  <span
-                    className="
-                      flex
-                      h-6
-                      w-6
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-white/10
-                      transition-transform
-                      duration-300
-                      group-hover/link:translate-x-1
-                    "
-                  >
-                    <FaArrowRight size={9} aria-hidden="true" />
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </motion.article>
-        </AnimatePresence>
-
-        {/* =====================================================
-            STORY NAVIGATION
-        ====================================================== */}
-
-        {stories.length > 1 && (
-          <div
-            className="
-              mt-7
-              flex
-              flex-col
-              items-center
-              justify-between
-              gap-5
-              sm:flex-row
-            "
-          >
-            {/* Previous / Next */}
-
-            <div
-              className="
-                order-2
-                flex
-                items-center
-                gap-2
-                sm:order-1
-              "
-            >
-              <button
-                type="button"
-                onClick={goToPreviousStory}
-                aria-label="Previous success story"
-                className="
-                  flex
-                  h-11
-                  w-11
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-slate-200
-                  bg-white
-                  text-[#0B3D2E]
-                  shadow-sm
-                  transition-all
-                  duration-300
-                  hover:border-[#0B3D2E]
-                  hover:bg-[#0B3D2E]
-                  hover:text-white
-                  focus:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#0B3D2E]/40
-                  focus-visible:ring-offset-2
-                "
-              >
-                <FaArrowLeft size={13} aria-hidden="true" />
-              </button>
-
-              <button
-                type="button"
-                onClick={goToNextStory}
-                aria-label="Next success story"
-                className="
-                  flex
-                  h-11
-                  w-11
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-slate-200
-                  bg-white
-                  text-[#0B3D2E]
-                  shadow-sm
-                  transition-all
-                  duration-300
-                  hover:border-[#0B3D2E]
-                  hover:bg-[#0B3D2E]
-                  hover:text-white
-                  focus:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#0B3D2E]/40
-                  focus-visible:ring-offset-2
-                "
-              >
-                <FaArrowRight size={13} aria-hidden="true" />
-              </button>
-            </div>
-
-            {/* Story indicators */}
-
-            <div
-              className="
-                order-1
-                flex
-                items-center
-                gap-2
-                sm:order-2
-              "
-              aria-label="Success story navigation"
-            >
-              {stories.map((item, index) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => goToStory(index)}
-                  aria-label={`Show story ${index + 1}: ${item.title}`}
-                  aria-current={currentStory === index ? "true" : undefined}
-                  className={`
-                    h-1.5
-                    rounded-full
-                    transition-all
-                    duration-300
-                    focus:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-[#0B3D2E]/40
-                    focus-visible:ring-offset-2
-                    ${
-                      currentStory === index
-                        ? "w-9 bg-[#0B3D2E]"
-                        : "w-2 bg-slate-300 hover:bg-[#0A5A42]"
-                    }
-                  `}
                 />
-              ))}
-            </div>
+              </motion.article>
+            );
+          })}
+        </div>
 
-            {/* Story counter */}
-
-            <div
-              className="
-                order-3
-                min-w-[90px]
-                text-right
-                text-xs
-                font-semibold
-                text-slate-400
-                sm:text-sm
-              "
-            >
-              <span className="text-[#0B3D2E]">
-                {String(currentStory + 1).padStart(2, "0")}
-              </span>
-
-              <span className="mx-1">/</span>
-
-              <span>{String(stories.length).padStart(2, "0")}</span>
-            </div>
-          </div>
-        )}
-
-        {/* =====================================================
-            VIEW ALL STORIES
-        ====================================================== */}
+        {/* ===================================================
+            VIEW ALL
+        ==================================================== */}
 
         <motion.div
           initial={
@@ -850,13 +616,14 @@ export default function StoriesCards() {
             amount: 0.2,
           }}
           transition={{
-            duration: shouldReduceMotion ? 0 : 0.55,
-            delay: shouldReduceMotion ? 0 : 0.1,
+            duration: shouldReduceMotion ? 0 : 0.5,
+            delay: shouldReduceMotion ? 0 : 0.15,
           }}
           className="
-            mt-9
+            mt-8
             flex
             justify-center
+            sm:mt-10
           "
         >
           <Link
@@ -864,39 +631,38 @@ export default function StoriesCards() {
             className="
               group
               inline-flex
-              min-h-11
+              min-h-[50px]
               items-center
+              justify-center
               gap-3
-              rounded-full
-              border
-              border-[#0B3D2E]
-              bg-white
+              rounded-xl
+              bg-[#0B3D2E]
               px-6
-              py-3
               text-sm
               font-bold
-              text-[#0B3D2E]
+              text-white
+              shadow-[0_8px_22px_rgba(11,61,46,0.12)]
               transition-all
               duration-300
               hover:-translate-y-0.5
-              hover:bg-[#0B3D2E]
-              hover:text-white
+              hover:bg-[#0A5A42]
+              hover:shadow-[0_12px_28px_rgba(11,61,46,0.18)]
               focus:outline-none
               focus-visible:ring-2
-              focus-visible:ring-[#0B3D2E]/40
+              focus-visible:ring-[#F97316]
               focus-visible:ring-offset-2
             "
           >
-            <span>Read More Stories</span>
+            <span>View All Stories</span>
 
             <FaArrowRight
-              size={11}
+              aria-hidden="true"
               className="
+                text-xs
                 transition-transform
                 duration-300
                 group-hover:translate-x-1
               "
-              aria-hidden="true"
             />
           </Link>
         </motion.div>

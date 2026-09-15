@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -10,6 +10,10 @@ import {
 
 export default function Hero() {
   const [currentImage, setCurrentImage] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const shouldReduceMotion = useReducedMotion();
+  const resumeTimerRef = useRef(null);
 
   const currentHero = heroImages[currentImage];
 
@@ -18,21 +22,55 @@ export default function Hero() {
   // =====================================================
 
   useEffect(() => {
-    const autoSlide = setInterval(() => {
-      setCurrentImage((previous) => (previous + 1) % heroImages.length);
-    }, 5000);
+    if (isPaused || shouldReduceMotion || heroImages.length <= 1) {
+      return;
+    }
 
-    return () => clearInterval(autoSlide);
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [isPaused, shouldReduceMotion]);
+
+  // =====================================================
+  // CLEANUP RESUME TIMER
+  // =====================================================
+
+  useEffect(() => {
+    return () => {
+      if (resumeTimerRef.current) {
+        clearTimeout(resumeTimerRef.current);
+      }
+    };
   }, []);
+
+  // =====================================================
+  // PAUSE AFTER USER INTERACTION
+  // =====================================================
+
+  const pauseTemporarily = () => {
+    setIsPaused(true);
+
+    if (resumeTimerRef.current) {
+      clearTimeout(resumeTimerRef.current);
+    }
+
+    resumeTimerRef.current = setTimeout(() => {
+      setIsPaused(false);
+    }, 8000);
+  };
 
   // =====================================================
   // PREVIOUS SLIDE
   // =====================================================
 
   const handlePrevious = () => {
-    setCurrentImage(
-      (previous) => (previous - 1 + heroImages.length) % heroImages.length,
-    );
+    pauseTemporarily();
+
+    setCurrentImage((prev) => {
+      return (prev - 1 + heroImages.length) % heroImages.length;
+    });
   };
 
   // =====================================================
@@ -40,51 +78,68 @@ export default function Hero() {
   // =====================================================
 
   const handleNext = () => {
-    setCurrentImage((previous) => (previous + 1) % heroImages.length);
+    pauseTemporarily();
+
+    setCurrentImage((prev) => {
+      return (prev + 1) % heroImages.length;
+    });
   };
 
   // =====================================================
-  // KEYBOARD NAVIGATION
+  // SELECT SLIDE
+  // =====================================================
+
+  const handleSelectSlide = (index) => {
+    pauseTemporarily();
+    setCurrentImage(index);
+  };
+
+  // =====================================================
+  // KEYBOARD CONTROL
   // =====================================================
 
   const handleKeyDown = (event) => {
     if (event.key === "ArrowLeft") {
+      event.preventDefault();
       handlePrevious();
     }
 
     if (event.key === "ArrowRight") {
+      event.preventDefault();
       handleNext();
     }
   };
 
   return (
     <section
-      aria-label="DAFA introduction"
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
+      aria-labelledby="hero-heading"
       className="
         relative
         isolate
         min-h-[680px]
         overflow-hidden
-        bg-[#0B3D2E]
+        bg-[#06271E]
         font-[Poppins]
-        focus:outline-none
+
+        sm:min-h-[700px]
+        lg:min-h-[720px]
       "
+      onKeyDown={handleKeyDown}
     >
       {/* =====================================================
-          BACKGROUND IMAGE SLIDER
+          BACKGROUND IMAGE
       ===================================================== */}
 
       <div className="absolute inset-0 -z-10">
-        <AnimatePresence initial={false}>
+        <AnimatePresence initial={false} mode="sync">
           <motion.img
-            key={currentHero.id}
+            key={currentImage}
             src={currentHero.image}
-            alt={currentHero.alt}
+            alt=""
+            aria-hidden="true"
             initial={{
               opacity: 0,
-              scale: 1.06,
+              scale: shouldReduceMotion ? 1 : 1.035,
             }}
             animate={{
               opacity: 1,
@@ -92,15 +147,14 @@ export default function Hero() {
             }}
             exit={{
               opacity: 0,
-              scale: 1.02,
             }}
             transition={{
               opacity: {
-                duration: 1,
+                duration: shouldReduceMotion ? 0 : 0.8,
                 ease: "easeInOut",
               },
               scale: {
-                duration: 5,
+                duration: 6,
                 ease: "linear",
               },
             }}
@@ -115,9 +169,7 @@ export default function Hero() {
           />
         </AnimatePresence>
 
-        {/* =====================================================
-            GREEN OVERLAY
-        ===================================================== */}
+        {/* PRIMARY CONTENT OVERLAY */}
 
         <div
           className="
@@ -125,29 +177,55 @@ export default function Hero() {
             inset-0
             bg-gradient-to-r
             from-[#031F18]/95
-            via-[#0B3D2E]/75
-            to-[#0B3D2E]/20
+            via-[#0B3D2E]/68
+            to-[#0B3D2E]/18
+
+            md:via-[#0B3D2E]/62
+            lg:to-transparent
           "
         />
 
-        {/* =====================================================
-            BOTTOM DARK OVERLAY
-        ===================================================== */}
+        {/* BOTTOM READABILITY */}
 
         <div
           className="
             absolute
             inset-0
             bg-gradient-to-t
-            from-[#031F18]/80
-            via-transparent
+            from-[#031F18]/95
+            via-[#031F18]/20
             to-transparent
+          "
+        />
+
+        {/* TOP NAVBAR READABILITY */}
+
+        <div
+          className="
+            absolute
+            inset-x-0
+            top-0
+            h-44
+            bg-gradient-to-b
+            from-[#031F18]/55
+            via-[#031F18]/20
+            to-transparent
+          "
+        />
+
+        {/* SUBTLE BRAND-TONE OVERLAY */}
+
+        <div
+          className="
+            absolute
+            inset-0
+            bg-[#0B3D2E]/[0.04]
           "
         />
       </div>
 
       {/* =====================================================
-          MAIN CONTENT
+          HERO CONTENT
       ===================================================== */}
 
       <div
@@ -159,18 +237,27 @@ export default function Hero() {
           max-w-7xl
           items-center
           px-5
-          py-24
+          pb-32
+          pt-32
+
+          sm:min-h-[700px]
           sm:px-8
+          sm:pb-36
+
+          lg:min-h-[720px]
           lg:px-10
+          lg:pb-36
+          lg:pt-32
+
           xl:px-12
         "
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            key={currentHero.id}
+            key={currentImage}
             initial={{
               opacity: 0,
-              x: -35,
+              x: shouldReduceMotion ? 0 : -18,
             }}
             animate={{
               opacity: 1,
@@ -178,45 +265,47 @@ export default function Hero() {
             }}
             exit={{
               opacity: 0,
-              x: -25,
+              x: shouldReduceMotion ? 0 : -12,
             }}
             transition={{
-              duration: 0.7,
+              duration: shouldReduceMotion ? 0 : 0.55,
               ease: [0.22, 1, 0.36, 1],
             }}
             className="
               w-full
-              max-w-4xl
+              max-w-2xl
+
+              lg:max-w-3xl
+              xl:max-w-4xl
             "
           >
             {/* =================================================
                 EYEBROW
             ================================================= */}
 
-            <div
-              className="
-                mb-6
-                flex
-                items-center
-                gap-3
-              "
-            >
+            <div className="mb-5 flex items-center gap-3 sm:mb-6">
               <span
                 className="
                   h-[2px]
-                  w-10
+                  w-8
+                  rounded-full
                   bg-[#F97316]
+
+                  sm:w-11
                 "
+                aria-hidden="true"
               />
 
               <p
                 className="
-                  text-xs
+                  text-[10px]
                   font-bold
                   uppercase
                   tracking-[0.18em]
-                  text-white/90
-                  sm:text-sm
+                  text-white/80
+
+                  sm:text-xs
+                  md:text-sm
                 "
               >
                 {currentHero.eyebrow}
@@ -224,38 +313,31 @@ export default function Hero() {
             </div>
 
             {/* =================================================
-                HERO TITLE
+                HEADING
             ================================================= */}
 
             <h1
+              id="hero-heading"
               className="
-                text-5xl
+                max-w-4xl
+                text-[2.55rem]
                 font-extrabold
-                leading-[1.05]
+                leading-[1.06]
                 tracking-[-0.04em]
                 text-white
-                sm:text-6xl
-                md:text-7xl
-                lg:text-[5rem]
-                xl:text-[5.5rem]
+
+                sm:text-5xl
+                md:text-6xl
+                lg:text-[4.2rem]
+                xl:text-[4.65rem]
               "
             >
-              {/* GREEN NUMBER */}
               {currentHero.number && (
-                <span
-                  className="
-                    font-black
-                    text-[#A7F3D0]
-                  "
-                >
-                  {currentHero.number}{" "}
-                </span>
+                <span className="text-[#A7F3D0]">{currentHero.number} </span>
               )}
 
-              {/* MAIN TITLE */}
               {currentHero.title}
 
-              {/* GREEN HIGHLIGHT */}
               {currentHero.highlight && (
                 <span
                   className="
@@ -270,7 +352,31 @@ export default function Hero() {
             </h1>
 
             {/* =================================================
-                CTA BUTTONS
+                DESCRIPTION
+            ================================================= */}
+
+            {currentHero.description && (
+              <p
+                className="
+                  mt-6
+                  max-w-xl
+                  text-sm
+                  leading-7
+                  text-white/72
+
+                  sm:mt-7
+                  sm:text-base
+                  sm:leading-8
+
+                  lg:max-w-2xl
+                "
+              >
+                {currentHero.description}
+              </p>
+            )}
+
+            {/* =================================================
+                ACTION BUTTONS
             ================================================= */}
 
             <div
@@ -279,19 +385,20 @@ export default function Hero() {
                 flex
                 flex-col
                 gap-3
+
+                sm:mt-9
                 sm:flex-row
+                sm:items-center
               "
             >
-              {/* =================================================
-                  PRIMARY BUTTON
-              ================================================= */}
+              {/* PRIMARY */}
 
               <Link
                 to="/projects"
                 className="
                   group
                   inline-flex
-                  min-h-[52px]
+                  min-h-[54px]
                   items-center
                   justify-center
                   gap-3
@@ -301,15 +408,21 @@ export default function Hero() {
                   text-sm
                   font-bold
                   text-white
-                  shadow-lg
-                  shadow-black/20
+                  shadow-[0_10px_30px_rgba(0,0,0,0.20)]
                   transition-all
-                  duration-300
-                  hover:-translate-y-1
+                  duration-200
+
+                  hover:-translate-y-0.5
                   hover:bg-[#EA580C]
+                  hover:shadow-[0_14px_34px_rgba(0,0,0,0.26)]
+
+                  active:translate-y-0
+
                   focus:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-white
+                  focus-visible:ring-offset-2
+                  focus-visible:ring-offset-[#0B3D2E]
                 "
               >
                 {heroButtons.primary}
@@ -319,37 +432,40 @@ export default function Hero() {
                   aria-hidden="true"
                   className="
                     transition-transform
-                    duration-300
+                    duration-200
                     group-hover:translate-x-1
                   "
                 />
               </Link>
 
-              {/* =================================================
-                  SECONDARY BUTTON
-              ================================================= */}
+              {/* SECONDARY */}
 
               <Link
                 to="/about"
                 className="
                   inline-flex
-                  min-h-[52px]
+                  min-h-[54px]
                   items-center
                   justify-center
                   rounded-xl
                   border
-                  border-white/40
-                  bg-white/10
+                  border-white/25
+                  bg-white/[0.07]
                   px-7
                   text-sm
                   font-bold
                   text-white
                   backdrop-blur-sm
                   transition-all
-                  duration-300
-                  hover:-translate-y-1
+                  duration-200
+
+                  hover:-translate-y-0.5
+                  hover:border-white/70
                   hover:bg-white
                   hover:text-[#0B3D2E]
+
+                  active:translate-y-0
+
                   focus:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-white
@@ -363,15 +479,25 @@ export default function Hero() {
       </div>
 
       {/* =====================================================
+          SLIDE ANNOUNCEMENT
+      ===================================================== */}
+
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        Slide {currentImage + 1} of {heroImages.length}: {currentHero.title}
+      </div>
+
+      {/* =====================================================
           SLIDER CONTROLS
       ===================================================== */}
 
       <div
         className="
           absolute
-          bottom-6
+          bottom-5
           left-0
           right-0
+
+          sm:bottom-7
         "
       >
         <div
@@ -381,31 +507,71 @@ export default function Hero() {
             w-full
             max-w-7xl
             items-center
-            justify-end
+            justify-between
             px-5
+
             sm:px-8
             lg:px-10
             xl:px-12
           "
         >
+          {/* =================================================
+              COUNTER
+          ================================================= */}
+
           <div
             className="
-              flex
+              hidden
               items-center
               gap-2
+              text-[11px]
+              font-semibold
+              tracking-[0.18em]
+              text-white/45
+
+              sm:flex
+            "
+            aria-hidden="true"
+          >
+            <span className="text-white/90">
+              {String(currentImage + 1).padStart(2, "0")}
+            </span>
+
+            <span>/</span>
+
+            <span>{String(heroImages.length).padStart(2, "0")}</span>
+          </div>
+
+          {/* =================================================
+              CONTROLS
+          ================================================= */}
+
+          <div
+            className="
+              ml-auto
+              flex
+              items-center
+              gap-1
               rounded-xl
               border
-              border-white/20
-              bg-black/20
-              p-1.5
+              border-white/15
+              bg-[#031F18]/45
+              p-1
+              shadow-[0_8px_30px_rgba(0,0,0,0.16)]
               backdrop-blur-md
             "
             role="group"
-            aria-label="Hero slider navigation"
+            aria-label="Hero slider controls"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onFocus={() => setIsPaused(true)}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) {
+                setIsPaused(false);
+              }
+            }}
           >
-            {/* =================================================
-                PREVIOUS BUTTON
-            ================================================= */}
+            {/* PREVIOUS */}
 
             <button
               type="button"
@@ -418,28 +584,29 @@ export default function Hero() {
                 items-center
                 justify-center
                 rounded-lg
-                text-white
-                transition
-                hover:bg-white/15
+                text-white/65
+                transition-all
+                duration-200
+
+                hover:bg-white/10
+                hover:text-white
+
+                active:scale-95
+
                 focus:outline-none
                 focus-visible:ring-2
                 focus-visible:ring-white
               "
             >
-              <FaChevronLeft size={10} />
+              <FaChevronLeft size={10} aria-hidden="true" />
             </button>
 
-            {/* =================================================
-                SLIDE INDICATORS
-            ================================================= */}
+            {/* INDICATORS */}
 
             <div
-              className="
-                flex
-                items-center
-                gap-1.5
-                px-1
-              "
+              className="flex items-center gap-1 px-1"
+              role="tablist"
+              aria-label="Select hero slide"
             >
               {heroImages.map((image, index) => {
                 const isActive = currentImage === index;
@@ -448,14 +615,17 @@ export default function Hero() {
                   <button
                     key={image.id}
                     type="button"
-                    onClick={() => setCurrentImage(index)}
+                    role="tab"
+                    onClick={() => handleSelectSlide(index)}
                     aria-label={`Show slide ${index + 1}`}
-                    aria-current={isActive ? "true" : undefined}
+                    aria-selected={isActive}
                     className="
                       flex
                       h-7
                       items-center
                       justify-center
+                      px-0.5
+
                       focus:outline-none
                       focus-visible:ring-2
                       focus-visible:ring-white
@@ -467,11 +637,12 @@ export default function Hero() {
                         h-1
                         rounded-full
                         transition-all
-                        duration-500
+                        duration-300
+
                         ${
                           isActive
                             ? "w-8 bg-[#F97316]"
-                            : "w-2 bg-white/50 hover:bg-white"
+                            : "w-2 bg-white/30 hover:bg-white/60"
                         }
                       `}
                     />
@@ -480,9 +651,7 @@ export default function Hero() {
               })}
             </div>
 
-            {/* =================================================
-                NEXT BUTTON
-            ================================================= */}
+            {/* NEXT */}
 
             <button
               type="button"
@@ -495,15 +664,21 @@ export default function Hero() {
                 items-center
                 justify-center
                 rounded-lg
-                text-white
-                transition
-                hover:bg-white/15
+                text-white/65
+                transition-all
+                duration-200
+
+                hover:bg-white/10
+                hover:text-white
+
+                active:scale-95
+
                 focus:outline-none
                 focus-visible:ring-2
                 focus-visible:ring-white
               "
             >
-              <FaChevronRight size={10} />
+              <FaChevronRight size={10} aria-hidden="true" />
             </button>
           </div>
         </div>

@@ -1,25 +1,27 @@
 import { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { FaBars, FaTimes, FaChevronDown, FaArrowRight } from "react-icons/fa";
+import { NavLink, useLocation } from "react-router-dom";
+import { FaArrowRight, FaBars, FaChevronDown, FaTimes } from "react-icons/fa";
 
 import Logo from "../assets/DAFA-New-Logo.jpg";
 import { navItems, navbarData } from "./NavbarData";
 
 export default function Navbar() {
+  const location = useLocation();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [desktopDropdown, setDesktopDropdown] = useState(null);
-  const [mobileDropdown, setMobileDropdown] = useState(null);
+  const [openDropdown, setOpenDropdown] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const desktopNavRef = useRef(null);
+  const navRef = useRef(null);
+  const mobileMenuButtonRef = useRef(null);
 
-  /* =========================================================
-     SCROLL DETECTION
-  ========================================================= */
+  // =====================================================
+  // SCROLL STATE
+  // =====================================================
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 24);
     };
 
     handleScroll();
@@ -33,54 +35,62 @@ export default function Navbar() {
     };
   }, []);
 
-  /* =========================================================
-     CLOSE ALL MENUS
-  ========================================================= */
+  // =====================================================
+  // CLOSE MENUS WHEN ROUTE CHANGES
+  // =====================================================
 
-  const closeAllMenus = () => {
+  useEffect(() => {
     setMobileMenuOpen(false);
-    setDesktopDropdown(null);
-    setMobileDropdown(null);
-  };
+    setOpenDropdown(null);
+  }, [location.pathname]);
 
-  /* =========================================================
-     MOBILE MENU
-  ========================================================= */
+  // =====================================================
+  // BODY SCROLL LOCK
+  // =====================================================
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen((previous) => !previous);
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
 
-    setDesktopDropdown(null);
-    setMobileDropdown(null);
-  };
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
 
-  /* =========================================================
-     MOBILE DROPDOWN
-  ========================================================= */
+  // =====================================================
+  // ESCAPE KEY
+  // =====================================================
 
-  const toggleMobileDropdown = (title) => {
-    setMobileDropdown((previous) => (previous === title ? null : title));
-  };
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false);
+        setOpenDropdown(null);
 
-  /* =========================================================
-     DESKTOP DROPDOWN
-  ========================================================= */
+        requestAnimationFrame(() => {
+          mobileMenuButtonRef.current?.focus();
+        });
+      }
+    };
 
-  const toggleDesktopDropdown = (title) => {
-    setDesktopDropdown((previous) => (previous === title ? null : title));
-  };
+    document.addEventListener("keydown", handleKeyDown);
 
-  /* =========================================================
-     CLOSE DESKTOP DROPDOWN OUTSIDE
-  ========================================================= */
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  // =====================================================
+  // OUTSIDE CLICK
+  // =====================================================
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      if (
-        desktopNavRef.current &&
-        !desktopNavRef.current.contains(event.target)
-      ) {
-        setDesktopDropdown(null);
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setOpenDropdown(null);
       }
     };
 
@@ -91,85 +101,98 @@ export default function Navbar() {
     };
   }, []);
 
-  /* =========================================================
-     ESCAPE KEY
-  ========================================================= */
+  // =====================================================
+  // MENU HELPERS
+  // =====================================================
 
-  useEffect(() => {
-    const handleEscape = (event) => {
-      if (event.key === "Escape") {
-        closeAllMenus();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, []);
-
-  /* =========================================================
-     PREVENT BODY SCROLL WHEN MOBILE MENU IS OPEN
-  ========================================================= */
-
-  useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileMenuOpen]);
-
-  /* =========================================================
-     MOBILE LINK CLICK
-  ========================================================= */
-
-  const handleMobileLinkClick = () => {
-    closeAllMenus();
+  const closeMenus = () => {
+    setMobileMenuOpen(false);
+    setOpenDropdown(null);
   };
 
-  /* =========================================================
-     DESKTOP LINK CLASS
-  ========================================================= */
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((prev) => !prev);
+    setOpenDropdown(null);
+  };
+
+  const toggleDropdown = (title) => {
+    setOpenDropdown((prev) => (prev === title ? null : title));
+  };
+
+  // =====================================================
+  // DROPDOWN ACTIVE STATE
+  // =====================================================
+
+  const isDropdownActive = (item) => {
+    if (!item.dropdown) return false;
+
+    return item.items?.some((subItem) => location.pathname === subItem.path);
+  };
+
+  // =====================================================
+  // DESKTOP LINK
+  // =====================================================
 
   const desktopLinkClass = ({ isActive }) => `
     group
     relative
     flex
+    min-h-[42px]
     items-center
     gap-2
     whitespace-nowrap
-    rounded-xl
+    rounded-lg
     px-3
-    py-2.5
+    py-2
     text-[13px]
     font-medium
     transition-all
-    duration-300
+    duration-200
     xl:text-sm
 
     ${
       isActive
-        ? `
-          bg-white/10
-          font-semibold
-          text-white
-          shadow-[inset_2px_2px_5px_rgba(0,0,0,0.10)]
-        `
-        : `
-          text-white/85
-          hover:bg-white/10
-          hover:text-white
-        `
+        ? "bg-white/[0.10] font-semibold text-white"
+        : "text-white/80 hover:bg-white/[0.06] hover:text-white"
     }
+
+    focus:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-[#FDBA74]
+    focus-visible:ring-offset-1
+    focus-visible:ring-offset-[#087B5A]
+  `;
+
+  // =====================================================
+  // MOBILE LINK
+  // =====================================================
+
+  const mobileLinkClass = ({ isActive }) => `
+    flex
+    min-h-[50px]
+    items-center
+    rounded-lg
+    px-4
+    text-[15px]
+    transition-all
+    duration-200
+
+    ${
+      isActive
+        ? "bg-white/[0.12] font-semibold text-white"
+        : "font-medium text-white/85 hover:bg-white/[0.07] hover:text-white"
+    }
+
+    focus:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-white/70
   `;
 
   return (
     <>
       {/* =====================================================
-          FIXED NAVBAR
-      ====================================================== */}
+          NAVBAR
+      ===================================================== */}
 
       <header
         className={`
@@ -178,22 +201,19 @@ export default function Navbar() {
           right-0
           top-0
           z-[100]
-          w-full
           px-3
-          pt-3
           font-[Poppins]
           transition-all
-          duration-500
+          duration-300
+
           sm:px-5
-          lg:px-7
+          lg:px-6
+
           ${isScrolled ? "pt-2" : "pt-3"}
         `}
       >
-        {/* ===================================================
-            NAVBAR GLASS CONTAINER
-        ==================================================== */}
-
         <div
+          ref={navRef}
           className={`
             mx-auto
             flex
@@ -201,42 +221,40 @@ export default function Navbar() {
             max-w-7xl
             items-center
             justify-between
-            gap-4
+            gap-3
             rounded-2xl
             border
-            px-4
+            border-white/[0.08]
+            px-3
             backdrop-blur-xl
-            backdrop-saturate-150
             transition-all
-            duration-500
-            sm:px-6
-            lg:px-7
-            xl:gap-6
+            duration-300
+
+            sm:px-5
+            lg:px-6
 
             ${
               isScrolled
                 ? `
-                  h-[64px]
-                  border-white/15
+                  h-[62px]
                   bg-[#087B5A]/95
-                  shadow-[0_10px_35px_rgba(6,63,48,0.30),inset_0_1px_0_rgba(255,255,255,0.10)]
+                  shadow-[0_12px_30px_rgba(6,63,48,0.22)]
                 `
                 : `
-                  h-[70px]
-                  border-white/15
-                  bg-[#087B5A]/40
-                  shadow-[0_8px_30px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.08)]
+                  h-[68px]
+                  bg-[#087B5A]/88
+                  shadow-[0_6px_24px_rgba(0,0,0,0.12)]
                 `
             }
           `}
         >
           {/* =================================================
-              LOGO + BRAND
-          ================================================== */}
+              LOGO
+          ================================================= */}
 
           <NavLink
             to="/"
-            onClick={closeAllMenus}
+            onClick={closeMenus}
             aria-label="DAFA Home"
             className="
               group
@@ -247,29 +265,29 @@ export default function Navbar() {
               gap-3
             "
           >
-            {/* CIRCULAR LOGO */}
-
             <div
               className="
                 flex
-                h-11
-                w-11
+                h-10
+                w-10
                 shrink-0
                 items-center
                 justify-center
                 overflow-hidden
-                rounded-full
-                border-2
-                border-white/90
+                rounded-xl
+                border
+                border-white/70
                 bg-white
                 p-[2px]
-                shadow-[0_5px_15px_rgba(0,0,0,0.22)]
+                shadow-sm
                 transition-all
-                duration-300
-                group-hover:scale-105
+                duration-200
+
+                group-hover:scale-[1.03]
                 group-hover:border-white
-                sm:h-12
-                sm:w-12
+
+                sm:h-11
+                sm:w-11
               "
             >
               <img
@@ -278,24 +296,22 @@ export default function Navbar() {
                 className="
                   h-full
                   w-full
-                  rounded-full
+                  rounded-[9px]
                   object-cover
                 "
               />
             </div>
 
-            {/* BRAND */}
-
             <div className="min-w-0">
               <div
                 className="
-                  text-lg
+                  text-base
                   font-extrabold
                   leading-none
-                  tracking-[-0.02em]
+                  tracking-tight
                   text-white
-                  drop-shadow-sm
-                  sm:text-xl
+
+                  sm:text-lg
                 "
               >
                 {navbarData.brand.name}
@@ -305,13 +321,13 @@ export default function Navbar() {
                 className="
                   mt-1
                   hidden
-                  max-w-[220px]
+                  max-w-[210px]
                   truncate
                   text-[9px]
                   font-medium
                   leading-none
-                  tracking-[0.02em]
-                  text-white/65
+                  text-white/60
+
                   sm:block
                   sm:text-[10px]
                 "
@@ -323,25 +339,21 @@ export default function Navbar() {
 
           {/* =================================================
               DESKTOP NAVIGATION
-          ================================================== */}
+          ================================================= */}
 
-          <nav
-            ref={desktopNavRef}
-            className="hidden xl:flex"
-            aria-label="Main navigation"
-          >
+          <nav className="hidden xl:flex" aria-label="Main navigation">
             <ul
               className="
                 flex
                 items-center
-                gap-1
-                rounded-2xl
+                gap-0.5
+                rounded-xl
                 border
-                border-white/10
-                bg-[#087B5A]/20
-                p-1.5
-                shadow-[inset_1px_1px_5px_rgba(0,0,0,0.10),inset_-1px_-1px_5px_rgba(255,255,255,0.04)]
-                2xl:gap-1.5
+                border-white/[0.08]
+                bg-[#063F30]/20
+                p-1
+
+                2xl:gap-1
               "
             >
               {/* HOME */}
@@ -349,27 +361,14 @@ export default function Navbar() {
               <li>
                 <NavLink
                   to={navbarData.home.path}
-                  onClick={() => setDesktopDropdown(null)}
+                  onClick={() => setOpenDropdown(null)}
                   className={desktopLinkClass}
                 >
                   {({ isActive }) => (
                     <>
-                      {navbarData.home.title}
+                      <span>{navbarData.home.title}</span>
 
-                      <span
-                        className={`
-                          absolute
-                          bottom-1
-                          left-1/2
-                          h-[2px]
-                          -translate-x-1/2
-                          rounded-full
-                          bg-[#F97316]
-                          transition-all
-                          duration-300
-                          ${isActive ? "w-5 opacity-100" : "w-0 opacity-0"}
-                        `}
-                      />
+                      <ActiveIndicator active={isActive} />
                     </>
                   )}
                 </NavLink>
@@ -377,177 +376,151 @@ export default function Navbar() {
 
               {/* NAV ITEMS */}
 
-              {navItems.map((item) => (
-                <li key={item.title} className="relative">
-                  {item.dropdown ? (
-                    <>
-                      {/* DROPDOWN BUTTON */}
+              {navItems.map((item) => {
+                const active = isDropdownActive(item);
 
-                      <button
-                        type="button"
-                        onClick={(event) => {
-                          event.stopPropagation();
+                return (
+                  <li key={item.title} className="relative">
+                    {item.dropdown ? (
+                      <>
+                        {/* DROPDOWN BUTTON */}
 
-                          toggleDesktopDropdown(item.title);
-                        }}
-                        aria-haspopup="menu"
-                        aria-expanded={desktopDropdown === item.title}
-                        className={`
-                          group
-                          relative
-                          flex
-                          items-center
-                          gap-2
-                          whitespace-nowrap
-                          rounded-xl
-                          px-3
-                          py-2.5
-                          text-[13px]
-                          font-medium
-                          transition-all
-                          duration-300
-                          focus:outline-none
-                          focus-visible:ring-2
-                          focus-visible:ring-[#FDBA74]
-                          xl:text-sm
-
-                          ${
-                            desktopDropdown === item.title
-                              ? `
-                                bg-white/10
-                                text-white
-                                shadow-[inset_2px_2px_5px_rgba(0,0,0,0.10)]
-                              `
-                              : `
-                                text-white/85
-                                hover:bg-white/10
-                                hover:text-white
-                              `
-                          }
-                        `}
-                      >
-                        {item.title}
-
-                        <FaChevronDown
-                          size={8}
-                          aria-hidden="true"
+                        <button
+                          type="button"
+                          onClick={() => toggleDropdown(item.title)}
+                          aria-haspopup="menu"
+                          aria-expanded={openDropdown === item.title}
                           className={`
-                            transition-transform
-                            duration-300
-                            ${
-                              desktopDropdown === item.title
-                                ? "rotate-180 text-[#FDBA74]"
-                                : ""
-                            }
-                          `}
-                        />
+                            group
+                            relative
+                            flex
+                            min-h-[42px]
+                            items-center
+                            gap-2
+                            whitespace-nowrap
+                            rounded-lg
+                            px-3
+                            py-2
+                            text-[13px]
+                            font-medium
+                            transition-all
+                            duration-200
+                            xl:text-sm
 
-                        <span
+                            ${
+                              openDropdown === item.title || active
+                                ? "bg-white/[0.10] font-semibold text-white"
+                                : "text-white/80 hover:bg-white/[0.06] hover:text-white"
+                            }
+
+                            focus:outline-none
+                            focus-visible:ring-2
+                            focus-visible:ring-[#FDBA74]
+                            focus-visible:ring-offset-1
+                            focus-visible:ring-offset-[#087B5A]
+                          `}
+                        >
+                          <span>{item.title}</span>
+
+                          <FaChevronDown
+                            size={8}
+                            aria-hidden="true"
+                            className={`
+                              transition-transform
+                              duration-200
+
+                              ${
+                                openDropdown === item.title
+                                  ? "rotate-180 text-[#FDBA74]"
+                                  : "text-white/60"
+                              }
+                            `}
+                          />
+
+                          <ActiveIndicator
+                            active={openDropdown === item.title || active}
+                          />
+                        </button>
+
+                        {/* DROPDOWN */}
+
+                        <div
                           className={`
                             absolute
-                            bottom-1
                             left-1/2
-                            h-[2px]
+                            top-full
+                            z-50
+                            mt-2
+                            w-60
                             -translate-x-1/2
-                            rounded-full
-                            bg-[#F97316]
+                            origin-top
+                            rounded-xl
+                            border
+                            border-white/10
+                            bg-[#087B5A]
+                            p-1.5
+                            shadow-[0_18px_40px_rgba(0,0,0,0.24)]
                             transition-all
-                            duration-300
+                            duration-200
+
                             ${
-                              desktopDropdown === item.title
-                                ? "w-5 opacity-100"
-                                : "w-0 opacity-0"
+                              openDropdown === item.title
+                                ? `
+                                  visible
+                                  translate-y-0
+                                  scale-100
+                                  opacity-100
+                                `
+                                : `
+                                  invisible
+                                  translate-y-1
+                                  scale-[0.98]
+                                  opacity-0
+                                `
                             }
                           `}
-                        />
-                      </button>
+                          role="menu"
+                          aria-hidden={openDropdown !== item.title}
+                        >
+                          {item.items.map((subItem) => (
+                            <NavLink
+                              key={subItem.path}
+                              to={subItem.path}
+                              role="menuitem"
+                              tabIndex={openDropdown === item.title ? 0 : -1}
+                              onClick={() => setOpenDropdown(null)}
+                              className={({ isActive }) =>
+                                `
+                                  group/item
+                                  flex
+                                  min-h-[44px]
+                                  items-center
+                                  justify-between
+                                  rounded-lg
+                                  px-3
+                                  py-2.5
+                                  text-[13px]
+                                  transition-all
+                                  duration-200
 
-                      {/* DESKTOP DROPDOWN */}
+                                  focus:outline-none
+                                  focus-visible:ring-2
+                                  focus-visible:ring-[#FDBA74]
 
-                      <div
-                        className={`
-                          absolute
-                          left-1/2
-                          top-full
-                          z-50
-                          mt-3
-                          w-64
-                          -translate-x-1/2
-                          origin-top
-                          rounded-2xl
-                          border
-                          border-white/15
-                          bg-[#087B5A]/95
-                          p-2
-                          backdrop-blur-2xl
-                          shadow-[0_20px_50px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.08)]
-                          transition-all
-                          duration-200
-                          ${
-                            desktopDropdown === item.title
-                              ? `
-                                visible
-                                translate-y-0
-                                scale-100
-                                opacity-100
-                              `
-                              : `
-                                invisible
-                                translate-y-2
-                                scale-[0.97]
-                                opacity-0
-                              `
-                          }
-                        `}
-                        role="menu"
-                        aria-hidden={desktopDropdown !== item.title}
-                      >
-                        {item.items.map((subItem) => (
-                          <NavLink
-                            key={subItem.path}
-                            to={subItem.path}
-                            onClick={() => setDesktopDropdown(null)}
-                            role="menuitem"
-                            tabIndex={desktopDropdown === item.title ? 0 : -1}
-                            className={({ isActive }) =>
-                              `
-                                group/item
-                                flex
-                                items-center
-                                justify-between
-                                rounded-xl
-                                px-4
-                                py-3
-                                text-[13px]
-                                transition-all
-                                duration-200
-                                focus:outline-none
-                                focus-visible:ring-2
-                                focus-visible:ring-[#FDBA74]
+                                  ${
+                                    isActive
+                                      ? "bg-white/[0.12] font-semibold text-white"
+                                      : "text-white/80 hover:bg-white/[0.07] hover:text-white"
+                                  }
+                                `
+                              }
+                            >
+                              <span>{subItem.title}</span>
 
-                                ${
-                                  isActive
-                                    ? `
-                                      bg-white/15
-                                      font-semibold
-                                      text-white
-                                    `
-                                    : `
-                                      font-medium
-                                      text-white/80
-                                      hover:bg-white/10
-                                      hover:text-white
-                                    `
-                                }
-                              `
-                            }
-                          >
-                            <span>{subItem.title}</span>
-
-                            <FaArrowRight
-                              size={9}
-                              aria-hidden="true"
-                              className="
+                              <FaArrowRight
+                                size={9}
+                                aria-hidden="true"
+                                className="
                                   text-[#F97316]
                                   opacity-0
                                   transition-all
@@ -555,77 +528,69 @@ export default function Navbar() {
                                   group-hover/item:translate-x-1
                                   group-hover/item:opacity-100
                                 "
-                            />
-                          </NavLink>
-                        ))}
-                      </div>
-                    </>
-                  ) : (
-                    <NavLink
-                      to={item.path}
-                      onClick={() => setDesktopDropdown(null)}
-                      className={desktopLinkClass}
-                    >
-                      {({ isActive }) => (
-                        <>
-                          {item.title}
+                              />
+                            </NavLink>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <NavLink
+                        to={item.path}
+                        onClick={() => setOpenDropdown(null)}
+                        className={desktopLinkClass}
+                      >
+                        {({ isActive }) => (
+                          <>
+                            <span>{item.title}</span>
 
-                          <span
-                            className={`
-                              absolute
-                              bottom-1
-                              left-1/2
-                              h-[2px]
-                              -translate-x-1/2
-                              rounded-full
-                              bg-[#F97316]
-                              transition-all
-                              duration-300
-                              ${isActive ? "w-5 opacity-100" : "w-0 opacity-0"}
-                            `}
-                          />
-                        </>
-                      )}
-                    </NavLink>
-                  )}
-                </li>
-              ))}
+                            <ActiveIndicator active={isActive} />
+                          </>
+                        )}
+                      </NavLink>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
           {/* =================================================
-              CONTACT BUTTON
-          ================================================== */}
+              CONTACT CTA
+          ================================================= */}
 
           <NavLink
             to={navbarData.contact.path}
-            onClick={() => setDesktopDropdown(null)}
+            onClick={closeMenus}
             className="
               group
               hidden
-              min-h-[44px]
+              min-h-[42px]
               shrink-0
               items-center
               justify-center
               gap-2
-              rounded-xl
-              border
-              border-white/10
-              bg-[#F97316]/95
-              px-5
+              rounded-lg
+              bg-[#F97316]
+              px-4
               text-[13px]
               font-bold
               text-white
-              shadow-[0_5px_15px_rgba(0,0,0,0.18)]
+              shadow-[0_4px_12px_rgba(0,0,0,0.12)]
               transition-all
-              duration-300
+              duration-200
+
               hover:-translate-y-0.5
               hover:bg-[#EA580C]
-              hover:shadow-[0_8px_20px_rgba(0,0,0,0.24)]
+              hover:shadow-[0_7px_16px_rgba(0,0,0,0.18)]
+
               active:translate-y-0
+
               focus:outline-none
               focus-visible:ring-2
               focus-visible:ring-[#FDBA74]
+              focus-visible:ring-offset-1
+              focus-visible:ring-offset-[#087B5A]
+
               xl:flex
             "
           >
@@ -636,7 +601,7 @@ export default function Navbar() {
               aria-hidden="true"
               className="
                 transition-transform
-                duration-300
+                duration-200
                 group-hover:translate-x-1
               "
             />
@@ -644,9 +609,10 @@ export default function Navbar() {
 
           {/* =================================================
               MOBILE MENU BUTTON
-          ================================================== */}
+          ================================================= */}
 
           <button
+            ref={mobileMenuButtonRef}
             type="button"
             onClick={toggleMobileMenu}
             aria-label={
@@ -656,27 +622,29 @@ export default function Navbar() {
             aria-controls="mobile-navigation"
             className="
               flex
-              h-11
-              w-11
+              h-10
+              w-10
               shrink-0
               items-center
               justify-center
-              rounded-xl
+              rounded-lg
               border
               border-white/15
-              bg-white/5
+              bg-white/[0.06]
               text-lg
               text-white
-              backdrop-blur-xl
-              shadow-[0_5px_15px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.08)]
               transition-all
               duration-200
-              hover:bg-white/10
+
+              hover:bg-white/[0.11]
               hover:text-[#FDBA74]
+
               active:scale-95
+
               focus:outline-none
               focus-visible:ring-2
-              focus-visible:ring-white/60
+              focus-visible:ring-white/70
+
               xl:hidden
             "
           >
@@ -691,136 +659,117 @@ export default function Navbar() {
 
       {/* =====================================================
           MOBILE NAVIGATION
-      ====================================================== */}
+      ===================================================== */}
 
-      {mobileMenuOpen && (
-        <div
-          id="mobile-navigation"
+      <div
+        id="mobile-navigation"
+        className={`
+          fixed
+          inset-0
+          z-[90]
+          font-[Poppins]
+          transition-opacity
+          duration-200
+          xl:hidden
+
+          ${mobileMenuOpen ? "visible opacity-100" : "invisible opacity-0"}
+        `}
+        aria-hidden={!mobileMenuOpen}
+      >
+        {/* BACKDROP */}
+
+        <button
+          type="button"
+          aria-label="Close navigation menu"
+          onClick={closeMenus}
           className="
-            fixed
+            absolute
             inset-0
-            z-[90]
-            font-[Poppins]
-            xl:hidden
+            cursor-default
+            bg-black/50
+            backdrop-blur-sm
           "
+        />
+
+        {/* PANEL */}
+
+        <div
+          className={`
+            absolute
+            left-3
+            right-3
+            top-[78px]
+            max-h-[calc(100vh-94px)]
+            overflow-y-auto
+            rounded-2xl
+            border
+            border-white/10
+            bg-[#087B5A]
+            p-2
+            shadow-[0_20px_45px_rgba(0,0,0,0.28)]
+            transition-all
+            duration-200
+
+            sm:left-5
+            sm:right-5
+
+            ${
+              mobileMenuOpen
+                ? "translate-y-0 scale-100"
+                : "-translate-y-2 scale-[0.98]"
+            }
+          `}
         >
-          {/* BACKDROP */}
+          <nav aria-label="Mobile navigation" className="px-1 pb-2 pt-1">
+            <ul className="flex flex-col">
+              {/* HOME */}
 
-          <button
-            type="button"
-            aria-label="Close navigation menu"
-            onClick={closeAllMenus}
-            className="
-              absolute
-              inset-0
-              bg-black/45
-              backdrop-blur-sm
-            "
-          />
+              <li>
+                <NavLink
+                  to="/"
+                  onClick={closeMenus}
+                  className={mobileLinkClass}
+                >
+                  Home
+                </NavLink>
+              </li>
 
-          {/* MOBILE PANEL */}
+              {/* NAV ITEMS */}
 
-          <div
-            className="
-              absolute
-              left-3
-              right-3
-              top-[82px]
-              max-h-[calc(100vh-100px)]
-              overflow-y-auto
-              rounded-2xl
-              border
-              border-white/15
-              bg-[#087B5A]/95
-              p-2
-              backdrop-blur-2xl
-              shadow-[0_20px_50px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.08)]
-              sm:left-5
-              sm:right-5
-            "
-          >
-            <nav
-              className="
-                mx-auto
-                max-w-7xl
-                px-2
-                pb-4
-                pt-1
-                sm:px-3
-              "
-              aria-label="Mobile navigation"
-            >
-              <ul className="flex flex-col">
-                {/* HOME */}
+              {navItems.map((item) => {
+                const active = isDropdownActive(item);
 
-                <li>
-                  <NavLink
-                    to="/"
-                    onClick={handleMobileLinkClick}
-                    className={({ isActive }) =>
-                      `
-                        flex
-                        min-h-[52px]
-                        items-center
-                        rounded-xl
-                        px-4
-                        text-[15px]
-                        transition-all
-                        duration-200
-
-                        ${
-                          isActive
-                            ? `
-                              bg-white/10
-                              font-bold
-                              text-white
-                            `
-                            : `
-                              font-medium
-                              text-white/85
-                              hover:bg-white/10
-                              hover:text-white
-                            `
-                        }
-                      `
-                    }
-                  >
-                    Home
-                  </NavLink>
-                </li>
-
-                {/* NAV ITEMS */}
-
-                {navItems.map((item) => (
+                return (
                   <li key={item.title}>
                     {item.dropdown ? (
                       <>
-                        {/* MOBILE DROPDOWN BUTTON */}
-
                         <button
                           type="button"
-                          onClick={() => toggleMobileDropdown(item.title)}
-                          aria-expanded={mobileDropdown === item.title}
-                          className="
+                          onClick={() => toggleDropdown(item.title)}
+                          aria-expanded={openDropdown === item.title}
+                          className={`
                             flex
-                            min-h-[52px]
+                            min-h-[50px]
                             w-full
                             items-center
                             justify-between
-                            rounded-xl
+                            rounded-lg
                             px-4
                             text-left
                             text-[15px]
-                            font-medium
-                            text-white/90
                             transition-all
                             duration-200
-                            hover:bg-white/10
-                            hover:text-white
+
+                            ${
+                              openDropdown === item.title || active
+                                ? "bg-white/[0.12] font-semibold text-white"
+                                : "font-medium text-white/85 hover:bg-white/[0.07] hover:text-white"
+                            }
+
                             focus:outline-none
                             focus-visible:ring-2
-                            focus-visible:ring-white/60
-                          "
+                            focus-visible:ring-white/70
+                          `}
                         >
                           <span>{item.title}</span>
 
@@ -829,11 +778,12 @@ export default function Navbar() {
                             aria-hidden="true"
                             className={`
                               transition-transform
-                              duration-300
+                              duration-200
+
                               ${
-                                mobileDropdown === item.title
+                                openDropdown === item.title
                                   ? "rotate-180 text-[#FDBA74]"
-                                  : ""
+                                  : "text-white/60"
                               }
                             `}
                           />
@@ -841,159 +791,167 @@ export default function Navbar() {
 
                         {/* MOBILE SUBMENU */}
 
-                        {mobileDropdown === item.title && (
-                          <div
-                            className="
-                              mb-2
-                              overflow-hidden
-                              rounded-xl
-                              border
-                              border-white/10
-                              bg-[#063F30]/80
-                              p-1
-                            "
-                          >
-                            {item.items.map((subItem) => (
-                              <NavLink
-                                key={subItem.path}
-                                to={subItem.path}
-                                onClick={handleMobileLinkClick}
-                                className={({ isActive }) =>
-                                  `
+                        <div
+                          className={`
+                            grid
+                            transition-all
+                            duration-300
+
+                            ${
+                              openDropdown === item.title
+                                ? "grid-rows-[1fr] opacity-100"
+                                : "grid-rows-[0fr] opacity-0"
+                            }
+                          `}
+                        >
+                          <div className="overflow-hidden">
+                            <div
+                              className="
+                                mb-1
+                                mt-1
+                                rounded-lg
+                                border
+                                border-white/10
+                                bg-[#063F30]/65
+                                p-1
+                              "
+                            >
+                              {item.items.map((subItem) => (
+                                <NavLink
+                                  key={subItem.path}
+                                  to={subItem.path}
+                                  onClick={closeMenus}
+                                  className={({ isActive }) =>
+                                    `
                                       group/item
                                       flex
-                                      min-h-[50px]
+                                      min-h-[46px]
                                       items-center
                                       justify-between
-                                      rounded-lg
+                                      rounded-md
                                       px-4
-                                      py-3
+                                      py-2.5
                                       text-[14px]
                                       transition-all
                                       duration-200
 
                                       ${
                                         isActive
-                                          ? `
-                                            bg-white/10
-                                            font-bold
-                                            text-white
-                                          `
-                                          : `
-                                            font-medium
-                                            text-white/80
-                                            hover:bg-white/10
-                                            hover:text-white
-                                          `
+                                          ? "bg-white/[0.12] font-semibold text-white"
+                                          : "text-white/75 hover:bg-white/[0.08] hover:text-white"
                                       }
-                                    `
-                                }
-                              >
-                                <span>{subItem.title}</span>
 
-                                <FaArrowRight
-                                  size={9}
-                                  aria-hidden="true"
-                                  className="
+                                      focus:outline-none
+                                      focus-visible:ring-2
+                                      focus-visible:ring-white/70
+                                    `
+                                  }
+                                >
+                                  <span>{subItem.title}</span>
+
+                                  <FaArrowRight
+                                    size={9}
+                                    aria-hidden="true"
+                                    className="
                                       text-[#F97316]
                                       transition-transform
                                       duration-200
                                       group-hover/item:translate-x-1
                                     "
-                                />
-                              </NavLink>
-                            ))}
+                                  />
+                                </NavLink>
+                              ))}
+                            </div>
                           </div>
-                        )}
+                        </div>
                       </>
                     ) : (
                       <NavLink
                         to={item.path}
-                        onClick={handleMobileLinkClick}
-                        className={({ isActive }) =>
-                          `
-                            flex
-                            min-h-[52px]
-                            items-center
-                            rounded-xl
-                            px-4
-                            text-[15px]
-                            transition-all
-                            duration-200
-
-                            ${
-                              isActive
-                                ? `
-                                  bg-white/10
-                                  font-bold
-                                  text-white
-                                `
-                                : `
-                                  font-medium
-                                  text-white/85
-                                  hover:bg-white/10
-                                  hover:text-white
-                                `
-                            }
-                          `
-                        }
+                        onClick={closeMenus}
+                        className={mobileLinkClass}
                       >
                         {item.title}
                       </NavLink>
                     )}
                   </li>
-                ))}
+                );
+              })}
 
-                {/* CONTACT */}
+              {/* CONTACT */}
 
-                <li className="mt-3">
-                  <NavLink
-                    to={navbarData.contact.path}
-                    onClick={handleMobileLinkClick}
+              <li className="mt-2 border-t border-white/10 pt-2">
+                <NavLink
+                  to={navbarData.contact.path}
+                  onClick={closeMenus}
+                  className="
+                    group
+                    flex
+                    min-h-[50px]
+                    w-full
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-lg
+                    bg-[#F97316]
+                    px-5
+                    text-[14px]
+                    font-bold
+                    text-white
+                    shadow-md
+                    transition-all
+                    duration-200
+
+                    hover:bg-[#EA580C]
+                    active:scale-[0.99]
+
+                    focus:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-[#FDBA74]
+                  "
+                >
+                  {navbarData.contact.title}
+
+                  <FaArrowRight
+                    size={10}
+                    aria-hidden="true"
                     className="
-                      group
-                      flex
-                      min-h-[52px]
-                      w-full
-                      items-center
-                      justify-center
-                      gap-2
-                      rounded-xl
-                      border
-                      border-white/10
-                      bg-[#F97316]/95
-                      px-5
-                      text-[14px]
-                      font-bold
-                      text-white
-                      shadow-[0_6px_16px_rgba(0,0,0,0.20)]
-                      transition-all
-                      duration-300
-                      hover:bg-[#EA580C]
-                      active:scale-[0.99]
-                      focus:outline-none
-                      focus-visible:ring-2
-                      focus-visible:ring-[#FDBA74]
+                      transition-transform
+                      duration-200
+                      group-hover:translate-x-1
                     "
-                  >
-                    {navbarData.contact.title}
-
-                    <FaArrowRight
-                      size={10}
-                      aria-hidden="true"
-                      className="
-                        transition-transform
-                        duration-300
-                        group-hover:translate-x-1
-                      "
-                    />
-                  </NavLink>
-                </li>
-              </ul>
-            </nav>
-          </div>
+                  />
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
         </div>
-      )}
+      </div>
     </>
+  );
+}
+
+// =====================================================
+// ACTIVE INDICATOR
+// =====================================================
+
+function ActiveIndicator({ active }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`
+        absolute
+        bottom-1
+        left-1/2
+        h-[2px]
+        -translate-x-1/2
+        rounded-full
+        bg-[#F97316]
+        transition-all
+        duration-200
+
+        ${active ? "w-5 opacity-100" : "w-0 opacity-0"}
+      `}
+    />
   );
 }

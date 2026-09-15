@@ -50,9 +50,9 @@ export default function About() {
         relative
         overflow-hidden
         bg-[#F8FBF9]
-        py-16
-        sm:py-20
-        lg:py-24
+        py-14
+        sm:py-18
+        lg:py-22
       "
     >
       {/* =====================================================
@@ -65,12 +65,12 @@ export default function About() {
           pointer-events-none
           absolute
           -right-40
-          top-10
+          top-0
           h-80
           w-80
           rounded-full
           bg-[#0B3D2E]/[0.035]
-          blur-[90px]
+          blur-[100px]
         "
       />
 
@@ -84,8 +84,8 @@ export default function About() {
           h-80
           w-80
           rounded-full
-          bg-[#F97316]/[0.03]
-          blur-[90px]
+          bg-[#F97316]/[0.025]
+          blur-[100px]
         "
       />
 
@@ -98,6 +98,7 @@ export default function About() {
           px-5
           sm:px-8
           lg:px-10
+          xl:px-12
         "
       >
         {/* =====================================================
@@ -125,12 +126,12 @@ export default function About() {
             lg:mb-14
           "
         >
-          <div className="mb-4 flex items-center justify-center gap-3">
+          <div className="mb-4 flex items-center justify-center gap-3 sm:gap-4">
             <span
               aria-hidden="true"
               className="
                 h-px
-                w-10
+                w-9
                 bg-[#F97316]
                 sm:w-14
               "
@@ -138,12 +139,14 @@ export default function About() {
 
             <span
               className="
-                text-xs
+                text-[11px]
                 font-bold
                 uppercase
-                tracking-[0.22em]
+                tracking-[0.2em]
                 text-[#0A5A42]
-                sm:text-sm
+                sm:text-xs
+                sm:tracking-[0.22em]
+                lg:text-sm
               "
             >
               {aboutDAFAData.eyebrow}
@@ -153,7 +156,7 @@ export default function About() {
               aria-hidden="true"
               className="
                 h-px
-                w-10
+                w-9
                 bg-[#F97316]
                 sm:w-14
               "
@@ -165,8 +168,8 @@ export default function About() {
             className="
               text-3xl
               font-black
-              leading-[1.08]
-              tracking-tight
+              leading-[1.06]
+              tracking-[-0.035em]
               text-[#0B3D2E]
               sm:text-4xl
               md:text-5xl
@@ -181,7 +184,7 @@ export default function About() {
               mx-auto
               mt-5
               max-w-3xl
-              text-base
+              text-[15px]
               leading-7
               text-slate-600
               sm:text-lg
@@ -239,15 +242,19 @@ export default function About() {
               aria-hidden="true"
               className="
                 absolute
-                -left-3
-                -top-3
+                -left-2
+                -top-2
                 z-0
-                h-16
-                w-16
+                h-14
+                w-14
                 rounded-tl-2xl
                 border-l-2
                 border-t-2
                 border-[#F97316]
+                sm:-left-3
+                sm:-top-3
+                sm:h-16
+                sm:w-16
               "
             />
 
@@ -255,16 +262,20 @@ export default function About() {
 
             <div
               className="
+                group
                 relative
                 z-10
                 flex
-                min-h-[520px]
+                min-h-[500px]
                 w-full
                 overflow-hidden
-                rounded-[24px]
+                rounded-2xl
+                border
+                border-[#0B3D2E]/10
                 bg-[#0B3D2E]
-                shadow-[0_20px_50px_rgba(11,61,46,0.12)]
-                sm:min-h-[560px]
+                shadow-[0_18px_45px_rgba(11,61,46,0.12)]
+                sm:min-h-[540px]
+                sm:rounded-3xl
                 lg:min-h-full
               "
             >
@@ -280,7 +291,7 @@ export default function About() {
                     alt={images[currentImage].alt}
                     initial={{
                       opacity: 0,
-                      scale: shouldReduceMotion ? 1 : 1.05,
+                      scale: shouldReduceMotion ? 1 : 1.04,
                     }}
                     animate={{
                       opacity: 1,
@@ -288,7 +299,7 @@ export default function About() {
                     }}
                     exit={{
                       opacity: 0,
-                      scale: shouldReduceMotion ? 1 : 1.02,
+                      scale: shouldReduceMotion ? 1 : 1.015,
                     }}
                     transition={{
                       opacity: {
@@ -304,10 +315,13 @@ export default function About() {
                       absolute
                       inset-0
                       h-full
-                      min-h-[520px]
+                      min-h-[500px]
                       w-full
                       object-cover
-                      sm:min-h-[560px]
+                      transition-transform
+                      duration-700
+                      group-hover:scale-[1.015]
+                      sm:min-h-[540px]
                     "
                   />
                 )}
@@ -322,9 +336,21 @@ export default function About() {
                   inset-0
                   z-10
                   bg-gradient-to-t
-                  from-[#0B3D2E]/80
-                  via-[#0B3D2E]/10
+                  from-[#082F24]/90
+                  via-[#0B3D2E]/20
                   to-transparent
+                "
+              />
+
+              {/* Subtle Image Depth */}
+
+              <div
+                aria-hidden="true"
+                className="
+                  absolute
+                  inset-0
+                  z-10
+                  bg-[radial-gradient(circle_at_center,transparent_35%,rgba(8,47,36,0.16)_100%)]
                 "
               />
 
@@ -338,10 +364,17 @@ export default function About() {
                     absolute
                     bottom-5
                     right-5
-                    z-20
+                    z-30
                     flex
                     items-center
                     gap-2
+                    rounded-full
+                    border
+                    border-white/10
+                    bg-black/20
+                    px-3
+                    py-2
+                    backdrop-blur-sm
                   "
                 >
                   {images.map((_, index) => (
@@ -356,10 +389,15 @@ export default function About() {
                         rounded-full
                         transition-all
                         duration-300
+                        focus:outline-none
+                        focus-visible:ring-2
+                        focus-visible:ring-[#F97316]
+                        focus-visible:ring-offset-2
+                        focus-visible:ring-offset-[#0B3D2E]
                         ${
                           currentImage === index
                             ? "w-8 bg-[#F97316]"
-                            : "w-2 bg-white/60 hover:bg-white"
+                            : "w-1.5 bg-white/50 hover:bg-white/90"
                         }
                       `}
                     />
@@ -376,15 +414,19 @@ export default function About() {
               aria-hidden="true"
               className="
                 absolute
-                -bottom-3
-                -right-3
+                -bottom-2
+                -right-2
                 z-0
-                h-16
-                w-16
+                h-14
+                w-14
                 rounded-br-2xl
                 border-b-2
                 border-r-2
                 border-[#0A5A42]
+                sm:-bottom-3
+                sm:-right-3
+                sm:h-16
+                sm:w-16
               "
             />
           </motion.div>
@@ -417,10 +459,10 @@ export default function About() {
             }}
             className="
               flex
-              min-h-[520px]
+              min-h-[500px]
               flex-col
               justify-center
-              sm:min-h-[560px]
+              sm:min-h-[540px]
               lg:min-h-full
             "
           >
@@ -439,11 +481,12 @@ export default function About() {
 
               <span
                 className="
-                  text-xs
+                  text-[11px]
                   font-bold
                   uppercase
                   tracking-[0.18em]
                   text-[#0A5A42]
+                  sm:text-xs
                 "
               >
                 About DAFA
@@ -452,7 +495,7 @@ export default function About() {
 
             {/* Paragraphs */}
 
-            <div className="space-y-4">
+            <div className="max-w-2xl space-y-4">
               {aboutDAFAData.paragraphs.map((paragraph, index) => (
                 <motion.p
                   key={index}
@@ -468,12 +511,12 @@ export default function About() {
                     delay: shouldReduceMotion ? 0 : index * 0.08,
                   }}
                   className="
-                      text-[15px]
-                      leading-7
-                      text-slate-600
-                      sm:text-base
-                      sm:leading-7
-                    "
+                    text-[15px]
+                    leading-7
+                    text-slate-600
+                    sm:text-base
+                    sm:leading-7
+                  "
                 >
                   {paragraph}
                 </motion.p>
@@ -484,7 +527,7 @@ export default function About() {
 
             <div
               className="
-                mt-7
+                mt-8
                 border-t
                 border-slate-200
                 pt-6
@@ -516,20 +559,24 @@ export default function About() {
                       delay: shouldReduceMotion ? 0 : index * 0.08,
                     }}
                     className="
-                        py-3
-                        sm:px-4
-                        sm:first:pl-0
-                        sm:last:pr-0
-                      "
+                      group
+                      py-4
+                      transition-transform
+                      duration-300
+                      sm:px-4
+                      sm:first:pl-0
+                      sm:last:pr-0
+                      sm:hover:-translate-y-0.5
+                    "
                   >
                     <div className="flex items-center gap-2">
                       <span
                         className="
-                            text-xs
-                            font-black
-                            tracking-[0.15em]
-                            text-[#F97316]
-                          "
+                          text-xs
+                          font-black
+                          tracking-[0.15em]
+                          text-[#F97316]
+                        "
                       >
                         {item.number}
                       </span>
@@ -537,31 +584,36 @@ export default function About() {
                       <span
                         aria-hidden="true"
                         className="
-                            h-px
-                            w-5
-                            bg-slate-300
-                          "
+                          h-px
+                          w-5
+                          bg-slate-300
+                          transition-all
+                          duration-300
+                          group-hover:w-7
+                          group-hover:bg-[#F97316]
+                        "
                       />
                     </div>
 
                     <h3
                       className="
-                          mt-2
-                          text-sm
-                          font-bold
-                          text-[#0B3D2E]
-                        "
+                        mt-2
+                        text-sm
+                        font-bold
+                        leading-5
+                        text-[#0B3D2E]
+                      "
                     >
                       {item.title}
                     </h3>
 
                     <p
                       className="
-                          mt-1.5
-                          text-xs
-                          leading-5
-                          text-slate-500
-                        "
+                        mt-1.5
+                        text-xs
+                        leading-5
+                        text-slate-500
+                      "
                     >
                       {item.text}
                     </p>
@@ -595,6 +647,7 @@ export default function About() {
             pt-6
             sm:mt-12
             sm:pt-7
+            lg:mt-14
           "
         >
           <div
@@ -625,8 +678,10 @@ export default function About() {
                   text-base
                   font-semibold
                   leading-7
+                  tracking-[-0.01em]
                   text-[#0B3D2E]
                   sm:text-lg
+                  sm:leading-8
                 "
               >
                 {aboutDAFAData.statement.text}
@@ -645,6 +700,10 @@ export default function About() {
                 rounded-full
                 bg-[#0B3D2E]
                 text-white
+                shadow-sm
+                transition-transform
+                duration-300
+                hover:translate-x-1
                 sm:flex
               "
             >
@@ -676,8 +735,9 @@ function VisualBadge() {
         rounded-xl
         border
         border-white/15
-        bg-[#0B3D2E]/80
+        bg-[#082F24]/85
         p-3
+        shadow-lg
         backdrop-blur-md
         sm:bottom-6
         sm:left-6

@@ -128,9 +128,63 @@ export default function FundingFlow() {
   return (
     <section
       aria-labelledby="funding-flow-heading"
-      className="relative overflow-hidden bg-[#F8FAFC] pt-0 pb-14 sm:pt-2 sm:pb-16 lg:pt-4 lg:pb-20"
+      className="
+        relative
+        overflow-hidden
+        bg-[#F8FBF9]
+        pb-16
+        pt-2
+        sm:pb-20
+        sm:pt-4
+        lg:pb-24
+        lg:pt-6
+      "
     >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+      {/* =====================================================
+          SUBTLE BACKGROUND
+      ===================================================== */}
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          -left-40
+          top-20
+          h-96
+          w-96
+          rounded-full
+          bg-[#0B3D2E]/[0.025]
+          blur-[100px]
+        "
+      />
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          -right-40
+          bottom-0
+          h-96
+          w-96
+          rounded-full
+          bg-[#F97316]/[0.02]
+          blur-[100px]
+        "
+      />
+
+      <div
+        className="
+          relative
+          mx-auto
+          max-w-7xl
+          px-5
+          sm:px-8
+          lg:px-10
+          xl:px-12
+        "
+      >
         {/* =====================================================
             SECTION HEADER
         ====================================================== */}
@@ -138,82 +192,200 @@ export default function FundingFlow() {
         <motion.header
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
           variants={fadeUp}
           transition={{
             duration: 0.7,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mx-auto mb-10 max-w-3xl text-center sm:mb-12 lg:mb-14"
+          className="
+            mx-auto
+            mb-10
+            max-w-3xl
+            text-center
+            sm:mb-12
+            lg:mb-14
+          "
         >
-          <div className="mb-5 inline-flex items-center gap-3">
+          {/* Label */}
+
+          <div className="mb-4 flex items-center justify-center gap-3">
             <span
               aria-hidden="true"
-              className="h-px w-9 bg-[#F97316] sm:w-11"
+              className="
+                h-px
+                w-9
+                bg-[#F97316]
+                sm:w-14
+              "
             />
 
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#0A5A42] sm:text-sm">
+            <span
+              className="
+                text-[11px]
+                font-bold
+                uppercase
+                tracking-[0.22em]
+                text-[#0A5A42]
+                sm:text-xs
+              "
+            >
               Funding Flow
             </span>
 
             <span
               aria-hidden="true"
-              className="h-px w-9 bg-[#F97316] sm:w-11"
+              className="
+                h-px
+                w-9
+                bg-[#F97316]
+                sm:w-14
+              "
             />
           </div>
 
+          {/* Heading */}
+
           <h2
             id="funding-flow-heading"
-            className="text-3xl font-black leading-[1.08] tracking-tight text-[#0B3D2E] sm:text-4xl md:text-5xl"
+            className="
+              text-3xl
+              font-black
+              leading-[1.05]
+              tracking-[-0.04em]
+              text-[#0B3D2E]
+              sm:text-4xl
+              md:text-5xl
+            "
           >
-            Funding Over the <span className="text-[#087B5A]">Years</span>
+            Funding Over the <span className="text-[#F97316]">Years</span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base sm:leading-8">
+          {/* Description */}
+
+          <p
+            className="
+              mx-auto
+              mt-5
+              max-w-2xl
+              text-[15px]
+              leading-7
+              text-slate-600
+              sm:text-base
+              sm:leading-8
+            "
+          >
             Explore DAFA's funding history from 1990 to 2026. Select a year to
             view its annual funding amount and share of total funding.
           </p>
         </motion.header>
 
         {/* =====================================================
-            MAIN FUNDING CARD
+            FUNDING OVERVIEW
         ====================================================== */}
 
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{
+            once: true,
+            amount: 0.15,
+          }}
           variants={fadeUp}
           transition={{
             duration: 0.8,
             delay: 0.05,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_15px_50px_rgba(15,23,42,0.06)]"
+          className="
+            overflow-hidden
+            border
+            border-[#0B3D2E]/10
+            bg-white
+            shadow-[0_18px_55px_rgba(11,61,46,0.07)]
+          "
         >
           {/* ===================================================
-              TOP INFORMATION BAR
+              TOP INFORMATION
           ==================================================== */}
 
-          <div className="border-b border-slate-100 p-5 sm:p-7 lg:p-8">
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div
+            className="
+              border-b
+              border-[#0B3D2E]/10
+              px-5
+              py-6
+              sm:px-7
+              sm:py-7
+              lg:px-9
+              lg:py-8
+            "
+          >
+            <div
+              className="
+                flex
+                flex-col
+                gap-7
+                lg:flex-row
+                lg:items-center
+                lg:justify-between
+              "
+            >
               {/* Chart Identity */}
 
               <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0B3D2E] text-white shadow-sm">
+                <div
+                  className="
+                    flex
+                    h-11
+                    w-11
+                    shrink-0
+                    items-center
+                    justify-center
+                    bg-[#0B3D2E]
+                    text-white
+                  "
+                >
                   <FaChartLine size={16} aria-hidden="true" />
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                  <p
+                    className="
+                      text-[10px]
+                      font-bold
+                      uppercase
+                      tracking-[0.2em]
+                      text-[#F97316]
+                    "
+                  >
                     Historical Overview
                   </p>
 
-                  <h3 className="mt-1 text-lg font-black tracking-tight text-[#0B3D2E] sm:text-xl">
+                  <h3
+                    className="
+                      mt-1
+                      text-xl
+                      font-black
+                      tracking-[-0.02em]
+                      text-[#0B3D2E]
+                      sm:text-2xl
+                    "
+                  >
                     Annual Funding Flow
                   </h3>
 
-                  <p className="mt-1 text-xs font-medium text-slate-400">
+                  <p
+                    className="
+                      mt-1
+                      text-xs
+                      font-medium
+                      text-slate-400
+                    "
+                  >
                     1990 — 2026
                   </p>
                 </div>
@@ -238,29 +410,85 @@ export default function FundingFlow() {
                 transition={{
                   duration: 0.25,
                 }}
-                className="grid overflow-hidden rounded-2xl border border-slate-200 bg-[#F8FAFC] sm:min-w-[370px] sm:grid-cols-2"
+                className="
+                  grid
+                  overflow-hidden
+                  border
+                  border-[#0B3D2E]/10
+                  bg-[#F8FBF9]
+                  sm:min-w-[390px]
+                  sm:grid-cols-2
+                "
               >
-                <div className="border-b border-slate-200 px-5 py-4 sm:border-b-0 sm:border-r">
-                  <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">
+                <div
+                  className="
+                    border-b
+                    border-[#0B3D2E]/10
+                    px-5
+                    py-4
+                    sm:border-b-0
+                    sm:border-r
+                  "
+                >
+                  <p
+                    className="
+                      text-[9px]
+                      font-bold
+                      uppercase
+                      tracking-[0.18em]
+                      text-slate-400
+                    "
+                  >
                     Selected Year
                   </p>
 
-                  <p className="mt-1 text-2xl font-black text-[#0B3D2E]">
+                  <p
+                    className="
+                      mt-1
+                      text-2xl
+                      font-black
+                      tracking-[-0.02em]
+                      text-[#0B3D2E]
+                    "
+                  >
                     {selectedData.year}
                   </p>
                 </div>
 
                 <div className="px-5 py-4">
-                  <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">
+                  <p
+                    className="
+                      text-[9px]
+                      font-bold
+                      uppercase
+                      tracking-[0.18em]
+                      text-slate-400
+                    "
+                  >
                     Annual Funding
                   </p>
 
-                  <p className="mt-1 text-xl font-black text-[#087B5A]">
+                  <p
+                    className="
+                      mt-1
+                      text-xl
+                      font-black
+                      tracking-[-0.02em]
+                      text-[#087B5A]
+                    "
+                  >
                     {selectedData.formattedAmount ||
                       formatMoney(selectedData.amount)}
                   </p>
 
-                  <p className="mt-0.5 text-[10px] font-semibold text-slate-400">
+                  <p
+                    className="
+                      mt-0.5
+                      text-[10px]
+                      font-semibold
+                      text-slate-400
+                    "
+                  >
                     {selectedData.percentage}% of total
                   </p>
                 </div>
@@ -272,7 +500,17 @@ export default function FundingFlow() {
               CHART
           ==================================================== */}
 
-          <div className="px-3 pb-3 pt-7 sm:px-7 sm:pb-6 sm:pt-9">
+          <div
+            className="
+              px-3
+              pb-4
+              pt-8
+              sm:px-7
+              sm:pb-7
+              sm:pt-9
+              lg:px-9
+            "
+          >
             <div
               className="overflow-x-auto pb-2"
               role="region"
@@ -282,7 +520,11 @@ export default function FundingFlow() {
               <div className="min-w-[800px]">
                 <svg
                   viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-                  className="h-auto w-full overflow-visible"
+                  className="
+                    h-auto
+                    w-full
+                    overflow-visible
+                  "
                   role="img"
                   aria-labelledby="funding-chart-title funding-chart-description"
                 >
@@ -309,9 +551,9 @@ export default function FundingFlow() {
                           x2={chartWidth - padding.right}
                           y1={y}
                           y2={y}
-                          stroke="#E2E8F0"
+                          stroke="#DDE7E2"
                           strokeWidth="1"
-                          strokeDasharray="4 7"
+                          strokeDasharray="3 8"
                         />
 
                         <text
@@ -334,7 +576,7 @@ export default function FundingFlow() {
 
                   <motion.path
                     d={areaPath}
-                    fill="rgba(8,123,90,0.055)"
+                    fill="rgba(11,61,46,0.055)"
                     initial={{
                       opacity: 0,
                     }}
@@ -353,7 +595,7 @@ export default function FundingFlow() {
                   <motion.path
                     d={linePath}
                     fill="none"
-                    stroke="#087B5A"
+                    stroke="#0B8060"
                     strokeWidth="3.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -470,7 +712,7 @@ export default function FundingFlow() {
                           cx={point.x}
                           cy={point.y}
                           r={isSelected ? 5.5 : 3}
-                          fill={isSelected ? "#F97316" : "#087B5A"}
+                          fill={isSelected ? "#F97316" : "#0B8060"}
                           stroke="white"
                           strokeWidth="2"
                           className="pointer-events-none"
@@ -491,7 +733,9 @@ export default function FundingFlow() {
                         chartWidth - 205,
                       )},${Math.max(selectedPoint.y - 105, 10)})`}
                     >
-                      <rect width="190" height="82" rx="14" fill="#0B3D2E" />
+                      <rect width="190" height="82" rx="8" fill="#0B3D2E" />
+
+                      <rect width="4" height="82" rx="2" fill="#F97316" />
 
                       <text
                         x="18"
@@ -534,12 +778,34 @@ export default function FundingFlow() {
               FOOTER
           ==================================================== */}
 
-          <div className="border-t border-slate-100 px-5 py-5 sm:px-8">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div
+            className="
+              border-t
+              border-[#0B3D2E]/10
+              px-5
+              py-5
+              sm:px-8
+            "
+          >
+            <div
+              className="
+                flex
+                flex-col
+                gap-4
+                sm:flex-row
+                sm:items-center
+                sm:justify-between
+              "
+            >
               <div className="flex items-center gap-3">
                 <span
                   aria-hidden="true"
-                  className="h-2.5 w-2.5 rounded-full bg-[#087B5A]"
+                  className="
+                    h-2
+                    w-2
+                    rounded-full
+                    bg-[#087B5A]
+                  "
                 />
 
                 <p className="text-xs text-slate-500">
@@ -547,7 +813,16 @@ export default function FundingFlow() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
+              <div
+                className="
+                  flex
+                  items-center
+                  gap-2
+                  text-xs
+                  font-semibold
+                  text-slate-400
+                "
+              >
                 <span>{selectedData.year}</span>
 
                 <FaArrowRight
@@ -569,7 +844,15 @@ export default function FundingFlow() {
             MOBILE NOTE
         ====================================================== */}
 
-        <p className="mt-4 text-center text-[11px] leading-5 text-slate-400">
+        <p
+          className="
+            mt-4
+            text-center
+            text-[11px]
+            leading-5
+            text-slate-400
+          "
+        >
           Scroll horizontally on smaller screens to explore the chart.
         </p>
       </div>
