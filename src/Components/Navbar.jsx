@@ -14,14 +14,15 @@ export default function Navbar() {
 
   const navRef = useRef(null);
   const mobileMenuButtonRef = useRef(null);
+  const mobileMenuRef = useRef(null);
 
   // =====================================================
-  // SCROLL STATE
+  // STICKY NAVBAR
   // =====================================================
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 24);
+      setIsScrolled(window.scrollY > 20);
     };
 
     handleScroll();
@@ -36,7 +37,7 @@ export default function Navbar() {
   }, []);
 
   // =====================================================
-  // CLOSE MENUS WHEN ROUTE CHANGES
+  // CLOSE MENUS ON ROUTE CHANGE
   // =====================================================
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function Navbar() {
   }, [location.pathname]);
 
   // =====================================================
-  // BODY SCROLL LOCK
+  // MOBILE BODY SCROLL LOCK
   // =====================================================
 
   useEffect(() => {
@@ -66,9 +67,15 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        setMobileMenuOpen(false);
+      if (event.key !== "Escape") return;
+
+      if (openDropdown) {
         setOpenDropdown(null);
+        return;
+      }
+
+      if (mobileMenuOpen) {
+        setMobileMenuOpen(false);
 
         requestAnimationFrame(() => {
           mobileMenuButtonRef.current?.focus();
@@ -81,7 +88,7 @@ export default function Navbar() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [mobileMenuOpen, openDropdown]);
 
   // =====================================================
   // OUTSIDE CLICK
@@ -102,7 +109,7 @@ export default function Navbar() {
   }, []);
 
   // =====================================================
-  // MENU HELPERS
+  // HELPERS
   // =====================================================
 
   const closeMenus = () => {
@@ -119,9 +126,8 @@ export default function Navbar() {
     setOpenDropdown((prev) => (prev === title ? null : title));
   };
 
-  // =====================================================
-  // DROPDOWN ACTIVE STATE
-  // =====================================================
+  const getDropdownId = (title) =>
+    `dropdown-${title.replace(/\s+/g, "-").toLowerCase()}`;
 
   const isDropdownActive = (item) => {
     if (!item.dropdown) return false;
@@ -141,14 +147,14 @@ export default function Navbar() {
     items-center
     gap-2
     whitespace-nowrap
-    rounded-lg
+    rounded-md
     px-3
     py-2
     text-[13px]
     font-medium
-    transition-all
+    tracking-[0.01em]
+    transition-colors
     duration-200
-    xl:text-sm
 
     ${
       isActive
@@ -159,8 +165,10 @@ export default function Navbar() {
     focus:outline-none
     focus-visible:ring-2
     focus-visible:ring-[#FDBA74]
-    focus-visible:ring-offset-1
+    focus-visible:ring-offset-2
     focus-visible:ring-offset-[#087B5A]
+
+    motion-reduce:transition-none
   `;
 
   // =====================================================
@@ -174,24 +182,28 @@ export default function Navbar() {
     rounded-lg
     px-4
     text-[15px]
-    transition-all
+    transition-colors
     duration-200
 
     ${
       isActive
-        ? "bg-white/[0.12] font-semibold text-white"
-        : "font-medium text-white/85 hover:bg-white/[0.07] hover:text-white"
+        ? "bg-white/[0.11] font-semibold text-white"
+        : "font-medium text-white/85 hover:bg-white/[0.06] hover:text-white"
     }
 
     focus:outline-none
     focus-visible:ring-2
     focus-visible:ring-white/70
+    focus-visible:ring-offset-1
+    focus-visible:ring-offset-[#087B5A]
+
+    motion-reduce:transition-none
   `;
 
   return (
     <>
       {/* =====================================================
-          NAVBAR
+          GLOBAL NAVBAR
       ===================================================== */}
 
       <header
@@ -203,8 +215,9 @@ export default function Navbar() {
           z-[100]
           px-3
           font-[Poppins]
-          transition-all
+          transition-[padding]
           duration-300
+          motion-reduce:transition-none
 
           sm:px-5
           lg:px-6
@@ -222,34 +235,36 @@ export default function Navbar() {
             items-center
             justify-between
             gap-3
-            rounded-2xl
             border
-            border-white/[0.08]
+            border-white/[0.10]
             px-3
-            backdrop-blur-xl
-            transition-all
+            transition-[height,background-color,box-shadow,border-radius]
             duration-300
+            motion-reduce:transition-none
 
+            sm:gap-4
             sm:px-5
             lg:px-6
 
             ${
               isScrolled
                 ? `
-                  h-[62px]
-                  bg-[#087B5A]/95
-                  shadow-[0_12px_30px_rgba(6,63,48,0.22)]
+                  h-[60px]
+                  rounded-xl
+                  bg-[#087B5A]
+                  shadow-[0_8px_24px_rgba(6,63,48,0.18)]
                 `
                 : `
-                  h-[68px]
-                  bg-[#087B5A]/88
-                  shadow-[0_6px_24px_rgba(0,0,0,0.12)]
+                  h-[70px]
+                  rounded-2xl
+                  bg-[#087B5A]/95
+                  shadow-[0_5px_20px_rgba(6,63,48,0.12)]
                 `
             }
           `}
         >
           {/* =================================================
-              LOGO
+              LOGO / BRAND
           ================================================= */}
 
           <NavLink
@@ -262,56 +277,54 @@ export default function Navbar() {
               min-w-0
               shrink-0
               items-center
-              gap-3
+              gap-2.5
+              rounded-lg
+
+              focus:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-[#FDBA74]
+              focus-visible:ring-offset-2
+              focus-visible:ring-offset-[#087B5A]
             "
           >
             <div
-              className="
+              className={`
                 flex
-                h-10
-                w-10
                 shrink-0
                 items-center
                 justify-center
                 overflow-hidden
-                rounded-xl
+                rounded-lg
                 border
-                border-white/70
+                border-white/80
                 bg-white
                 p-[2px]
                 shadow-sm
-                transition-all
-                duration-200
+                transition-[width,height]
+                duration-300
+                motion-reduce:transition-none
 
-                group-hover:scale-[1.03]
-                group-hover:border-white
-
-                sm:h-11
-                sm:w-11
-              "
+                ${isScrolled ? "h-10 w-10" : "h-11 w-11 sm:h-12 sm:w-12"}
+              `}
             >
               <img
                 src={Logo}
                 alt="DAFA logo"
-                className="
-                  h-full
-                  w-full
-                  rounded-[9px]
-                  object-cover
-                "
+                className="h-full w-full rounded-[6px] object-cover"
               />
             </div>
 
             <div className="min-w-0">
               <div
                 className="
-                  text-base
+                  truncate
+                  text-[16px]
                   font-extrabold
                   leading-none
                   tracking-tight
                   text-white
 
-                  sm:text-lg
+                  sm:text-[18px]
                 "
               >
                 {navbarData.brand.name}
@@ -326,6 +339,7 @@ export default function Navbar() {
                   text-[9px]
                   font-medium
                   leading-none
+                  tracking-wide
                   text-white/60
 
                   sm:block
@@ -341,15 +355,18 @@ export default function Navbar() {
               DESKTOP NAVIGATION
           ================================================= */}
 
-          <nav className="hidden xl:flex" aria-label="Main navigation">
+          <nav
+            className="hidden flex-1 justify-center xl:flex"
+            aria-label="Main navigation"
+          >
             <ul
               className="
                 flex
                 items-center
                 gap-0.5
-                rounded-xl
+                rounded-lg
                 border
-                border-white/[0.08]
+                border-white/[0.07]
                 bg-[#063F30]/20
                 p-1
 
@@ -378,6 +395,9 @@ export default function Navbar() {
 
               {navItems.map((item) => {
                 const active = isDropdownActive(item);
+                const dropdownOpen = openDropdown === item.title;
+
+                const dropdownId = getDropdownId(item.title);
 
                 return (
                   <li key={item.title} className="relative">
@@ -389,7 +409,8 @@ export default function Navbar() {
                           type="button"
                           onClick={() => toggleDropdown(item.title)}
                           aria-haspopup="menu"
-                          aria-expanded={openDropdown === item.title}
+                          aria-expanded={dropdownOpen}
+                          aria-controls={dropdownId}
                           className={`
                             group
                             relative
@@ -398,17 +419,17 @@ export default function Navbar() {
                             items-center
                             gap-2
                             whitespace-nowrap
-                            rounded-lg
+                            rounded-md
                             px-3
                             py-2
                             text-[13px]
                             font-medium
-                            transition-all
+                            tracking-[0.01em]
+                            transition-colors
                             duration-200
-                            xl:text-sm
 
                             ${
-                              openDropdown === item.title || active
+                              dropdownOpen || active
                                 ? "bg-white/[0.10] font-semibold text-white"
                                 : "text-white/80 hover:bg-white/[0.06] hover:text-white"
                             }
@@ -416,8 +437,10 @@ export default function Navbar() {
                             focus:outline-none
                             focus-visible:ring-2
                             focus-visible:ring-[#FDBA74]
-                            focus-visible:ring-offset-1
+                            focus-visible:ring-offset-2
                             focus-visible:ring-offset-[#087B5A]
+
+                            motion-reduce:transition-none
                           `}
                         >
                           <span>{item.title}</span>
@@ -428,23 +451,25 @@ export default function Navbar() {
                             className={`
                               transition-transform
                               duration-200
+                              motion-reduce:transition-none
 
                               ${
-                                openDropdown === item.title
+                                dropdownOpen
                                   ? "rotate-180 text-[#FDBA74]"
-                                  : "text-white/60"
+                                  : "text-white/55"
                               }
                             `}
                           />
 
-                          <ActiveIndicator
-                            active={openDropdown === item.title || active}
-                          />
+                          <ActiveIndicator active={dropdownOpen || active} />
                         </button>
 
                         {/* DROPDOWN */}
 
                         <div
+                          id={dropdownId}
+                          role="menu"
+                          aria-hidden={!dropdownOpen}
                           className={`
                             absolute
                             left-1/2
@@ -459,12 +484,13 @@ export default function Navbar() {
                             border-white/10
                             bg-[#087B5A]
                             p-1.5
-                            shadow-[0_18px_40px_rgba(0,0,0,0.24)]
-                            transition-all
+                            shadow-[0_16px_36px_rgba(0,0,0,0.22)]
+                            transition-[opacity,transform,visibility]
                             duration-200
+                            motion-reduce:transition-none
 
                             ${
-                              openDropdown === item.title
+                              dropdownOpen
                                 ? `
                                   visible
                                   translate-y-0
@@ -479,15 +505,13 @@ export default function Navbar() {
                                 `
                             }
                           `}
-                          role="menu"
-                          aria-hidden={openDropdown !== item.title}
                         >
                           {item.items.map((subItem) => (
                             <NavLink
                               key={subItem.path}
                               to={subItem.path}
                               role="menuitem"
-                              tabIndex={openDropdown === item.title ? 0 : -1}
+                              tabIndex={dropdownOpen ? 0 : -1}
                               onClick={() => setOpenDropdown(null)}
                               className={({ isActive }) =>
                                 `
@@ -500,18 +524,22 @@ export default function Navbar() {
                                   px-3
                                   py-2.5
                                   text-[13px]
-                                  transition-all
+                                  transition-colors
                                   duration-200
-
-                                  focus:outline-none
-                                  focus-visible:ring-2
-                                  focus-visible:ring-[#FDBA74]
 
                                   ${
                                     isActive
                                       ? "bg-white/[0.12] font-semibold text-white"
                                       : "text-white/80 hover:bg-white/[0.07] hover:text-white"
                                   }
+
+                                  focus:outline-none
+                                  focus-visible:ring-2
+                                  focus-visible:ring-[#FDBA74]
+                                  focus-visible:ring-offset-1
+                                  focus-visible:ring-offset-[#087B5A]
+
+                                  motion-reduce:transition-none
                                 `
                               }
                             >
@@ -523,10 +551,11 @@ export default function Navbar() {
                                 className="
                                   text-[#F97316]
                                   opacity-0
-                                  transition-all
+                                  transition-[opacity,transform]
                                   duration-200
                                   group-hover/item:translate-x-1
                                   group-hover/item:opacity-100
+                                  motion-reduce:transition-none
                                 "
                               />
                             </NavLink>
@@ -569,27 +598,31 @@ export default function Navbar() {
               items-center
               justify-center
               gap-2
-              rounded-lg
+              rounded-md
               bg-[#F97316]
               px-4
               text-[13px]
               font-bold
+              tracking-wide
               text-white
-              shadow-[0_4px_12px_rgba(0,0,0,0.12)]
-              transition-all
+              shadow-[0_3px_10px_rgba(0,0,0,0.12)]
+              transition-[background-color,transform,box-shadow]
               duration-200
 
               hover:-translate-y-0.5
               hover:bg-[#EA580C]
-              hover:shadow-[0_7px_16px_rgba(0,0,0,0.18)]
+              hover:shadow-[0_6px_14px_rgba(0,0,0,0.16)]
 
               active:translate-y-0
 
               focus:outline-none
               focus-visible:ring-2
               focus-visible:ring-[#FDBA74]
-              focus-visible:ring-offset-1
+              focus-visible:ring-offset-2
               focus-visible:ring-offset-[#087B5A]
+
+              motion-reduce:transition-none
+              motion-reduce:hover:transform-none
 
               xl:flex
             "
@@ -603,6 +636,7 @@ export default function Navbar() {
                 transition-transform
                 duration-200
                 group-hover:translate-x-1
+                motion-reduce:transition-none
               "
             />
           </NavLink>
@@ -633,7 +667,7 @@ export default function Navbar() {
               bg-white/[0.06]
               text-lg
               text-white
-              transition-all
+              transition-colors
               duration-200
 
               hover:bg-white/[0.11]
@@ -643,7 +677,12 @@ export default function Navbar() {
 
               focus:outline-none
               focus-visible:ring-2
-              focus-visible:ring-white/70
+              focus-visible:ring-white/80
+              focus-visible:ring-offset-2
+              focus-visible:ring-offset-[#087B5A]
+
+              motion-reduce:transition-none
+              motion-reduce:active:transform-none
 
               xl:hidden
             "
@@ -668,8 +707,9 @@ export default function Navbar() {
           inset-0
           z-[90]
           font-[Poppins]
-          transition-opacity
+          transition-[opacity,visibility]
           duration-200
+          motion-reduce:transition-none
           xl:hidden
 
           ${mobileMenuOpen ? "visible opacity-100" : "invisible opacity-0"}
@@ -682,18 +722,19 @@ export default function Navbar() {
           type="button"
           aria-label="Close navigation menu"
           onClick={closeMenus}
+          tabIndex={mobileMenuOpen ? 0 : -1}
           className="
             absolute
             inset-0
             cursor-default
             bg-black/50
-            backdrop-blur-sm
           "
         />
 
         {/* PANEL */}
 
         <div
+          ref={mobileMenuRef}
           className={`
             absolute
             left-3
@@ -706,17 +747,18 @@ export default function Navbar() {
             border-white/10
             bg-[#087B5A]
             p-2
-            shadow-[0_20px_45px_rgba(0,0,0,0.28)]
-            transition-all
+            shadow-[0_18px_40px_rgba(0,0,0,0.24)]
+            transition-[opacity,transform]
             duration-200
+            motion-reduce:transition-none
 
             sm:left-5
             sm:right-5
 
             ${
               mobileMenuOpen
-                ? "translate-y-0 scale-100"
-                : "-translate-y-2 scale-[0.98]"
+                ? "translate-y-0 opacity-100"
+                : "-translate-y-2 opacity-0"
             }
           `}
         >
@@ -726,11 +768,11 @@ export default function Navbar() {
 
               <li>
                 <NavLink
-                  to="/"
+                  to={navbarData.home.path}
                   onClick={closeMenus}
                   className={mobileLinkClass}
                 >
-                  Home
+                  {navbarData.home.title}
                 </NavLink>
               </li>
 
@@ -738,6 +780,7 @@ export default function Navbar() {
 
               {navItems.map((item) => {
                 const active = isDropdownActive(item);
+                const dropdownOpen = openDropdown === item.title;
 
                 return (
                   <li key={item.title}>
@@ -746,7 +789,7 @@ export default function Navbar() {
                         <button
                           type="button"
                           onClick={() => toggleDropdown(item.title)}
-                          aria-expanded={openDropdown === item.title}
+                          aria-expanded={dropdownOpen}
                           className={`
                             flex
                             min-h-[50px]
@@ -757,18 +800,20 @@ export default function Navbar() {
                             px-4
                             text-left
                             text-[15px]
-                            transition-all
+                            transition-colors
                             duration-200
 
                             ${
-                              openDropdown === item.title || active
-                                ? "bg-white/[0.12] font-semibold text-white"
-                                : "font-medium text-white/85 hover:bg-white/[0.07] hover:text-white"
+                              dropdownOpen || active
+                                ? "bg-white/[0.11] font-semibold text-white"
+                                : "font-medium text-white/85 hover:bg-white/[0.06] hover:text-white"
                             }
 
                             focus:outline-none
                             focus-visible:ring-2
                             focus-visible:ring-white/70
+
+                            motion-reduce:transition-none
                           `}
                         >
                           <span>{item.title}</span>
@@ -779,11 +824,12 @@ export default function Navbar() {
                             className={`
                               transition-transform
                               duration-200
+                              motion-reduce:transition-none
 
                               ${
-                                openDropdown === item.title
+                                dropdownOpen
                                   ? "rotate-180 text-[#FDBA74]"
-                                  : "text-white/60"
+                                  : "text-white/55"
                               }
                             `}
                           />
@@ -794,11 +840,12 @@ export default function Navbar() {
                         <div
                           className={`
                             grid
-                            transition-all
+                            transition-[grid-template-rows,opacity]
                             duration-300
+                            motion-reduce:transition-none
 
                             ${
-                              openDropdown === item.title
+                              dropdownOpen
                                 ? "grid-rows-[1fr] opacity-100"
                                 : "grid-rows-[0fr] opacity-0"
                             }
@@ -812,7 +859,7 @@ export default function Navbar() {
                                 rounded-lg
                                 border
                                 border-white/10
-                                bg-[#063F30]/65
+                                bg-[#063F30]/60
                                 p-1
                               "
                             >
@@ -832,7 +879,7 @@ export default function Navbar() {
                                       px-4
                                       py-2.5
                                       text-[14px]
-                                      transition-all
+                                      transition-colors
                                       duration-200
 
                                       ${
@@ -844,6 +891,8 @@ export default function Navbar() {
                                       focus:outline-none
                                       focus-visible:ring-2
                                       focus-visible:ring-white/70
+
+                                      motion-reduce:transition-none
                                     `
                                   }
                                 >
@@ -857,6 +906,7 @@ export default function Navbar() {
                                       transition-transform
                                       duration-200
                                       group-hover/item:translate-x-1
+                                      motion-reduce:transition-none
                                     "
                                   />
                                 </NavLink>
@@ -878,7 +928,7 @@ export default function Navbar() {
                 );
               })}
 
-              {/* CONTACT */}
+              {/* CONTACT CTA */}
 
               <li className="mt-2 border-t border-white/10 pt-2">
                 <NavLink
@@ -897,9 +947,10 @@ export default function Navbar() {
                     px-5
                     text-[14px]
                     font-bold
+                    tracking-wide
                     text-white
                     shadow-md
-                    transition-all
+                    transition-[background-color,transform]
                     duration-200
 
                     hover:bg-[#EA580C]
@@ -908,6 +959,11 @@ export default function Navbar() {
                     focus:outline-none
                     focus-visible:ring-2
                     focus-visible:ring-[#FDBA74]
+                    focus-visible:ring-offset-2
+                    focus-visible:ring-offset-[#087B5A]
+
+                    motion-reduce:transition-none
+                    motion-reduce:active:transform-none
                   "
                 >
                   {navbarData.contact.title}
@@ -919,6 +975,7 @@ export default function Navbar() {
                       transition-transform
                       duration-200
                       group-hover:translate-x-1
+                      motion-reduce:transition-none
                     "
                   />
                 </NavLink>
@@ -947,8 +1004,9 @@ function ActiveIndicator({ active }) {
         -translate-x-1/2
         rounded-full
         bg-[#F97316]
-        transition-all
+        transition-[width,opacity]
         duration-200
+        motion-reduce:transition-none
 
         ${active ? "w-5 opacity-100" : "w-0 opacity-0"}
       `}

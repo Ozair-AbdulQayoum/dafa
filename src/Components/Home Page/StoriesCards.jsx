@@ -70,7 +70,17 @@ export default function StoriesCards() {
         lg:py-14
       "
     >
-      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10 xl:px-12">
+      <div
+        className="
+          mx-auto
+          w-full
+          max-w-7xl
+          px-5
+          sm:px-8
+          lg:px-10
+          xl:px-12
+        "
+      >
         {/* ===================================================
             HEADER
         ==================================================== */}
@@ -174,7 +184,7 @@ export default function StoriesCards() {
         </motion.div>
 
         {/* ===================================================
-            STORIES
+            STORIES GRID
         ==================================================== */}
 
         <div
@@ -226,14 +236,13 @@ export default function StoriesCards() {
                   overflow-hidden
                   rounded-2xl
                   border
-                  border-slate-200/70
+                  border-[#0B3D2E]/10
                   bg-[#0B3D2E]
-                  shadow-[0_12px_32px_rgba(15,23,42,0.08)]
+                  shadow-[0_14px_35px_rgba(15,23,42,0.09)]
                   transition-all
                   duration-500
                   hover:-translate-y-1
-                  hover:border-[#0B3D2E]/20
-                  hover:shadow-[0_20px_45px_rgba(15,23,42,0.14)]
+                  hover:shadow-[0_22px_50px_rgba(15,23,42,0.15)]
                   sm:h-[500px]
                   sm:rounded-3xl
                 "
@@ -308,7 +317,7 @@ export default function StoriesCards() {
                 )}
 
                 {/* =================================================
-                    OVERLAY
+                    IMAGE OVERLAY
                 ================================================== */}
 
                 <div
@@ -351,6 +360,7 @@ export default function StoriesCards() {
                     flex
                     items-start
                     justify-between
+                    gap-4
                     sm:left-6
                     sm:right-6
                     sm:top-6
@@ -469,6 +479,7 @@ export default function StoriesCards() {
                     className="
                       mb-3
                       flex
+                      min-h-[16px]
                       flex-wrap
                       items-center
                       gap-x-4
@@ -499,6 +510,7 @@ export default function StoriesCards() {
 
                   <h3
                     className="
+                      min-h-[55px]
                       max-w-[92%]
                       text-xl
                       font-extrabold
@@ -513,66 +525,70 @@ export default function StoriesCards() {
 
                   {/* Description */}
 
-                  {story?.description && (
-                    <p
-                      className="
-                        mt-3
-                        line-clamp-3
-                        max-w-[95%]
-                        text-xs
-                        leading-5
-                        text-white/70
-                        sm:text-sm
-                        sm:leading-6
-                      "
-                    >
-                      {story.description}
-                    </p>
-                  )}
+                  <div className="min-h-[48px]">
+                    {story?.description && (
+                      <p
+                        className="
+                          mt-3
+                          line-clamp-2
+                          max-w-[95%]
+                          text-xs
+                          leading-5
+                          text-white/70
+                          sm:text-sm
+                          sm:leading-6
+                        "
+                      >
+                        {story.description}
+                      </p>
+                    )}
+                  </div>
 
                   {/* Read Story */}
 
-                  {story?.slug && (
-                    <Link
-                      to={`/resources/stories/${story.slug}`}
-                      aria-label={`Read ${title}`}
-                      className="
-                        mt-5
-                        inline-flex
-                        min-h-10
-                        items-center
-                        gap-3
-                        border-b
-                        border-white/30
-                        pb-1
-                        text-xs
-                        font-bold
-                        text-white
-                        transition-all
-                        duration-300
-                        hover:gap-4
-                        hover:border-[#F97316]
-                        hover:text-[#F97316]
-                        focus:outline-none
-                        focus-visible:ring-2
-                        focus-visible:ring-[#F97316]
-                        focus-visible:ring-offset-2
-                        focus-visible:ring-offset-[#0B3D2E]
-                      "
-                    >
-                      <span>Read the Story</span>
-
-                      <FaArrowRight
-                        aria-hidden="true"
+                  <div className="min-h-[40px]">
+                    {story?.slug && (
+                      <Link
+                        to={`/resources/stories/${story.slug}`}
+                        aria-label={`Read ${title}`}
                         className="
-                          text-[10px]
-                          transition-transform
+                          mt-5
+                          inline-flex
+                          min-h-10
+                          items-center
+                          gap-3
+                          border-b
+                          border-white/30
+                          pb-1
+                          text-xs
+                          font-bold
+                          text-white
+                          transition-all
                           duration-300
-                          group-hover:translate-x-1
+                          hover:gap-4
+                          hover:border-[#F97316]
+                          hover:text-[#F97316]
+                          focus:outline-none
+                          focus-visible:ring-2
+                          focus-visible:ring-[#F97316]
+                          focus-visible:ring-offset-2
+                          focus-visible:ring-offset-[#0B3D2E]
                         "
-                      />
-                    </Link>
-                  )}
+                      >
+                        <span>Read the Story</span>
+
+                        <FaArrowRight
+                          aria-hidden="true"
+                          className="
+                            text-[10px]
+                            transition-transform
+                            duration-300
+                            group-hover:translate-x-1
+                          "
+                        />
+                      </Link>
+                    )}
+                  </div>
                 </div>
 
                 {/* =================================================

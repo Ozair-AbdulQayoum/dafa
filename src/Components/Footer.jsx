@@ -20,17 +20,16 @@ import {
   footerContent,
 } from "./FooterData";
 
+// =====================================================
+// FOOTER
+// =====================================================
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer
-      className="
-        relative
-        overflow-hidden
-        bg-[#0B3D2E]
-        text-white
-      "
+      className="relative w-full overflow-hidden bg-[#06281E] text-white"
       aria-labelledby="footer-heading"
     >
       {/* =====================================================
@@ -40,90 +39,65 @@ export default function Footer() {
       <div aria-hidden="true" className="h-1 w-full bg-[#F97316]" />
 
       {/* =====================================================
-          SUBTLE BACKGROUND DETAILS
+          SUBTLE BACKGROUND
       ===================================================== */}
 
       <div
         aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          overflow-hidden
-        "
+        className="pointer-events-none absolute inset-0 overflow-hidden"
       >
-        <div
-          className="
-            absolute
-            -left-48
-            -top-48
-            h-96
-            w-96
-            rounded-full
-            bg-[#0A5A42]/35
-            blur-3xl
-          "
-        />
+        <div className="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-[#087B5A]/10 blur-3xl" />
 
-        <div
-          className="
-            absolute
-            -bottom-48
-            -right-40
-            h-96
-            w-96
-            rounded-full
-            bg-[#F97316]/[0.035]
-            blur-3xl
-          "
-        />
+        <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-[#F97316]/[0.025] blur-3xl" />
+
+        <div className="absolute inset-0 opacity-[0.02]">
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
+            }}
+          />
+        </div>
       </div>
 
-      <div
-        className="
-          relative
-          z-10
-          mx-auto
-          max-w-7xl
-          px-5
-          sm:px-8
-          lg:px-10
-        "
-      >
-        {/* =====================================================
-            MAIN FOOTER CONTENT
-        ===================================================== */}
+      {/* =====================================================
+          MAIN CONTENT
+      ===================================================== */}
+
+      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        {/* =================================================
+            MAIN FOOTER GRID
+        ================================================= */}
 
         <div
           className="
             grid
             gap-12
             border-b
-            border-white/[0.09]
+            border-white/[0.10]
             py-14
 
             sm:py-16
 
-            lg:grid-cols-[1.5fr_1fr_1fr_1fr]
-            lg:gap-10
+            lg:grid-cols-[1.6fr_1fr_1fr_1.1fr]
+            lg:gap-12
             lg:py-20
           "
         >
           {/* =================================================
-              BRAND AREA
+              DAFA
           ================================================= */}
 
           <div className="max-w-sm">
             <h2
               id="footer-heading"
               className="
-                text-xl
-                font-bold
-                leading-tight
-                tracking-[-0.01em]
+                text-2xl
+                font-black
+                tracking-tight
                 text-white
-
-                sm:text-2xl
               "
             >
               {footerContent.organizationName}
@@ -131,33 +105,25 @@ export default function Footer() {
 
             <div
               aria-hidden="true"
-              className="
-                mt-4
-                h-[3px]
-                w-10
-                rounded-full
-                bg-[#F97316]
-              "
+              className="mt-4 h-1 w-10 rounded-full bg-[#F97316]"
             />
 
             <p
               className="
-                mt-5
+                mt-6
                 text-sm
                 leading-7
                 text-white/60
-
                 sm:text-[15px]
-                sm:leading-7
               "
             >
               {footerContent.description}
             </p>
 
-            {/* Social Media */}
+            {/* Social Links */}
 
             {socialLinks.length > 0 && (
-              <div className="mt-7">
+              <div className="mt-8">
                 <p
                   className="
                     text-[10px]
@@ -170,13 +136,9 @@ export default function Footer() {
                   {footerContent.followLabel}
                 </p>
 
-                <div className="mt-4 flex items-center gap-2.5">
+                <div className="mt-4 flex flex-wrap gap-2.5">
                   {socialLinks.map((social) => {
                     const Icon = social.icon;
-
-                    /*
-                      Do not render fake "#" URLs.
-                    */
 
                     if (!social.href || social.href === "#") {
                       return (
@@ -193,8 +155,7 @@ export default function Footer() {
                             rounded-lg
                             border
                             border-white/[0.08]
-                            bg-white/[0.035]
-                            text-white/25
+                            text-white/20
                           "
                         >
                           <Icon size={14} aria-hidden="true" />
@@ -219,8 +180,7 @@ export default function Footer() {
                           rounded-lg
                           border
                           border-white/[0.10]
-                          bg-white/[0.035]
-                          text-white/60
+                          text-white/55
                           transition-all
                           duration-200
 
@@ -233,17 +193,13 @@ export default function Footer() {
                           focus-visible:ring-2
                           focus-visible:ring-[#F97316]
                           focus-visible:ring-offset-2
-                          focus-visible:ring-offset-[#0B3D2E]
+                          focus-visible:ring-offset-[#06281E]
                         "
                       >
                         <Icon
                           size={14}
                           aria-hidden="true"
-                          className="
-                            transition-transform
-                            duration-200
-                            group-hover:scale-110
-                          "
+                          className="transition-transform duration-200 group-hover:scale-110"
                         />
                       </a>
                     );
@@ -254,10 +210,10 @@ export default function Footer() {
           </div>
 
           {/* =================================================
-              QUICK LINKS
+              EXPLORE
           ================================================= */}
 
-          <FooterColumn title="Quick Links" items={quickLinks} />
+          <FooterColumn title="Explore" items={quickLinks} />
 
           {/* =================================================
               OUR WORK
@@ -278,26 +234,40 @@ export default function Footer() {
 
         <div
           className="
-            grid
-            gap-4
             border-b
-            border-white/[0.09]
+            border-white/[0.10]
             py-10
-
-            sm:grid-cols-3
-            sm:gap-5
-
-            lg:py-12
+            sm:py-12
           "
         >
-          {contactInfo.map((contact) => (
-            <ContactItem
-              key={`${contact.type}-${contact.title}`}
-              type={contact.type}
-              title={contact.title}
-              value={contact.value}
-            />
-          ))}
+          <div className="mb-6">
+            <p
+              className="
+                text-[10px]
+                font-bold
+                uppercase
+                tracking-[0.2em]
+                text-[#A7DCC9]
+              "
+            >
+              Contact DAFA
+            </p>
+
+            <h3 className="mt-2 text-xl font-bold text-white">
+              Get in touch with us
+            </h3>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {contactInfo.map((contact) => (
+              <ContactItem
+                key={`${contact.type}-${contact.title}`}
+                type={contact.type}
+                title={contact.title}
+                value={contact.value}
+              />
+            ))}
+          </div>
         </div>
 
         {/* =====================================================
@@ -308,12 +278,12 @@ export default function Footer() {
           className="
             flex
             flex-col
-            gap-6
+            gap-5
             py-7
 
-            lg:flex-row
-            lg:items-center
-            lg:justify-between
+            sm:flex-row
+            sm:items-center
+            sm:justify-between
           "
         >
           {/* Copyright */}
@@ -323,7 +293,6 @@ export default function Footer() {
               text-xs
               leading-6
               text-white/40
-              lg:text-left
             "
           >
             © {currentYear} {footerContent.organizationName}. All rights
@@ -348,18 +317,18 @@ export default function Footer() {
                   key={item.label}
                   to={item.path}
                   className="
+                    rounded
                     text-xs
                     text-white/40
                     transition-colors
                     duration-200
-                    hover:text-white
+                    hover:text-[#A7F3D0]
 
                     focus:outline-none
-                    focus-visible:rounded
                     focus-visible:ring-2
                     focus-visible:ring-[#F97316]
                     focus-visible:ring-offset-2
-                    focus-visible:ring-offset-[#0B3D2E]
+                    focus-visible:ring-offset-[#06281E]
                   "
                 >
                   {item.label}
@@ -373,11 +342,11 @@ export default function Footer() {
   );
 }
 
-/* =========================================================
-   FOOTER COLUMN
-========================================================= */
+// =====================================================
+// FOOTER COLUMN
+// =====================================================
 
-function FooterColumn({ title, items }) {
+function FooterColumn({ title, items = [] }) {
   return (
     <nav aria-label={title}>
       <h3
@@ -394,16 +363,10 @@ function FooterColumn({ title, items }) {
 
       <div
         aria-hidden="true"
-        className="
-          mt-4
-          h-[2px]
-          w-8
-          rounded-full
-          bg-[#F97316]
-        "
+        className="mt-4 h-[2px] w-8 rounded-full bg-[#F97316]"
       />
 
-      <ul className="mt-5 space-y-3">
+      <ul className="mt-6 space-y-3">
         {items.map((item) => (
           <li key={`${item.label}-${item.path}`}>
             <Link
@@ -411,6 +374,7 @@ function FooterColumn({ title, items }) {
               className="
                 group
                 inline-flex
+                min-h-8
                 items-center
                 gap-2
                 text-sm
@@ -418,7 +382,7 @@ function FooterColumn({ title, items }) {
                 transition-all
                 duration-200
 
-                hover:translate-x-0.5
+                hover:translate-x-1
                 hover:text-white
 
                 focus:outline-none
@@ -426,7 +390,7 @@ function FooterColumn({ title, items }) {
                 focus-visible:ring-2
                 focus-visible:ring-[#F97316]
                 focus-visible:ring-offset-2
-                focus-visible:ring-offset-[#0B3D2E]
+                focus-visible:ring-offset-[#06281E]
               "
             >
               <FaChevronRight
@@ -453,9 +417,9 @@ function FooterColumn({ title, items }) {
   );
 }
 
-/* =========================================================
-   CONTACT ITEM
-========================================================= */
+// =====================================================
+// CONTACT ITEM
+// =====================================================
 
 function ContactItem({ type, title, value }) {
   const icons = {
@@ -484,25 +448,28 @@ function ContactItem({ type, title, value }) {
 
   const content = (
     <>
+      {/* Icon */}
+
       <div
         className="
           flex
-          h-10
-          w-10
+          h-11
+          w-11
           shrink-0
           items-center
           justify-center
-          rounded-lg
-          border
-          border-white/[0.06]
+          rounded-xl
           bg-[#0A5A42]
           text-[#A7DCC9]
           transition-colors
           duration-200
+          group-hover:bg-[#087B5A]
         "
       >
-        <Icon size={14} aria-hidden="true" />
+        <Icon size={15} aria-hidden="true" />
       </div>
+
+      {/* Content */}
 
       <div className="min-w-0">
         <p
@@ -540,6 +507,7 @@ function ContactItem({ type, title, value }) {
         className="
           group
           flex
+          min-h-[72px]
           min-w-0
           items-center
           gap-4
@@ -551,14 +519,14 @@ function ContactItem({ type, title, value }) {
           transition-all
           duration-200
 
-          hover:border-white/[0.16]
-          hover:bg-white/[0.05]
+          hover:border-[#087B5A]/50
+          hover:bg-white/[0.045]
 
           focus:outline-none
           focus-visible:ring-2
           focus-visible:ring-[#F97316]
           focus-visible:ring-offset-2
-          focus-visible:ring-offset-[#0B3D2E]
+          focus-visible:ring-offset-[#06281E]
         "
       >
         {content}
@@ -569,7 +537,9 @@ function ContactItem({ type, title, value }) {
   return (
     <div
       className="
+        group
         flex
+        min-h-[72px]
         min-w-0
         items-center
         gap-4

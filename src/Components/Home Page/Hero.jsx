@@ -28,13 +28,13 @@ export default function Hero() {
 
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % heroImages.length);
-    }, 6000);
+    }, 6500);
 
     return () => clearInterval(interval);
   }, [isPaused, shouldReduceMotion]);
 
   // =====================================================
-  // CLEANUP RESUME TIMER
+  // CLEANUP
   // =====================================================
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function Hero() {
   }, []);
 
   // =====================================================
-  // PAUSE AFTER USER INTERACTION
+  // TEMPORARY PAUSE AFTER INTERACTION
   // =====================================================
 
   const pauseTemporarily = () => {
@@ -68,9 +68,7 @@ export default function Hero() {
   const handlePrevious = () => {
     pauseTemporarily();
 
-    setCurrentImage((prev) => {
-      return (prev - 1 + heroImages.length) % heroImages.length;
-    });
+    setCurrentImage((prev) => (prev === 0 ? heroImages.length - 1 : prev - 1));
   };
 
   // =====================================================
@@ -80,9 +78,7 @@ export default function Hero() {
   const handleNext = () => {
     pauseTemporarily();
 
-    setCurrentImage((prev) => {
-      return (prev + 1) % heroImages.length;
-    });
+    setCurrentImage((prev) => (prev + 1) % heroImages.length);
   };
 
   // =====================================================
@@ -95,7 +91,7 @@ export default function Hero() {
   };
 
   // =====================================================
-  // KEYBOARD CONTROL
+  // KEYBOARD CONTROLS
   // =====================================================
 
   const handleKeyDown = (event) => {
@@ -113,6 +109,8 @@ export default function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
+      onKeyDown={handleKeyDown}
+      tabIndex={-1}
       className="
         relative
         isolate
@@ -122,12 +120,12 @@ export default function Hero() {
         font-[Poppins]
 
         sm:min-h-[700px]
-        lg:min-h-[720px]
+
+        lg:min-h-[730px]
       "
-      onKeyDown={handleKeyDown}
     >
       {/* =====================================================
-          BACKGROUND IMAGE
+          DOCUMENTARY BACKGROUND
       ===================================================== */}
 
       <div className="absolute inset-0 -z-10">
@@ -139,7 +137,7 @@ export default function Hero() {
             aria-hidden="true"
             initial={{
               opacity: 0,
-              scale: shouldReduceMotion ? 1 : 1.035,
+              scale: shouldReduceMotion ? 1 : 1.025,
             }}
             animate={{
               opacity: 1,
@@ -150,11 +148,11 @@ export default function Hero() {
             }}
             transition={{
               opacity: {
-                duration: shouldReduceMotion ? 0 : 0.8,
+                duration: shouldReduceMotion ? 0 : 0.75,
                 ease: "easeInOut",
               },
               scale: {
-                duration: 6,
+                duration: shouldReduceMotion ? 0 : 6.5,
                 ease: "linear",
               },
             }}
@@ -169,63 +167,70 @@ export default function Hero() {
           />
         </AnimatePresence>
 
-        {/* PRIMARY CONTENT OVERLAY */}
+        {/* =================================================
+            LEFT CONTENT GRADIENT
+        ================================================= */}
 
         <div
           className="
             absolute
             inset-0
             bg-gradient-to-r
-            from-[#031F18]/95
-            via-[#0B3D2E]/68
-            to-[#0B3D2E]/18
+            from-[#031F18]/[0.96]
+            via-[#0B3D2E]/[0.72]
+            to-[#0B3D2E]/[0.12]
 
-            md:via-[#0B3D2E]/62
+            sm:via-[#0B3D2E]/[0.68]
+
+            lg:from-[#031F18]/[0.94]
+            lg:via-[#0B3D2E]/[0.62]
             lg:to-transparent
           "
         />
 
-        {/* BOTTOM READABILITY */}
+        {/* =================================================
+            BOTTOM CINEMATIC GRADIENT
+        ================================================= */}
 
         <div
           className="
             absolute
-            inset-0
+            inset-x-0
+            bottom-0
+            h-[55%]
             bg-gradient-to-t
-            from-[#031F18]/95
-            via-[#031F18]/20
+            from-[#031F18]/[0.94]
+            via-[#031F18]/[0.32]
             to-transparent
           "
         />
 
-        {/* TOP NAVBAR READABILITY */}
+        {/* =================================================
+            TOP NAVBAR READABILITY
+        ================================================= */}
 
         <div
           className="
             absolute
             inset-x-0
             top-0
-            h-44
+            h-48
             bg-gradient-to-b
-            from-[#031F18]/55
-            via-[#031F18]/20
+            from-[#031F18]/[0.62]
+            via-[#031F18]/[0.22]
             to-transparent
           "
         />
 
-        {/* SUBTLE BRAND-TONE OVERLAY */}
+        {/* =================================================
+            SUBTLE BRAND COLOR
+        ================================================= */}
 
-        <div
-          className="
-            absolute
-            inset-0
-            bg-[#0B3D2E]/[0.04]
-          "
-        />
+        <div className="absolute inset-0 bg-[#0B3D2E]/[0.035]" />
       </div>
 
       {/* =====================================================
-          HERO CONTENT
+          MAIN HERO CONTENT
       ===================================================== */}
 
       <div
@@ -244,9 +249,9 @@ export default function Hero() {
           sm:px-8
           sm:pb-36
 
-          lg:min-h-[720px]
+          lg:min-h-[730px]
           lg:px-10
-          lg:pb-36
+          lg:pb-32
           lg:pt-32
 
           xl:px-12
@@ -257,7 +262,7 @@ export default function Hero() {
             key={currentImage}
             initial={{
               opacity: 0,
-              x: shouldReduceMotion ? 0 : -18,
+              x: shouldReduceMotion ? 0 : -16,
             }}
             animate={{
               opacity: 1,
@@ -265,7 +270,7 @@ export default function Hero() {
             }}
             exit={{
               opacity: 0,
-              x: shouldReduceMotion ? 0 : -12,
+              x: shouldReduceMotion ? 0 : -10,
             }}
             transition={{
               duration: shouldReduceMotion ? 0 : 0.55,
@@ -273,27 +278,40 @@ export default function Hero() {
             }}
             className="
               w-full
-              max-w-2xl
+              max-w-xl
+
+              sm:max-w-2xl
 
               lg:max-w-3xl
-              xl:max-w-4xl
+
+              xl:max-w-[760px]
             "
           >
             {/* =================================================
                 EYEBROW
             ================================================= */}
 
-            <div className="mb-5 flex items-center gap-3 sm:mb-6">
+            <div
+              className="
+                mb-5
+                flex
+                items-center
+                gap-3
+
+                sm:mb-6
+              "
+            >
               <span
+                aria-hidden="true"
                 className="
                   h-[2px]
                   w-8
+                  shrink-0
                   rounded-full
                   bg-[#F97316]
 
-                  sm:w-11
+                  sm:w-10
                 "
-                aria-hidden="true"
               />
 
               <p
@@ -302,9 +320,10 @@ export default function Hero() {
                   font-bold
                   uppercase
                   tracking-[0.18em]
-                  text-white/80
+                  text-white/85
 
                   sm:text-xs
+
                   md:text-sm
                 "
               >
@@ -313,23 +332,28 @@ export default function Hero() {
             </div>
 
             {/* =================================================
-                HEADING
+                MAIN HEADING
             ================================================= */}
 
             <h1
               id="hero-heading"
               className="
                 max-w-4xl
-                text-[2.55rem]
+                text-[2.65rem]
                 font-extrabold
-                leading-[1.06]
-                tracking-[-0.04em]
+                leading-[1.04]
+                tracking-[-0.045em]
                 text-white
+                drop-shadow-[0_3px_14px_rgba(0,0,0,0.22)]
 
                 sm:text-5xl
+                sm:leading-[1.04]
+
                 md:text-6xl
+
                 lg:text-[4.2rem]
-                xl:text-[4.65rem]
+
+                xl:text-[4.6rem]
               "
             >
               {currentHero.number && (
@@ -360,15 +384,18 @@ export default function Hero() {
                 className="
                   mt-6
                   max-w-xl
-                  text-sm
+                  text-[15px]
+                  font-normal
                   leading-7
-                  text-white/72
+                  text-white/[0.86]
+                  drop-shadow-[0_2px_7px_rgba(0,0,0,0.35)]
 
                   sm:mt-7
-                  sm:text-base
+                  sm:text-[17px]
                   sm:leading-8
 
                   lg:max-w-2xl
+                  lg:text-[18px]
                 "
               >
                 {currentHero.description}
@@ -376,7 +403,7 @@ export default function Hero() {
             )}
 
             {/* =================================================
-                ACTION BUTTONS
+                CTA GROUP
             ================================================= */}
 
             <div
@@ -389,9 +416,12 @@ export default function Hero() {
                 sm:mt-9
                 sm:flex-row
                 sm:items-center
+                sm:gap-3
               "
             >
-              {/* PRIMARY */}
+              {/* =================================================
+                  PRIMARY CTA
+              ================================================= */}
 
               <Link
                 to="/projects"
@@ -399,6 +429,7 @@ export default function Hero() {
                   group
                   inline-flex
                   min-h-[54px]
+                  w-full
                   items-center
                   justify-center
                   gap-3
@@ -407,14 +438,15 @@ export default function Hero() {
                   px-7
                   text-sm
                   font-bold
+                  tracking-[0.01em]
                   text-white
-                  shadow-[0_10px_30px_rgba(0,0,0,0.20)]
-                  transition-all
+                  shadow-[0_10px_28px_rgba(0,0,0,0.20)]
+                  transition-[background-color,transform,box-shadow]
                   duration-200
 
                   hover:-translate-y-0.5
                   hover:bg-[#EA580C]
-                  hover:shadow-[0_14px_34px_rgba(0,0,0,0.26)]
+                  hover:shadow-[0_14px_32px_rgba(0,0,0,0.26)]
 
                   active:translate-y-0
 
@@ -423,6 +455,11 @@ export default function Hero() {
                   focus-visible:ring-white
                   focus-visible:ring-offset-2
                   focus-visible:ring-offset-[#0B3D2E]
+
+                  motion-reduce:transition-none
+                  motion-reduce:hover:transform-none
+
+                  sm:w-auto
                 "
               >
                 {heroButtons.primary}
@@ -434,41 +471,53 @@ export default function Hero() {
                     transition-transform
                     duration-200
                     group-hover:translate-x-1
+
+                    motion-reduce:transition-none
                   "
                 />
               </Link>
 
-              {/* SECONDARY */}
+              {/* =================================================
+                  SECONDARY CTA
+              ================================================= */}
 
               <Link
                 to="/about"
                 className="
                   inline-flex
                   min-h-[54px]
+                  w-full
                   items-center
                   justify-center
                   rounded-xl
                   border
-                  border-white/25
-                  bg-white/[0.07]
+                  border-white/35
+                  bg-[#031F18]/[0.22]
                   px-7
                   text-sm
-                  font-bold
+                  font-semibold
+                  tracking-[0.01em]
                   text-white
-                  backdrop-blur-sm
-                  transition-all
+                  backdrop-blur-[3px]
+                  transition-[background-color,border-color,transform]
                   duration-200
 
                   hover:-translate-y-0.5
-                  hover:border-white/70
-                  hover:bg-white
-                  hover:text-[#0B3D2E]
+                  hover:border-white/60
+                  hover:bg-white/[0.10]
 
                   active:translate-y-0
 
                   focus:outline-none
                   focus-visible:ring-2
                   focus-visible:ring-white
+                  focus-visible:ring-offset-2
+                  focus-visible:ring-offset-[#0B3D2E]
+
+                  motion-reduce:transition-none
+                  motion-reduce:hover:transform-none
+
+                  sm:w-auto
                 "
               >
                 {heroButtons.secondary}
@@ -479,7 +528,7 @@ export default function Hero() {
       </div>
 
       {/* =====================================================
-          SLIDE ANNOUNCEMENT
+          ACCESSIBLE SLIDE ANNOUNCEMENT
       ===================================================== */}
 
       <div className="sr-only" aria-live="polite" aria-atomic="true">
@@ -511,12 +560,14 @@ export default function Hero() {
             px-5
 
             sm:px-8
+
             lg:px-10
+
             xl:px-12
           "
         >
           {/* =================================================
-              COUNTER
+              SLIDE COUNTER
           ================================================= */}
 
           <div
@@ -543,7 +594,7 @@ export default function Hero() {
           </div>
 
           {/* =================================================
-              CONTROLS
+              SLIDER CONTROL BAR
           ================================================= */}
 
           <div
@@ -555,9 +606,9 @@ export default function Hero() {
               rounded-xl
               border
               border-white/15
-              bg-[#031F18]/45
+              bg-[#031F18]/[0.52]
               p-1
-              shadow-[0_8px_30px_rgba(0,0,0,0.16)]
+              shadow-[0_8px_28px_rgba(0,0,0,0.16)]
               backdrop-blur-md
             "
             role="group"
@@ -585,17 +636,17 @@ export default function Hero() {
                 justify-center
                 rounded-lg
                 text-white/65
-                transition-all
+                transition-colors
                 duration-200
 
-                hover:bg-white/10
+                hover:bg-white/[0.10]
                 hover:text-white
-
-                active:scale-95
 
                 focus:outline-none
                 focus-visible:ring-2
                 focus-visible:ring-white
+
+                motion-reduce:transition-none
               "
             >
               <FaChevronLeft size={10} aria-hidden="true" />
@@ -613,7 +664,7 @@ export default function Hero() {
 
                 return (
                   <button
-                    key={image.id}
+                    key={image.id ?? index}
                     type="button"
                     role="tab"
                     onClick={() => handleSelectSlide(index)}
@@ -629,6 +680,8 @@ export default function Hero() {
                       focus:outline-none
                       focus-visible:ring-2
                       focus-visible:ring-white
+                      focus-visible:ring-offset-1
+                      focus-visible:ring-offset-[#031F18]
                     "
                   >
                     <span
@@ -636,8 +689,9 @@ export default function Hero() {
                         block
                         h-1
                         rounded-full
-                        transition-all
+                        transition-[width,background-color]
                         duration-300
+                        motion-reduce:transition-none
 
                         ${
                           isActive
@@ -665,17 +719,17 @@ export default function Hero() {
                 justify-center
                 rounded-lg
                 text-white/65
-                transition-all
+                transition-colors
                 duration-200
 
-                hover:bg-white/10
+                hover:bg-white/[0.10]
                 hover:text-white
-
-                active:scale-95
 
                 focus:outline-none
                 focus-visible:ring-2
                 focus-visible:ring-white
+
+                motion-reduce:transition-none
               "
             >
               <FaChevronRight size={10} aria-hidden="true" />

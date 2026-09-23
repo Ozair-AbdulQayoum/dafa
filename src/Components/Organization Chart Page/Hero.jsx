@@ -75,10 +75,17 @@ function PositionNode({ title, accent = "green", primary = false }) {
         duration: 0.25,
       }}
       className={`
-        relative z-10 w-full rounded-2xl border
-        px-4 py-4 text-center
+        relative
+        z-10
+        w-full
+        rounded-2xl
+        border
+        px-4
+        py-4
+        text-center
         backdrop-blur-xl
-        transition-all duration-300
+        transition-all
+        duration-300
         ${styles.border}
         ${
           primary
@@ -93,8 +100,11 @@ function PositionNode({ title, accent = "green", primary = false }) {
 
       <p
         className={`
-          text-[11px] font-black uppercase
-          leading-5 tracking-[0.05em]
+          text-[11px]
+          font-black
+          uppercase
+          leading-5
+          tracking-[0.05em]
           ${primary ? "text-white" : "text-[#0F172A]"}
         `}
       >
@@ -115,34 +125,25 @@ function PositionTree({ node, accent, level = 0 }) {
 
   return (
     <div className="relative flex flex-col items-center">
-      {/* Parent connector */}
-
       {level > 0 && (
         <div className="absolute -top-6 left-1/2 h-6 w-px bg-slate-300" />
       )}
 
-      {/* Position */}
-
       <PositionNode title={node.title} accent={accent} primary={level === 0} />
-
-      {/* Children */}
 
       {hasChildren && (
         <>
-          {/* Vertical connector */}
-
           <div className="h-7 w-px bg-slate-300" />
 
           <div className="relative w-full">
-            {/* Horizontal connector for multiple branches */}
-
             {node.children.length > 1 && (
               <div className="absolute left-[12%] right-[12%] top-0 hidden h-px bg-slate-300 md:block" />
             )}
 
             <div
               className={`
-                grid pt-6
+                grid
+                pt-6
                 ${
                   node.children.length === 1
                     ? "grid-cols-1 gap-6"
@@ -157,8 +158,6 @@ function PositionTree({ node, accent, level = 0 }) {
                   key={`${child.title}-${index}`}
                   className="relative flex justify-center"
                 >
-                  {/* Child connector */}
-
                   <div className="absolute -top-6 left-1/2 hidden h-6 w-px bg-slate-300 md:block" />
 
                   <div className="w-full">
@@ -199,8 +198,6 @@ function DepartmentTree({ department, index }) {
       }}
       className="relative"
     >
-      {/* Department Header */}
-
       <div className="relative mx-auto w-full max-w-[390px]">
         <div className="absolute -inset-1 rounded-[24px] bg-gradient-to-r from-[#087B5A]/10 via-[#2563EB]/10 to-[#F97316]/10 blur-lg" />
 
@@ -210,7 +207,7 @@ function DepartmentTree({ department, index }) {
               <Icon size={20} />
             </div>
 
-            <p className="mt-3 text-[9px] font-black uppercase tracking-[0.18em] text-[#A7F3D0]/65">
+            <p className="mt-3 text-[9px] font-black uppercase tracking-[0.18em] text-[#A7DCC9]/65">
               Department
             </p>
 
@@ -224,8 +221,6 @@ function DepartmentTree({ department, index }) {
           </div>
         </div>
       </div>
-
-      {/* Department → Management */}
 
       <div className="mt-7">
         <div className="mx-auto h-7 w-px bg-slate-300" />
@@ -263,17 +258,17 @@ function DepartmentDetail({ department, index }) {
       className="relative overflow-hidden rounded-[26px] bg-[#F7FBF9] p-[1px] shadow-sm"
     >
       <div className="relative h-full rounded-[25px] bg-white/80 p-6 backdrop-blur-xl sm:p-7">
-        {/* Top line */}
-
         <div className="absolute inset-x-7 top-0 h-[3px] rounded-full bg-gradient-to-r from-[#087B5A] via-[#2563EB] to-[#F97316]" />
-
-        {/* Header */}
 
         <div className="flex items-center gap-4">
           <div
             className={`
-              flex h-12 w-12 shrink-0
-              items-center justify-center
+              flex
+              h-12
+              w-12
+              shrink-0
+              items-center
+              justify-center
               rounded-xl
               ${styles.icon}
             `}
@@ -292,13 +287,9 @@ function DepartmentDetail({ department, index }) {
           </div>
         </div>
 
-        {/* Description */}
-
         <p className="mt-5 text-sm leading-7 text-slate-600">
           {department.description}
         </p>
-
-        {/* Responsibilities */}
 
         <div className="mt-6">
           <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">
@@ -333,14 +324,23 @@ export default function OrganizationChart() {
   return (
     <main className="overflow-hidden bg-[#F4FAF7]">
       {/* =================================================
-          HERO
+          HERO — FULL WIDTH
       ================================================= */}
 
-      <section className="relative overflow-hidden bg-[#06281E]">
-        {/* Green glow */}
-
+      <section className="relative w-full overflow-hidden bg-[#06281E]">
+        {/* Green Glow */}
         <motion.div
-          className="absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#087B5A]/20 blur-3xl"
+          className="
+            pointer-events-none
+            absolute
+            -right-40
+            -top-40
+            h-[500px]
+            w-[500px]
+            rounded-full
+            bg-[#087B5A]/20
+            blur-3xl
+          "
           animate={{
             scale: [1, 1.12, 1],
             opacity: [0.3, 0.55, 0.3],
@@ -352,10 +352,19 @@ export default function OrganizationChart() {
           }}
         />
 
-        {/* Blue glow */}
-
+        {/* Blue Glow */}
         <motion.div
-          className="absolute -bottom-40 -left-40 h-[500px] w-[500px] rounded-full bg-[#2563EB]/15 blur-3xl"
+          className="
+            pointer-events-none
+            absolute
+            -bottom-40
+            -left-40
+            h-[500px]
+            w-[500px]
+            rounded-full
+            bg-[#2563EB]/15
+            blur-3xl
+          "
           animate={{
             scale: [1, 1.1, 1],
             opacity: [0.2, 0.4, 0.2],
@@ -367,12 +376,23 @@ export default function OrganizationChart() {
           }}
         />
 
-        {/* Orange glow */}
+        {/* Orange Glow */}
+        <div
+          className="
+            pointer-events-none
+            absolute
+            left-1/2
+            top-1/3
+            h-48
+            w-48
+            -translate-x-1/2
+            rounded-full
+            bg-[#F97316]/10
+            blur-3xl
+          "
+        />
 
-        <div className="absolute left-1/2 top-1/3 h-48 w-48 -translate-x-1/2 rounded-full bg-[#F97316]/10 blur-3xl" />
-
-        {/* Grid */}
-
+        {/* Subtle Grid */}
         <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
           <div
             className="h-full w-full"
@@ -384,15 +404,29 @@ export default function OrganizationChart() {
           />
         </div>
 
-        {/* Hero content */}
-
-        <div className="relative z-10 mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24 lg:px-10 lg:py-28">
+        {/* Full Width Content */}
+        <div
+          className="
+            relative
+            z-10
+            w-full
+            px-5
+            py-20
+            sm:px-8
+            sm:py-24
+            lg:px-12
+            lg:py-28
+            xl:px-16
+            2xl:px-20
+          "
+        >
           <motion.div
             variants={fadeUp}
             initial="hidden"
             animate="visible"
-            className="mx-auto max-w-4xl text-center"
+            className="mx-auto w-full max-w-5xl text-center"
           >
+            {/* Eyebrow */}
             <div className="mb-6 flex items-center justify-center gap-3">
               <span className="h-px w-8 bg-[#F97316] sm:w-10" />
 
@@ -403,19 +437,22 @@ export default function OrganizationChart() {
               <span className="h-px w-8 bg-[#F97316] sm:w-10" />
             </div>
 
+            {/* Heading */}
             <h1 className="text-4xl font-black leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
               {organizationPageData.title}
             </h1>
 
+            {/* Description */}
             <p className="mx-auto mt-7 max-w-3xl text-sm leading-7 text-green-50/75 sm:text-base sm:leading-8 lg:text-lg">
               {organizationPageData.description}
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#A7F3D0]/70 sm:text-sm">
+            {/* Organizational Areas */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#A7F3D0]/70 sm:text-sm">
               {organizationPageData.supportingText
                 .split("•")
                 .map((item, index) => (
-                  <React.Fragment key={item}>
+                  <React.Fragment key={`${item}-${index}`}>
                     {index > 0 && <span className="text-[#F97316]">•</span>}
 
                     <span>{item.trim()}</span>
@@ -431,8 +468,6 @@ export default function OrganizationChart() {
       ================================================= */}
 
       <section className="relative overflow-hidden bg-gradient-to-br from-[#E8F5EF] via-[#F7FBF9] to-[#EAF4F8] py-20 sm:py-24 lg:py-28">
-        {/* Background glows */}
-
         <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-[#087B5A]/10 blur-3xl" />
 
         <div className="pointer-events-none absolute -right-40 bottom-20 h-96 w-96 rounded-full bg-[#2563EB]/10 blur-3xl" />
@@ -440,8 +475,7 @@ export default function OrganizationChart() {
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[#F97316]/5 blur-3xl" />
 
         <div className="relative mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-10">
-          {/* Header */}
-
+          {/* Section Header */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -471,7 +505,6 @@ export default function OrganizationChart() {
           </motion.div>
 
           {/* Director */}
-
           <div className="mt-16 flex flex-col items-center">
             <motion.div
               variants={fadeUp}
@@ -515,8 +548,6 @@ export default function OrganizationChart() {
               </div>
             </motion.div>
 
-            {/* Director connector */}
-
             <div className="relative mt-8 h-16 w-px bg-[#087B5A]/35">
               <div className="absolute bottom-0 left-1/2 flex h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full bg-white text-[#087B5A] shadow-md">
                 <FaChevronDown size={9} />
@@ -524,8 +555,7 @@ export default function OrganizationChart() {
             </div>
           </div>
 
-          {/* Department connection line */}
-
+          {/* Department Connection Line */}
           <div className="relative hidden lg:block">
             <div className="absolute left-[8%] right-[8%] top-0 h-[2px] rounded-full bg-gradient-to-r from-transparent via-[#087B5A]/35 to-transparent" />
 
@@ -547,8 +577,7 @@ export default function OrganizationChart() {
             })}
           </div>
 
-          {/* Department trees */}
-
+          {/* Department Trees */}
           <div className="mt-8 grid gap-16 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-20">
             {departments.map((department, index) => (
               <DepartmentTree
@@ -567,8 +596,7 @@ export default function OrganizationChart() {
 
       <section className="relative bg-white py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-          {/* Header */}
-
+          {/* Section Header */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -592,8 +620,7 @@ export default function OrganizationChart() {
             </p>
           </motion.div>
 
-          {/* Detail cards */}
-
+          {/* Department Cards */}
           <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {departments.map((department, index) => (
               <DepartmentDetail

@@ -1,13 +1,17 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { FaArrowRight } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaCalendarAlt,
+  FaMapMarkerAlt,
+  FaHandshake,
+} from "react-icons/fa";
 
 import projects from "../../Components/Data File/Project Data/ProjectsData";
 
 export default function Projects() {
   const shouldReduceMotion = useReducedMotion();
 
-  // Show only the first 3 ongoing projects on the Home Page
   const featuredProjects = Array.isArray(projects)
     ? projects.filter((project) => project?.status === "Ongoing").slice(0, 3)
     : [];
@@ -35,18 +39,11 @@ export default function Projects() {
           xl:px-12
         "
       >
-        {/* ================= HEADER ================= */}
-
+        {/* Section Header */}
         <motion.div
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{
             duration: shouldReduceMotion ? 0 : 0.55,
             ease: [0.22, 1, 0.36, 1],
@@ -60,8 +57,6 @@ export default function Projects() {
             lg:mb-10
           "
         >
-          {/* Section Label */}
-
           <div className="mb-3 flex items-center justify-center gap-3">
             <span
               aria-hidden="true"
@@ -99,8 +94,6 @@ export default function Projects() {
             />
           </div>
 
-          {/* Heading */}
-
           <h2
             id="projects-section-title"
             className="
@@ -116,8 +109,6 @@ export default function Projects() {
             Turning Humanitarian Action Into
             <span className="block text-[#0B3D2E]">Measurable Impact</span>
           </h2>
-
-          {/* Description */}
 
           <p
             className="
@@ -136,8 +127,7 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* ================= PROJECTS ================= */}
-
+        {/* Projects */}
         {featuredProjects.length > 0 ? (
           <div
             className="
@@ -148,354 +138,24 @@ export default function Projects() {
               lg:gap-5
             "
           >
-            {featuredProjects.map((project, index) => {
-              const image = project?.images?.[0] || project?.image || "";
-
-              const title =
-                project?.title || project?.shortTitle || "DAFA Project";
-
-              const slug = project?.slug || "";
-
-              return (
-                <motion.article
-                  key={project?.slug || `project-${index}`}
-                  initial={
-                    shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 25 }
-                  }
-                  whileInView={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  viewport={{
-                    once: true,
-                    amount: 0.15,
-                  }}
-                  transition={{
-                    duration: shouldReduceMotion ? 0 : 0.55,
-                    delay: shouldReduceMotion ? 0 : index * 0.1,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="
-                    group
-                    relative
-                    h-[470px]
-                    overflow-hidden
-                    rounded-2xl
-                    border
-                    border-[#0B3D2E]/10
-                    bg-[#0B3D2E]
-                    shadow-[0_14px_35px_rgba(15,23,42,0.09)]
-                    transition-all
-                    duration-500
-                    hover:-translate-y-1
-                    hover:shadow-[0_22px_50px_rgba(15,23,42,0.15)]
-                    sm:h-[500px]
-                    sm:rounded-3xl
-                  "
-                >
-                  {/* ================= IMAGE ================= */}
-
-                  {image ? (
-                    <img
-                      src={image}
-                      alt={title}
-                      loading={index === 0 ? "eager" : "lazy"}
-                      decoding="async"
-                      className="
-                        absolute
-                        inset-0
-                        h-full
-                        w-full
-                        object-cover
-                        transition-transform
-                        duration-[900ms]
-                        ease-out
-                        group-hover:scale-[1.055]
-                      "
-                    />
-                  ) : (
-                    <div
-                      className="
-                        absolute
-                        inset-0
-                        flex
-                        items-center
-                        justify-center
-                        bg-[#0B3D2E]
-                      "
-                    >
-                      <span
-                        className="
-                          px-6
-                          text-center
-                          text-sm
-                          font-semibold
-                          text-white/80
-                        "
-                      >
-                        DAFA Humanitarian Mine Action
-                      </span>
-                    </div>
-                  )}
-
-                  {/* ================= OVERLAY ================= */}
-
-                  <div
-                    aria-hidden="true"
-                    className="
-                      absolute
-                      inset-0
-                      bg-gradient-to-t
-                      from-[#031F18]
-                      via-[#0B3D2E]/30
-                      to-black/5
-                      opacity-95
-                    "
-                  />
-
-                  <div
-                    aria-hidden="true"
-                    className="
-                      absolute
-                      inset-x-0
-                      bottom-0
-                      h-2/3
-                      bg-gradient-to-t
-                      from-[#031F18]
-                      via-[#031F18]/80
-                      to-transparent
-                    "
-                  />
-
-                  {/* ================= TOP META ================= */}
-
-                  <div
-                    className="
-                      absolute
-                      left-5
-                      right-5
-                      top-5
-                      flex
-                      items-start
-                      justify-between
-                      sm:left-6
-                      sm:right-6
-                      sm:top-6
-                    "
-                  >
-                    {/* Number */}
-
-                    <div
-                      className="
-                        text-3xl
-                        font-light
-                        leading-none
-                        tracking-[-0.05em]
-                        text-white/90
-                        sm:text-4xl
-                      "
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </div>
-
-                    {/* Status */}
-
-                    <span
-                      className="
-                        rounded-full
-                        border
-                        border-white/20
-                        bg-[#031F18]/45
-                        px-3
-                        py-1.5
-                        text-[9px]
-                        font-extrabold
-                        uppercase
-                        tracking-[0.16em]
-                        text-white
-                        backdrop-blur-md
-                      "
-                    >
-                      {project?.status || "Ongoing"}
-                    </span>
-                  </div>
-
-                  {/* ================= CONTENT ================= */}
-
-                  <div
-                    className="
-                      absolute
-                      bottom-0
-                      left-0
-                      right-0
-                      p-5
-                      sm:p-6
-                      lg:p-7
-                    "
-                  >
-                    {/* Accent */}
-
-                    <div
-                      aria-hidden="true"
-                      className="
-                        mb-4
-                        h-[3px]
-                        w-8
-                        rounded-full
-                        bg-[#F97316]
-                        transition-all
-                        duration-500
-                        group-hover:w-14
-                      "
-                    />
-
-                    {/* Location / Year */}
-
-                    <div
-                      className="
-                        mb-3
-                        flex
-                        flex-wrap
-                        items-center
-                        gap-x-4
-                        gap-y-1
-                        text-[10px]
-                        font-bold
-                        uppercase
-                        tracking-[0.12em]
-                        text-white/60
-                      "
-                    >
-                      {project?.location && <span>{project.location}</span>}
-
-                      {project?.year && (
-                        <>
-                          {project?.location && (
-                            <span aria-hidden="true" className="text-white/25">
-                              /
-                            </span>
-                          )}
-
-                          <span>{project.year}</span>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Title */}
-
-                    <h3
-                      className="
-                        max-w-[92%]
-                        text-xl
-                        font-extrabold
-                        leading-[1.15]
-                        tracking-[-0.025em]
-                        text-white
-                        sm:text-2xl
-                      "
-                    >
-                      {title}
-                    </h3>
-
-                    {/* Description */}
-
-                    {project?.description && (
-                      <p
-                        className="
-                          mt-3
-                          line-clamp-3
-                          max-w-[95%]
-                          text-xs
-                          leading-5
-                          text-white/70
-                          sm:text-sm
-                          sm:leading-6
-                        "
-                      >
-                        {project.description}
-                      </p>
-                    )}
-
-                    {/* Explore */}
-
-                    <Link
-                      to={`/projects/${slug}`}
-                      aria-label={`Explore ${title}`}
-                      className="
-                        mt-5
-                        inline-flex
-                        min-h-10
-                        items-center
-                        gap-3
-                        border-b
-                        border-white/30
-                        pb-1
-                        text-xs
-                        font-bold
-                        text-white
-                        transition-all
-                        duration-300
-                        hover:gap-4
-                        hover:border-[#F97316]
-                        hover:text-[#F97316]
-                        focus:outline-none
-                        focus-visible:ring-2
-                        focus-visible:ring-[#F97316]
-                        focus-visible:ring-offset-2
-                        focus-visible:ring-offset-[#0B3D2E]
-                      "
-                    >
-                      <span>Explore Project</span>
-
-                      <FaArrowRight
-                        aria-hidden="true"
-                        className="
-                          text-[10px]
-                          transition-transform
-                          duration-300
-                          group-hover:translate-x-1
-                        "
-                      />
-                    </Link>
-                  </div>
-
-                  {/* ================= HOVER BORDER ================= */}
-
-                  <div
-                    aria-hidden="true"
-                    className="
-                      pointer-events-none
-                      absolute
-                      inset-0
-                      rounded-2xl
-                      border
-                      border-white/0
-                      transition-colors
-                      duration-500
-                      group-hover:border-white/20
-                      sm:rounded-3xl
-                    "
-                  />
-                </motion.article>
-              );
-            })}
+            {featuredProjects.map((project, index) => (
+              <ProjectCard
+                key={project?.slug || `project-${index}`}
+                project={project}
+                index={index}
+                shouldReduceMotion={shouldReduceMotion}
+              />
+            ))}
           </div>
         ) : (
           <EmptyProjects />
         )}
 
-        {/* ================= VIEW ALL ================= */}
-
+        {/* View All */}
         <motion.div
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{
             duration: shouldReduceMotion ? 0 : 0.5,
             delay: shouldReduceMotion ? 0 : 0.15,
@@ -552,9 +212,393 @@ export default function Projects() {
   );
 }
 
-/* ============================================================
-   EMPTY STATE
-============================================================ */
+function ProjectCard({ project, index, shouldReduceMotion }) {
+  const image = project?.images?.[0] || project?.image || "";
+
+  const title = project?.title || project?.shortTitle || "DAFA Project";
+
+  const slug = project?.slug || "";
+
+  const status = project?.status || "Ongoing";
+
+  const location = project?.location || project?.province || "";
+
+  const year = project?.year || "";
+
+  const donor =
+    project?.donor ||
+    project?.donorName ||
+    project?.partner ||
+    project?.partnerName ||
+    "";
+
+  const duration = project?.duration || project?.projectDuration || "";
+
+  return (
+    <motion.article
+      initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{
+        duration: shouldReduceMotion ? 0 : 0.55,
+        delay: shouldReduceMotion ? 0 : index * 0.1,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="
+        group
+        relative
+        h-[470px]
+        overflow-hidden
+        rounded-2xl
+        border
+        border-[#0B3D2E]/10
+        bg-[#0B3D2E]
+        shadow-[0_14px_35px_rgba(15,23,42,0.09)]
+        transition-all
+        duration-500
+        hover:-translate-y-1
+        hover:shadow-[0_22px_50px_rgba(15,23,42,0.15)]
+        sm:h-[500px]
+        sm:rounded-3xl
+      "
+    >
+      {/* Image */}
+      {image ? (
+        <img
+          src={image}
+          alt={title}
+          loading={index === 0 ? "eager" : "lazy"}
+          decoding="async"
+          className="
+            absolute
+            inset-0
+            h-full
+            w-full
+            object-cover
+            transition-transform
+            duration-[900ms]
+            ease-out
+            group-hover:scale-[1.055]
+          "
+        />
+      ) : (
+        <div
+          className="
+            absolute
+            inset-0
+            flex
+            items-center
+            justify-center
+            bg-[#0B3D2E]
+          "
+        >
+          <span
+            className="
+              px-6
+              text-center
+              text-sm
+              font-semibold
+              text-white/70
+            "
+          >
+            DAFA Humanitarian Mine Action
+          </span>
+        </div>
+      )}
+
+      {/* Image Overlay */}
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          inset-0
+          bg-gradient-to-t
+          from-[#031F18]
+          via-[#0B3D2E]/35
+          to-black/5
+          opacity-95
+        "
+      />
+
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          inset-x-0
+          bottom-0
+          h-[72%]
+          bg-gradient-to-t
+          from-[#031F18]
+          via-[#031F18]/80
+          to-transparent
+        "
+      />
+
+      {/* Top Information */}
+      <div
+        className="
+          absolute
+          left-5
+          right-5
+          top-5
+          flex
+          items-start
+          justify-between
+          gap-4
+          sm:left-6
+          sm:right-6
+          sm:top-6
+        "
+      >
+        <div
+          className="
+            text-3xl
+            font-light
+            leading-none
+            tracking-[-0.05em]
+            text-white/90
+            sm:text-4xl
+          "
+        >
+          {String(index + 1).padStart(2, "0")}
+        </div>
+
+        <span
+          className={`
+            rounded-full
+            border
+            px-3
+            py-1.5
+            text-[9px]
+            font-extrabold
+            uppercase
+            tracking-[0.16em]
+            backdrop-blur-md
+            ${
+              status.toLowerCase() === "ongoing"
+                ? "border-[#A7F3D0]/30 bg-[#0B3D2E]/70 text-[#D1FAE5]"
+                : "border-white/20 bg-[#031F18]/55 text-white"
+            }
+          `}
+        >
+          {status}
+        </span>
+      </div>
+
+      {/* Content */}
+      <div
+        className="
+          absolute
+          bottom-0
+          left-0
+          right-0
+          p-5
+          sm:p-6
+          lg:p-7
+        "
+      >
+        {/* Accent */}
+        <div
+          aria-hidden="true"
+          className="
+            mb-4
+            h-[3px]
+            w-8
+            rounded-full
+            bg-[#F97316]
+            transition-all
+            duration-500
+            group-hover:w-14
+          "
+        />
+
+        {/* Category */}
+        <p
+          className="
+            mb-2
+            text-[9px]
+            font-extrabold
+            uppercase
+            tracking-[0.16em]
+            text-[#A7F3D0]
+          "
+        >
+          Humanitarian Mine Action
+        </p>
+
+        {/* Title */}
+        <h3
+          className="
+            max-w-[95%]
+            text-xl
+            font-extrabold
+            leading-[1.15]
+            tracking-[-0.025em]
+            text-white
+            sm:text-2xl
+          "
+        >
+          {title}
+        </h3>
+
+        {/* Metadata */}
+        <div
+          className="
+            mt-4
+            grid
+            grid-cols-2
+            gap-x-4
+            gap-y-2
+            border-y
+            border-white/10
+            py-3
+          "
+        >
+          {location && (
+            <ProjectMeta
+              icon={<FaMapMarkerAlt />}
+              label="Location"
+              value={location}
+            />
+          )}
+
+          {year && (
+            <ProjectMeta icon={<FaCalendarAlt />} label="Year" value={year} />
+          )}
+
+          {donor && (
+            <ProjectMeta
+              icon={<FaHandshake />}
+              label="Partner / Donor"
+              value={donor}
+            />
+          )}
+
+          {duration && (
+            <ProjectMeta
+              icon={<FaCalendarAlt />}
+              label="Duration"
+              value={duration}
+            />
+          )}
+        </div>
+
+        {/* Description */}
+        {project?.description && (
+          <p
+            className="
+              mt-3
+              line-clamp-2
+              max-w-[95%]
+              text-xs
+              leading-5
+              text-white/65
+              sm:text-sm
+              sm:leading-6
+            "
+          >
+            {project.description}
+          </p>
+        )}
+
+        {/* CTA */}
+        <Link
+          to={`/projects/${slug}`}
+          aria-label={`Explore ${title}`}
+          className="
+            mt-4
+            inline-flex
+            min-h-10
+            items-center
+            gap-3
+            border-b
+            border-white/30
+            pb-1
+            text-xs
+            font-bold
+            text-white
+            transition-all
+            duration-300
+            hover:gap-4
+            hover:border-[#F97316]
+            hover:text-[#F97316]
+            focus:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[#F97316]
+            focus-visible:ring-offset-2
+            focus-visible:ring-offset-[#0B3D2E]
+          "
+        >
+          <span>Explore Project</span>
+
+          <FaArrowRight
+            aria-hidden="true"
+            className="
+              text-[10px]
+              transition-transform
+              duration-300
+              group-hover:translate-x-1
+            "
+          />
+        </Link>
+      </div>
+
+      {/* Hover Border */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          rounded-2xl
+          border
+          border-white/0
+          transition-colors
+          duration-500
+          group-hover:border-white/20
+          sm:rounded-3xl
+        "
+      />
+    </motion.article>
+  );
+}
+
+function ProjectMeta({ icon, label, value }) {
+  return (
+    <div className="min-w-0">
+      <div className="flex items-center gap-1.5">
+        <span aria-hidden="true" className="text-[9px] text-[#A7F3D0]">
+          {icon}
+        </span>
+
+        <span
+          className="
+            text-[8px]
+            font-bold
+            uppercase
+            tracking-[0.12em]
+            text-white/35
+          "
+        >
+          {label}
+        </span>
+      </div>
+
+      <p
+        className="
+          mt-1
+          truncate
+          text-[10px]
+          font-semibold
+          text-white/75
+        "
+        title={value}
+      >
+        {value}
+      </p>
+    </div>
+  );
+}
 
 function EmptyProjects() {
   return (

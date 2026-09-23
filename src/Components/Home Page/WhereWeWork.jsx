@@ -1,9 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-
 import { FaCheck, FaMapMarkerAlt, FaTimes } from "react-icons/fa";
-
 import { geoMercator, geoPath } from "d3-geo";
 
 import {
@@ -99,7 +96,6 @@ export default function WhereWeWork() {
     return {
       width,
       height,
-      projection,
       pathGenerator,
     };
   }, [features]);
@@ -236,13 +232,21 @@ export default function WhereWeWork() {
         aria-label="Where We Work"
         className="
           bg-[#F7FBF8]
-          pb-16
-          pt-10
-          sm:pb-20
-          sm:pt-12
+          py-10
+          sm:py-12
+          lg:py-14
         "
       >
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div
+          className="
+            mx-auto
+            max-w-7xl
+            px-5
+            sm:px-8
+            lg:px-10
+            xl:px-12
+          "
+        >
           <div
             className="
               flex
@@ -253,7 +257,7 @@ export default function WhereWeWork() {
               border
               border-[#0B3D2E]/10
               bg-white
-              shadow-[0_12px_35px_rgba(15,23,42,0.06)]
+              shadow-[0_10px_30px_rgba(15,23,42,0.05)]
               sm:rounded-3xl
             "
           >
@@ -261,8 +265,8 @@ export default function WhereWeWork() {
               <div
                 className="
                   mx-auto
-                  h-10
-                  w-10
+                  h-9
+                  w-9
                   animate-spin
                   rounded-full
                   border-[3px]
@@ -292,13 +296,21 @@ export default function WhereWeWork() {
         aria-label="Where We Work"
         className="
           bg-[#F7FBF8]
-          pb-16
-          pt-10
-          sm:pb-20
-          sm:pt-12
+          py-10
+          sm:py-12
+          lg:py-14
         "
       >
-        <div className="mx-auto max-w-3xl px-5 sm:px-8">
+        <div
+          className="
+            mx-auto
+            max-w-7xl
+            px-5
+            sm:px-8
+            lg:px-10
+            xl:px-12
+          "
+        >
           <div
             className="
               rounded-2xl
@@ -307,17 +319,15 @@ export default function WhereWeWork() {
               bg-white
               p-8
               text-center
-              shadow-[0_12px_35px_rgba(15,23,42,0.05)]
               sm:rounded-3xl
-              sm:p-10
             "
           >
             <div
               className="
                 mx-auto
                 flex
-                h-12
-                w-12
+                h-11
+                w-11
                 items-center
                 justify-center
                 rounded-full
@@ -325,14 +335,14 @@ export default function WhereWeWork() {
                 text-red-600
               "
             >
-              <FaTimes size={15} />
+              <FaTimes size={14} />
             </div>
 
             <p className="mt-4 font-bold text-red-700">
               Afghanistan map could not be loaded.
             </p>
 
-            <p className="mt-2 text-sm leading-6 text-red-500">{error}</p>
+            <p className="mt-2 text-sm text-red-500">{error}</p>
           </div>
         </div>
       </section>
@@ -350,50 +360,15 @@ export default function WhereWeWork() {
         relative
         overflow-hidden
         bg-[#F7FBF8]
-        pb-16
-        pt-10
-        sm:pb-20
-        sm:pt-12
-        lg:pb-24
-        lg:pt-14
+        py-10
+        sm:py-12
+        lg:py-14
       "
     >
-      {/* Background decoration */}
-
       <div
         className="
-          pointer-events-none
-          absolute
-          -left-40
-          top-0
-          h-80
-          w-80
-          rounded-full
-          bg-[#A7F3D0]/20
-          blur-3xl
-        "
-        aria-hidden="true"
-      />
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          -bottom-40
-          -right-40
-          h-96
-          w-96
-          rounded-full
-          bg-[#0284C7]/5
-          blur-3xl
-        "
-        aria-hidden="true"
-      />
-
-      <div
-        className="
-          relative
           mx-auto
+          w-full
           max-w-7xl
           px-5
           sm:px-8
@@ -406,8 +381,11 @@ export default function WhereWeWork() {
         ================================================== */}
 
         <motion.div
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
-          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
           viewport={{
             once: true,
             amount: 0.2,
@@ -418,144 +396,240 @@ export default function WhereWeWork() {
           }}
           className="
             mb-8
-            grid
-            gap-7
+            sm:mb-9
             lg:mb-10
-            lg:grid-cols-[1fr_auto]
-            lg:items-end
           "
         >
-          <div className="max-w-3xl">
-            {/* Section Label */}
-
-            <div className="mb-3 flex items-center gap-3">
-              <span
-                className="
-                  h-[2px]
-                  w-8
-                  rounded-full
-                  bg-[#F97316]
-                  sm:w-10
-                "
-                aria-hidden="true"
-              />
-
-              <span
-                className="
-                  text-[10px]
-                  font-extrabold
-                  uppercase
-                  tracking-[0.2em]
-                  text-[#0B3D2E]
-                  sm:text-xs
-                "
-              >
-                Where We Work
-              </span>
-
-              <span
-                className="
-                  h-[2px]
-                  w-8
-                  rounded-full
-                  bg-[#F97316]
-                  sm:w-10
-                "
-                aria-hidden="true"
-              />
-            </div>
-
-            <h2
-              id="where-we-work-title"
+          <div className="mb-3 flex items-center justify-center gap-3">
+            <span
+              aria-hidden="true"
               className="
-                max-w-3xl
-                text-3xl
+                h-[2px]
+                w-8
+                rounded-full
+                bg-[#F97316]
+                sm:w-10
+              "
+            />
+
+            <span
+              className="
+                text-[10px]
                 font-extrabold
-                leading-[1.08]
-                tracking-[-0.04em]
-                text-[#0F172A]
-                sm:text-4xl
-                lg:text-[2.8rem]
+                uppercase
+                tracking-[0.2em]
+                text-[#0B3D2E]
+                sm:text-xs
+                sm:tracking-[0.22em]
               "
             >
-              Creating safer communities
-              <span className="block text-[#0B3D2E]">across Afghanistan.</span>
-            </h2>
+              Where We Work
+            </span>
 
-            <p
+            <span
+              aria-hidden="true"
               className="
-                mt-4
-                max-w-2xl
-                text-sm
-                leading-6
-                text-slate-600
-                sm:text-base
-                sm:leading-7
+                h-[2px]
+                w-8
+                rounded-full
+                bg-[#F97316]
+                sm:w-10
               "
-            >
-              DAFA operates across Afghanistan to reduce the impact of explosive
-              hazards and support safer communities.
-            </p>
+            />
           </div>
 
-          {/* Coverage */}
-
-          <div
+          <h2
+            id="where-we-work-title"
             className="
-              flex
-              items-center
-              gap-4
-              border-l-[3px]
-              border-[#F97316]
-              pl-4
-              lg:min-w-[200px]
-              lg:pb-1
+              text-center
+              text-2xl
+              font-extrabold
+              leading-[1.1]
+              tracking-[-0.035em]
+              text-[#0F172A]
+
+              sm:text-3xl
+              lg:text-[2.7rem]
             "
           >
-            <div>
-              <div
-                className="
-                  text-4xl
-                  font-extrabold
-                  leading-none
-                  tracking-[-0.04em]
-                  text-[#0B3D2E]
-                  sm:text-5xl
-                "
-              >
-                {coveredProvinces}
-              </div>
+            Creating Safer Communities Across Afghanistan
+          </h2>
 
-              <div
-                className="
-                  mt-2
-                  text-[10px]
-                  font-extrabold
-                  uppercase
-                  tracking-[0.15em]
-                  text-slate-500
-                "
-              >
-                Provinces covered
-              </div>
-            </div>
-          </div>
+          <p
+            className="
+              mx-auto
+              mt-4
+              max-w-2xl
+              text-center
+              text-sm
+              leading-6
+              text-slate-600
+
+              sm:text-base
+              sm:leading-7
+            "
+          >
+            Explore where DAFA works and discover the geographic impact of our
+            humanitarian mine-action activities.
+          </p>
         </motion.div>
 
         {/* ==================================================
-            MAP CONTAINER
+            IMPACT SUMMARY
+        ================================================== */}
+
+        <div
+          className="
+            mb-5
+            grid
+            grid-cols-2
+            gap-3
+
+            sm:gap-4
+
+            lg:grid-cols-3
+          "
+        >
+          <div
+            className="
+              rounded-xl
+              border
+              border-[#0B3D2E]/10
+              bg-white
+              p-4
+              shadow-[0_5px_18px_rgba(15,23,42,0.04)]
+
+              sm:rounded-2xl
+              sm:p-5
+            "
+          >
+            <p
+              className="
+                text-2xl
+                font-extrabold
+                tracking-[-0.04em]
+                text-[#0B3D2E]
+
+                sm:text-3xl
+              "
+            >
+              {coveredProvinces}
+            </p>
+
+            <p
+              className="
+                mt-1.5
+                text-[9px]
+                font-extrabold
+                uppercase
+                tracking-[0.14em]
+                text-slate-500
+
+                sm:text-[10px]
+              "
+            >
+              Provinces covered
+            </p>
+          </div>
+
+          <div
+            className="
+              rounded-xl
+              border
+              border-[#0B3D2E]/10
+              bg-white
+              p-4
+              shadow-[0_5px_18px_rgba(15,23,42,0.04)]
+
+              sm:rounded-2xl
+              sm:p-5
+            "
+          >
+            <p
+              className="
+                text-2xl
+                font-extrabold
+                tracking-[-0.04em]
+                text-[#0B3D2E]
+
+                sm:text-3xl
+              "
+            >
+              Afghanistan
+            </p>
+
+            <p
+              className="
+                mt-1.5
+                text-[9px]
+                font-extrabold
+                uppercase
+                tracking-[0.14em]
+                text-slate-500
+
+                sm:text-[10px]
+              "
+            >
+              Countrywide focus
+            </p>
+          </div>
+
+          <div
+            className="
+              col-span-2
+              rounded-xl
+              border
+              border-[#F97316]/20
+              bg-[#FFF8F3]
+              p-4
+
+              sm:rounded-2xl
+              sm:p-5
+
+              lg:col-span-1
+            "
+          >
+            <p
+              className="
+                text-sm
+                font-extrabold
+                text-[#0B3D2E]
+
+                sm:text-base
+              "
+            >
+              Interactive Coverage
+            </p>
+
+            <p
+              className="
+                mt-1.5
+                text-xs
+                leading-5
+                text-slate-500
+              "
+            >
+              Hover or select a province to explore its information.
+            </p>
+          </div>
+        </div>
+
+        {/* ==================================================
+            MAP + DETAILS
         ================================================== */}
 
         <motion.div
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
           viewport={{
             once: true,
             amount: 0.1,
           }}
           transition={{
-            duration: shouldReduceMotion ? 0 : 0.65,
-            delay: shouldReduceMotion ? 0 : 0.05,
+            duration: shouldReduceMotion ? 0 : 0.6,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="
@@ -564,15 +638,15 @@ export default function WhereWeWork() {
             border
             border-[#0B3D2E]/10
             bg-[#0B3D2E]
-            shadow-[0_18px_55px_rgba(11,61,46,0.12)]
+            shadow-[0_16px_45px_rgba(15,23,42,0.10)]
+
             sm:rounded-3xl
-            lg:shadow-[0_24px_70px_rgba(11,61,46,0.14)]
           "
         >
           <div
             className="
               grid
-              lg:grid-cols-[minmax(0,1fr)_300px]
+              lg:grid-cols-[minmax(0,1fr)_280px]
             "
           >
             {/* ==================================================
@@ -582,100 +656,57 @@ export default function WhereWeWork() {
             <div
               className="
                 relative
-                min-h-[470px]
+                min-h-[420px]
                 overflow-hidden
                 bg-[#0B3D2E]
-                sm:min-h-[570px]
-                lg:min-h-[620px]
+
+                sm:min-h-[500px]
+
+                lg:min-h-[580px]
               "
             >
-              {/* Map texture */}
-
-              <div
-                className="
-                  pointer-events-none
-                  absolute
-                  inset-0
-                  opacity-[0.055]
-                  [background-image:radial-gradient(#ffffff_1px,transparent_1px)]
-                  [background-size:18px_18px]
-                "
-                aria-hidden="true"
-              />
-
-              {/* Soft map glow */}
-
-              <div
-                className="
-                  pointer-events-none
-                  absolute
-                  left-1/2
-                  top-1/2
-                  h-[420px]
-                  w-[420px]
-                  -translate-x-1/2
-                  -translate-y-1/2
-                  rounded-full
-                  bg-[#0F8A63]/10
-                  blur-3xl
-                "
-                aria-hidden="true"
-              />
-
-              {/* Map label */}
-
               <div
                 className="
                   absolute
                   left-5
                   top-5
                   z-10
-                  sm:left-7
-                  sm:top-7
+
+                  sm:left-6
+                  sm:top-6
                 "
               >
-                <div
+                <span
                   className="
-                    flex
+                    inline-flex
                     items-center
-                    gap-2.5
-                    rounded-full
+                    gap-2
+                    rounded-lg
                     border
                     border-white/10
-                    bg-[#062F23]/75
-                    px-3.5
+                    bg-[#062F23]/80
+                    px-3
                     py-2
-                    shadow-[0_8px_25px_rgba(0,0,0,0.12)]
-                    backdrop-blur-md
+                    text-[9px]
+                    font-bold
+                    uppercase
+                    tracking-[0.15em]
+                    text-white/75
+                    backdrop-blur-sm
                   "
                 >
                   <span
+                    aria-hidden="true"
                     className="
                       h-1.5
                       w-1.5
                       rounded-full
                       bg-[#F97316]
-                      shadow-[0_0_0_3px_rgba(249,115,22,0.12)]
                     "
                   />
-
-                  <span
-                    className="
-                      text-[9px]
-                      font-extrabold
-                      uppercase
-                      tracking-[0.18em]
-                      text-white/70
-                    "
-                  >
-                    Geographic Coverage
-                  </span>
-                </div>
+                  Afghanistan Coverage
+                </span>
               </div>
-
-              {/* ==================================================
-                  SVG MAP
-              ================================================== */}
 
               {mapData && (
                 <svg
@@ -685,12 +716,14 @@ export default function WhereWeWork() {
                     inset-0
                     h-full
                     w-full
-                    p-7
-                    sm:p-10
-                    lg:p-12
+                    p-5
+
+                    sm:p-8
+
+                    lg:p-10
                   "
                   role="img"
-                  aria-label="Interactive map showing DAFA coverage across Afghanistan"
+                  aria-label="Interactive map showing DAFA geographic coverage across Afghanistan"
                 >
                   {features.map((feature, index) => {
                     const province = getProvinceData(feature);
@@ -708,158 +741,101 @@ export default function WhereWeWork() {
 
                     const isSelected = selectedProvince?.id === provinceId;
 
-                    const centroid = mapData.pathGenerator.centroid(feature);
+                    /*
+                     * IMPORTANT:
+                     * Selected province keeps its normal color.
+                     * It does NOT turn orange.
+                     *
+                     * Covered:
+                     *   Normal  = #5A9B83
+                     *   Hover   = #78B39D
+                     *
+                     * Not covered:
+                     *   Normal  = #315E50
+                     *   Hover   = #466F61
+                     *
+                     * Selection only affects the border slightly.
+                     */
 
                     return (
-                      <g key={`${provinceId}-${index}`}>
-                        {/* ==================================================
-                            ORANGE HOVER MARKER ONLY
-                        ================================================== */}
+                      <motion.path
+                        key={`${provinceId}-${index}`}
+                        d={mapData.pathGenerator(feature)}
+                        initial={false}
+                        animate={{
+                          fill: isHovered
+                            ? isCovered
+                              ? "#78B39D"
+                              : "#466F61"
+                            : isCovered
+                              ? "#5A9B83"
+                              : "#315E50",
 
-                        <AnimatePresence>
-                          {isHovered && (
-                            <motion.g
-                              initial={
-                                shouldReduceMotion
-                                  ? false
-                                  : {
-                                      opacity: 0,
-                                      scale: 0.65,
-                                    }
-                              }
-                              animate={{
-                                opacity: 1,
-                                scale: 1,
-                              }}
-                              exit={
-                                shouldReduceMotion
-                                  ? undefined
-                                  : {
-                                      opacity: 0,
-                                      scale: 0.65,
-                                    }
-                              }
-                              transition={{
-                                duration: shouldReduceMotion ? 0 : 0.18,
-                              }}
-                              style={{
-                                transformOrigin: `${centroid[0]}px ${
-                                  centroid[1] - 25
-                                }px`,
-                              }}
-                            >
-                              {/* Connector */}
+                          opacity: isHovered ? 1 : isCovered ? 0.95 : 0.6,
 
-                              <line
-                                x1={centroid[0]}
-                                y1={centroid[1] - 5}
-                                x2={centroid[0]}
-                                y2={centroid[1] - 18}
-                                stroke="#F97316"
-                                strokeWidth="2"
-                                vectorEffect="non-scaling-stroke"
-                              />
+                          stroke: isHovered
+                            ? "#F97316"
+                            : isSelected
+                              ? "#FFFFFF"
+                              : "#0B3D2E",
+                        }}
+                        transition={{
+                          duration: shouldReduceMotion ? 0 : 0.16,
+                        }}
+                        strokeWidth={isHovered ? 2 : isSelected ? 1.5 : 0.8}
+                        vectorEffect="non-scaling-stroke"
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`${provinceName}${
+                          isCovered
+                            ? ", covered province"
+                            : ", no current coverage"
+                        }`}
+                        aria-pressed={isSelected}
+                        className="
+                          cursor-pointer
+                          outline-none
+                          focus-visible:stroke-[#F97316]
+                          focus-visible:stroke-[2.5px]
+                        "
+                        onMouseEnter={() => {
+                          setHoveredProvince({
+                            id: provinceId,
+                            province,
+                            name: provinceName,
+                            feature,
+                          });
+                        }}
+                        onMouseLeave={() => {
+                          setHoveredProvince(null);
+                        }}
+                        onClick={() => {
+                          handleProvinceSelect(
+                            province,
+                            provinceId,
+                            provinceName,
+                            feature,
+                          );
+                        }}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
 
-                              {/* Orange marker */}
-
-                              <circle
-                                cx={centroid[0]}
-                                cy={centroid[1] - 25}
-                                r="10"
-                                fill="#F97316"
-                                stroke="#FFFFFF"
-                                strokeWidth="2.5"
-                                vectorEffect="non-scaling-stroke"
-                              />
-
-                              <circle
-                                cx={centroid[0]}
-                                cy={centroid[1] - 25}
-                                r="3"
-                                fill="#FFFFFF"
-                              />
-                            </motion.g>
-                          )}
-                        </AnimatePresence>
-
-                        {/* ==================================================
-                            PROVINCE
-                        ================================================== */}
-
-                        <motion.path
-                          d={mapData.pathGenerator(feature)}
-                          initial={false}
-                          animate={{
-                            fill: isSelected
-                              ? "#F97316"
-                              : isCovered
-                                ? "#5A9B83"
-                                : "#315E50",
-
-                            opacity: isSelected ? 1 : isCovered ? 0.94 : 0.58,
-
-                            stroke: isSelected ? "#FFFFFF" : "#0B3D2E",
-                          }}
-                          transition={{
-                            duration: shouldReduceMotion ? 0 : 0.18,
-                          }}
-                          strokeWidth={isSelected ? 2.5 : 0.8}
-                          vectorEffect="non-scaling-stroke"
-                          role="button"
-                          tabIndex={0}
-                          aria-label={`${provinceName}${
-                            isCovered
-                              ? ", covered province"
-                              : ", no current coverage"
-                          }`}
-                          aria-pressed={isSelected}
-                          className="
-                            cursor-pointer
-                            outline-none
-                            focus-visible:stroke-[#F97316]
-                            focus-visible:stroke-[2.5px]
-                          "
-                          onMouseEnter={() => {
-                            setHoveredProvince({
-                              id: provinceId,
-                              province,
-                              name: provinceName,
-                              feature,
-                            });
-                          }}
-                          onMouseLeave={() => {
-                            setHoveredProvince(null);
-                          }}
-                          onClick={() => {
                             handleProvinceSelect(
                               province,
                               provinceId,
                               provinceName,
                               feature,
                             );
-                          }}
-                          onKeyDown={(event) => {
-                            if (event.key === "Enter" || event.key === " ") {
-                              event.preventDefault();
-
-                              handleProvinceSelect(
-                                province,
-                                provinceId,
-                                provinceName,
-                                feature,
-                              );
-                            }
-                          }}
-                        />
-                      </g>
+                          }
+                        }}
+                      />
                     );
                   })}
                 </svg>
               )}
 
-              {/* ==================================================
-                  LEGEND
-              ================================================== */}
+              {/* Legend */}
 
               <div
                 className="
@@ -870,24 +846,24 @@ export default function WhereWeWork() {
                   flex
                   flex-wrap
                   items-center
-                  gap-x-5
+                  gap-x-4
                   gap-y-2
-                  rounded-xl
+                  rounded-lg
                   border
                   border-white/10
-                  bg-[#062F23]/80
-                  px-3.5
+                  bg-[#062F23]/85
+                  px-3
                   py-2.5
-                  shadow-[0_8px_25px_rgba(0,0,0,0.12)]
-                  backdrop-blur-md
-                  sm:bottom-7
-                  sm:left-7
+                  backdrop-blur-sm
+
+                  sm:bottom-6
+                  sm:left-6
                   sm:px-4
-                  sm:py-3
                 "
               >
                 <div className="flex items-center gap-2">
                   <span
+                    aria-hidden="true"
                     className="
                       h-2
                       w-2
@@ -903,6 +879,7 @@ export default function WhereWeWork() {
 
                 <div className="flex items-center gap-2">
                   <span
+                    aria-hidden="true"
                     className="
                       h-2
                       w-2
@@ -915,54 +892,67 @@ export default function WhereWeWork() {
                     No current coverage
                   </span>
                 </div>
+
+                <div className="flex items-center gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="
+                      h-2
+                      w-2
+                      rounded-full
+                      bg-[#F97316]
+                    "
+                  />
+
+                  <span className="text-[10px] font-semibold text-white/65">
+                    Hover
+                  </span>
+                </div>
               </div>
             </div>
 
             {/* ==================================================
-                INFORMATION PANEL
+                PROVINCE INFORMATION
             ================================================== */}
 
             <aside
+              aria-live="polite"
               className="
-                flex
-                min-h-[220px]
-                flex-col
-                justify-between
                 border-t
                 border-white/10
                 bg-[#082F24]
-                p-6
-                sm:p-8
-                lg:min-h-full
+                p-5
+
+                sm:p-7
+
                 lg:border-l
                 lg:border-t-0
-                lg:p-8
+                lg:p-7
               "
-              aria-live="polite"
             >
               <div>
                 <div className="flex items-center gap-2">
                   <span
+                    aria-hidden="true"
                     className="
                       h-1.5
                       w-1.5
                       rounded-full
                       bg-[#F97316]
                     "
-                    aria-hidden="true"
                   />
 
-                  <p
+                  <span
                     className="
                       text-[9px]
                       font-extrabold
                       uppercase
-                      tracking-[0.2em]
+                      tracking-[0.18em]
                       text-white/40
                     "
                   >
                     Province Details
-                  </p>
+                  </span>
                 </div>
 
                 <AnimatePresence mode="wait">
@@ -1002,7 +992,6 @@ export default function WhereWeWork() {
                             leading-tight
                             tracking-[-0.03em]
                             text-white
-                            sm:text-3xl
                           "
                         >
                           {activeProvince.name}
@@ -1023,12 +1012,10 @@ export default function WhereWeWork() {
                               rounded-full
                               border
                               border-white/10
-                              bg-white/[0.02]
-                              text-white/40
-                              transition-all
+                              text-white/45
+                              transition-colors
                               duration-300
                               hover:border-white/20
-                              hover:bg-white/5
                               hover:text-white
                               focus:outline-none
                               focus-visible:ring-2
@@ -1037,19 +1024,19 @@ export default function WhereWeWork() {
                               focus-visible:ring-offset-[#082F24]
                             "
                           >
-                            <FaTimes size={11} />
+                            <FaTimes size={10} />
                           </button>
                         )}
                       </div>
 
                       {activeProvince.province?.dafaWork ? (
-                        <div className="mt-8">
-                          <div className="mb-2 flex items-center gap-2">
+                        <div className="mt-7">
+                          <div className="flex items-center gap-2">
                             <div
                               className="
                                 flex
-                                h-5
-                                w-5
+                                h-6
+                                w-6
                                 items-center
                                 justify-center
                                 rounded-full
@@ -1061,50 +1048,48 @@ export default function WhereWeWork() {
 
                             <span
                               className="
-                                text-[10px]
+                                text-[9px]
                                 font-extrabold
                                 uppercase
                                 tracking-[0.15em]
                                 text-[#A7F3D0]
                               "
                             >
-                              Area cleared
+                              DAFA Coverage
                             </span>
                           </div>
 
-                          <div
+                          <p
                             className="
-                              text-4xl
+                              mt-5
+                              text-3xl
                               font-extrabold
-                              leading-none
                               tracking-[-0.04em]
                               text-white
-                              sm:text-5xl
                             "
                           >
                             {activeProvince.province?.areasCleared || "—"}
-                          </div>
+                          </p>
 
-                          <p className="mt-2 text-xs text-white/35">
-                            across this province
+                          <p className="mt-1 text-xs text-white/35">
+                            Area cleared in this province
                           </p>
                         </div>
                       ) : (
-                        <div className="mt-8">
+                        <div className="mt-7">
                           <div
+                            aria-hidden="true"
                             className="
-                              mb-4
                               h-[2px]
-                              w-8
+                              w-7
                               rounded-full
                               bg-[#F97316]
                             "
-                            aria-hidden="true"
                           />
 
                           <p
                             className="
-                              max-w-[220px]
+                              mt-4
                               text-sm
                               leading-6
                               text-white/45
@@ -1117,55 +1102,56 @@ export default function WhereWeWork() {
                       )}
                     </motion.div>
                   ) : (
-                    <motion.div
-                      key="empty"
-                      initial={shouldReduceMotion ? false : { opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="mt-6"
-                    >
+                    <div className="mt-6">
                       <div
                         className="
                           flex
-                          h-12
-                          w-12
+                          h-11
+                          w-11
                           items-center
                           justify-center
                           rounded-full
                           border
                           border-white/10
-                          bg-white/[0.02]
                           text-white/25
                         "
                       >
-                        <FaMapMarkerAlt size={14} />
+                        <FaMapMarkerAlt size={13} />
                       </div>
 
                       <p
                         className="
-                          mt-5
+                          mt-4
                           max-w-[210px]
                           text-sm
                           leading-6
                           text-white/40
                         "
                       >
-                        Hover over a province to explore coverage.
+                        Hover over or select a province to explore its coverage.
                       </p>
-                    </motion.div>
+                    </div>
                   )}
                 </AnimatePresence>
               </div>
 
-              {/* Bottom statistic */}
+              {/* Bottom Summary */}
 
-              <div className="mt-8 border-t border-white/10 pt-5">
+              <div
+                className="
+                  mt-8
+                  border-t
+                  border-white/10
+                  pt-5
+                "
+              >
                 <div className="flex items-center justify-between">
                   <span
                     className="
-                      text-[10px]
-                      font-semibold
+                      text-[9px]
+                      font-bold
                       uppercase
-                      tracking-[0.12em]
+                      tracking-[0.13em]
                       text-white/30
                     "
                   >
@@ -1191,9 +1177,9 @@ export default function WhereWeWork() {
 
         <p
           className="
-            mt-4
+            mt-3
             text-center
-            text-[11px]
+            text-[10px]
             font-medium
             text-slate-400
             lg:hidden
